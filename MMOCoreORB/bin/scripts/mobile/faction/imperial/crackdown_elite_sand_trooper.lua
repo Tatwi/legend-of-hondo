@@ -27,7 +27,7 @@ crackdown_elite_sand_trooper = Creature:new {
 	optionsBitmask = AIENABLED,
 	diet = HERBIVORE,
 
-	templates = {"object/mobile/dressed_stormtrooper_sand_trooper_m.iff"},
+	templates = {"object/mobile/dressed_stormtrooper_squad_leader_white_gold.iff"},
 	lootGroups = {
 		{
 			groups = {

@@ -28,7 +28,7 @@ crackdown_stormtrooper_medic = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.05,
 
-	templates = {"object/mobile/dressed_stormtrooper_medic_m.iff"},
+	templates = {"object/mobile/dressed_stormtrooper_white_blue.iff"},
 	lootGroups = {
 		{
 			groups = {

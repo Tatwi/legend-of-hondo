@@ -28,7 +28,7 @@ storm_commando = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.05,
 
-	templates = {"object/mobile/dressed_stormtrooper_commando1_m.iff"},
+	templates = {"object/mobile/dressed_stormtrooper_white_black.iff"},
 	lootGroups = {
 		{
 			groups = {

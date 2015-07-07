@@ -28,7 +28,7 @@ crackdown_sand_trooper = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.05,
 
-	templates = {"object/mobile/dressed_stormtrooper_sand_trooper_m.iff"},
+	templates = {"object/mobile/dressed_stormtrooper_white_gold.iff"},
 	lootGroups = {
 		{
 			groups = {

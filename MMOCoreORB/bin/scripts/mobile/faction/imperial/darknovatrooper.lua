@@ -1,5 +1,6 @@
 darknovatrooper = Creature:new {
-	objectName = "",
+	objectName = "@mob/creature_names:stormtrooper_novatrooper",
+	randomNameType = NAME_DARKTROOPER,
 	socialGroup = "",
 	faction = "",
 	level = 1,
@@ -25,7 +26,7 @@ darknovatrooper = Creature:new {
 	optionsBitmask = AIENABLED,
 	diet = NONE,
 
-	templates = {"object/mobile/dressed_stormtrooper_black_black.iff"},
+	templates = {"object/mobile/dressed_stormtrooper_black_green.iff"},
 	lootGroups = {},
 	weapons = {},
 	conversationTemplate = "",

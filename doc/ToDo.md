@@ -47,7 +47,6 @@ An unsorted list of things I will most likely do in the future. Things I have al
 - Image design functionality moved to a terminal
 - Migrate stats from anywhere
 - Call your other characters as NPC "pets"
-- Stormtrooper visual improvements
 - Locate all trainers in Mos Espa
 - Roleplay based alternate travel system
 - Alternate Bazaar/Vendor search UI
