@@ -42,7 +42,7 @@
 
 AM_CXXFLAGS= $(UNITTEST_DIRECTIVES) -ggdb -Wall -Wextra -Wno-unused -Wno-sign-compare -Wno-multichar -DDEFAULT_DYNAMIC_CAST -Wno-unused-parameter -Wno-overloaded-virtual -Wno-missing-declarations -Werror -std=c++11 
 
-ENGINE3_PATH=../../../../MMOEngine
+ENGINE3_PATH=/home/rob/workspace/PublicEngine/MMOEngine
 ENGINE3_MOCK_PATH=../../../utils
 
 GTEST_PATH=../../../utils/gtest-1.6.0
@@ -101,7 +101,8 @@ core3_TESTS = 	server/zone/objects/area/areashapes/tests/CircularAreaShapeTest.c
 			  	server/zone/tests/ZoneTest.cpp \
 			  	server/zone/managers/objectcontroller/command/tests/CommandLuaTest.cpp
 
-core3_IDLS =	autogen/server/zone/objects/tangible/eventperk/ScavengerDroid.cpp \
+core3_IDLS =	autogen/server/zone/objects/creature/buffs/ConcealBuff.cpp \
+				autogen/server/zone/objects/tangible/eventperk/ScavengerDroid.cpp \
 				autogen/server/zone/managers/gcw/GCWBaseShutdownObserver.cpp \
 				autogen/server/zone/objects/creature/buffs/ChannelForceBuff.cpp \
 				autogen/server/zone/objects/tangible/eventperk/ShuttleBeacon.cpp \

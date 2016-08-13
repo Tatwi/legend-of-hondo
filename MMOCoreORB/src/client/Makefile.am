@@ -42,7 +42,7 @@
 
 AM_CXXFLAGS=-ggdb -Wall -Wextra -Wno-unused -Wno-sign-compare -Wno-unused-parameter
 
-ENGINE3_PATH=../../../../../MMOEngine
+ENGINE3_PATH=/home/rob/workspace/PublicEngine/MMOEngine
 
 #CC = clang
 #CXX = clang++
