@@ -1,0 +1,121 @@
+package server.zone.objects.player.sessions.survey;
+
+import engine.util.Facade;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.player.PlayerObject;
+import server.zone.objects.tangible.tool.SurveyTool;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.managers.resource.ResourceManager;
+include server.zone.managers.resource.resourcespawner.ResourceSpawner;
+import engine.util.u3d.Coordinate;
+import server.zone.objects.resource.ResourceSpawn;
+import server.zone.objects.waypoint.WaypointObject;
+include server.zone.packets.resource.SurveyMessage;
+
+include server.zone.objects.scene.SessionFacadeType;
+include templates.customization.CustomizationVariable;
+
+class SurveySession extends Facade {
+	@weakReference
+	protected transient CreatureObject surveyer;
+	
+	@weakReference
+	protected transient PlayerObject surveyerGhost;
+	
+	@weakReference
+	protected transient SurveyTool activeSurveyTool;
+	
+	@weakReference
+	protected transient SurveyTool openSurveyTool;
+
+	@weakReference
+	protected transient ResourceManager resourceManager;
+	
+	protected transient Coordinate richSampleLocation;
+	
+	protected transient boolean doGamble;
+	
+	protected transient string lastResourceSampleName;
+	
+	protected transient Task surveyTask;
+	protected transient Task sampleTask;
+	protected transient Task sampleResultsTask;
+	
+	public SurveySession(CreatureObject creature) {
+		Logger.setLoggingName("CraftingSession");
+		Logger.setLogging(true);
+		
+		richSampleLocation = null;
+		doGamble = false;
+		lastResourceSampleName = "";
+		
+		surveyer = creature;
+	}
+
+	public native int initializeSession(SurveyTool tool);
+	
+	private native int startSession();
+	
+	public native int cancelSession();
+
+	public native int clearSession();	
+
+	public native void startSurvey(final string resname);
+	
+	public void reSample() {
+		startSample(lastResourceSampleName);
+	}
+	
+	public native void startSample(final string resname);
+
+	private native void surveyCnodeMinigameSui();
+	public native void surveyCnodeMinigame(int value);
+
+	private native void surveyGnodeMinigameSui();
+	public native void surveyGnodeMinigame(int value);
+
+	@weakReference
+	public SurveyTool getActiveSurveyTool() {
+		return activeSurveyTool;
+	}
+	
+	public void setActiveSurveyTool(SurveyTool tool) {
+		activeSurveyTool = tool;
+	}
+	
+	@weakReference
+	public SurveyTool getOpenSurveyTool() {
+		return openSurveyTool;
+	}
+	
+	public void setOpenSurveyTool(SurveyTool tool) {
+		openSurveyTool = tool;
+	}
+	
+	public boolean tryGamble() {
+		return doGamble == true;
+	}
+	
+	public void clearGamble() {
+		doGamble = false;
+	}
+	
+	@local
+	public Coordinate getRichSampleLocation() {
+		return richSampleLocation;
+	}
+	
+	public void clearRichSampleLocation() {
+		richSampleLocation = null;
+	}
+	
+	@local
+	public native void rescheduleSurvey(SurveyMessage surveyMessage, WaypointObject waypoint, float maxDensity, ResourceSpawn resourceSpawn);
+	
+	@local
+	public native void rescheduleSample();
+	
+	@local
+	public native void rescheduleSampleResults(ResourceSpawner resourceSpawner, float density, final string resname);
+}

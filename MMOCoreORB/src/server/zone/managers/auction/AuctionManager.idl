@@ -1,0 +1,151 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.managers.auction;
+
+import engine.log.Logger;
+import server.zone.ZoneServer;
+import server.zone.managers.object.ObjectManager;
+import engine.core.ManagedService;
+import engine.core.Task;
+import server.zone.ZoneServer;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.managers.auction.AuctionsMap;
+import server.zone.objects.auction.AuctionItem;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.scene.SceneObject;
+import system.util.VectorMap;
+include server.zone.packets.auction.AuctionQueryHeadersResponseMessage;
+include server.zone.managers.auction.TerminalListVector;
+include server.zone.managers.auction.AuctionEventsMap;
+
+class AuctionManager extends ManagedService implements Logger {
+	protected AuctionsMap auctionMap;
+	
+	protected ZoneServer zoneServer;
+	
+	/*@dereferenced
+	protected VectorMap<unsigned long, Task> auctionEvents;*/
+	@dereferenced
+	protected AuctionEventsMap auctionEvents;
+	
+	@dereferenced
+	protected VectorMap<SceneObject, string> pendingUIDUpdates;
+	
+	@dereferenced
+	protected VectorMap<SceneObject, string> pendingOldUIDUpdates;
+	
+	public final static int MAXBAZAARPRICE = 20000;
+	public final static int MAXSALES = 25; // this only apply to bazaars
+	public final static int SALESFEE = 20;
+	public final static int CHECKEVERY = 60; // Minutes
+	
+	public final static int MAXVENDORPRICE = 99999999;
+	public final static int ITEMSPERPAGE = 100;
+
+	public final static int VENDOREXPIREPERIOD = 2592000; // Seconds
+	public final static int COMMODITYEXPIREPERIOD = 604800; 
+	
+	private boolean marketEnabled;
+
+	public AuctionManager(ZoneServer server) {
+		zoneServer = server;
+		Logger.setLoggingName("AuctionManager");
+		Logger.setLogging(false);
+		Logger.setGlobalLogging(true);
+		marketEnabled = false;
+		auctionEvents.setNoDuplicateInsertPlan();
+		auctionEvents.setNullValue(null);
+	}
+	
+	public native void initialize();
+	
+	@local
+	public native void addSaleItem(CreatureObject player, unsigned long objectid, SceneObject vendor, final unicode description, int price, unsigned int duration, boolean auction, boolean premium);
+	
+	@local
+	public native AuctionItem createVendorItem(CreatureObject player, SceneObject objectToSell, SceneObject vendor, final unicode description, int price, unsigned int duration, boolean auction, boolean premium);
+	
+	@local
+	public native int checkSaleItem(CreatureObject player, SceneObject object, SceneObject vendor, int price, boolean premium, boolean stockroomSale);
+	
+	public native void getItemAttributes(CreatureObject player, unsigned long objectid);
+
+	public native void getData(CreatureObject player, int extent, unsigned long vendorObjectID, int screen, unsigned int category, int count, int offset);	
+
+	@local
+	public native void getAuctionData(CreatureObject player, SceneObject usedVendor, final string planet, final string region, SceneObject vendor, int screen, unsigned int category, int count, int offset);
+
+	private native void refundAuction(AuctionItem item);
+
+	private native void sendVendorUpdateMail(SceneObject vendor, boolean isEmpty);
+
+	@local
+	public native int checkRetrieve(CreatureObject player, unsigned long objectIdToRetrieve, SceneObject vendor);
+	public native void retrieveItem(CreatureObject player, unsigned long objectid, unsigned long vendorID);
+	
+	public native void buyItem(CreatureObject player, unsigned long objectid, int price1, int price2);
+	public native void doAuctionBid(CreatureObject player, AuctionItem item, int price1, int price2);
+	public native void doInstantBuy(CreatureObject player, AuctionItem item);
+	public native int checkBidAuction(CreatureObject player, AuctionItem item, int price1, int price2);
+
+	public native void cancelItem(CreatureObject player, unsigned long objectID);
+	
+	@local
+	public native AuctionQueryHeadersResponseMessage fillAuctionQueryHeadersResponseMessage(CreatureObject player, SceneObject vendor, TerminalListVector terminalList, int screen, unsigned int category, int count, int offset);
+
+	public AuctionsMap getAuctionMap() {
+		return auctionMap;
+	}
+	
+	public native void checkVendorItems();
+	
+	public native void checkAuctions();
+	
+	@local
+	private native void doAuctionMaint(TerminalListVector items);
+
+	public native string getVendorUID(SceneObject vendor);
+	
+	public synchronized void updateVendorUID(SceneObject vendor, final string oldUID, final string newUID) {
+		
+		if(auctionMap == null) {
+			pendingUIDUpdates.put(vendor, newUID);
+			pendingOldUIDUpdates.put(vendor, oldUID);
+			return;
+		}
+		
+		auctionMap.updateUID(vendor, oldUID, newUID);
+	}
+	
+	public synchronized void updateVendorSearch(SceneObject vendor, boolean enabled) {
+		auctionMap.updateVendorSearch(vendor, enabled);
+	}
+	
+	public native void expireSale(AuctionItem item);
+	public native void expireBidAuction(AuctionItem item);
+	
+	public native void expireAuction(AuctionItem item);
+
+	public native void deleteExpiredSale(AuctionItem item);
+
+	public boolean isMarketEnabled() {
+		return marketEnabled == true;
+	}
+	
+	public synchronized void setMarketEnabled(boolean value) {
+		marketEnabled = value;
+	}
+	
+	public native void displayInfo(CreatureObject player);
+		
+	public native void updateAuctionOwner(AuctionItem item, CreatureObject player);
+
+	public native string removeColorCodes(final string name);
+	
+	@dirty
+	@local
+	public native boolean checkItemCategory(int category, AuctionItem item);
+}
+

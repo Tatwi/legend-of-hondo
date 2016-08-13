@@ -1,0 +1,206 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.group;
+
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+import system.util.Vector;
+import server.chat.room.ChatRoom;
+import engine.lua.LuaObject;
+import engine.service.proto.BaseMessage;
+include server.zone.objects.group.GroupList;
+include server.zone.managers.mission.MissionManager;
+include server.zone.managers.group.GroupManager;
+import server.zone.objects.group.tasks.UpdateNearestMissionForGroupTask;
+import server.zone.Zone;
+include server.chat.StringIdChatParameter;
+
+class GroupObject extends SceneObject {
+	@dereferenced
+	GroupList groupMembers;
+
+	@dereferenced
+	VectorMap<unsigned int, Reference<UpdateNearestMissionForGroupTask> > updateNearestMissionForGroupTasks;
+
+	ChatRoom chatRoom;
+
+	int groupLevel;
+
+	protected string bandSong;
+
+	int lootRule;
+
+	unsigned long masterLooterID;
+
+	public GroupObject() {
+		groupLevel = 0;
+
+		Logger.setLoggingName("GroupObject");
+
+		chatRoom = null;
+
+		bandSong = "";
+
+		lootRule = GroupManager.FREEFORALL;
+		masterLooterID = 0;
+	}
+
+	@dirty
+	public native void sendBaselinesTo(SceneObject player);
+
+	@dirty
+	public native void broadcastMessage(BaseMessage msg);
+
+	@dirty
+	public native void broadcastMessage(CreatureObject player, BaseMessage msg, boolean sendSelf = false);
+
+	@dirty
+	public native void updatePvPStatusNearCreature(CreatureObject creature);
+
+	/*public native void sendSystemMessage(SceneObject player, final string message, boolean sendToSelf = false);
+	public native void sendSystemMessage(SceneObject player, final string file, final string str, unsigned long targetid = 0, boolean sendToSelf = false);
+	public native void sendSystemMessage(SceneObject player, final string file, final string str, StfParameter param, boolean sendToSelf = false);
+*/
+	@local
+	@dirty
+	public native void sendSystemMessage(@dereferenced StringIdChatParameter param, boolean sendLeader = true);
+	@dirty
+	public native void sendSystemMessage(final string fullPath, boolean sendLeader = true);
+	@local
+	@dirty
+	public native void sendSystemMessage(@dereferenced StringIdChatParameter param, CreatureObject excluded);
+
+	public native void addMember(CreatureObject newMember);
+	@preLocked
+	public native void removeMember(CreatureObject member);
+
+	@preLocked
+	public native void disband();
+	public native void makeLeader(CreatureObject player);
+
+	@dirty
+	public native boolean hasMember(CreatureObject member);
+	@dirty
+	public native boolean hasMember(unsigned long member);
+
+	@preLocked
+	public native void startChatRoom(CreatureObject leader);
+
+	@preLocked
+	public native void destroyChatRoom();
+
+	@dirty
+	public native float getGroupHarvestModifier(CreatureObject player);
+
+	@dirty
+	@preLocked
+	public native void calcGroupLevel();
+
+	@read
+	public int getGroupLevel() {
+		return groupLevel;
+	}
+
+	@read
+	public ChatRoom getChatRoom() {
+		return chatRoom;
+	}
+
+	@dirty
+	public int getGroupSize() {
+		return groupMembers.size();
+	}
+
+	@dirty
+	public native int getNumberOfPlayerMembers();
+
+	@reference
+	@dirty
+	public CreatureObject getGroupMember(int index) {
+		return groupMembers.getSafe(index);
+	}
+
+	public void initializeLeader(CreatureObject player) {
+		groupMembers.add(player);
+	}
+
+	@reference
+	@dirty
+	public CreatureObject getLeader() {
+		if (groupMembers.size() == 0) {
+			return null;
+		} else {
+			return groupMembers.getSafe(0);
+		}
+	}
+
+	@local
+	@dirty
+	public GroupList getGroupList() {
+		return groupMembers;
+	}
+
+	@dirty
+	public boolean isGroupObject() {
+		return true;
+	}
+
+	@dirty
+	public native boolean hasSquadLeader();
+
+	public native void addGroupModifiers();
+
+	@preLocked
+	public native void removeGroupModifiers();
+
+	@preLocked
+	@arg1preLocked
+	public native void addGroupModifiers(CreatureObject player);
+
+	@preLocked
+	public native void removeGroupModifiers(CreatureObject player);
+
+	@dirty
+	public native boolean isOtherMemberPlayingMusic(CreatureObject player);
+
+	@read
+	public string getBandSong() {
+		return bandSong;
+	}
+
+	@preLocked
+	public void setBandSong(final string song) {
+		bandSong = song;
+	}
+
+	@read
+	public int getLootRule() {
+		return lootRule;
+	}
+
+	@preLocked
+	public void setLootRule(int newRule) {
+		lootRule = newRule;
+	}
+
+	@read
+	public unsigned long getMasterLooterID() {
+		return masterLooterID;
+	}
+
+	@preLocked
+	public void setMasterLooterID(unsigned long newID) {
+		masterLooterID = newID;
+	}
+
+	public boolean checkMasterLooter(CreatureObject object) {
+		return object.getObjectID() == masterLooterID;
+	}
+
+	@preLocked
+	public native void scheduleUpdateNearestMissionForGroup(unsigned int planetCRC);
+
+	public native void updateLootRules();
+}

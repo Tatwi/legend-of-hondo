@@ -1,0 +1,110 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.installation.harvester;
+
+import server.zone.objects.installation.InstallationObject;
+import server.zone.objects.area.ActiveArea;
+
+class HarvesterObject extends InstallationObject {
+	
+	protected boolean selfPowered;
+	
+	public HarvesterObject() {
+		Logger.setLoggingName("HarvesterObject");
+		selfPowered = false;
+	}
+	
+	@preLocked
+	public void setSelfPowered(boolean isSelfPowered) {
+		selfPowered = isSelfPowered;
+	}
+	
+	@dirty
+	public boolean isSelfPowered() {
+		return selfPowered;
+	}
+	
+	@dirty
+	public abstract int getBasePowerRate() {
+		if(isSelfPowered())
+			return 0;
+		else
+			return super.getBasePowerRate();
+	}
+
+	/**
+	 * Reads and sets the template data from a SharedObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { SceneObject members are initialized }
+	 * @param templateData templateData points to the LuaObject that is used to initialize SceneObejct members
+	 */
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData) {
+		super.loadTemplateData(templateData);
+	}
+
+	/**
+	 * Fills the radial options, needs to be overriden
+	 * @pre { this object is locked }
+	 * @post { this object is locked, menuResponse is complete}
+	 * @param menuResponse ObjectMenuResponse that will be sent to the client
+	 */
+	@local
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+
+	/**
+	 * Handles the radial selection sent by the client, must be overriden by inherited objects
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @param player CreatureObject that selected the option
+	 * @param selectedID selected menu id
+	 * @returns 0 if successfull
+	 */
+	@preLocked
+	@arg1preLocked
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+
+	/**
+	 * Calls the appropriate UI Listener Function
+	 * @pre { this object is locked, object is locked }
+	 * @post {this object is locked, object is locked }
+	 * @param player CreatureObject using the item
+	 * @param value value from packet
+	 */
+	@preLocked
+	public native void synchronizedUIListen(CreatureObject player, int value);
+	
+	/**
+	 * Calls the appropriate UI Stop Listener Function
+	 * @pre { this object is locked, object is locked }
+	 * @post {this object is locked, object is locked }
+	 * @param player CreatureObject using the item
+	 * @param value value from packet
+	 */
+	@preLocked
+	public native void synchronizedUIStopListen(CreatureObject player, int value);
+
+	public native void updateOperators();
+
+	@dirty
+	public boolean isHarvesterObject() {
+		return true;
+	}
+
+	@dirty
+	public native string getRedeedMessage();
+	
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+}

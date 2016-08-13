@@ -1,0 +1,10 @@
+114b2db was R. Bassett Jr. (Tatwi), 74 seconds ago, message: Start Legend of Hondo - Makefile adjustments (locations mostly) - Added a whack of things to gitignore
+9c39a47 was Ivojedi, 4 days ago, message: [Added] Dilvin Lormurojo task
+a36de93 was Nee Shadowfire, 4 days ago, message: [adjusted] FS conversion ratio for 'Survey xp' (Mantis #7162) -- [FIXED] incorrect spawn type for prior commit 'PHASE 2' of SMC themepark
+dc6835d was Nee Shadowfire, 5 days ago, message: [added] the SMC themepark to Dathomir (Mantis #6900) -- PHASE 2 (Vhaunda & Izaryx portion)
+2d23fef was Ivojedi, 4 days ago, message: [Added] philosopher convo
+6c2c275 was Ivojedi, 5 days ago, message: [Added] Damalia Korde task
+5bb915e was Nee Shadowfire, 5 days ago, message: [added] the SMC themepark to Dathomir (Mantis #6900) -- PHASE 1 (Zideera portion)
+47fb4ed was Ivojedi, 5 days ago, message: [fixed] GetAccountInfo -c failing to fetch account info [Added] some extra info to some admin reports for debugging
+23064e6 was Nee Shadowfire, 4 weeks ago, message: [changed] skillmods on looted weapons to generate with corresponding weapon appropriate stat (Mantis #7133)
+e5faa66 was John Wathen, 8 days ago, message: [fixed] Rangers get scout XP from cocnealing other players. Mantis #6786

@@ -1,0 +1,114 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.deed.eventperk;
+
+import server.zone.objects.tangible.deed.Deed;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.tangible.tasks.RemoveEventPerkDeedTask;
+
+class EventPerkDeed extends Deed {
+
+	protected int perkType;
+
+	protected unsigned long generatedTimeToLive;
+
+	@dereferenced
+	protected Time purchaseTime;
+
+	@weakReference
+	protected CreatureObject owner;
+
+	@weakReference
+	protected TangibleObject generatedObject;
+
+	@dereferenced
+	protected transient Reference<RemoveEventPerkDeedTask> removeEventPerkDeedTask;
+
+	public EventPerkDeed() {
+		Logger.setLoggingName("EventPerkDeed");
+
+		perkType = 0;
+
+		generatedTimeToLive = 0;
+
+		purchaseTime.updateToCurrentTime();
+
+		owner = null;
+		generatedObject = null;
+	}
+
+	public native void initializeTransientMembers();
+
+	/**
+	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { TangibleObject members are initialized }
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
+	 */
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage alm, CreatureObject object);
+
+	@local
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+
+	/**
+	 * Handles the radial selection sent by the client
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @returns 0 if successfull
+	 */
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+
+	/**
+	 * Destroys this object from database
+	 * @pre { this is locked }
+	 * @post { this is locked }
+	 * @param destroyContainedObjects if true, will destroy from database all its contained objects
+	 */
+	public native void destroyObjectFromDatabase(boolean destroyContainedObjects = false);
+
+	public native void activateRemoveEvent(boolean immediate = false);
+
+	public native string getDurationString();
+
+	public native void parseChildObjects(SceneObject parent);
+
+	public void setOwner(CreatureObject player) {
+		owner = player;
+	}
+
+	@weakReference
+	@read
+	public CreatureObject getOwner() {
+		return owner;
+	}
+
+	@weakReference
+	@read
+	public TangibleObject getGeneratedObject() {
+		return generatedObject;
+	}
+
+	@read
+	public int getPerkType() {
+		return perkType;
+	}
+
+	@local
+	public Time getPurchaseTime() {
+		return purchaseTime;
+	}
+
+	@dirty
+	public boolean isEventPerkDeed() {
+		return true;
+	}
+}

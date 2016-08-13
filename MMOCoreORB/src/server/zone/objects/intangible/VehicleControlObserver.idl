@@ -1,0 +1,45 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.intangible;
+
+include engine.core.ManagedObject;
+
+import engine.log.Logger;
+import engine.core.ManagedReference;
+import system.lang.ref.Reference;
+import engine.core.Task;
+import engine.util.Observer;
+import engine.util.Observable;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.intangible.VehicleControlDevice;
+include templates.params.ObserverEventType;
+
+
+class VehicleControlObserver extends Observer {
+	
+	@weakReference
+	VehicleControlDevice vehicleControlDevice;
+	
+	public VehicleControlObserver(VehicleControlDevice device) {
+		vehicleControlDevice = device;
+	}
+
+	@dirty
+	public int notifyObserverEvent(unsigned int eventType, Observable observable, ManagedObject arg1, long arg2) {
+		if (eventType != ObserverEventType.STARTCOMBAT) {
+			return 0;
+		}
+		
+		VehicleControlDevice dev = vehicleControlDevice;
+
+		if (dev != null) {
+			CreatureObject creature = (CreatureObject) observable;
+			dev.cancelSpawnObject(creature);
+		}
+		
+		return 1;
+	}
+
+}

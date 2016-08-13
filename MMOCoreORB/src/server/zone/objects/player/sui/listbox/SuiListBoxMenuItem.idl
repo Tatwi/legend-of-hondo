@@ -1,0 +1,26 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.player.sui.listbox;
+
+import server.zone.objects.player.sui.listbox.SuiListBox;
+
+class SuiListBoxMenuItem extends ManagedObject {
+	protected string optionName;
+	
+	protected unsigned long objectID;
+	
+	public SuiListBoxMenuItem(final string name, unsigned long oid = 0) {
+		optionName = name;
+		objectID = oid;
+	}
+	
+	public unsigned long getObjectID() {
+		return objectID;
+	}
+	
+	public string getOptionName() {
+		return optionName;
+	}
+}

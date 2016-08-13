@@ -1,0 +1,128 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.player.sessions;
+
+include engine.core.ManagedObject;
+
+import engine.log.Logger;
+import engine.core.ManagedReference;
+import engine.util.Facade;
+import system.lang.ref.Reference;
+import server.zone.objects.creature.CreatureObject;
+include server.zone.objects.creature.CreatureObject;
+import server.zone.objects.tangible.TangibleObject;
+include server.zone.objects.scene.SessionFacadeType;
+include server.zone.managers.skill.imagedesign.ImageDesignManager;
+import server.zone.objects.player.events.ImageDesignTimeoutEvent;
+include server.zone.objects.scene.variables.CustomizationVariables;
+include server.zone.objects.player.sessions.ImageDesignData;
+import server.zone.objects.player.sessions.ImageDesignPositionObserver;
+import system.thread.ReadWriteLock;
+
+class ImageDesignSession extends Facade {
+	@weakReference
+	protected CreatureObject designerCreature;
+
+	@weakReference
+	protected CreatureObject targetCreature;
+	
+	@dereferenced
+	protected ImageDesignData imageDesignData;
+	
+	protected TangibleObject hairObject;
+	
+	protected ImageDesignPositionObserver positionObserver;
+
+	protected transient ImageDesignTimeoutEvent idTimeoutEvent;
+	
+	@dereferenced
+	protected transient ReadWriteLock idTimeoutLock; 
+	
+	public ImageDesignSession(CreatureObject parent) {
+		Logger.setLoggingName("ImageDesignSession");
+		Logger.setLogging(true);
+		
+		initializeSession();
+	}
+
+	public native void initializeTransientMembers();
+	
+	/**
+	 * Starts an ImageDesign session between the designer and the target player.
+	 * @param designer The image designer.
+	 * @param targetPlayer The recipient of the image designing.
+	 * @param type Unknown type specifier (needs more research)
+	 * @pre designer and targetPlayer are locked
+	 * @post designer and targetPlayer are locked
+	 */
+	@local
+	public native void startImageDesign(CreatureObject designer, CreatureObject targetPlayer);
+	
+	/**
+	 * When a change is made by the designer, the target's window needs to be notified, and vice versa.
+	 * @param designer The object id of the designer.
+	 * @param targetPlayer The target player's object id.
+	 * @param tent The object id of the salon tent being used.
+	 * @param type The type of something - unknown atm.
+	 * @param data The image design data associated with this update request.
+	 */
+	@local
+	public native void updateImageDesign(CreatureObject updater, unsigned long designer, unsigned long targetPlayer, unsigned long tent, int type, @dereferenced final ImageDesignData data);
+	
+	@local
+	public native void cancelImageDesign(unsigned long designer, unsigned long targetPlayer, unsigned long tent, int type, @dereferenced final ImageDesignData data);	
+
+	public int initializeSession() {
+		designerCreature = null;
+		targetCreature = null;
+		idTimeoutEvent = null;
+		positionObserver = null;
+
+		return 0;
+	}
+	
+	public native int doPayment();
+	
+	public native int cancelSession();
+	
+	public int clearSession() {
+		return 0;
+	}
+
+	public void clearIdTimeoutEvent() {
+		synchronized (idTimeoutLock) {
+			idTimeoutEvent = null;
+		}
+	}
+	
+	public native void checkDequeueEvent(SceneObject scene);
+	
+	public void queueIdTimeoutEvent() {
+		synchronized (idTimeoutLock) {
+			if (idTimeoutEvent == null) {
+				ImageDesignTimeoutEvent ev = new ImageDesignTimeoutEvent(this);
+			
+				idTimeoutEvent = ev;
+			}
+			
+			if (!idTimeoutEvent.isScheduled())
+				idTimeoutEvent.schedule(30000);
+		}
+	}
+
+	public void dequeueIdTimeoutEvent() {
+		synchronized (idTimeoutLock) {
+			if (idTimeoutEvent != null) {
+			
+				if (idTimeoutEvent.isScheduled())
+					idTimeoutEvent.cancel();
+				
+				idTimeoutEvent = null;
+			}
+		}
+	}
+
+	public native void sessionTimeout();
+}

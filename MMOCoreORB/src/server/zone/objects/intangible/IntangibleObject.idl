@@ -1,0 +1,61 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.intangible;
+
+import engine.lua.LuaObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.Zone;
+include templates.SharedObjectTemplate;
+include server.zone.objects.scene.variables.ContainerPermissions;
+
+class IntangibleObject extends SceneObject {
+	protected unsigned int status;
+
+	public IntangibleObject() {
+		Logger.setLoggingName("IntangibleObject");
+
+		status = 0;
+
+		super.setContainerInheritPermissionsFromParent(false);
+		super.setContainerDefaultDenyPermission(ContainerPermissions.MOVECONTAINER);
+		super.setContainerDenyPermission("owner", ContainerPermissions.MOVECONTAINER);
+	}
+
+	public void finalize() {
+
+	}
+
+	public native void initializeTransientMembers();
+
+	/**
+	 * Reads and sets the template data from a SharedObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { SceneObject members are initialized }
+	 * @param templateData templateData points to the LuaObject that is used to initialize SceneObejct members
+	 */
+	@local
+	public void loadTemplateData(SharedObjectTemplate templateData) {
+		super.loadTemplateData(templateData);
+	}
+
+	@dirty
+	public boolean isIntangibleObject() {
+		return true;
+	}
+
+	@dirty
+	public native void sendBaselinesTo(SceneObject player);
+
+	@preLocked
+	public native void updateStatus(int newStatus, boolean notifyClient = true);
+
+	@read
+	public unsigned int getStatus() {
+		return status;
+	}
+
+	@preLocked
+	public native void setCustomObjectName(final unicode name, boolean notifyClient);
+}

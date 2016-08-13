@@ -1,0 +1,72 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.fishing;
+
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.Zone;
+import engine.lua.LuaObject;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.ZoneServer;
+
+class FishObject extends TangibleObject {	
+		
+	protected string player;
+	protected string zoneName;
+	protected string timeCaught;
+	protected float length;
+	
+	public FishObject() {
+		Logger.setLoggingName("FishObject");
+		
+		length = 0.0;
+	}
+	
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		
+		Logger.setLoggingName("FishObject");
+	}
+	
+	
+	public void setAttributes(final string playerName, final string terrainN, string timestamp, float fishLength) {
+		player = playerName;
+		zoneName = terrainN;
+		timeCaught = timestamp;
+		length = fishLength;
+	}
+	
+	/**
+	 * Fills the radial options
+	 * @pre { this object is locked }
+	 * @post { this object is locked, menuResponse is complete}
+	 * @param menuResponse ObjectMenuResponse that will be sent to the client
+	 */
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player); 
+	
+	/**
+	 * Handles the radial selection sent by the client
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @returns 0 if successfull
+	 */
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+		
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+	
+	/**
+	 * Filet a fish
+	 * Takes objects in the Container and sends them to the player invenvotry
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @param player The player to whom to send the items
+	 */
+	public native void filet(CreatureObject player);
+	 
+}

@@ -1,0 +1,137 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.resource;
+
+import engine.log.Logger;
+import system.util.VectorMap;
+import system.util.Vector;
+import server.zone.objects.tangible.TangibleObject;
+include server.zone.objects.resource.ResourceSpawn;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.area.ActiveArea;
+include server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.scene.SceneObject;
+
+class ResourceContainer extends TangibleObject {
+
+	protected ResourceSpawn spawnObject;
+	protected int stackQuantity;
+
+	public static final int MAXSIZE = 100000;
+
+	public ResourceContainer() {
+		stackQuantity = 0;
+
+		setLoggingName("ResourceContainer");
+	}
+
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+
+		Logger.setLoggingName("ResourceContainer");
+	}
+
+	/**
+	 * Destroys this object from database
+	 * @pre { this is locked }
+	 * @post { this is locked }
+	 * @param destroyContainedObjects if true, will destroy from database all its contained objects
+	 */
+	@preLocked
+	public native void destroyObjectFromDatabase(boolean destroyContainedObjects = false);
+        
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+
+	/**
+	 * Sends the baseline messages of this object to the specified player, needs to be overriden
+	 * @pre { this object is locked }
+	 * @post { this object is locked, player received the baseline messages }
+	 * @param player SceneObject that will receive the baselines
+	 */
+	@dirty
+	public native void sendBaselinesTo(SceneObject player);
+
+	public native void setQuantity(unsigned int newQuantity, boolean notifyClient = true, boolean ignoreMax = false);
+
+	@dirty
+	public boolean isResourceContainer() {
+		return true;
+	}
+
+	@dirty
+	public int getQuantity() {
+		return stackQuantity;
+	}
+
+	@dirty
+	public int getUseCount() {
+		return getQuantity();
+	}
+
+	public native void setUseCount(unsigned int newUseCount, boolean notifyClient = true);
+	
+	public native void decreaseUseCount(unsigned int decrement=1, boolean notifyClient = true) {
+		setUseCount(stackQuantity-decrement, notifyClient);
+	}
+
+	@preLocked
+	public void setSpawnObject(ResourceSpawn spawn) {
+		spawnObject = spawn;
+	}
+
+	@dirty
+	public string getSpawnName() {
+		string ret;
+
+		if (spawnObject != null) {
+			ret = spawnObject.getName();
+		}
+
+		return ret;
+	}
+
+	@dirty
+	public string getSpawnType() {
+		string ret;
+
+		if (spawnObject != null) {
+			ret = spawnObject.getType();
+		}
+
+		return ret;
+	}
+
+	@dirty
+	public unsigned long getSpawnID() {
+		unsigned long id = 0;
+
+		if (spawnObject != null) {
+			id = spawnObject.getObjectID();
+		}
+
+		return id;
+	}
+
+	@dirty
+	public ResourceSpawn getSpawnObject() {
+		return spawnObject;
+	}
+
+	@preLocked
+	public native void split(int newStackSize);
+	@preLocked
+	public native void split(int newStackSize, CreatureObject player);
+
+	public native void combine(ResourceContainer fromContainer);
+}

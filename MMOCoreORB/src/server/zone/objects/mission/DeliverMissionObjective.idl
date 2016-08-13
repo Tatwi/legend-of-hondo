@@ -1,0 +1,88 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.mission;
+
+import engine.util.Observer;
+import engine.util.Observable;
+import server.zone.objects.mission.MissionObject;
+import server.zone.objects.mission.MissionObjective;
+import server.zone.objects.mission.MissionObserver;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.ai.AiAgent;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.tangible.TangibleObject;
+include templates.TemplateReference;
+include templates.SharedObjectTemplate;
+import server.zone.objects.area.MissionSpawnActiveArea;
+include server.zone.managers.mission.spawnmaps.NpcSpawnPoint;
+
+class DeliverMissionObjective extends MissionObjective {
+	protected TangibleObject item;
+
+	protected NpcSpawnPoint targetSpawnPoint;
+	protected NpcSpawnPoint destinationSpawnPoint;
+
+	protected int objectiveStatus;
+
+	public static final int INITSTATUS = 0;
+	public static final int PICKEDUPSTATUS = 1;
+	public static final int DELIVEREDSTATUS = 2;
+
+	public DeliverMissionObjective(MissionObject mission) {
+		super(mission);
+
+		objectiveStatus = INITSTATUS;
+
+		Logger.setLoggingName("DeliverMissionObjective");
+	}
+
+	public native void finalize() {
+		//Logger.info("deleting from memory", true);
+	}
+
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+
+		Logger.setLoggingName("DeliverMissionObjective");
+	}
+
+	@dirty
+	public native TangibleObject getItem() {
+		return item;
+	}
+
+	@read
+	public int getObjectiveStatus() {
+		return objectiveStatus;
+	}
+
+	@preLocked
+	public abstract native void activate();
+	@preLocked
+	public abstract native void deactivate();
+	@preLocked
+	public native boolean activateWithResult();
+	public abstract native void abort();
+	public abstract native void complete();
+
+	public native void despawnNpcs();
+
+	@preLocked
+	public abstract native void updateMissionStatus(CreatureObject player);
+
+	public abstract native boolean updateMissionTarget(CreatureObject player);
+
+	@dirty
+	@local
+	public NpcSpawnPoint getTargetSpawnPoint() {
+		return targetSpawnPoint;
+	}
+
+	@dirty
+	@local
+	public NpcSpawnPoint getDestinationSpawnPoint() {
+		return destinationSpawnPoint;
+	}
+}

@@ -1,0 +1,94 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.area;
+
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.area.ActiveArea;
+import server.zone.objects.mission.ReconMissionObjective;
+import server.zone.Zone;
+include server.zone.objects.mission.events.CompleteMissionAfterCertainTimeTask;
+
+class MissionReconActiveArea extends ActiveArea {
+	@weakReference
+	protected ReconMissionObjective missionObjective;
+
+	protected CompleteMissionAfterCertainTimeTask completeTask;
+
+	public MissionReconActiveArea() {
+		missionObjective = null;
+		completeTask = null;
+
+		Logger.setLoggingName("MissionReconActiveArea");
+	}
+
+	public void notifyEnter(SceneObject player) {
+		Logger.info("notifyEnter mission recon");
+
+		if (!player.isPlayerCreature()) {
+			return;
+		} else {
+			ReconMissionObjective strongReference = missionObjective;
+
+			if (strongReference != null) {
+				CreatureObject missionOwner = strongReference.getPlayerOwner();
+
+				if ((CreatureObject)player == missionOwner) {
+					if (completeTask == null) {
+						completeTask = new CompleteMissionAfterCertainTimeTask(strongReference);
+					}
+
+					if (!completeTask.isScheduled()) {
+						missionOwner.sendSystemMessage("Reconnaisance target reached. Stay at the target to do a full inspection.");
+						completeTask.schedule(30 * 1000);
+					}
+				}
+			} else {
+				super.destroyObjectFromWorld(false);
+
+				if (super.isPersistent()) {
+					super.destroyObjectFromDatabase(true);
+				}
+				//getZone().removeObject(this, true);
+				//super.removeFromZone();
+			}
+		}
+	}
+
+	public void notifyExit(SceneObject player) {
+		Logger.info("notifyExit mission recon");
+
+		if (!player.isPlayerCreature()) {
+			return;
+		} else {
+			ReconMissionObjective strongReference = missionObjective;
+
+			if (strongReference != null) {
+				CreatureObject missionOwner = strongReference.getPlayerOwner();
+
+				if ((CreatureObject)player == missionOwner) {
+					if (completeTask != null) {
+						missionOwner.sendSystemMessage("Reconnaissance aborted.");
+						completeTask.cancel();
+					}
+				}
+			} else {
+				super.destroyObjectFromWorld(false);
+
+				if (super.isPersistent()) {
+					super.destroyObjectFromDatabase(true);
+				}
+				//getZone().removeObject(this, true);
+				//super.removeFromZone();
+			}
+		}
+	}
+
+	@preLocked
+	public void setMissionObjective(ReconMissionObjective mission) {
+		missionObjective = mission;
+	}
+}
+

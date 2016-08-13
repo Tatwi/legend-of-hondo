@@ -1,0 +1,36 @@
+imperial_probe_drone = Creature:new {
+	objectName = "@mob/creature_names:imperial_probot_drone",
+	socialGroup = "imperial",
+	faction = "imperial",
+	level = 14,
+	chanceHit = 0.31,
+	damageMin = 150,
+	damageMax = 160,
+	baseXp = 710,
+	baseHAM = 1440,
+	baseHAMmax = 1680,
+	armor = 0,
+	resists = {0,0,0,0,0,0,0,-1,-1},
+	meatType = "",
+	meatAmount = 0,
+	hideType = "",
+	hideAmount = 0,
+	boneType = "",
+	boneAmount = 0,
+	milk = 0,
+	tamingChance = 0,
+	ferocity = 0,
+	pvpBitmask = ATTACKABLE,
+	creatureBitmask = PACK,
+	optionsBitmask = AIENABLED,
+	diet = HERBIVORE,
+
+	templates = {"object/mobile/probot.iff"},
+	lootGroups = {},
+	conversationTemplate = "",
+	weapons = {"droid_probot_ranged"},
+	defaultAttack = "attack",
+
+}
+
+CreatureTemplates:addCreatureTemplate(imperial_probe_drone, "imperial_probe_drone")

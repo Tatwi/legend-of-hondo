@@ -1,0 +1,855 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible;
+
+import server.zone.objects.scene.SceneObject;
+include server.zone.objects.tangible.variables.SkillModMap;
+import engine.lua.LuaObject;
+import system.util.Vector;
+import system.util.SortedVector;
+import engine.log.Logger;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.Zone;
+import server.zone.objects.area.ActiveArea;
+import server.zone.objects.player.PlayerObject;
+include templates.params.OptionBitmask;
+import server.zone.objects.manufactureschematic.ManufactureSchematic;
+import server.zone.objects.factorycrate.FactoryCrate;
+include server.zone.objects.scene.SceneObjectType;
+include server.zone.objects.scene.variables.CustomizationVariables;
+include server.zone.objects.scene.variables.DeltaVector;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+include templates.SharedObjectTemplate;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.objects.tangible.threat.ThreatMap;
+import server.zone.objects.tangible.weapon.WeaponObject;
+include server.zone.objects.scene.variables.AutoDeltaSet;
+include server.zone.objects.scene.variables.StringId;
+
+class TangibleObject extends SceneObject {
+	protected boolean targetable;
+	
+	protected float complexity;
+	protected int volume;
+	
+	protected unsigned int faction;
+
+	protected boolean invisible;
+
+	@dereferenced
+	protected VectorMap<string, string> luaStringData;
+	
+	@dereferenced
+	protected CustomizationVariables customizationVariables;
+	
+	protected float conditionDamage;
+	protected int maxCondition;
+	protected int useCount;
+	
+	protected short level;
+	
+	protected unsigned int optionsBitmask;
+	@dereferenced
+	protected AtomicInteger magicBits;
+	
+	@dereferenced
+	protected AutoDeltaSet<int> visibleComponents;
+	
+	protected boolean isCraftedEnhancedItem;
+	
+	protected unsigned int pvpStatusBitmask;
+	
+	protected byte objectVisible;
+	protected string craftersName;
+
+	protected int junkDealerNeeded;
+	protected int junkValue;
+
+	protected string objectSerial;
+	
+	@transactional
+	protected transient ThreatMap threatMap;
+	
+	@dereferenced
+	protected DeltaVector<SceneObject> defenderList;
+	
+	protected boolean sliceable;
+	protected boolean sliced;	
+
+	@dereferenced
+	protected SortedVector<ActiveArea> activeAreas;
+
+	protected SceneObject antiDecayKitObject;
+	
+	/**
+	 * TangibleObject constructor, used to initialized the object
+	 * @pre { templateData is a valid SharedTangibleObjectTemplate LuaObject that contains the necessary values to initialize CreatureObject }
+	 * @post { TangibleObject is initialized } 
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize TangibleObject members
+	 */
+	public TangibleObject() {
+		Logger.setLoggingName("TangibleObject");
+		
+		initializeMembers();
+
+		invisible = false;
+
+		antiDecayKitObject = null;
+
+		luaStringData.setNoDuplicateInsertPlan();
+	}
+	
+	public void initializeMembers() {
+		faction = 0;
+		level = 1;
+		useCount = 1;
+		
+		complexity = 100.f;
+
+		volume = 1;
+
+		objectVisible = 1;
+
+		useCount = 1;
+
+		conditionDamage = 0;
+		
+		sliceable = false;
+		sliced = false;
+		isCraftedEnhancedItem = false;
+		
+		threatMap = null;
+		junkDealerNeeded = 0;
+		junkValue = 0;
+	}
+	
+	/**
+	 * Adds this object's skill mod map to the target object's skill mod map
+	 * @param targetObject The targeted object containing the SkillModMap which will be affected.
+	 */
+	@local
+	public abstract native void addTemplateSkillMods(TangibleObject targetObject);
+	
+	public abstract void applySkillModsTo(CreatureObject creature) {
+		
+	}
+	
+	public abstract void removeSkillModsFrom(CreatureObject creature) {
+		
+	}
+	
+	public abstract void addSkillMod(final int skillType, final string skillMod, int value, boolean notifyClient = true) {
+		
+	}
+	
+	public abstract void removeSkillMod(final int skillType, final string skillMod, int value, boolean notifyClient = true) {
+		
+	}
+	
+	public abstract void removeAllSkillModsOfType(final int skillType, boolean notifyClient = true) {
+		
+	}
+	
+	/**
+	 * Removes this object's skill mod map from the target object's skill mod map
+	 * @param targetObject the targeted object containing the SkillModMap which will be affected.
+	 */
+	@local
+	public abstract native void removeTemplateSkillMods(TangibleObject tangibleObject);
+	
+	@local
+	public native VectorMap<string, int> getTemplateSkillMods();
+	
+	/**
+	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { TangibleObject members are initialized }
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
+	 */
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+
+	/**
+	 * Initializes the transient members of SceneObject, must call the inherited object method first.
+	 * @pre {transient members are not initialized }
+	 * @post { transient members are initialized }
+	 */
+	public native void initializeTransientMembers();
+
+	/**
+	 * Gets called when this objects is loaded from database
+	 * @pre { this locked }
+	 * @post { this locked }
+	 */
+	public native void notifyLoadFromDatabase();
+
+	/**
+	 * Updates the object name of the object
+	 * @pre { this locked }
+	 * @post { this locked }
+	 */
+	@local
+	public native void setObjectName(@dereferenced StringId stringID, boolean notifyClient);
+
+	/**
+	 * Updates the custom name of the object
+	 * @pre { this locked }
+	 * @post { this locked }
+	 */
+	public native void setCustomObjectName(final unicode name, boolean notifyClient);
+	
+	/**
+	 * Sends the TANO baseline messages of this object to the specified player
+	 * @pre { this object is locked }
+	 * @post { this object is locked, player received the baseline messages }
+	 * @param player SceneObject that will receive the baselines 
+	 */
+	@dirty
+	public native abstract void sendBaselinesTo(SceneObject player);
+	
+	/**
+	 * Sends the necessary messages to player in order to create this object
+	 * @pre { this object is locked }
+	 * @post { this object is locked, player received this object }
+	 * @param player SceneObject that will receive the messages
+	 * @param doClose if true a SceneObjectCloseMessage is sent to finish the object
+	 */
+	@dirty
+	public native void sendTo(SceneObject player, boolean doClose);
+
+	/**
+	 * Calls the appropriate UI Listener Function
+	 * @pre { this object is locked, object is locked }
+	 * @post {this object is locked, object is locked }
+	 * @param player CreatureObject using the item
+	 * @param value value from packet
+	 */
+	public native abstract void synchronizedUIListen(CreatureObject player, int value);
+	
+	/**
+	 * Calls the appropriate UI Stop Listener Function
+	 * @pre { this object is locked, object is locked }
+	 * @post {this object is locked, object is locked }
+	 * @param player CreatureObject using the item
+	 * @param value value from packet
+	 */
+	public native abstract void synchronizedUIStopListen(CreatureObject player, int value);
+	
+	/**
+	 * Sets the active defender
+	 * @pre { this object is locked }
+	 * @post { this object is locked, defender is active }
+	 * @param defender SceneObject to set as the active defender
+	 */
+	@preLocked
+	public native abstract void setDefender(SceneObject defender);
+	
+	/**
+	 * Adds a SceneObject to the defender vector
+	 * @pre { this object is locked }
+	 * @post { this object is locked, defender is in the defender vector }
+	 * @param defender SceneObject to add to the defender vector
+	 */
+	@preLocked
+	public native abstract void addDefender(SceneObject defender);
+	
+	/**
+	 * Removes the specified defender from the defender vector
+	 * @pre { this object is locked }
+	 * @post { this object is locked, defender is not in the defender vector }
+	 * @param defender SceneObject to remove from the defender vector
+	 */
+	@preLocked
+	public native abstract void removeDefender(SceneObject defender);
+	
+	/**
+	 * Removes all the defenders from the defender vector
+	 * @pre { this object is locked }
+	 * @post { this object is locked, defender vector is empty }
+	 */
+	@preLocked
+	public native abstract void removeDefenders();
+	
+	
+	/**
+	 * Sets the combat state, needs to be overriden
+	 * @pre { this object is locked }
+	 * @post { this object is locked, this object is in a combat state }
+	 */
+	public abstract void setCombatState() {
+		
+	}
+	
+	/**
+	 * Updates the object count delta
+	 * @pre { this object is locked }
+	 * @post { this object is locked }
+	 * @param newUseCount new value to update
+	 */
+	@preLocked
+	public native abstract void setUseCount(unsigned int newUseCount, boolean notifyClient = true);
+	
+	/**
+	 * Decreases use count, when reaches 0 destroys itself
+	 */
+	@preLocked
+	public native abstract void decreaseUseCount(unsigned int decrementAmount = 1, boolean notifyClient = true);
+	
+	@preLocked
+	public abstract native void setCountdownTimer(unsigned int newCount, boolean notifyClient = true);
+
+	
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+	
+	/**
+	 * Cleares the combat state
+	 * @pre { this object is locked }
+	 * @post { this object is locked, this object is not in a combat state }
+	 * @param clearDefenders if true the defender vector willl be emptied
+	 */
+	@preLocked
+	public abstract void clearCombatState(boolean clearDefenders = true) {
+		if (clearDefenders)
+			removeDefenders();
+	}
+	
+	/**
+	 * Evaluates if this object contains the specified defender
+	 * @pre { this object is locked }
+	 * @post { this object is locked }
+	 * @return returns true if SceneObject defender exists in the defender vector
+	 */
+	@preLocked
+	@dirty
+	public boolean hasDefender(SceneObject defender) {
+		for (int i = 0; i < defenderList.size(); ++i) {
+			if (defenderList.get(i) == defender)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Evaluates if this object can be attacket by the passed creature object
+	 * @pre { }
+	 * @post { }
+	 * @return returns true if the creature object can attack this 
+	 */
+	@dirty
+	public native abstract boolean isAttackableBy(CreatureObject object);
+
+	
+	@dirty
+	public native abstract boolean isAttackableBy(TangibleObject object);
+		
+	/**
+	 * Evaluates if this creature is aggresive to the object
+	 * @pre { }
+	 * @post { }
+	 * @return returns true if its aggressive
+	 */
+	@dirty
+	public abstract boolean isAggressiveTo(CreatureObject object) {
+		return false;
+	}
+	
+	@dirty
+	public abstract boolean isHealableBy(CreatureObject object) {
+		return false;
+	}
+	
+	/**
+	 * Sends the pvp options bitmask
+	 * @pre { }
+	 * @post { }
+	 */
+	@dirty
+	public abstract native void sendPvpStatusTo(CreatureObject player);
+	
+	/**
+	 * Inflicts damage into the object
+	 * @pre { attacker, this object is locked }
+	 * @post { attacker, this object is locked }
+	 * @return unused for now
+	 */
+	@preLocked
+	@arg1preLocked
+	public native abstract int inflictDamage(TangibleObject attacker, int damageType, float damage, boolean destroy, boolean notifyClient = true, boolean isCombatAction = false);
+	
+	@preLocked
+	@arg1preLocked
+	public native abstract int inflictDamage(TangibleObject attacker, int damageType, float damage, boolean destroy, final string xp, boolean notifyClient = true, boolean isCombatAction = false);
+	
+	/**
+	 * Heals damage
+	 * @pre { this, healer locked }
+	 * @post { this, healer locked }
+	 * @return returns total health healed
+	 */
+	@preLocked
+	public native abstract int healDamage(TangibleObject healer, int damageType, float damageToHeal, boolean notifyClient = true);
+	
+	
+	/**
+	 * Sets the condition damage variable
+	 * @pre { this object is locked }
+	 * @post { this object is locked }
+	 * @param condDamage new condition damage
+	 */
+	@preLocked
+	public native void setConditionDamage(float condDamage, boolean notifyClient = true);
+	
+
+	@preLocked
+	public native void addVisibleComponent(int value, boolean notifyClient = true);
+	
+	@preLocked
+	public native void removeVisibleComponent(int value, boolean notifyClient = true);
+	
+	@preLocked
+	public native void removeAllVisibleComponents(boolean notifyClient = true);
+	
+	@preLocked
+	@dirty
+	public boolean hasVisibleComponent(int value) {
+		return visibleComponents.contains(value);
+	}
+	
+	/**
+	 * Updates a customization variable
+	 */
+	@preLocked
+	public native void setCustomizationVariable(byte type, short value, boolean notifyClient = true);
+
+	@preLocked
+	public native void setCustomizationVariable(final string type, short value, boolean notifyClient = true);
+	
+	@preLocked
+	public native void setOptionsBitmask(unsigned int bitmask, boolean notifyClient = true);
+	
+	public native void setOptionBit(unsigned int option, boolean notifyClient = true);
+	public native void clearOptionBit(unsigned int option, boolean notifyClient = true);
+	
+	@local
+	public abstract native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
+	
+	public abstract native int notifyObjectDestructionObservers(TangibleObject attacker, int condition, boolean isCombatAction);
+	
+	@preLocked
+	public native void dropFromDefenderLists();
+	
+	@dirty
+	public byte getObjectVisible() {
+		return objectVisible;
+	}
+	
+	@dirty
+	public abstract boolean isKiller() {
+		return false;
+	}
+	
+	@dirty
+	public abstract boolean isTicketCollector() {
+		return false;
+	}
+	
+	@dirty
+	public abstract boolean isTicketObject() {
+		return false;
+	}
+	
+	@dirty
+	public abstract boolean isFsPuzzlePack() {
+		return false;
+	}
+	
+	@dirty
+	public abstract boolean isPlantObject() {
+		return false;
+	}
+	
+	@local
+	@dirty
+	public CustomizationVariables getCustomizationVariables() {
+		return customizationVariables;
+	}
+		
+	@dirty
+	public abstract int getUseCount() {
+		return useCount;
+	}
+	
+	@dirty
+	public int getMaxCondition() {
+		return maxCondition;
+	}
+	
+	public native void setMaxCondition(int maxCond, boolean notifyClient = true);
+	
+	@dirty
+	public int getConditionDamage() {
+		return (int)conditionDamage;
+	}
+	
+	@dirty
+	public int getVolume() {
+		return volume;
+	}
+	
+	public void setComplexity(float value) {
+		complexity = value;
+	}
+	
+	@dirty
+	public float getComplexity() {
+		return complexity;
+	}
+	
+	@dirty
+	public unsigned int getOptionsBitmask() {
+		return optionsBitmask;
+	}
+	
+	public void addMagicBit(boolean notifyClient = true) {
+		if (magicBits.increment() == 1)
+			setOptionBit(OptionBitmask.YELLOW, notifyClient);
+	}
+	
+	public void removeMagicBit(boolean notifyClient = true) {
+		if (magicBits.decrement() == 0)
+			clearOptionBit(OptionBitmask.YELLOW, notifyClient);
+	}
+	
+	@dirty
+	public int getLevel() {
+		return level;
+	}
+	
+	@dirty 
+	public boolean getIsCraftedEnhancedItem() {
+		return isCraftedEnhancedItem;
+	}
+	
+	@dirty
+	public unsigned int getPvpStatusBitmask() {
+		return pvpStatusBitmask;
+	}
+	
+	@dirty
+	public boolean isTangibleObject() {
+		return true;
+	}
+	
+	@dirty
+	public void getCustomizationString(string variables) {
+		customizationVariables.getData(variables);
+	}
+	
+	@local
+	@dirty
+	@preLocked
+	public DeltaVector<SceneObject> getDefenderList() {
+		return defenderList;
+	}
+	
+	@local
+	public AutoDeltaSet<int> getVisibleComponents() {
+		return visibleComponents;
+	}
+	
+	@dirty
+	public SceneObject getMainDefender() {
+		if(defenderList.size() > 0)
+			return defenderList.get(0);
+		
+		return null;
+	}
+	
+	@read
+	public boolean isDestroyed() {
+		return conditionDamage >= maxCondition;
+	}
+	
+	public abstract void setFaction(unsigned int crc) {
+		faction = crc;
+	}
+	
+	@read
+	public unsigned int getFaction() {
+		return faction;
+	}
+
+	@read
+	public native boolean isRebel();
+
+	@read
+	public native boolean isImperial();
+
+	@read
+	public native boolean isNeutral();
+
+	@dirty
+	@local
+	@nativeStub
+	public native TangibleObject asTangibleObject();
+	
+	@dirty
+	public boolean isSliceable() {
+		if (sliced)
+			return false;
+		else if (isContainerObject())
+			return sliceable;
+		else if (isMissionTerminal())
+			return sliceable;
+		else if (isWeaponObject())
+			return sliceable;
+		else if (isArmorObject())
+			return sliceable;
+		else if (super.gameObjectType == SceneObjectType.PLAYERLOOTCRATE)
+			return sliceable;
+		else if (isSecurityTerminal())
+			return sliceable;
+
+		return false;
+	}
+
+	@read
+	public boolean isSliced() {
+		return sliced;
+	}
+
+	public void setSliceable(boolean val) {
+		sliceable = val;
+	}
+
+	public void setSliced(boolean slice) {
+		sliced = slice;
+	}
+
+	public void setCustomizationString(final string vars) {
+		customizationVariables.parseFromClientString(vars);
+	}
+	
+	public native void setIsCraftedEnhancedItem(boolean value);
+	public native void setPvpStatusBitmask(unsigned int bitmask, boolean notifyClient = true);
+
+	public native void setPvpStatusBit(unsigned int pvpStatus, boolean notifyClient = true);
+	public native void clearPvpStatusBit(unsigned int pvpStatus, boolean notifyClient = true);
+
+	public void setCraftersName(string name) {
+		craftersName = name;
+	}
+	
+	@dirty
+	public abstract string getCraftersName() {
+		return craftersName;
+	}
+
+	public void setJunkDealerNeeded(int jdNeeded) {
+		junkDealerNeeded = jdNeeded;
+	}
+	
+	@dirty
+	public abstract int getJunkDealerNeeded() {
+		return junkDealerNeeded;
+	}
+	
+	public void setJunkValue(int jValue) {
+		junkValue = jValue;
+	}
+	
+	@dirty
+	public abstract int getJunkValue() {
+		return junkValue;
+	}
+	
+	public native void setSerialNumber(final string serial);
+	
+	public abstract void setLevel(int lev, boolean randomHam = true) {
+		level = lev;
+	}
+	
+	@dirty
+	public abstract string getSerialNumber() {
+		return objectSerial;
+	}
+
+	@local
+	@preLocked
+	public native ThreatMap getThreatMap();
+	
+	/*
+	 * Creates a factory crate for this object, can insert this object or a clone
+	 */
+	@reference
+	public native FactoryCrate createFactoryCrate(boolean insertSelf = false);
+
+	public native boolean canRepair(CreatureObject player);
+	
+	public native void repair(CreatureObject player);
+
+	public abstract string repairAttempt(int repairChance) {
+		return "Repairing is not implemented for this item";
+	}
+	
+	@dirty
+	public boolean isBroken() {
+		return maxCondition < 2 || getConditionDamage() >= getMaxCondition();
+	}
+	
+	@dirty
+	protected float getConditionReduction(float value) {
+		if(isBroken())
+			return 0.5 * value;
+		
+		float ratio = (float)getConditionDamage() / (float)getMaxCondition() * 100.0;
+		if(ratio < 75.0)
+			return 0;
+		
+		float reductionPercent = (ratio - 75.0) / 50;
+			
+		return reductionPercent * value;
+	}
+
+	@dirty
+	public abstract float getHitChance(){
+		return 0;
+	}
+	
+	@dirty
+	public native void broadcastPvpStatusBitmask();
+
+	public native void addActiveArea(ActiveArea area);
+
+	public void dropActiveArea(ActiveArea area) {
+		synchronized (super.getContainerLock()) {
+			activeAreas.drop(area);
+		}
+	}
+
+	@dirty
+	public boolean hasActiveArea(ActiveArea area) {
+		synchronized (super.getContainerLock()) {
+			return activeAreas.contains(area);
+		}
+	}
+
+	@dirty
+	public boolean hasActiveArea(unsigned long objectid) {
+		synchronized (super.getContainerLock()) {
+			for (int i = 0; i < activeAreas.size(); ++i) {
+				ActiveArea area = activeAreas.get(i);
+
+				if (area.getObjectID() == objectid) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	@local
+	@dirty
+	public SortedVector<ActiveArea> getActiveAreas() {
+		return activeAreas;
+	}
+
+	@read
+	public int getActiveAreasSize() {
+		return activeAreas.size();
+	}
+
+	@dirty
+	@reference
+	public ActiveArea getActiveRegion() {
+		synchronized (super.getContainerLock()) {
+			for (int i = 0; i < activeAreas.size(); i++) {
+				ActiveArea region = activeAreas.get(i);
+
+				if (region.isRegion()) {
+					return region;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public boolean hasAntiDecayKit() {
+		return antiDecayKitObject != null;
+	}
+
+	@preLocked
+	public void applyAntiDecayKit(CreatureObject player, SceneObject adk) {
+		if(!hasAntiDecayKit()) {
+			antiDecayKitObject = adk;
+
+			if(adk.getParent() != null)
+				adk.destroyObjectFromWorld(true);
+
+			sendAttributeListTo(player);
+		}
+	}
+
+	@preLocked
+	public SceneObject removeAntiDecayKit() {
+		if(hasAntiDecayKit()) {
+			SceneObject adk = antiDecayKitObject;
+			antiDecayKitObject = null;
+			return adk;
+		}
+		return null;
+	}
+
+	public native boolean isCityStreetLamp();
+	public native boolean isCityStatue();
+	public native boolean isCityFountain();
+
+	@read
+	public boolean isInvisible() {
+		return invisible;
+	}
+
+	@preLocked
+	public void setInvisible(boolean invis) {
+		invisible = invis;
+	}
+
+	@dirty
+	public abstract boolean isCustomIngredient() {
+		return false;
+	}
+
+	@preLocked
+	public void setLuaStringData(final string key, final string data) {
+		if (luaStringData.contains(key))
+			luaStringData.get(key) = data;
+		else
+			luaStringData.put(key, data);
+	}
+	
+	@preLocked
+	public void deleteLuaStringData(final string key) {
+		luaStringData.drop(key);
+	}
+
+	@dirty
+	public string getLuaStringData(final string key) {
+		return luaStringData.get(key);
+	}
+}
+

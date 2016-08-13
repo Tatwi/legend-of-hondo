@@ -1,0 +1,6 @@
+includeFile("record_keepers/record_keeper.lua")
+includeFile("record_keepers/imperial_park.lua")
+includeFile("record_keepers/rebel_park.lua")
+includeFile("record_keepers/jabba_park.lua")
+includeFile("record_keepers/planet_dantooine.lua")
+includeFile("record_keepers/planet_tatooine.lua")

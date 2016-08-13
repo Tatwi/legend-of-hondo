@@ -1,0 +1,69 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.
+*/
+
+package server.zone.objects.player.sessions;
+import engine.core.ManagedObject;
+import engine.util.Facade;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.structure.StructureObject;
+import server.zone.objects.tangible.components.droid.DroidMaintenanceModuleDataComponent;
+
+class DroidMaintenanceSession extends Facade {
+		
+	@weakReference
+	protected DroidMaintenanceModuleDataComponent maintModule;
+	
+	@weakReference
+	protected CreatureObject player;
+
+	@dereferenced
+	protected Vector<StructureObject> structures;
+	
+	@dereferenced
+	protected VectorMap<unsigned long, int> maintenance;
+
+	@dereferenced
+	protected Vector<int> fees;
+	
+	protected StructureObject selectedStructure;
+	protected int selectedFees;
+	
+	protected long availableCredits;
+	
+	public DroidMaintenanceSession( DroidMaintenanceModuleDataComponent module, CreatureObject creature ) {
+		maintModule = module;
+		player = creature;
+		selectedStructure = null;
+	}
+	public native void initialize();	
+	/**
+	 * Send the main window.
+	 */		
+	public native void sendMaintanceRunBox();
+	
+	@dirty
+	public void setSelectedStructure( StructureObject structure ) {
+		selectedStructure = structure;
+	}
+	
+	/**
+	 * send the tranfer box
+	 */
+	public native void sendMaintenanceTransferBox();
+	
+	/**
+	 * fire the task off
+	 */		
+	public native void performMaintenanceRun();
+	
+	public native int cancelSession();
+	
+	public long getAvailableCredits() {
+		return availableCredits;
+	}
+	
+	@dirty
+	public native void addCreditsToCurrentStructure(int amount);
+}

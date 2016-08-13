@@ -1,0 +1,88 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.attachement;
+
+import server.zone.objects.tangible.TangibleObject;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+import engine.lua.LuaObject;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+include templates.SharedObjectTemplate;
+import server.zone.packets.scene.AttributeListMessage;
+include server.zone.objects.scene.SceneObjectType;
+import server.zone.Zone;
+import system.util.HashTable;
+
+class Attachment extends TangibleObject {
+
+	protected int attachmentType;
+
+	@dereferenced
+	protected HashTable<string, int> skillModMap;
+
+	protected static final int CLOTHINGTYPE = 1;
+	protected static final int ARMORTYPE = 2;
+	
+	public Attachment() {
+		Logger.setLoggingName("Attachment");
+
+		skillModMap.setNullValue(0);
+				
+		//generateSkillMods();
+	}
+
+	public native void initializeTransientMembers();
+	
+	@local
+	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
+
+	public native void initializeMembers();
+
+	/**
+	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { TangibleObject members are initialized }
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
+	 */
+	@local
+	public void loadTemplateData(SharedObjectTemplate templateData) {
+		super.loadTemplateData(templateData);
+		
+		initializeMembers();
+	}
+	
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+
+	@dirty
+	public boolean isAttachment() {
+		return true; 
+	}        
+
+	@dirty
+	public boolean isArmorAttachment() {
+		return super.gameObjectType == SceneObjectType.ARMORATTACHMENT;
+	}          
+
+	@dirty
+	public boolean isClothingAttachment() {
+		return super.gameObjectType == SceneObjectType.CLOTHINGATTACHMENT;
+	} 
+	
+	@local
+	public HashTable<string, int> getSkillMods() {
+		return skillModMap;
+	}
+	
+}

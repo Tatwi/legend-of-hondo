@@ -1,0 +1,433 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.guild;
+
+import engine.service.proto.BaseMessage;
+import server.chat.room.ChatRoom;
+import server.zone.objects.tangible.terminal.guild.GuildTerminal;
+include system.lang.Time;
+include server.zone.objects.guild.GuildMemberList;
+include server.zone.objects.guild.GuildMemberInfo;
+import server.zone.objects.guild.GuildUpdateEvent;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.scene.SceneObject;
+import system.lang.String;
+import system.util.SortedVector;
+include system.thread.ReadWriteLock;
+
+class GuildObject extends SceneObject {
+	protected ChatRoom chatRoom;
+
+	@dereferenced
+	protected GuildMemberList guildMembers;
+
+	@dereferenced
+	protected SortedVector<unsigned long> sponsoredPlayers;
+
+	@dereferenced
+	protected VectorMap<unsigned long, byte> waringGuilds;
+
+	protected unsigned int guildID;
+	protected string guildName;
+	protected string guildAbbrev;
+
+	protected string pendingNewName;
+	protected string pendingNewAbbrev;
+	protected boolean renamePending;
+	protected unsigned long renamerID;
+
+	protected transient boolean transferPending;
+
+	@dereferenced
+	protected Time nextUpdateTime;
+
+	protected transient GuildUpdateEvent guildUpdateEvent;
+
+	@dereferenced
+	protected transient ReadWriteLock waringGuildsMutex;
+
+	protected unsigned long guildLeaderID;
+
+	protected byte electionState;
+
+	@dereferenced
+	protected VectorMap<unsigned long, int> candidates; // candidateID, # of votes
+
+	@dereferenced
+	protected VectorMap<unsigned long, unsigned long> votes; // voterID, candidateID
+
+	public static final byte PERMISSION_NONE = 0x00;
+	public static final byte PERMISSION_MAIL = 0x01;
+	public static final byte PERMISSION_SPONSOR = 0x02;
+	public static final byte PERMISSION_TITLE = 0x04;
+	public static final byte PERMISSION_ACCEPT = 0x08;
+	public static final byte PERMISSION_KICK = 0x10;
+	public static final byte PERMISSION_WAR = 0x20;
+	public static final byte PERMISSION_NAME = 0x40;
+	public static final byte PERMISSION_DISBAND = 0x80;
+	public static final byte PERMISSION_ALL = 0xFF;
+
+	public static final byte WAR_NONE = 0;
+	public static final byte WAR_MUTUAL = 0x3D; //'='
+	public static final byte WAR_IN = 0x3C; //'<'
+	public static final byte WAR_OUT = 0x3E; //'>'
+
+	public static final byte ELECTION_DISABLED = 0;
+	public static final byte ELECTION_FIRST_WEEK = 1;
+	public static final byte ELECTION_SECOND_WEEK = 2;
+
+	public GuildObject() {
+		Logger.setLoggingName("GuildObject");
+
+		guildLeaderID = 0;
+		guildID = 0;
+		chatRoom = null;
+
+		renamePending = false;
+		renamerID = 0;
+
+		waringGuilds.setAllowOverwriteInsertPlan();
+		sponsoredPlayers.setNoDuplicateInsertPlan();
+		guildMembers.setNoDuplicateInsertPlan();
+		nextUpdateTime.addMiliTime((3600 + System.random(601200)) * 1000); // 1 hour to 1 week
+
+		electionState = ELECTION_DISABLED;
+
+		candidates.setAllowOverwriteInsertPlan();
+		candidates.setNullValue(0);
+
+		votes.setAllowOverwriteInsertPlan();
+		votes.setNullValue(0);
+	}
+
+	/**
+	 * Initializes the transient members of SceneObject, must call the inherited object method first.
+	 * @pre {transient members are not initialized }
+	 * @post { transient members are initialized }
+	 */
+	public native void initializeTransientMembers();
+
+	public native void rescheduleUpdateEvent(unsigned int seconds);
+
+	@local
+	@dirty
+	public Time getNextUpdateTime() {
+		return nextUpdateTime;
+	}
+
+	@dirty
+	public native void sendBaselinesTo(SceneObject player);
+	@dirty
+	public native void broadcastMessage(BaseMessage msg);
+	@dirty
+	public native void broadcastMessage(CreatureObject player, BaseMessage msg, boolean sendSelf = false);
+
+	/**
+	 * Adds the Player to the GuildMemberList. Doesn't do anything else!
+	 * Use the GuildManager for adding and removing of players that sends messages etc.
+	 * @param player The player's objectid to add
+	 */
+	public native void addMember(unsigned long playerID);
+
+	@preLocked
+	public native void removeMember(unsigned long playerID);
+
+	@dirty
+	public native boolean hasMember(unsigned long playerID);
+
+	@local
+	@dirty
+	@preLocked
+	public native GuildMemberInfo getMember(unsigned long playerID);
+
+	@dirty
+	public native unsigned long getMember(int index);
+
+	@preLocked
+	public native void setGuildMemberTitle(unsigned long playerID, final string title);
+
+	public native string getGuildMemberTitle(unsigned long playerID);
+
+	public synchronized void addSponsoredPlayer(unsigned long playerID) {
+		sponsoredPlayers.put(playerID);
+	}
+
+	public synchronized void removeSponsoredPlayer(unsigned long playerID) {
+		sponsoredPlayers.drop(playerID);
+	}
+
+	@dirty
+	public synchronized boolean hasSponsoredPlayer(unsigned long playerID) {
+		return sponsoredPlayers.contains(playerID);
+	}
+
+	@dirty
+	public synchronized unsigned long getSponsoredPlayer(int idx) {
+		return sponsoredPlayers.get(idx);
+	}
+
+	@read
+	public int getSponsoredPlayerCount() {
+		return sponsoredPlayers.size();
+	}
+
+	@preLocked
+	public void setChatRoom(ChatRoom room) {
+		chatRoom = room;
+	}
+
+	@read
+	public ChatRoom getChatRoom() {
+		return chatRoom;
+	}
+
+	@read
+	public int getTotalMembers() {
+		return guildMembers.size();
+	}
+
+	@read
+	public unsigned long getGuildLeaderID() {
+		return guildLeaderID;
+	}
+
+	@local
+	@dirty
+	public GuildMemberList getGuildMemberList() {
+		return guildMembers;
+	}
+
+	@read
+	public string getGuildAbbrev() {
+		return guildAbbrev;
+	}
+
+	@preLocked
+	public void setGuildAbbrev(final string abbrev) {
+		guildAbbrev = abbrev;
+	}
+
+	@preLocked
+	public void setGuildLeaderID(unsigned long leaderID) {
+		guildLeaderID = leaderID;
+	}
+
+	@preLocked
+	public void setGuildID(unsigned int id) {
+		guildID = id;
+	}
+
+	@read
+	public unsigned int getGuildID() {
+		return guildID;
+	}
+
+	@preLocked
+	public void setGuildName(final string gname) {
+		guildName = gname;
+	}
+
+	@read
+	public string getGuildName() {
+		return guildName;
+	}
+
+	@preLocked
+	public void setPendingNewName(final string newName) {
+		pendingNewName = newName;
+	}
+
+	@read
+	public string getPendingNewName() {
+		return pendingNewName;
+	}
+
+	@preLocked
+	public void setPendingNewAbbrev(final string newAbbrev) {
+		pendingNewAbbrev = newAbbrev;
+	}
+
+	@read
+	public string getPendingNewAbbrev() {
+		return pendingNewAbbrev;
+	}
+
+	@preLocked
+	public void setRenamePending(boolean pending) {
+		renamePending = pending;
+	}
+
+	@read
+	public boolean isRenamePending() {
+		return renamePending;
+	}
+
+	@preLocked
+	public void setRenamerID(unsigned long id) {
+		renamerID = id;
+	}
+
+	@read
+	public unsigned long getRenamerID() {
+		return renamerID;
+	}
+
+	@preLocked
+	public void resetRename() {
+		renamerID = 0;
+		renamePending = false;
+		pendingNewName = "";
+		pendingNewAbbrev = "";
+	}
+
+	@read
+	public string getGuildKey() {
+		string guildKey = String.valueOf(guildID) + ":" + guildAbbrev;
+		return guildKey;
+	}
+
+	@dirty
+	public boolean isGuildObject() {
+		return true;
+	}
+
+	@read
+	public boolean isGuildLeader(CreatureObject player) {
+		return (guildLeaderID == player.getObjectID());
+	}
+
+	@dirty
+	public byte getWarStatus(unsigned long guildoid) {
+		synchronized (waringGuildsMutex) {
+			return waringGuilds.get(guildoid);
+		}
+	}
+
+	public void setWarStatus(unsigned long guildoid, byte status) {
+		synchronized (waringGuildsMutex) {
+			if (status == WAR_NONE)
+				waringGuilds.drop(guildoid);
+			else
+				waringGuilds.put(guildoid, status);
+		}
+	}
+
+	@dirty
+	public native boolean isInWaringGuild(CreatureObject creature);
+
+	@dirty
+	public native boolean isAtWarWith(unsigned long guildoid);
+
+	@dirty
+	public boolean hasDeclaredWarOn(unsigned long guildoid) {
+		synchronized (waringGuildsMutex) {
+			return waringGuilds.get(guildoid) == WAR_OUT;
+		}
+	}
+
+	@dirty
+	public boolean hasDeclaredWarBy(unsigned long guildoid) {
+		synchronized (waringGuildsMutex) {
+			return waringGuilds.get(guildoid) == WAR_IN;
+		}
+	}
+
+	@local
+	public VectorMap<unsigned long, byte> getWaringGuilds() {
+		return waringGuilds;
+	}
+
+	@dirty
+	public native boolean hasMailPermission(unsigned long playerID);
+	@dirty
+	public native boolean hasSponsorPermission(unsigned long playerID);
+	@dirty
+	public native boolean hasAcceptPermission(unsigned long playerID);
+	@dirty
+	public native boolean hasDisbandPermission(unsigned long playerID);
+	@dirty
+	public native boolean hasKickPermission(unsigned long playerID);
+	@dirty
+	public native boolean hasNamePermission(unsigned long playerID);
+	@dirty
+	public native boolean hasTitlePermission(unsigned long playerID);
+	@dirty
+	public native boolean hasWarPermission(unsigned long playerID);
+
+	@preLocked
+	public native void toggleMemberPermission(unsigned long playerID, byte permission);
+
+	@preLocked
+	public void setTransferPending(boolean transfer) {
+		transferPending = transfer;
+	}
+
+	@read
+	public boolean isTransferPending() {
+		return transferPending;
+	}
+
+	@dirty
+	public boolean isElectionEnabled() {
+		return electionState > ELECTION_DISABLED;
+	}
+
+	@read
+	public byte getElectionState() {
+		return electionState;
+	}
+
+	@preLocked
+	public void setElectionState(byte state) {
+		electionState = state;
+	}
+
+	@preLocked
+	public void addCandidate(unsigned long candidateoid) {
+		candidates.put(candidateoid, 0);
+	}
+
+	@preLocked
+	public void setVote(unsigned long voteroid, unsigned long candidateoid) {
+		unsigned long currentoid = votes.get(voteroid);
+
+		//Check if they are voting for same person
+		if (currentoid == candidateoid)
+			return;
+
+		//Remove the current vote for the current candidate
+		if (currentoid != 0 && candidates.contains(currentoid))
+			candidates.put(currentoid, candidates.get(currentoid) - 1);
+
+		votes.put(voteroid, candidateoid);
+		candidates.put(candidateoid, candidates.get(candidateoid) + 1);
+	}
+
+	@local
+	public VectorMap<unsigned long, int> getCandidates() {
+		return candidates;
+	}
+
+	@preLocked
+	public void resetElection(boolean disable) {
+		votes.removeAll();
+		candidates.removeAll();
+
+		if (disable) {
+			electionState = ELECTION_DISABLED;
+		}
+	}
+
+	@preLocked
+	public native void removeCandidate(unsigned long candidateoid);
+
+	@dirty
+	public boolean isCandidate(unsigned long candidateoid) {
+		return candidates.contains(candidateoid);
+	}
+
+	@preLocked
+	public native unsigned long getMemberWithHighestPermission();
+}

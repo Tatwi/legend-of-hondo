@@ -1,0 +1,310 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.auction;
+
+import system.util.VectorMap;
+import engine.core.ManagedObject;
+import system.lang.StringBuffer;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.scene.SceneObject;
+include server.zone.objects.scene.variables.StringId;
+
+class AuctionItem extends ManagedObject {
+
+	protected unsigned long vendorID;
+
+	protected unsigned long auctionedItemObjectID;
+	protected int itemType;
+	protected int size;
+
+	protected unsigned long ownerID;
+	protected string ownerName;
+	protected string bidderName;
+	protected unsigned long offerToID;
+
+	protected string vuid;
+
+	protected string itemName;
+	protected string itemDescription;
+
+	protected int price;
+	protected int proxyBid;
+
+	protected boolean auction;
+
+	protected int status;
+
+	protected boolean onBazaar;
+
+	protected unsigned long buyerID;
+
+	protected unsigned int expireTime;
+
+	protected boolean updated;
+
+	protected int auctionOptions;
+
+	public final static int OPTION_PREMIUM = 0x400;
+	public final static int OPTION_WITHDRAW = 0x800;
+
+	public final static int FORSALE = 1;
+	public final static int SOLD = 2;
+	public final static int EXPIRED = 4;
+	public final static int OFFERED = 5;
+	public final static int RETRIEVED = 6;
+
+	public AuctionItem(unsigned long objectid) {
+		auctionedItemObjectID = objectid;
+		itemType = 0;
+		size = 1;
+
+		ownerID = 0;
+		offerToID = 0;
+
+		price = 0;
+		proxyBid = 0;
+		status = FORSALE;
+
+		auction = true;
+
+		onBazaar = false;
+
+		buyerID = 0;
+		expireTime = 0;
+
+		updated = false;
+
+		auctionOptions = 0;
+
+		//Logger.setLoggingName("AuctionItem");
+	}
+
+	/**
+	 * Compares object ids of this object with obj
+	 * @pre { this object is locked, obj is not null }
+	 * @post {this object is locked }
+	 * @param obj SceneObject that will be compared to
+	 * @return returns 1 if this < obj, -1 if this > obj and 0 if this == obj
+	 */
+	@dirty
+	public int compareTo(AuctionItem obj) {
+		if (getAuctionedItemObjectID() < obj.getAuctionedItemObjectID())
+			return 1;
+		else if (getAuctionedItemObjectID() > obj.getAuctionedItemObjectID())
+			return -1;
+		else
+			return 0;
+	}
+
+	public native void notifyLoadFromDatabase();
+
+	@preLocked
+	public void setVendorID(unsigned long val) {
+		vendorID = val;
+	}
+
+	@preLocked
+	public void setItemName(final string name) {
+		itemName = name;
+	}
+
+	@preLocked
+	public void setItemDescription(final string descr) {
+		itemDescription = descr;
+	}
+
+	@preLocked
+	public void setPrice(int newPrice) {
+		price = newPrice;
+	}
+
+	@preLocked
+	public void setProxy(int newProxy) {
+		proxyBid = newProxy;
+	}
+
+	@preLocked
+	public void setAuctionedItemObjectID(unsigned long objectID) {
+		auctionedItemObjectID = objectID;
+	}
+
+	@preLocked
+	public void setItemType(int type) {
+		itemType = type;
+	}
+
+	@preLocked
+	public void setOwnerID(unsigned long ownerObjectID) {
+		ownerID = ownerObjectID;
+	}
+
+	@preLocked
+	public void setOfferToID(unsigned long vendorOwnerID) {
+		offerToID = vendorOwnerID;
+	}
+
+	@preLocked
+	public void setBidderName(final string name) {
+		bidderName = name;
+	}
+
+	@preLocked
+	public void setOwnerName(final string name) {
+		ownerName = name;
+	}
+
+	@preLocked
+	public void setAuction(boolean isAuction) {
+		auction = isAuction;
+	}
+
+	@preLocked
+	public void setAuctionPremium() {
+		auctionOptions = auctionOptions | OPTION_PREMIUM;
+	}
+
+	@preLocked
+	public native void clearAuctionWithdraw();
+
+	@preLocked
+	public void setOnBazaar(boolean val) {
+		onBazaar = val;
+	}
+
+	@preLocked
+	public void setExpireTime(int time) {
+		expireTime = time;
+	}
+
+	@preLocked
+	public void setBuyerID(unsigned long id) {
+		buyerID = id;
+	}
+
+	@preLocked
+	public void setStatus(int value) {
+		status = value;
+	}
+
+	@read
+	public boolean isOnBazaar() {
+		return onBazaar;
+	}
+
+	@read
+	public boolean isAuction() {
+		return auction;
+	}
+
+	@read
+	public int getStatus() {
+		return status;
+	}
+
+	@read
+	public unsigned long getVendorID() {
+		return vendorID;
+	}
+
+	@read
+	public unsigned long getAuctionedItemObjectID() {
+		return auctionedItemObjectID;
+	}
+
+	@read
+	public unsigned long getOwnerID() {
+		return ownerID;
+	}
+
+	@read
+	public unsigned long getOfferToID() {
+		return offerToID;
+	}
+
+	@preLocked
+	public void setVendorUID(final string uid) {
+		vuid = uid;
+	}
+
+	@read
+	public final string getVendorUID() {
+		return vuid;
+	}
+
+	@read
+	public string getOwnerName() {
+		return ownerName;
+	}
+
+	@read
+	public string getItemName() {
+		return itemName;
+	}
+
+	@read
+	public int getExpireTime() {
+		return expireTime;
+	}
+
+	@read
+	public int getPrice() {
+		return price;
+	}
+
+	@read
+	public int getProxy() {
+		return proxyBid;
+	}
+
+	@read
+	public int getItemType() {
+		return itemType;
+	}
+
+	@read
+	public unsigned long getBuyerID() {
+		return buyerID;
+	}
+
+	@read
+	public string getBidderName() {
+		return bidderName;
+	}
+
+	@read
+	public string getItemDescription() {
+		return itemDescription;
+	}
+
+	@read
+	public int getAuctionOptions() {
+		return auctionOptions;
+	}
+
+	@read
+	public boolean isPremiumAuction() {
+		return auctionOptions & OPTION_PREMIUM;
+	}
+
+	@read
+	public boolean isOwner(CreatureObject player) {
+		return player.getObjectID() == getOwnerID();
+	}
+
+	@read
+	public boolean isAuctionObject() {
+		return true;
+	}
+
+	@preLocked
+	public void setSize(int s) {
+		size = s;
+	}
+
+	@read
+	public int getSize() {
+		return size;
+	}
+}

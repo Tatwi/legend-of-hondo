@@ -1,0 +1,177 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.area.areashapes;
+
+import server.zone.objects.area.areashapes.AreaShape;
+import server.zone.objects.area.areashapes.CircularAreaShape;
+
+class RingAreaShape extends AreaShape {
+
+	/** The radius to the inner edge of the ring. */
+	protected float innerRadius;
+
+	/** The radius to the outer edge of the ring. */
+	protected float outerRadius;
+
+	/** The squared inner radius of the ring */
+	protected float innerRadius2;
+
+	/** The squared outer radius of the ring */
+	protected float outerRadius2;
+
+	/** Constructor */
+	public RingAreaShape() {
+		super();
+		innerRadius = 0;
+		outerRadius = 0;
+		innerRadius2 = 0;
+		outerRadius2 = 0;
+	}
+
+	/**
+	 * Set the inner radius of the ring.
+	 * @param r the new inner radius of the ring.
+	 */
+	@preLocked
+	public void setInnerRadius(float r) {
+		innerRadius = r;
+		innerRadius2 = r * r;
+	}
+
+	/**
+	 * Set the outer radius of the ring.
+	 * @param r the new outer radius of the ring.
+	 */
+	@preLocked
+	public void setOuterRadius(float r) {
+		outerRadius = r;
+		outerRadius2 = r * r;
+	}
+
+	/**
+	 * Get the inner radius of the ring.
+	 * @return inner radius of the ring
+	 */
+	@dirty
+	public abstract float getInnerRadius() {
+		return innerRadius;
+	}
+
+	/**
+	 * Get the inner squared radius of the ring.
+	 * @return inner squared radius of the ring
+	 */
+	@dirty
+	public float getInnerRadius2() {
+		return innerRadius2;
+	}
+
+	/**
+	 * Get the outer radius of the ring.
+	 * @return outer radius of the ring
+	 */
+	@dirty
+	public abstract float getOuterRadius() {
+		return outerRadius;
+	}
+
+	/**
+	 * Get the outer squared radius of the ring.
+	 * @return outer squared radius of the ring
+	 */
+	@dirty
+	public float getOuterRadius2() {
+		return outerRadius2;
+	}
+
+	/**
+	 * Get the minimum radius of a circle bounding the area shape.
+	 * @return the minimum bonding radius.
+	 */
+	@dirty
+	public float getRadius() {
+		return outerRadius;
+	}
+
+	/**
+	 * Check if the coordinate is within the area shape.
+	 * @param x the x coordinate.
+	 * @param y the y coordinate.
+	 * @return true if the coordinate is within the area shape.
+	 */
+	@dirty
+	public native abstract boolean containsPoint(float x, float y);
+
+	/**
+	 * Check if the coordinate is within the area shape.
+	 * @param point the point to check if it is within the area shape.
+	 * @return true if the coordinate is within the area shape.
+	 */
+	@dereferenced
+	@local
+	@dirty
+	public native abstract boolean containsPoint(@dereferenced final Vector3 point);
+
+	/**
+	 * Generate a random position within the area.
+	 * @return a random position within the area.
+	 */
+	@dereferenced
+	@local
+	@dirty
+	public native abstract Vector3 getRandomPosition();
+
+	/**
+	 * Generate a random position within the area with the supplied origin and radius as limits.
+	 * @param origin the origin coordinate to generate the random position from.
+	 * @param minDistance the minimum distance from the origin.
+	 * @param maxDistance the maximum distance from the origin.
+	 * @return a random position within the area.
+	 */
+	@dereferenced
+	@local
+	@dirty
+	public native abstract Vector3 getRandomPosition(@dereferenced final Vector3 origin, float minDistance, float maxDistance);
+
+	/**
+	 * Check if this is a ring area shape.
+	 * @return true if it is a ring area shape.
+	 */
+	@dirty
+	public abstract boolean isRingAreaShape() {
+		return true;
+	}
+
+	/**
+	 * Check if this area shape intersects with the supplied area shape.
+	 * @param areaShape the area shape to check for intersections with.s
+	 * @return true if the area shapes intersects each other.
+	 */
+	@dirty
+	public native abstract boolean intersectsWith(AreaShape areaShape);
+
+	/**
+	 * Check if this area shape intersects with the supplied circular area shape.
+	 * @param circle the circular area shape to check for intersections with.
+	 * @return true if the area shapes intersects each other.
+	 */
+	@dirty
+	private native boolean intersectsWithCircle(CircularAreaShape circle);
+
+	/**
+	 * Check if this area shape intersects with the supplied ring area shape.
+	 * @param ring the ring area shape to check for intersections with.
+	 * @return true if the rings intersect with each other.
+	 */
+	@dirty
+	private native boolean intersectsWithRing(RingAreaShape ring);
+
+	/**
+	 * Get the area of the areaShape.
+	 * @return the area of the area shape.
+	 */
+	@dirty
+	public native abstract float getArea();
+}

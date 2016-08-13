@@ -1,0 +1,66 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.managers.objectcontroller;
+
+import engine.core.ManagedService;
+import engine.lua.Lua;
+import server.zone.managers.objectcontroller.command.CommandList;
+import server.zone.managers.objectcontroller.command.CommandConfigManager;
+import server.zone.objects.creature.commands.QueueCommand;
+import server.zone.ZoneServer;
+import engine.log.Logger;
+import server.zone.ZoneProcessServer;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+
+class ObjectController extends ManagedService implements Logger {
+	private transient ZoneProcessServer server;
+	
+	private transient CommandConfigManager configManager;
+	private transient CommandList queueCommands;
+	
+	@dereferenced
+	private transient Logger adminLog;
+	
+	public ObjectController(ZoneProcessServer srv) {
+		server = srv;
+		
+		Logger.setLoggingName("ObjectController");
+		
+		Logger.setLogging(true);
+		Logger.setGlobalLogging(true);
+		
+		loadCommands();
+	}
+	
+	public native void finalize();
+	
+	public native void loadCommands();
+	
+	public native boolean transferObject(SceneObject objectToTransfer, SceneObject destinationObject, int containmentType, boolean notifyClient = false, boolean allowOverflow = false);
+	
+	/**
+	 * Activates a queue command from a creature object
+	 * @param object creature object that the command will be run on
+	 * @param actionCRC crc of the command to run
+	 * @param actionCount count of the command
+	 * @paramt targetID target object id
+	 * @param arguments arguments of the command
+	 * @returns time in seconds of command execution
+	 */
+	public native float activateCommand(CreatureObject object, unsigned int actionCRC, unsigned int actionCount, unsigned long targetID, final unicode arguments);
+	
+	@local
+	public native void addQueueCommand(QueueCommand command);
+	
+	@local
+	public native QueueCommand getQueueCommand(final string name);
+
+	@local
+	public native QueueCommand getQueueCommand(unsigned int crc);
+	
+	@local
+	public native void logAdminCommand(SceneObject object, final QueueCommand command, unsigned long targetID, final unicode argumets);
+}

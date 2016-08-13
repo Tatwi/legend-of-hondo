@@ -1,0 +1,63 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.managers.resource;
+
+import engine.core.ManagedObject;
+import system.lang.System;
+import system.util.Vector;
+
+class InterplanetarySurvey extends ManagedObject {
+	protected int timeStamp;
+	protected int curTime;
+	protected string requestor;
+	protected string planet;
+	protected string surveyType;
+	protected int surveyToolType;
+	protected boolean executed;
+	
+	public InterplanetarySurvey() {
+		executed = false;
+	}
+	public int getTimeStamp() {
+		return timeStamp;
+	}
+	public void setTimeStamp(int stamp) {
+		timeStamp = stamp;
+	}
+	public int getCurTime() {
+		return curTime;
+	}
+	public void setCurTime(int time) {
+		curTime = time;
+	}
+	public final string getRequestor() {
+		return requestor;
+	}
+	public void setRequestor(final string player) {
+		requestor = player;
+	}
+	public final string getPlanet() {
+		return planet;
+	}
+	public void setPlanet(final string en) {
+		planet = en;
+	}
+	public final string getSurveyType() {
+		return surveyType;
+	}
+	public void setSurveyType(final string en) {
+		surveyType = en;
+	}
+	public void setSurveyToolType(int toolType) {
+		surveyToolType = toolType;
+	}
+	public int getSurveyToolType() {
+		return surveyToolType;
+	}
+	public void setExecuted(boolean val) {
+		executed = val;
+	}
+	public native void notifyLoadFromDatabase();
+}

@@ -1,0 +1,52 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.player.sessions;
+
+import engine.util.Facade;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.structure.StructureObject;
+include server.zone.objects.scene.SessionFacadeType;
+
+class DestroyStructureSession extends Facade {
+	protected CreatureObject creatureObject;
+	
+	protected StructureObject structureObject;
+	
+	protected unsigned int destroyCode;
+	
+	public DestroyStructureSession(CreatureObject creature, StructureObject structure) {
+		Logger.setLoggingName("DestroyStructureSession");
+		Logger.setLogging(true);
+		
+		creatureObject = creature;
+		
+		structureObject = structure;
+		
+		destroyCode = 0;
+	}
+	
+	public boolean isDestroyCode(unsigned int code) {
+		return code == destroyCode;
+	}
+
+	public native int initializeSession();
+	public native int sendDestroyCode();
+	public native int destroyStructure();
+	
+	public int cancelSession() {
+		creatureObject.dropActiveSession(SessionFacadeType.DESTROYSTRUCTURE);
+		
+		return 0;
+	}
+	
+	public int clearSession() {
+		return 0;
+	}
+	
+	public StructureObject getStructureObject() {
+		return structureObject;
+	}
+}

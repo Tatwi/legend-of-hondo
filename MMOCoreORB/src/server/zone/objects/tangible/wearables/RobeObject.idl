@@ -1,0 +1,27 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.wearables;
+
+import server.zone.objects.tangible.wearables.WearableObject;
+
+class RobeObject extends WearableObject {
+
+	public RobeObject() {		
+		Logger.setLoggingName("RobeObject");
+	}
+
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		
+		Logger.setLoggingName("RobeObject");
+	}
+
+	public native string getSkillRequired();
+
+	@dirty
+	public boolean isRobeObject() {
+		return true;
+	}
+}

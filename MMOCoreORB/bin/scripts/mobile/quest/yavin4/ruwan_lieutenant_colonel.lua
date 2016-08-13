@@ -1,0 +1,35 @@
+ruwan_lieutenant_colonel = Creature:new {
+	objectName = "@mob/creature_names:imperial_lieutenant_colonel",
+	socialGroup = "imperial",
+	faction = "imperial",
+	level = 22,
+	chanceHit = 0.35,
+	damageMin = 210,
+	damageMax = 220,
+	baseXp = 2219,
+	baseHAM = 5900,
+	baseHAMmax = 7200,
+	armor = 0,
+	resists = {0,0,0,0,0,0,0,-1,-1},
+	meatType = "",
+	meatAmount = 0,
+	hideType = "",
+	hideAmount = 0,
+	boneType = "",
+	boneAmount = 0,
+	milk = 0,
+	tamingChance = 0,
+	ferocity = 0,
+	pvpBitmask = NONE,
+	creatureBitmask = NONE,
+	optionsBitmask = AIENABLED + CONVERSABLE,
+	diet = HERBIVORE,
+
+	templates = {"object/mobile/dressed_imperial_colonel_m.iff"},
+	lootGroups = {},
+	weapons = {"imperial_weapons_heavy"},
+	conversationTemplate = "ruwan_tokai_mission_target_convotemplate",
+	attacks = merge(riflemanmaster,carbineermaster)
+}
+
+CreatureTemplates:addCreatureTemplate(ruwan_lieutenant_colonel, "ruwan_lieutenant_colonel")

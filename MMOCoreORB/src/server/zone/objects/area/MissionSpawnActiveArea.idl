@@ -1,0 +1,60 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.area;
+
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.area.ActiveArea;
+import server.zone.objects.mission.DestroyMissionObjective;
+import server.zone.Zone;
+
+class MissionSpawnActiveArea extends ActiveArea {
+	@weakReference
+	protected DestroyMissionObjective destroyMissionObjective;
+
+	public MissionSpawnActiveArea() {
+		destroyMissionObjective = null;
+
+		Logger.setLoggingName("MissionSpawnActiveArea");
+	}
+
+	@dirty
+	public void notifyEnter(SceneObject player) {
+		//Logger.info("notifyEnter mission spawn", true);
+
+		if (!player.isPlayerCreature()) {
+			return;
+		} else {
+			DestroyMissionObjective objective = destroyMissionObjective; 
+
+			if (objective != null) {
+				//Logger.info("objective not null", true);
+
+				CreatureObject missionOwner = objective.getPlayerOwner();
+
+				if ((CreatureObject) player == missionOwner) {
+					//Logger.info("player == missionOwner", true);
+					destroyMissionObjective.spawnLair();
+
+					//super.removeFromZone();
+				}
+			} else {
+				//super.removeFromZone();
+				//getZone().removeObject(this, true);
+				super.destroyObjectFromWorld(false);
+
+				if (super.isPersistent()) {
+					super.destroyObjectFromDatabase(true);
+				}
+			}
+		}
+	}
+
+	@preLocked
+	public void setMissionObjective(DestroyMissionObjective mission) {
+		destroyMissionObjective = mission;
+	}
+}
+

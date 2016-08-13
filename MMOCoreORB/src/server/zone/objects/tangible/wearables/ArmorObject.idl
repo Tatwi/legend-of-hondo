@@ -1,0 +1,275 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.wearables;
+
+import server.zone.objects.tangible.wearables.WearableObject;
+import server.zone.objects.tangible.weapon.WeaponObject;
+import engine.lua.LuaObject;
+import system.util.SortedVector;
+import server.zone.Zone;
+import server.zone.objects.creature.CreatureObject;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+
+class ArmorObject extends WearableObject {
+	protected int healthEncumbrance;
+	protected int actionEncumbrance;
+	protected int mindEncumbrance;
+	
+	protected int rating;
+
+	protected float kinetic;
+	protected float energy;
+	protected float electricity;
+	protected float stun;
+	protected float blast;
+	protected float heat;
+	protected float cold;
+	protected float acid;
+	protected float lightSaber;
+
+	protected int specialResists;
+	protected int vulnerabilites;
+	
+	protected unsigned byte hitLocation;
+
+	protected float baseProtection;
+	protected float specialProtection;
+
+	protected float effectivenessSlice;
+	protected float encumbranceSlice;
+
+	public static final int LIGHT = 0x1;
+	public static final int MEDIUM = 0x2;
+	public static final int HEAVY = 0x3;
+
+	public ArmorObject() {		
+		healthEncumbrance = 100;
+		actionEncumbrance = 100;
+		mindEncumbrance = 100;
+		
+		rating = LIGHT;
+
+		kinetic = 0;
+		energy = 0;
+		electricity = 0;
+		stun = 0;
+		blast = 0;
+		heat = 0;
+		cold = 0;
+		acid = 0;
+		lightSaber = 0;
+		effectivenessSlice = 1;
+		encumbranceSlice = 1;
+		
+		baseProtection = 0;
+		specialProtection = 0;
+		specialResists = 0;
+		vulnerabilites = 0;
+		hitLocation = 0;
+
+		setSliceable(true);
+		
+		Logger.setLoggingName("ArmorObject");
+	}
+	
+	public native void initializeTransientMembers();
+	
+	public native void notifyLoadFromDatabase();
+	
+	/**
+	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { TangibleObject members are initialized }
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
+	 */
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+	
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+	
+	/**
+	 * Handles the radial selection sent by the client, must be overriden by inherited objects
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @param player CreatureObject that selected the option
+	 * @param selectedID selected menu id
+	 * @returns 0 if successfull
+	 */
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+
+	@local
+	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
+	
+	@dirty
+	private native void calculateSpecialProtection(CraftingValues values);
+	
+	@dirty
+	native string getStringType(int type);
+
+	private native void setProtectionValue(int type, float value);
+	
+	@dirty
+	public boolean isSpecial(int type) {
+		return specialResists & type;
+	}
+	
+	@dirty
+	public native boolean isVulnerable(int type);
+	
+	@dirty
+	public boolean isArmorObject() {
+		return true;
+	}
+	
+	public void setRating(int rate) {
+		rating = rate;
+	}
+	
+	@dirty
+	public int getRating() {
+		return rating;
+	}
+
+	@dirty
+	private native float getTypeValue(int type, float value);
+	
+	@dirty
+	@local
+	public native float getKinetic();
+
+	public void setKinetic(float value) {
+		kinetic = value;
+	}
+
+	@dirty
+	@local
+	public native float getEnergy();
+
+	public void setEnergy(float value) {
+		energy = value;
+	}
+
+	@dirty
+	@local
+	public native float getElectricity();
+
+	public void setElectricity(float value) {
+		electricity = value;
+	}
+
+	@dirty
+	@local
+	public native float getStun();
+
+	public void setStun(float value) {
+		stun = value;
+	}
+
+	@local
+	@dirty
+	public native float getBlast();
+
+	public void setBlast(float value) {
+		blast = value;
+	}
+
+	@dirty
+	@local
+	public native float getHeat();
+
+	public void setHeat(float value) {
+		heat = value;
+	}
+
+	@dirty
+	@local
+	public native float getCold();
+
+	public void setCold(float value) {
+		cold = value;
+	}
+
+	@dirty
+	@local
+	public native float getAcid();
+
+	public void setAcid(float value) {
+		acid = value;
+	}
+
+	@dirty
+	@local
+	public native float getLightSaber();
+
+	public void setLightSaber(float value) {
+		lightSaber = value;
+	}
+	
+	@dirty
+	public int getHealthEncumbrance() {
+		if(healthEncumbrance < 0)
+			return healthEncumbrance * (2 - encumbranceSlice);
+			
+		return healthEncumbrance * encumbranceSlice;
+	}
+	
+	public void setHealthEncumbrance(int encumber) {
+		healthEncumbrance = encumber;
+	}
+	
+	@dirty
+	public int getActionEncumbrance() {
+		if(actionEncumbrance < 0)
+			return actionEncumbrance * (2 - encumbranceSlice);
+			
+		return actionEncumbrance * encumbranceSlice;
+	}
+	
+	public void setActionEncumbrance(int encumber) {
+		actionEncumbrance = encumber;
+	}
+	
+	@dirty
+	public int getMindEncumbrance() {	
+		if(mindEncumbrance < 0)
+			return mindEncumbrance * (2 - encumbranceSlice);
+			
+		return mindEncumbrance * encumbranceSlice;
+	}
+	
+	public void setMindEncumbrance(int encumber) {
+		mindEncumbrance = encumber;
+	}
+
+	public void setEffectivenessSlice(float value) {
+		if(value > 0.5f || value < 0)
+			return;
+		effectivenessSlice = 1 + value;
+	}
+
+	public void setEncumbranceSlice(float value) {
+		if(value > 0.5f || value < 0)
+			return;
+		encumbranceSlice = 1 - value;
+	}
+	
+	@dirty
+	public unsigned byte getHitLocation() {
+		return hitLocation;
+	}
+	
+	public void setHitLocation(unsigned byte h) {
+		hitLocation = h;
+	}
+}

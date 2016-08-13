@@ -1,0 +1,28 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.consumable;
+
+import server.zone.objects.tangible.consumable.Consumable;
+import server.zone.objects.scene.SceneObject;
+import engine.lua.LuaObject;
+import server.zone.Zone;
+
+class Drink extends Consumable {
+	public Drink() {		
+		Logger.setLoggingName("Drink");
+		
+		initializePrivateData();
+	}
+	
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		
+		Logger.setLoggingName("Drink");
+	}
+	
+	public void initializePrivateData() {
+		super.consumableType = super.DRINK;
+	}
+}

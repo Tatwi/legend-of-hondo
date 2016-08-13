@@ -1,0 +1,125 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.managers.weather;
+
+import engine.core.ManagedService;
+import engine.lua.Lua;
+import engine.log.Logger;
+import system.lang.ref.Reference;
+import server.zone.Zone;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.managers.weather.events.WeatherChangeEvent;
+include server.zone.managers.weather.weathermaps.WeatherMap;
+import system.util.Vector;
+
+class WeatherManager extends ManagedService implements Logger {
+	
+	public static final int CLEAR = 0;
+	public static final int LIGHTSTORM = 1;
+	public static final int STORM = 2;
+	public static final int HEAVYSTORM = 3;
+	public static final int EXTREMESTORM = 4;
+	
+	private transient Zone zone;
+
+	private transient boolean weatherEnabled;
+
+	private transient byte baseWeather;
+
+	private transient unsigned int averageWeatherDuration;
+
+	private transient unsigned int weatherStability;
+	
+	private transient boolean hasDamagingSandstorms;
+
+	private transient WeatherMap currentMap;
+	
+	@dereferenced
+	private transient Vector<float> windX;
+	
+	@dereferenced
+	private transient Vector<float> windY;
+	
+	@dereferenced
+	private transient Vector<float> windMagnitude;
+	
+	private transient int sandstormDamage;
+
+	protected transient WeatherChangeEvent weatherChangeEvent;
+
+	public WeatherManager(Zone planet) {
+		zone = planet;
+	}
+
+	
+	/**
+	 * Initializes the weather manager events and some of the customization variables.
+	 * Calls loadLuaConfig() to read in the lua values and schedules the weather change event. 
+	 */
+	public native void initialize();
+
+	/**
+	 * Loads the weather customization values from the lua script.
+	 * If there is an error during loading, loadDefaultValues() will be triggered.
+	 */
+	private native boolean loadLuaConfig();
+
+
+	/**
+	 * Configures the weather manager with default values if lua loading fails.
+	 */
+	private native void loadDefaultValues();
+
+	/**
+	 * Creates a new weather map
+	 */
+	public native void createNewWeatherPattern();
+
+
+	/**
+	 * Sends the ServerWeatherMessage packet to the players.
+	 * @pre Locks the player for the duration of the method.
+	 * @param player The player who will receive the new weather information.
+	 */
+	public native void sendWeatherTo(CreatureObject player);
+
+	/**
+	 * Applies sandstorm effects to exposed players on the planet.
+	 * Calls calculateSandstormProtection() to determine how much of the effects to apply.
+	 * @pre Weather Manager and player are locked.
+	 * @post Weather Manager is locked.
+	 * @post Player is locked.
+	 * @param player The player that the sandstorm effects will potentially be applied to.
+	 */
+	private native void applySandstormDamage(CreatureObject player);
+
+
+	/**
+	 * Counts how many pieces of protecting clothing or armour a player is wearing
+	 * for the purposes of sandstorm effects.
+	 * @pre Weather Manager and player are locked.
+	 * @post Weather Manager and player are locked.
+	 * @param player The player we are applying sandstorm effects to.
+	 * @param sandstormCoverings A Vector created in applySandstormDamage() that will store 
+	 * the number of clothing and armour pieces the player is wearing.
+	 */
+	private native int calculateSandstormProtection(CreatureObject player);
+	
+	public native void enableWeather(CreatureObject player);
+	public native void disableWeather(CreatureObject player);
+	public native void changeWeather(CreatureObject player, int newWeather);
+
+	public boolean isWeatherEnabled() {
+		return weatherEnabled;
+	}
+
+	public void setWeatherEnabled(boolean value) {
+		weatherEnabled = value;
+	}
+	
+	public native void printInfo(CreatureObject player);
+}
+

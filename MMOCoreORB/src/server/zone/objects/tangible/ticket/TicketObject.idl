@@ -1,0 +1,90 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.ticket;
+
+import server.zone.objects.tangible.TangibleObject;
+import engine.lua.LuaObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.Zone;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.packets.scene.AttributeListMessage;
+
+@lua
+class TicketObject extends TangibleObject {
+	protected string departurePlanet;
+	protected string departurePoint;
+	protected string arrivalPlanet;
+	protected string arrivalPoint;
+	
+	public TicketObject() {
+		Logger.setLoggingName("TicketObject");
+	}
+	
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		
+		Logger.setLoggingName("TicketObject");
+	}
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+	
+	/**
+	 * Handles the radial selection sent by the client
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @returns 0 if successfull
+	 */
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+	
+	public void setDeparturePlanet(final string departureplanet) {
+		departurePlanet = departureplanet;
+	}
+	
+	public void setDeparturePoint(final string departurepoint) {
+		departurePoint = departurepoint;
+	}
+	
+	public void setArrivalPlanet(final string arrival) {
+		arrivalPlanet = arrival;
+	}
+	
+	public void setArrivalPoint(final string arrival) {
+		arrivalPoint = arrival;
+	}
+	
+	@dirty
+	public string getDeparturePlanet() {
+		return departurePlanet;
+	}
+	
+	@dirty
+	public string getDeparturePoint() {
+		return departurePoint;
+	}
+	
+	@dirty
+	public string getArrivalPlanet() {
+		return arrivalPlanet;
+	}
+	
+	@dirty
+	public string getArrivalPoint() {
+		return arrivalPoint;
+	}
+	
+	@dirty
+	public boolean isTicketObject() {
+		return true;
+	}
+}

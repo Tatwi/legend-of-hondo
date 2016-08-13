@@ -1,0 +1,32 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.
+*/
+
+package server.zone.objects.player.sessions;
+import engine.core.ManagedObject;
+import engine.util.Facade;
+
+class VeteranRewardSession extends Facade {
+	
+	protected unsigned int milestone;
+	
+	protected int selectedRewardIndex;
+	
+	public VeteranRewardSession( unsigned int days ) {
+		milestone = days;
+	}
+		
+	public unsigned int getMilestone() {
+		return milestone;
+	}
+	
+	public int getSelectedRewardIndex(){
+		return selectedRewardIndex;
+	}
+	
+	public void setSelectedRewardIndex( int idx ){
+		selectedRewardIndex = idx;
+	}
+	
+}

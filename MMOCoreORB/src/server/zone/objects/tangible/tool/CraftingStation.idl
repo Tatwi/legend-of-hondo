@@ -1,0 +1,96 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.tool;
+
+import server.zone.objects.tangible.tool.ToolTangibleObject;
+import engine.lua.LuaObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.Zone;
+import server.zone.packets.object.ObjectMenuResponse;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+include templates.SharedObjectTemplate;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.creature.CreatureObject;
+
+class CraftingStation extends ToolTangibleObject {
+	
+	private int type;
+	private float effectiveness;
+	private int complexityLevel;
+
+	public CraftingStation() {
+		Logger.setLoggingName("CraftingStation");
+		complexityLevel = 0;
+		effectiveness = 25;
+	}
+	
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		
+		Logger.setLoggingName("CraftingStation");
+	}
+	
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+	
+	@local
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+	
+	/**
+	 * Handles the radial selection sent by the client
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @returns 0 if successfull
+	 */
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+	
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+	
+	@dirty
+	public native void sendInputHopper(CreatureObject player);
+
+	
+	@local
+	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
+	
+	@dirty
+	public boolean isCraftingStation() {
+		return true;
+	}
+	
+	@dirty
+	public int getComplexityLevel() {
+		return complexityLevel;
+	}
+	
+	@dirty
+	public int getStationType() {
+		return type;
+	}
+	
+	public void setComplexityLevel(int level) {
+		complexityLevel = level;
+	}
+	
+	@dirty
+	public native SceneObject findCraftingTool(CreatureObject player);
+
+	@preLocked
+	public native void createChildObjects();
+	
+	public void setEffectiveness(float newValue) {
+		effectiveness = newValue;
+	}
+}

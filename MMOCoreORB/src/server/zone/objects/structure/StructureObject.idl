@@ -1,0 +1,451 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.structure;
+
+import server.zone.Zone;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.structure.events.StructureMaintenanceTask;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.player.PlayerObject;
+include templates.SharedObjectTemplate;
+import server.zone.objects.area.ActiveArea;
+import engine.util.u3d.AABBTree;
+import engine.util.u3d.AABBNode;
+import engine.util.u3d.Vector3;
+import system.lang.Time;
+include server.zone.objects.structure.StructurePermissionList;
+
+class StructureObject extends TangibleObject {
+	protected transient StructureMaintenanceTask structureMaintenanceTask;
+	//protected transient StructurePowerTask structurePowerTask;
+
+	@dereferenced
+	protected StructurePermissionList structurePermissionList;
+
+	@dereferenced
+	protected Time lastMaintenanceTime;
+
+	@dereferenced
+	protected Time maintenanceExpires;
+
+	@dereferenced
+	protected Time powerExpires;
+
+	protected unsigned long ownerObjectID;
+	protected unsigned long deedObjectID;
+
+	protected float surplusMaintenance;
+	protected float surplusPower;
+
+	protected boolean maintenanceReduced;
+
+	protected boolean permissionsFixed;
+
+	public StructureObject() {
+		Logger.setLoggingName("StructureObject");
+
+		super.staticObject = false;
+
+		ownerObjectID = 0;
+
+		deedObjectID = 0;
+
+		surplusMaintenance = 0;
+
+		surplusPower = 0;
+
+		structureMaintenanceTask = null;
+
+		maintenanceReduced = false;
+
+		permissionsFixed = false;
+	}
+
+	public native void initializeTransientMembers();
+	
+	public native void finalize();
+	
+	/**
+	 * Reads and sets the template data from a SharedObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { SceneObject members are initialized }
+	 * @param templateData templateData points to the LuaObject that is used to initialize SceneObejct members
+	 */
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+
+	/**
+	 * Gets called when this objects is loaded from database
+	 * @pre { this locked }
+	 * @post { this locked }
+	 */
+	public native void notifyLoadFromDatabase();
+
+	public native void destroyObjectFromWorld(boolean sendSelfDestroy);
+
+	public native void notifyInsertToZone(Zone zone);
+
+	@preLocked
+	public void createChildObjects() {
+		super.createChildObjects();
+	}
+	
+	/**
+	 * Gets called when the structure has been created;
+	 */
+	public abstract int notifyStructurePlaced(CreatureObject creature) {
+		return 0;
+	}
+	
+	@dirty
+	public abstract boolean checkRequisitesForPlacement(CreatureObject player) {
+		return true;
+	}
+
+	@dirty
+	public native string getTimeString(unsigned int timestamp);
+
+	/**
+	 * Schedules the event that will be fired when maintenance is due to run out.
+	 * This method calls updateStructureStatus before running.
+	 */
+	@preLocked
+	public native void scheduleMaintenanceExpirationEvent();
+
+	/**
+	 * Schedules the maintenance task.
+	 * @param timeFromNow the time till the task should be run.
+	 */
+	@preLocked
+	public native void scheduleMaintenanceTask(int timeFromNow);
+	
+	/**
+	 * This method should be called anytime a method needs up to date information about
+	 * maintenance, power, and condition of the structure.
+	 */
+	@preLocked
+	public native abstract void updateStructureStatus();
+
+	/**
+	 * Checks if the player is on the admin list.
+	 * @param player The creo of the player to check for admin permission.
+	 * @return Returns true if the player has admin permissions.
+	 */
+	@dirty
+	public native boolean isOnAdminList(CreatureObject player);
+	
+	/**
+	 * Checks if the player/guild is on the admin list.
+	 * For PermissionsListModify command
+	 * @param objectID The oid of the player/guild to check for admin permission.
+	 * @return Returns true if the player/guild has admin permissions.
+	 */
+	@dirty
+	public boolean isOnAdminList(final unsigned long objectID) {
+		return structurePermissionList.isOnPermissionList("ADMIN", objectID);
+	}
+	
+	/**
+	 * Checks if the player is on the entry list.
+	 * @param player The creo of the player to check for entry permission.
+	 * @return Returns true if the player has entry permissions.
+	 */
+	@dirty
+	public native boolean isOnEntryList(CreatureObject player);
+	
+	/**
+	 * Checks if the player is on the ban list.
+	 * @param player The creo of the player to check for ban permission.
+	 * @return Returns true if the player has ban permissions.
+	 */
+	@dirty
+	public native boolean isOnBanList(CreatureObject player);
+	
+	/**
+	 * Checks if the player/guild is on the ban list.
+	 * For PermissionsListModify command
+	 * @param objectID The oid of the player/guild to check for ban permission.
+	 * @return Returns true if the player/guild has ban permissions.
+	 */
+	@dirty
+	public boolean isOnBanList(final unsigned long objectID) {
+		return structurePermissionList.isOnPermissionList("BAN", objectID);
+	}
+	
+	/**
+	 * Checks if the player is on the hopper list.
+	 * @param player The creo of the player to check for hopper permission.
+	 * @return Returns true if the player has hopper permissions.
+	 */
+	@dirty
+	public native boolean isOnHopperList(CreatureObject player);
+	
+	/**
+	 * Checks if the player is the on the specified permission list.
+	 * @param listName The name of the list to check.
+	 * @param player The creo of the player to check.
+	 * @return Returns true if the player was found on the list.
+	 */
+	@dirty
+	public native boolean isOnPermissionList(final string listName, CreatureObject player);
+	
+	/**
+	 * Checks if the player/guild is the on the specified permission list.
+	 * For PermissionsListModify command
+	 * @param listName The name of the list to check.
+	 * @param objectID The oid of the player/guild to check.
+	 * @return Returns true if the player/guild was found on the list.
+	 */
+	@dirty
+	public boolean isOnPermissionList(final string listName, final unsigned long objectID) {
+		return structurePermissionList.isOnPermissionList(listName, objectID);
+	}
+
+	@dirty
+	public native boolean isOwnerOf(SceneObject obj);
+	@dirty
+	public native boolean isOwnerOf(unsigned long oid);
+	
+	@dirty
+	public boolean isOnAccessList(SceneObject obj) {
+		return false;
+	}
+	
+	@dirty
+	public boolean isOnAccessList(unsigned long oid) {
+		return false;
+	}
+
+	@dirty
+	public void sendPermissionListTo(CreatureObject creature, final string listName) {
+		structurePermissionList.sendTo(creature, listName);
+	}
+	
+	@dirty
+	public boolean hasPermissionList(final string listName) {
+		return structurePermissionList.containsList(listName);
+	}
+	
+	@dirty
+	public boolean isPermissionListFull(final string listName) {
+		return structurePermissionList.isListFull(listName);
+	}
+	
+	public int togglePermission(final string listName, final unsigned long objectID) {
+		return structurePermissionList.togglePermission(listName, objectID);
+	}
+	
+	public int grantPermission(final string listName, final unsigned long objectID) {
+		return structurePermissionList.grantPermission(listName, objectID);
+	}
+	
+	public int revokePermission(final string listName, final unsigned long objectID) {
+		return structurePermissionList.revokePermission(listName, objectID);
+	}
+	
+	public int revokeAllPermissions(final unsigned long objectID) {
+		return structurePermissionList.revokeAllPermissions(objectID);
+	}
+
+	public void revokeAllPermissions() {
+		structurePermissionList.revokeAllPermissions();
+	}
+
+	/**
+	 * Returns the cost to redeed this building. The redeed cost is 50 times the hourly maintenance rate.
+	 * @return int The cost to redeed this building.
+	 */
+	@dirty
+	public int getRedeedCost() {
+		return (getBaseMaintenanceRate() * 50);
+	}
+
+	@dirty
+	public native CreatureObject getOwnerCreatureObject(); 
+	
+	@read
+	public unsigned long getOwnerObjectID() {
+		return ownerObjectID;
+	}
+	
+	@read
+	public unsigned long getDeedObjectID() {
+		return deedObjectID;
+	}
+	
+	@dirty
+	public native int getLotSize();
+
+	@preLocked
+	public void setMaintenanceReduced(boolean value) {
+		maintenanceReduced = value;
+	}
+
+	@dirty
+	public native float getMaintenanceRate();
+
+	@dirty
+	public native string getMaintenanceMods();
+
+	@dirty
+	public native int getBaseMaintenanceRate();
+	
+	@dirty
+	public abstract native int getBasePowerRate();
+	
+	@read
+	public int getSurplusMaintenance() {
+		return surplusMaintenance;
+	}
+	
+	@read
+	public int getSurplusPower() {
+		return surplusPower;
+	}
+	
+	@dirty
+	public abstract boolean isPublicStructure() {
+		return false;
+	}
+	
+	@dirty
+	public abstract boolean isPrivateStructure() {
+		return false;
+	}
+
+	@preLocked
+	public void setOwner(unsigned long objectID) {
+		ownerObjectID = objectID;
+		structurePermissionList.setOwner(objectID);
+	}
+
+	@preLocked
+	public void setDeedObjectID(unsigned long deedID) {
+		deedObjectID = deedID;
+	}
+
+	@preLocked
+	public void setSurplusMaintenance(int surplus) {
+		surplusMaintenance = surplus;
+	}
+
+	@preLocked
+	public void addMaintenance(float add) {
+		surplusMaintenance += add;
+	}
+
+	@preLocked
+	public void subtractMaintenance(float subtract) {
+		surplusMaintenance = surplusMaintenance - subtract;
+	}
+
+	/**
+	 * Withdraws maintenance from payer and deposits it in the structure
+	 * maintenance pool. Updates maintenance modifier depending on skill
+	 * of payer.
+	 * @pre payer and structure objects are locked.
+	 * @post payer and structure objects are locked.
+	 * @param maintenance maintenance amount to deposit.
+	 * @param payer payer object.
+	 * @param cashFirst Indicates if the amount should be withdrawn from
+	 * the player's cash or bank account first.
+	 */
+	@preLocked
+	@arg2preLocked
+	public native void payMaintenance(int maintenance, CreatureObject payer, boolean cashFirst);
+
+	@preLocked
+	public void setSurplusPower(int surplus) {
+		surplusPower = surplus;
+	}
+
+	@preLocked
+	public void addPower(float add) {
+		surplusPower += add;
+	}
+
+	@dirty
+	public boolean isDecaying() {
+		return (surplusMaintenance < 0);
+	}
+
+	@dirty
+	public native boolean isDecayed();
+
+	@dirty
+	public native int getDecayPercentage();
+
+	@dirty
+	public abstract boolean isCondemned() {
+		return false;
+	}
+	
+	public abstract void setPublicStructure(boolean privacy) {
+		
+	}
+
+	@dirty
+	public boolean isStructureObject() {
+		return true;
+	}
+	
+	@dirty
+	public native boolean isCampStructure();
+	
+	@dirty
+	public boolean isRedeedable() {
+		if (isCivicStructure()) {
+			return (super.conditionDamage == 0 && !isCityHall());
+		} else {
+			return (getRedeedCost() < surplusMaintenance);
+		}
+	}
+	
+	@local
+	@dirty
+	public native AABBTree getAABBTree();
+	
+	/**
+	 * Adds this object's skill mod map to the target object's skill mod map
+	 * @param targetObject The targeted object containing the SkillModMap which will be affected.
+	 */
+	@local
+	@dirty
+	@arg1preLocked
+	public native void addTemplateSkillMods(TangibleObject targetObject);
+
+	/*
+	 * Removes this object's skill mod map from the target object's skill mod map
+	 * @param targetObject the targeted object containing the SkillModMap which will be affected.
+	 */
+	@local
+	@dirty
+	@arg1preLocked
+	public native void removeTemplateSkillMods(TangibleObject tangibleObject);
+	
+	@dirty
+	public abstract string getRedeedMessage() {
+		return "";
+	}
+	
+	@dirty
+	public native boolean isCivicStructure();
+
+	@dirty
+	public native boolean isCityHall();
+
+	@dirty
+	public native boolean isCommercialStructure();
+
+	@dirty
+	public native boolean isGuildHall();
+
+	@preLocked
+	public void migratePermissions() {
+		structurePermissionList.migrateLists(super.getZoneServer(), getOwnerObjectID());
+		permissionsFixed = true;
+	}
+}

@@ -1,0 +1,47 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.fishing;
+
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.Zone;
+import engine.lua.LuaObject;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.creature.CreatureObject;
+
+class FishingBaitObject extends TangibleObject {	
+	protected int freshness;
+	
+	public FishingBaitObject() {
+		Logger.setLoggingName("FishingBaitObject");
+		freshness = 0;
+	}
+	
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		
+		Logger.setLoggingName("FishingBaitObject");
+	}
+	
+	@read
+	public int getFreshness() {
+		return freshness;
+	}
+	
+	public void setFreshness(int value) {
+		if ((value > -1) && (value < 10)) // 10 being a reasonable upper bound since that would never be usable in fishing
+			freshness = value;
+	}
+	
+	public void lessFresh() {
+		freshness += 1;
+	}
+	
+	@dirty
+	public native int getUseCount();
+	
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+}

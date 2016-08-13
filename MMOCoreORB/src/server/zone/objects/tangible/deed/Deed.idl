@@ -1,0 +1,74 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.deed;
+
+import engine.lua.LuaObject;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.Zone;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.creature.CreatureObject;
+include templates.SharedObjectTemplate;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+
+@lua
+class Deed extends TangibleObject {
+	protected string generatedObjectTemplate;
+	protected boolean generated;
+	
+	public Deed() {
+		Logger.setLoggingName("Deed");
+		generated = false;
+	}
+	
+	public native void initializeTransientMembers();
+	
+	/**
+	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { TangibleObject members are initialized }
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
+	 */
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+	
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage alm, CreatureObject object);
+	
+	@local
+	public abstract void updateCraftingValues(CraftingValues values, boolean firstUpdate) {
+		error("Unhandled updateCraftingValues for this object type");
+	}
+	
+	/**
+	 * Sets the object template path for the object which is generated from this deed being used.
+	 * @param templ The string template path that is to be created when this deed is used.
+	 */
+	public void setGeneratedObjectTemplate(final string templ) {
+		generatedObjectTemplate = templ;
+	}
+	
+	/**
+	 * Gets the object template path for the object which is generated from this deed being used.
+	 */
+	@dirty
+	public string getGeneratedObjectTemplate() {
+		return generatedObjectTemplate;
+	}
+
+	public void setGenerated(boolean gen) {
+		generated = gen;
+	}
+
+	@dirty
+	public boolean isDeedObject() {
+		return true;
+	}
+	
+	@dirty
+	public boolean isGenerated() {
+		return generated;
+	}
+}

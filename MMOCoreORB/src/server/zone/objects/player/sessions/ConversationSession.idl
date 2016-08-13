@@ -1,0 +1,37 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.player.sessions;
+
+import engine.util.Facade;
+include server.zone.objects.scene.SessionFacadeType;
+import server.zone.objects.creature.conversation.ConversationScreen;
+import server.zone.objects.creature.CreatureObject;
+
+class ConversationSession extends Facade {
+	protected ConversationScreen lastConversationScreen;
+	
+	@weakReference
+	protected CreatureObject npc;
+
+	public ConversationSession(CreatureObject conversingCreature) {
+		lastConversationScreen = null;
+		npc = conversingCreature;
+	}
+
+	@local
+	public void setLastConversationScreen(ConversationScreen screen) {
+		lastConversationScreen = screen;
+	}
+
+	@local
+	public ConversationScreen getLastConversationScreen() {
+		return lastConversationScreen;
+	}
+	
+	@weakReference
+	public CreatureObject getNPC() {
+		return npc;
+	}
+}

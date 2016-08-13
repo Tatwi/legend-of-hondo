@@ -1,0 +1,355 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.intangible;
+
+import engine.lua.LuaObject;
+import server.zone.objects.intangible.IntangibleObject;
+import server.zone.objects.intangible.ControlDevice;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.creature.ai.AiAgent;
+import server.zone.objects.player.PlayerObject;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.Zone;
+import system.lang.System;
+import system.util.VectorMap;
+include server.zone.managers.radial.RadialOptions;
+include server.zone.objects.creature.ai.PatrolPointsVector;
+include server.zone.objects.creature.ai.PatrolPoint;
+import server.zone.objects.intangible.PetControlObserver;
+
+class PetControlDevice extends ControlDevice {
+
+	PetControlObserver petControlObserver;
+
+	protected int vitality;
+	protected int maxVitality;
+	protected int vitalityHealthPenalty;
+	protected int vitalityActionPenalty;
+	protected int vitalityMindPenalty;
+
+	protected int petType;
+
+	// Trained command strings <commandid, chatstring>
+	@dereferenced
+	protected VectorMap<unsigned int, string> trainedCommands;
+
+	// Command to be trained
+	protected unsigned int trainingCommand;
+
+	// Last command issued
+	protected unsigned int lastCommand;
+	@weakReference
+	protected SceneObject lastCommandTarget;
+
+	// The most recent name used in command training
+	protected string futureName;
+
+	// keeps track of the number of commands taught with futureName
+	// once it reaches 4, the pet is named
+	protected unsigned int namingProgress;
+
+	protected int growthStage;
+
+	@dereferenced
+	protected Time lastGrowth;
+
+	protected boolean trainedAsMount;
+
+	@dereferenced
+	protected Vector<unsigned int> namingCommands;
+
+	@dereferenced
+	protected PatrolPointsVector patrolPoints;
+
+	protected boolean useRanged;
+
+	@dereferenced
+	protected transient Vector<unsigned long> friends;
+
+	public PetControlDevice() {
+		Logger.setLoggingName("PetControlDevice");
+		Logger.setLogging(false);
+		Logger.setGlobalLogging(true);
+		vitality = 1;
+		maxVitality = 1;
+		vitalityHealthPenalty = 0;
+		vitalityActionPenalty = 0;
+		vitalityMindPenalty = 0;
+		petType = 0;
+		trainingCommand = 0;
+		lastCommand = 0;
+		lastCommandTarget = null;
+		namingProgress = 0;
+		futureName = "";
+		growthStage = 0;
+		trainedAsMount = false;
+		useRanged = false;
+
+		lastGrowth.updateToCurrentTime();
+
+		trainedCommands.setAllowOverwriteInsertPlan();
+		trainedCommands.setNullValue("");
+	}
+
+	@preLocked
+	@arg1preLocked
+	public native void storeObject(CreatureObject player, boolean force = false);
+
+	@preLocked
+	@arg1preLocked
+	public native void callObject(CreatureObject player);
+
+	@preLocked
+	@arg1preLocked
+	public native void spawnObject(CreatureObject player);
+
+	@arg1preLocked
+	public native void cancelSpawnObject(CreatureObject player);
+
+	@preLocked
+	@arg1preLocked
+	public native boolean growPet(CreatureObject player, boolean force = false, boolean adult = false);
+
+	@preLocked
+	public native void arrestGrowth();
+
+	@preLocked
+	public native void trainAsMount(CreatureObject player);
+
+	@read
+	public boolean isTrainedAsMount() {
+		return trainedAsMount;
+	}
+
+	@preLocked
+	@arg1preLocked
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+
+	/**
+	 * Destroys this object from database
+	 * @pre { this is locked }
+	 * @post { this is locked }
+	 * @param destroyContainedObjects if true, will destroy from database all its contained objects
+	 */
+	@preLocked
+	public native void destroyObjectFromDatabase(boolean destroyContainedObjects = false);
+
+	public native void destroyObjectFromWorld(boolean sendSelfDestroy);
+
+	/**
+	 * Checks if the object can be destroyed
+	 * @pre { this is locked }
+	 * @post { this is locked }
+	 * @returns 0 on succes, != 0 on error
+	 */
+	@dirty
+	public native int canBeDestroyed(CreatureObject player);
+	@dirty
+	public native boolean canBeTradedTo(CreatureObject player, CreatureObject receiver, int numberInTrade);
+
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+
+	/**
+	 * Sets default trained commands and command strings for the pet
+	 * @pre { }
+	 * @post { }
+	 */
+	@local
+	@preLocked
+	public native void setDefaultCommands();	
+
+	/**
+	 * Sets default trained commands and command strings for the pet
+	 * @pre { }
+	 * @post { }
+	 */
+	@local
+	@preLocked
+	public native void setTrainingCommand( unsigned int commandID );
+
+	@read
+	public unsigned int getTrainingCommand() {
+		return trainingCommand;
+	}
+
+	@dirty
+	public boolean hasTrainedCommand(unsigned int command) {
+		return trainedCommands.contains(command);
+	}
+
+	@dirty
+	public boolean hasTrainedCommandString(final string message) {
+		for (int i = 0; i < trainedCommands.size(); i++) {
+			if (trainedCommands.get(i) == message)
+				return true;
+		}
+
+		return false;
+	}
+
+	@dirty
+	public boolean hasUsedNamingCommand(unsigned int command) {
+		if (namingCommands.contains(command))
+			return true;
+
+		return false;
+	}
+
+	@dirty
+	public string getTrainedCommand(unsigned int command) {
+		return trainedCommands.get(command);
+	}
+
+	@preLocked
+	public void addTrainedCommand(unsigned int command, final string message) {
+		trainedCommands.put(command, message);
+	}
+
+	@preLocked
+	public void setLastCommand(unsigned int c) {
+		lastCommand = c;
+	}
+
+	@read
+	public unsigned int getLastCommand() {
+		return lastCommand;
+	}
+
+	@local
+	@preLocked
+	public void setLastCommandTarget(SceneObject target) {
+		lastCommandTarget = target;
+	}
+
+	@dirty
+	@local
+	@weakReference
+	public SceneObject getLastCommandTarget() {
+		return lastCommandTarget;
+	}
+
+	@read
+	public string getFutureName() {
+		return futureName;
+	}
+
+	@preLocked
+	public void setFutureName(string name) {
+		futureName = name;
+	}
+
+	@read
+	public unsigned int getNamingProgress() {
+		return namingProgress;
+	}
+
+	@preLocked
+	public void incrementNamingProgress(unsigned int command) {
+		namingProgress++;
+		namingCommands.add(command);
+	}
+
+	@preLocked
+	public void resetNamingProgress() {
+		namingProgress = 0;
+		resetNamingCommands();
+	}
+
+	@preLocked
+	native public void resetNamingCommands();
+
+	@dirty
+	public boolean isPetControlDevice() {
+		return true;
+	}
+
+	@read
+	public int getVitality() {
+		return vitality;
+	}
+
+	@read
+	public int getMaxVitality() {
+		return maxVitality;
+	}
+
+	@preLocked
+	native public void setVitality(int vit);
+
+	@preLocked
+	public void setMaxVitality(int vit) {
+		maxVitality = vit;
+	}
+
+	@read
+	public int getPetType() {
+		return petType;
+	}
+
+	@preLocked
+	public void setPetType(int type) {
+		petType = type;
+	}
+
+	@preLocked
+	public void setGrowthStage(int stage) {
+		growthStage = stage;
+	}
+
+	@preLocked
+	public void clearPatrolPoints() {
+		patrolPoints.removeAll();
+	}
+
+	@local
+	@preLocked
+	public native void addPatrolPoint(@dereferenced PatrolPoint point);
+
+	@local
+	public int getPatrolPointSize() {
+		return patrolPoints.size();
+	}
+
+	@local
+	@dereferenced
+	public native PatrolPoint getPatrolPoint(int idx);
+
+	@local
+	public native boolean isValidPet(AiAgent pet);
+
+	@preLocked
+	public void toggleUseRanged() {
+		useRanged = !useRanged;
+	}
+
+	@read
+	public boolean getUseRanged() {
+		return useRanged;
+	}
+
+	@dirty
+	public boolean isFriend(unsigned long playerID) {
+		return friends.contains(playerID);
+	}
+
+	public void toggleFriend(unsigned long playerID) {
+		if (friends.contains(playerID)) {
+			friends.removeElement(playerID);
+		} else {
+			friends.add(playerID);
+		}
+	}
+}

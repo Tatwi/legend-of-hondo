@@ -1,0 +1,94 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.managers.crafting;
+
+import system.util.VectorMap;
+
+import engine.lua.Lua;
+
+import server.zone.objects.player.PlayerObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.manufactureschematic.ManufactureSchematic;
+import server.zone.objects.draftschematic.DraftSchematic;
+import system.util.Vector;
+import server.zone.managers.ZoneManager;
+import server.zone.managers.crafting.labratories.SharedLabratory;
+import server.zone.objects.tangible.TangibleObject;
+include server.zone.managers.crafting.schematicmap.SchematicMap;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+
+class CraftingManager extends ZoneManager {
+	private transient SchematicMap schematicMap;
+
+	public static final short CR = 1;
+	public static final short CD = 2;
+	public static final short DR = 3;
+	public static final short HR = 4;
+	public static final short FL = 5;
+	public static final short MA = 6;
+	public static final short PE = 7;
+	public static final short OQ = 8;
+	public static final short SR = 9;
+	public static final short UT = 10;
+
+	public static final short AMAZINGSUCCESS = 0;
+	public static final short GREATSUCCESS = 1;
+	public static final short GOODSUCCESS = 2;
+	public static final short MODERATESUCCESS = 3;
+	public static final short SUCCESS = 4;
+	public static final short MARGINALSUCCESS = 5;
+	public static final short OK = 6;
+	public static final short BARELYSUCCESSFUL = 7;
+	public static final short CRITICALFAILURE = 8;
+
+	@dereferenced
+	private transient SortedVector<string> bioMods;
+	
+	@dereferenced
+	private transient HashTable<int, Reference<SharedLabratory> > labs;
+	
+	public CraftingManager() {
+		super("CraftingManager");
+	}
+	
+	@local
+	public native void initialize();
+		
+	@local 
+	public native void awardSchematicGroup(PlayerObject playerObject, @dereferenced Vector<string> schematicgroups, boolean updateClient = false);
+	
+	@local
+	public native void removeSchematicGroup(PlayerObject playerObject, @dereferenced Vector<string> schematicgroups, boolean updateClient = false);
+	
+	public DraftSchematic getSchematic(unsigned int schematicID) {
+		return schematicMap.get(schematicID);
+	}
+	
+	public native void sendDraftSlotsTo(CreatureObject player, unsigned int schematicID);
+	
+	public native void sendResourceWeightsTo(CreatureObject player, unsigned int schematicID);
+	
+	public native int calculateAssemblySuccess(CreatureObject player, DraftSchematic draftSchematic, float effectiveness);
+	
+	@local
+	public native void experimentRow(ManufactureSchematic schematic, CraftingValues craftingValues, int rowEffected, int pointsAttempted, 
+			float failure, int experimentationResult);
+	
+	public native int calculateExperimentationFailureRate(CreatureObject player, ManufactureSchematic manufactureSchematic, int pointsUsed);
+	
+	public native int calculateExperimentationSuccess(CreatureObject player, DraftSchematic draftSchematic, float effectiveness);
+	
+	public native string generateSerial();
+
+	private native boolean loadBioSkillMods();
+
+	public native string checkBioSkillMods(final string property);
+	
+	private native void configureLabratories();
+	
+	public native void setInitialCraftingValues(TangibleObject prototype, ManufactureSchematic manufactureSchematic, int assemblySuccess);
+	public native boolean allowManufactureSchematic(ManufactureSchematic manufactureSchematic);
+	public native int getCreationCount(ManufactureSchematic manufactureSchematic);
+}

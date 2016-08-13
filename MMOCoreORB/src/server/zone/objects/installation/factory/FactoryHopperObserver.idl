@@ -1,0 +1,41 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.installation.factory;
+
+include engine.core.ManagedObject;
+
+import engine.log.Logger;
+import engine.core.ManagedReference;
+import engine.util.Facade;
+import system.lang.ref.Reference;
+import engine.core.Task;
+import engine.util.Observer;
+import engine.util.Observable;
+include templates.params.ObserverEventType;
+import server.zone.objects.installation.factory.FactoryObject;
+
+class FactoryHopperObserver extends Observer {
+	@weakReference
+	protected FactoryObject factory;
+	
+	public FactoryHopperObserver(FactoryObject fact) {
+		factory = fact;
+	}
+
+	public int notifyObserverEvent(unsigned int eventType, Observable observable, ManagedObject arg1, long arg2) {
+		
+		if(factory == null)
+			return 0;
+		
+		if(eventType == ObserverEventType.OPENCONTAINER) {
+			factory.openHopper(observable, arg1);
+		} else if(eventType == ObserverEventType.CLOSECONTAINER) {
+			factory.closeHopper(observable, arg1);
+		}
+		
+		return 0;
+	}
+	
+}

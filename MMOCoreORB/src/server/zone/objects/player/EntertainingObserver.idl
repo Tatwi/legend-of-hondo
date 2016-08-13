@@ -1,0 +1,37 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.player;
+
+include engine.core.ManagedObject;
+
+import engine.log.Logger;
+import engine.core.ManagedReference;
+import engine.util.Facade;
+import system.lang.ref.Reference;
+import engine.core.Task;
+import engine.util.Observer;
+import engine.util.Observable;
+import server.zone.objects.creature.CreatureObject;
+include templates.params.ObserverEventType;
+
+class EntertainingObserver extends Observer {
+	
+	public EntertainingObserver() {
+		;
+	}
+
+	@dirty
+	public int notifyObserverEvent(unsigned int eventType, Observable observable, ManagedObject arg1, long arg2) {
+		if (eventType != ObserverEventType.POSTURECHANGED) {
+			return 0;
+		}
+		
+		CreatureObject creature = (CreatureObject) observable;
+		creature.stopEntertaining();
+		
+		return 1;
+	}
+
+}

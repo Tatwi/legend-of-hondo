@@ -1,0 +1,67 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.mission;
+
+import engine.util.Observer;
+import engine.util.Observable;
+import server.zone.objects.mission.MissionObject;
+import server.zone.objects.mission.MissionObjective;
+import server.zone.objects.mission.MissionObserver;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.resource.ResourceSpawn;
+import engine.core.ManagedObject;
+include server.zone.objects.creature.CreatureObject;
+
+class SurveyMissionObjective extends MissionObjective {
+	protected string spawnFamily;
+	protected unsigned int efficiency;
+
+	public SurveyMissionObjective(MissionObject mission) {
+		super(mission);
+
+		Logger.setLoggingName("SurveyMissionObjective");
+
+		efficiency = 0;
+	}
+
+	public native void finalize() {
+		//Logger.info("deleting from memory", true);
+	}
+
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+
+		Logger.setLoggingName("SurveyMissionObjective");
+
+		//activate();
+	}
+
+	@preLocked
+	public native void activate();
+	@preLocked
+	public native void abort();
+	public native void complete();
+
+	public native int notifyObserverEvent(MissionObserver observer, unsigned int eventType, Observable observable, ManagedObject arg1, long arg2);
+
+	@preLocked
+	public void setSpawnFamily(string spf) {
+		spawnFamily = spf;
+	}
+
+	@preLocked
+	public void setEfficiency(unsigned int eff) {
+		efficiency = eff;
+	}
+
+	@dereferenced
+	@local
+	@dirty
+	public native Vector3 getEndPosition() {
+		CreatureObject owner = getPlayerOwner();
+
+		return owner.getWorldPosition();
+	}
+}

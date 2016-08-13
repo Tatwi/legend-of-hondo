@@ -1,0 +1,97 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.area;
+
+import server.zone.objects.area.ActiveArea;
+import system.util.SortedVector;
+import system.util.HashTable;
+import engine.core.ManagedObject;
+import server.zone.managers.creature.LairSpawn;
+import server.zone.objects.area.SpawnAreaObserver;
+import engine.util.Observable;
+import server.zone.objects.scene.SceneObject;
+import system.lang.Time;
+
+class SpawnArea extends ActiveArea {
+	@dereferenced
+	@rawTemplate(value = "Reference<LairSpawn*>")
+	protected transient Vector possibleSpawns;
+
+	protected int totalWeighting;
+
+	protected int totalSpawnCount;
+	protected int maxSpawnLimit;
+
+	@dereferenced
+	protected HashTable<unsigned int, int> spawnCountByType;
+
+	@dereferenced
+	protected HashTable<unsigned long, unsigned int> spawnTypes;
+
+	@dereferenced
+	protected Time lastSpawn;
+
+	protected SpawnAreaObserver exitObserver;
+
+	@dereferenced
+	protected Vector<SpawnArea> noSpawnAreas;
+
+	protected int tier;
+
+	public final static int MINSPAWNINTERVAL = 2000; //msec
+
+	public SpawnArea() {
+		totalWeighting = 0;
+		totalSpawnCount = 0;
+		maxSpawnLimit = 0;
+		spawnTypes.setNullValue(0);
+		exitObserver = null;
+		Logger.setLoggingName("SpawnArea");
+	}
+
+	@local
+	@dereferenced
+	@dirty
+	public native Vector3 getRandomPosition(SceneObject player);
+
+	public native int notifyObserverEvent(unsigned int eventType, Observable observable, ManagedObject arg1, long arg2);
+
+	@local
+	@preLocked
+	public native void buildSpawnList(Vector<unsigned int> groupCRCs);
+
+	@local
+	@rawTemplate(value = "Reference<LairSpawn*>")
+	public Vector getSpawnList() {
+		return possibleSpawns;
+	}
+
+	@preLocked
+	public void setTier(int n) {
+		tier = n;
+	}
+
+	@read
+	public int getTier() {
+		return tier;
+	}
+
+	@read
+	public int getTotalWeighting() {
+		return totalWeighting;
+	}
+
+	@preLocked
+	public void setMaxSpawnLimit(int n) {
+		maxSpawnLimit = n;
+	}
+
+	@preLocked
+	public void addNoSpawnArea(SpawnArea area) {
+		noSpawnAreas.add(area);
+	}
+
+	public native void tryToSpawn(SceneObject object);
+}

@@ -1,0 +1,441 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.chat;
+
+import engine.core.ManagedService;
+import server.zone.ZoneServer;
+import server.chat.room.ChatRoom;
+import server.chat.room.ChatRoomMap;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.scene.SceneObject;
+import engine.service.proto.BaseMessage;
+import server.zone.managers.player.PlayerMap;
+import server.zone.managers.player.PlayerManager;
+import system.util.VectorMap;
+import system.util.HashTable;
+import server.zone.objects.player.PlayerObject;
+import server.zone.packets.chat.ChatRoomList;
+import server.zone.packets.chat.ChatInstantMessageToCharacter;
+import engine.log.Logger;
+import server.zone.managers.objectcontroller.ObjectController;
+import server.zone.objects.waypoint.WaypointObject;
+include server.chat.StringIdChatParameter;
+include server.chat.WaypointChatParameter;
+include server.chat.StringIdChatParameterVector;
+include server.chat.WaypointChatParameterVector;
+include system.util.SynchronizedVectorMap;
+
+class ChatManager extends ManagedService implements Logger {
+	ZoneServer server;
+	PlayerManager playerManager;
+	transient PlayerMap playerMap;
+
+	@dereferenced
+	private VectorMap<string, ChatRoom> gameRooms;
+
+	@dereferenced
+	protected VectorMap<unsigned int, string> socialTypes;
+
+	ChatRoom galaxyRoom;
+	ChatRoom groupRoom;
+	ChatRoom guildRoom;
+	ChatRoom auctionRoom;
+	ChatRoom systemRoom;
+
+	transient ChatRoomMap roomMap;
+
+	boolean mute;
+
+	@dereferenced
+	private transient VectorMap<string, unsigned int> spatialChatTypes;
+
+	@dereferenced
+	private transient VectorMap<unsigned int, string> spatialChatTypeSkillNeeded;
+
+	@dereferenced
+	private transient VectorMap<unsigned int, short> spatialChatDistances;
+
+	private transient short defaultSpatialChatDistance;
+
+	//Determines how many characters long a room name can be.
+	public static final unsigned int MAXCHATROOMNAMELENGTH = 25;
+
+	//Determines how many chat rooms a player character can own at one time.
+	public static final unsigned int MAXCUSTOMCHATROOMS = 3;
+
+	//Determines how many persistent chat room nodes can be in a room path.
+	public static final unsigned int MAXPERSISTENTNODES = 5;
+
+	//Custom room will be deleted on server load if no joins for this time (7 days, in hours).
+	public static final unsigned int ROOMEXPIRATIONTIME = 168;
+
+	public static final int SUCCESS = 0;
+	public static final int FAIL = 1;
+	public static final int NOAVATAR = 4;
+	public static final int NOROOM = 6;
+	public static final int NOTPRIVATE = 9;
+	public static final int INVALIDBANSTATE = 12;
+	public static final int NOTINVITED = 13;
+	public static final int NOPERMISSION = 16;
+
+	public static final int IM_SUCCESS = 0x00;
+	public static final int IM_OFFLINE = 0x04;
+	public static final int IM_IGNORED = 0x09;
+	public static final int IM_TOOLONG = 0x10;
+
+	public static final int IM_MAXSIZE = 255;
+	public static final int PM_MAXSIZE = 4000;
+	public static final int PM_LIFESPAN = 15552000; // 6 months, in seconds
+	
+	// Spatial Chat Flags
+	public static final int CF_PRIVATE = 0x01; // Only the target will see message (difference from TARGET_ONLY?)
+	public static final int CF_UNK1 = 0x02; // ??
+	public static final int CF_UNK2 = 0x04; // ??
+	public static final int CF_TARGET_ONLY = 0x08; // Sends message only to target
+	public static final int CF_TARGET_GROUP_ONLY = 0x10; // Sends only to target and its group members
+	public static final int CF_TARGET_SOURCE_GROUP_ONLY = 0x100; // Sends to the target and its group members, as well as the source and its group members
+
+	public native ChatManager(ZoneServer serv, int initsize);
+
+	public native void finalize();
+
+
+	////////////////////// STARTUP /////////////////////
+
+	private native void loadMailDatabase();
+	private native void loadSocialTypes();
+	private native void loadSpatialChatTypes();
+
+	public native void initiateRooms();
+	public native void initiatePlanetRooms();
+	public native void loadPersistentRooms();
+
+	@preLocked
+	private native int checkRoomPaths();
+
+	@preLocked
+	private native int checkRoomExpirations();
+
+	//////////////////////////////////////////////////////
+
+
+	///////////////// PLAYER MANAGEMENT ////////////////
+
+	public native void addPlayer(CreatureObject player);
+	public native CreatureObject getPlayer(final string name);
+	public native CreatureObject removePlayer(final string name);
+	public native string getTaggedName(PlayerObject ghost, final string name);
+
+	//////////////////////////////////////////////////////
+
+
+	//////////////// ROOM CREATE & DESTROY ///////////////
+
+	@preLocked
+	@reference
+	public native ChatRoom createPersistentRoomByFullPath(CreatureObject player, final string path, final string title, int requestID);
+
+	public native void deleteRoom(ChatRoom room);
+
+	@arg1PreLocked
+	public native void disableRoom(ChatRoom room);
+
+	@preLocked
+	private native void enableRoom(CreatureObject player, ChatRoom room, int requestID);
+
+	@reference
+	public native ChatRoom createRoom(final string roomName, ChatRoom parent = null);
+	
+	@reference
+	public native ChatRoom createPersistentRoom(final string roomName, ChatRoom parent = null);
+	
+	public native void destroyRoom(ChatRoom room);
+	public native void destroyRooms();
+	
+	@reference
+	public native ChatRoom createGroupRoom(unsigned long groupID, CreatureObject creator);
+	
+	public native void handleChatCreateRoom(CreatureObject player, byte permissionFlag, byte moderationFlag, final string roomPath, final string roomTitle, int requestID);
+	public native void sendChatOnCreateRoomError(CreatureObject player, int requestID, int error);
+	public native void handleChatDestroyRoom(CreatureObject player, unsigned int roomID, int requestID);
+
+	public synchronized void addRoom(ChatRoom channel) {
+		roomMap.put(channel.getRoomID(), channel);
+	}
+
+	public synchronized void removeRoom(ChatRoom channel) {
+		roomMap.remove(channel.getRoomID());
+	}
+
+	//////////////////////////////////////////////////////
+
+
+	//////////////////// ROOM SEARCHING /////////////////
+
+	@reference
+	public native ChatRoom getChatRoomByFullPath(final string path);
+	
+	@reference
+	public native ChatRoom getChatRoomByGamePath(ChatRoom game, final string path);
+	public native string getRoomNameFromPath(final string path);
+
+	//////////////////////////////////////////////////////
+
+
+	////////////////// ROOM INFO & ENTRY /////////////////
+
+	@arg1preLocked
+	public native void handleChatLeaveRoom(CreatureObject player, final string roomPath);
+
+	public native void handleChatEnterRoomById(CreatureObject player, unsigned int roomID, int requestID, boolean bypassSecurity = false);
+	public native void handleChatQueryRoom(CreatureObject player, final string roomPath, int requestID);
+
+	@arg1preLocked
+	private native void broadcastQueryResultsToRoom(ChatRoom room);
+
+	public native void sendRoomList(CreatureObject player);
+
+	//////////////////////////////////////////////////////
+
+
+	///////////////// MODERATOR COMMANDS /////////////////
+
+	/**
+	 * Adds the invitee's objectID to the room's invited list if all checks are successful
+	 * @pre { nothing is locked }
+	 * @post { nothing is locked }
+	 * @param inviter player who is inviting someone
+	 * @param inviteeName name of player who is being invited
+	 * @param roomPath path to room the invitee is being invited to
+	 * @param requestID the counter value the client sent for this request
+	 */
+	public native void handleChatInvitePlayer(CreatureObject inviter, final string inviteeName, final string roomPath, int requestID);
+
+	/**
+	 * Sends a ChatOnInviteToRoom result packet to the player attempting to invite someone to a room.
+	 * @param inviter player who is inviting someone
+	 * @param inviteeName name of player who is being invited
+	 * @param roomPath path to room the invitee is being invited to
+	 * @param error the error code to determine which result message the client displays
+	 * @param requestID the counter value the client sent for this request
+	 */
+	private native void sendChatOnInviteResult(CreatureObject inviter, final string inviteeName, final string roomPath, int error, int requestID);
+
+	/**
+	 * Removes the uninvitee's objectID from the room's invited list if all checks are successful.
+	 * @pre { nothing is locked }
+	 * @post { nothing is locked }
+	 * @param uninviter player who is uninviting someone
+	 * @param uninviteeName name of player who is being uninvited
+	 * @param roomPath path to room the uninvitee is being uninvited from
+	 * @param requestID the counter value the client sent for this request
+	 */
+	public native void handleChatUninvitePlayer(CreatureObject uninviter, final string uninviteeName, final string roomPath, int requestID);
+
+	/**
+	 * Sends a ChatOnUninviteToRoom result packet to the player attempting to uninvite someone from a room.
+	 * @param uninviter player who is uninviting someone
+	 * @param uninviteeName name of player who is being uninvited
+	 * @param roomPath path to room the uninvitee is being uninvited from
+	 * @param error the error code to determine which result message the client displays
+	 * @param requestID the counter value the client sent for this request
+	 */
+	private native void sendChatOnUninviteResult(CreatureObject uninviter, final string uninviteeName, final string roomPath, int error, int requestID);
+
+	/**
+	 * Removes the kickee from the chat room if all checks are successful
+	 * @pre { nothing is locked }
+	 * @post { nothing is locked }
+	 * @param kicker player who is kicking someone
+	 * @param kickeeName name of player who is being kicked
+	 * @param roomPath path to room the kickee is being kicked from
+	 */
+	public native void handleChatKickPlayer(CreatureObject kicker, final string kickeeName, final string roomPath);
+
+	/**
+	 * Adds the new moderator's objectID to the room's moderator list if all checks are successful. Also adds to invite list if not already invited.
+	 * @pre { nothing is locked }
+	 * @post { nothing is locked }
+	 * @param oper player who is op'ing someone
+	 * @param opeeName name of player who is being op'd
+	 * @param roomPath path to room the op'ee is being made a moderator in
+	 * @param requestID the counter value the client sent for this request
+	 */
+	public native void handleChatAddModerator(CreatureObject oper, final string opeeName, final string roomPath, int requestID);
+
+	/**
+	 * Sends a ChatOnAddModeratorToRoom result packet to the player attempting to op someone in the room.
+	 * @param oper player who is op'ing another player
+	 * @param opeeName name of player who is being op'd
+	 * @param roomPath path to room the op'ee is being op'd in
+	 * @param error the error code to determine which result message the client displays
+	 * @param requestID the counter value the client sent for this request
+	 */
+	private native void sendChatOnAddModeratorResult(CreatureObject oper, final string opeeName, final string roomPath, int error, int requestID);
+
+	/**
+	 * Removes the deopee's objectID from the room's moderator list if all checks are successful.
+	 * @pre { nothing is locked }
+	 * @post { nothing is locked }
+	 * @param deoper player who is deop'ing someone
+	 * @param deopeeName name of player who is being deop'd
+	 * @param roomPath path to room the deopee is being deop'd from
+	 * @param requestID the counter value the client sent for this request
+	 */
+	public native void handleChatRemoveModerator(CreatureObject deoper, final string deopeeName, final string roomPath, int requestID);
+
+	/**
+	 * Sends a ChatOnRemoveModeratorFromRoom result packet to the player attempting to deop someone in the room.
+	 * @param deoper player who is deop'ing another player
+	 * @param deopeeName name of player who is being deop'd
+	 * @param roomPath path to room the deop'ee is being deop'd in
+	 * @param error the error code to determine which result message the client displays
+	 * @param requestID the counter value the client sent for this request
+	 */
+	private native void sendChatOnRemoveModeratorResult(CreatureObject deoper, final string deopeeName, final string roomPath, int error, int requestID);
+
+	/**
+	 * Adds the banee's objectID to the room's banned list if all checks are successful
+	 * @pre { nothing is locked }
+	 * @post { nothing is locked }
+	 * @param banner player who is banning someone
+	 * @param baneeName name of player who is being banned
+	 * @param roomPath path to room the banee is being banned from
+	 * @param requestID the counter value the client sent for this request
+	 */
+	public native void handleChatBanPlayer(CreatureObject banner, final string baneeName, final string roomPath, int requestID);
+
+	/**
+	 * Sends a ChatOnBanFromRoom result packet to the player attempting to ban someone from a room.
+	 * @param banner player who is banning someone
+	 * @param baneeName name of player who is being banned
+	 * @param roomPath path to room the banee is being banned from
+	 * @param error the error code to determine which result message the client displays
+	 * @param requestID the counter value the client sent for this request
+	 */
+	private native void sendChatOnBanResult(CreatureObject banner, final string baneeName, final string roomPath, int error, int requestID);
+
+	/**
+	 * Removes the unbanee's objectID from the room's banned list if all checks are successful
+	 * @pre { nothing is locked }
+	 * @post { nothing is locked }
+	 * @param unbanner player who is banning someone
+	 * @param unbaneeName name of player who is being banned
+	 * @param roomPath path to room the unbanee is being unbanned from
+	 * @param requestID the counter value the client sent for this request
+	 */
+	public native void handleChatUnbanPlayer(CreatureObject unbanner, final string unbaneeName, final string roomPath, int requestID);
+
+	/**
+	 * Sends a ChatOnUnbanFromRoom result packet to the player attempting to unban someone from a room.
+	 * @param unbanner player who is unbanning someone
+	 * @param unbaneeName name of player who is being unbanned
+	 * @param roomPath path to room the unbanee is being unbanned from
+	 * @param error the error code to determine which result message the client displays
+	 * @param requestID the counter value the client sent for this request
+	 */
+	private native void sendChatOnUnbanResult(CreatureObject unbanner, final string unbaneeName, final string roomPath, int error, int requestID);
+
+	//////////////////////////////////////////////////////
+
+
+	////////////////// MESSAGE HANDLING /////////////////
+
+	@local
+	public native void handleChatInstantMessageToCharacter(ChatInstantMessageToCharacter message);
+
+	@local
+	public native void broadcastChatMessage(CreatureObject player, @dereferenced StringIdChatParameter message, unsigned long target = 0, unsigned int spatialChatType = 0, unsigned int moodType = 0, unsigned int chatFlags = 0, int languageID = 1);
+
+	public native void handleSpatialChatInternalMessage(CreatureObject player, final unicode args);
+	public native void handleGroupChat(CreatureObject player, final unicode message);
+	public native void handleGuildChat(CreatureObject player, final unicode message);
+	public native void handlePlanetChat(CreatureObject player, final unicode message);
+	public native void handleAuctionChat(CreatureObject player, final unicode message);
+	public native void handleChatRoomMessage(CreatureObject sender, final unicode message, unsigned int roomID, unsigned int counter);
+	public native void handleSocialInternalMessage(CreatureObject sender, final unicode arguments);
+	public native void broadcastMessage(BaseMessage message);
+	public native void broadcastChatMessage(CreatureObject player, final unicode message, unsigned long target = 0, unsigned int spatialChatType = 0, unsigned int moodType = 0, unsigned int chatFlags = 0, int languageID = 1);
+	public native void broadcastGalaxy(CreatureObject player, final string message);
+	public native void broadcastGalaxy(final string message, final string faction);
+	public native void notifySpatialChatObservers(SceneObject target, SceneObject source, final unicode message);
+
+	//////////////////////////////////////////////////////
+
+
+	/////////////////// MAIL HANDLING ///////////////////
+
+	public native void loadMail(CreatureObject player);
+	public native void sendMail(final string sendername, final unicode header, final unicode body, final string name);
+	public native void handleRequestPersistentMsg(CreatureObject player, unsigned int mailID);
+	public native void deletePersistentMessage(CreatureObject player, unsigned int mailID);
+	public native unicode formatMessage(final unicode message);
+
+	@local
+	public native int sendMail(final string sendername, final unicode subject, @dereferenced StringIdChatParameter body, final string recipientName, WaypointObject waypoint = null);
+
+	@local
+	public native int sendMail(final string sendername, final unicode subject, final unicode body, final string recipientName, StringIdChatParameterVector stringIdParameters, WaypointChatParameterVector waypointParameters);
+	
+	//////////////////////////////////////////////////////
+
+
+	public void setPlayerManager(PlayerManager manager) {
+		playerManager = manager;
+	}
+
+	@reference
+	public synchronized ChatRoom getChatRoom(unsigned int id) {
+		return roomMap.get(id);
+	}
+
+	@reference
+	public synchronized ChatRoom getGameRoom(final string game) {
+		return gameRooms.get(game);
+	}
+
+	public int getPlayerCount() {
+		return playerMap.size();
+	}
+
+	@local
+	public PlayerMap getPlayerMap() {
+		return playerMap;
+	}
+
+	/*
+	 * Returns the parent room for guild chat rooms.
+	 */
+	public ChatRoom getGuildRoom() {
+		return guildRoom;
+	}
+
+	/*
+	 * Returns the parent room for group chat rooms.
+	 */
+	public ChatRoom getGroupRoom() {
+		return groupRoom;
+	}
+
+	/*
+	 * Returns the auction chat room
+	 */
+	public ChatRoom getAuctionRoom() {
+		return auctionRoom;
+	}
+
+	/*
+	 * Returns the system chat room
+	 */
+	public ChatRoom getSystemRoom() {
+		return systemRoom;
+	}
+
+	@dirty
+	public string getSocialType(unsigned int id) {
+		return socialTypes.get(id);
+	}
+}
+

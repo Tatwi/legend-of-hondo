@@ -1,0 +1,164 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.tool;
+
+
+import engine.lua.LuaObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.draftschematic.DraftSchematic;
+include server.zone.objects.tangible.tool.CraftingStation;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.objects.tangible.tool.ToolTangibleObject;
+import server.zone.objects.area.ActiveArea;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.creature.CreatureObject;
+import system.util.Vector;
+include templates.SharedObjectTemplate;
+import server.zone.objects.scene.variables.ContainerPermissions;
+import server.zone.objects.manufactureschematic.ManufactureSchematic;
+
+class CraftingTool extends ToolTangibleObject {
+	
+	protected string status;
+	protected int type;
+	protected float effectiveness;
+	
+	protected int complexityLevel;
+
+	@dereferenced
+	protected Vector<unsigned int> enabledTabs;
+
+	public static final int CLOTHING = 1; // Clothing and Armor Crafting Tool
+	public static final int FOOD = 2; // Food and Chemical Crafting Tool
+	public static final int GENERIC = 3; // Generic Crafting Tool
+	public static final int JEDI = 4; // Lightsaber Crafting Tool
+	public static final int SPACE = 5; // Starship Crafting Tool
+	public static final int STRUCTURE = 6; // Structure and Furniture Crafting Tool
+	public static final int WEAPON = 7; // Weapon Droid and General Item Crafting Tool
+	
+	public CraftingTool() {
+		Logger.setLoggingName("CraftingTool");
+		status = "@crafting:tool_status_ready";
+		effectiveness = -15;
+		
+		super.setContainerInheritPermissionsFromParent(false);
+		super.setContainerDefaultDenyPermission(ContainerPermissions.OPEN);
+		super.setContainerDefaultDenyPermission(ContainerPermissions.MOVEIN);
+		super.setContainerDefaultDenyPermission(ContainerPermissions.MOVEOUT);
+	}
+	
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		if(getContainerObjectsSize() == 0) {
+			status = "@crafting:tool_status_ready";
+		} else {
+			status = "@crafting:tool_status_finished";
+		}
+		setCountdownTimer(0, false);
+	}
+	
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+	
+	@local
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+	
+	/**
+	 * Handles the radial selection sent by the client
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @returns 0 if successfull
+	 */
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+	
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+	
+	@local
+	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
+	
+	@dirty
+	public boolean isCraftingTool() {
+		return true;
+	}
+	
+	/**
+	 * Crafting tool state is ready
+	 */
+	@dirty
+	public boolean isReady() {
+		return status == "@crafting:tool_status_ready";
+	}
+	
+	public void setReady() {
+		status = "@crafting:tool_status_ready";
+	}
+	
+	/**
+	 * Crafting tool state is busy (crafting something)
+	 */
+	@dirty
+	public boolean isBusy() {
+		return status == "@crafting:tool_status_working";
+	}
+	
+	public void setBusy() {
+		status = "@crafting:tool_status_working";
+	}
+	
+	/**
+	 * Crafting tool state is Finished (Something in hopper)
+	 */
+	@dirty
+	public boolean isFinished() {
+		return status == "@crafting:tool_status_finished";
+	}
+	
+	public void setFinished() {
+		status = "@crafting:tool_status_finished";
+	}
+	
+	/**
+	 * Sends message to player if the tool is unable 
+	 * to start
+	 */
+	@dirty
+	public native void sendToolStartFailure(CreatureObject player, final string message);
+	
+	@dirty
+	public int getToolType() {
+		return type;
+	}
+	
+	@dirty
+	public float getEffectiveness() {
+		return effectiveness;
+	}
+	
+	@dirty
+	public float getComplexityLevel() {
+		return complexityLevel;
+	}
+
+	@reference
+	public native TangibleObject getPrototype();
+	
+	@reference
+	public native ManufactureSchematic getManufactureSchematic();
+	
+	@local
+	public native Vector<unsigned int> getToolTabs();
+	
+	public native void disperseItems();
+}

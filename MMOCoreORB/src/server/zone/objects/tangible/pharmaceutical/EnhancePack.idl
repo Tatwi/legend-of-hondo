@@ -1,0 +1,140 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.pharmaceutical;
+
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.Zone;
+import engine.lua.LuaObject;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.ZoneServer;
+import server.zone.objects.tangible.pharmaceutical.PharmaceuticalObject;
+import server.zone.objects.manufactureschematic.ManufactureSchematic;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+include templates.tangible.EnhancePackTemplate;
+import server.zone.objects.building.BuildingObject;
+import server.zone.objects.creature.CreatureObject;
+include server.zone.objects.creature.BuffAttribute;
+import server.zone.managers.player.PlayerManager;
+
+class EnhancePack extends PharmaceuticalObject {
+	protected float effectiveness;
+	protected float duration;
+	protected byte attribute;
+	
+	public EnhancePack() {
+		setLoggingName("EnhancePack");
+		
+		effectiveness = 0;
+		duration = 0;
+		attribute = 0;
+	}
+	
+	@local
+	public void updateCraftingValues(CraftingValues values, boolean firstUpdate) {
+		effectiveness = values.getCurrentValue("power");
+		super.medicineUseRequired = values.getCurrentValue("skillmodmin");
+		setUseCount(values.getCurrentValue("charges"));
+		
+		duration = values.getCurrentValue("duration");
+	}
+	
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public void fillAttributeList(AttributeListMessage msg, CreatureObject object) {
+		super.fillAttributeList(msg, object);
+		
+		string attributeName = BuffAttribute.getName(attribute);
+		string enhace = "examine_enhance_" + attributeName;
+		string durationStr = "examine_duration_" + attributeName;
+		
+		msg.insertAttribute(enhace, Math.getPrecision(effectiveness, 0));
+		msg.insertAttribute(durationStr, Math.getPrecision(duration, 0));
+		
+		msg.insertAttribute("healing_ability", super.medicineUseRequired);
+	}
+	
+	/**
+	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { TangibleObject members are initialized }
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
+	 */
+	@local
+	public void loadTemplateData(SharedObjectTemplate templateData) {
+		super.loadTemplateData(templateData);
+
+		if (!templateData.isEnhancePackTemplate())
+			return;
+
+		EnhancePackTemplate enhancePackTemplate = (EnhancePackTemplate) templateData;
+
+		effectiveness = enhancePackTemplate.getEffectiveness();
+		super.medicineUseRequired = enhancePackTemplate.getMedicineUse();
+		duration = enhancePackTemplate.getDuration();
+		attribute = enhancePackTemplate.getAttribute();
+	}
+	
+	/**
+	 * Handles the radial selection sent by the client, must be overriden by inherited objects
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @param player CreatureObject that selected the option
+	 * @param selectedID selected menu id
+	 * @returns 0 if successfull
+	 */
+	public int handleObjectMenuSelect(CreatureObject player, byte selectedID) {
+		
+		if (!isASubChildOf(player))
+			return 0;
+
+		if (selectedID != 20)
+			return 1;
+
+		if (player.getSkillMod("healing_ability") < super.medicineUseRequired) {
+			player.sendSystemMessage("@error_message:insufficient_skill"); //You lack the skill to use this item.
+			
+			return 0;
+		} else {
+			player.sendCommand("healenhance", BuffAttribute.getName(attribute) + "|" + String.valueOf(super.getObjectID()), player.getTargetID());
+			
+			return 0;
+		}
+
+	}
+	
+	@dirty
+	public native unsigned int calculatePower(CreatureObject healer, CreatureObject patient, boolean applyBattleFatigue = true);
+	
+	@dirty
+	public float getEffectiveness() {
+		return effectiveness;
+	}
+	
+	@dirty
+	public byte getAttribute() {
+		return attribute;
+	}
+	
+	@dirty
+	public float getDuration() {
+		return duration;
+	}
+	
+	@dirty
+	public boolean isEnhancePack() {
+		return true;
+	}
+
+}

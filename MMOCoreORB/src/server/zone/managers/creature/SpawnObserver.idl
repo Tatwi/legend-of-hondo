@@ -1,0 +1,91 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.
+*/
+
+package server.zone.managers.creature;
+import engine.core.ManagedObject;
+import engine.util.Observer;
+import engine.util.Observable;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.creature.ai.AiAgent;
+include templates.mobile.LairTemplate;
+include system.util.SynchronizedVector;
+
+class SpawnObserver extends Observer implements Logger {
+
+	protected transient LairTemplate lairTemplate;
+
+	@dereferenced
+	protected SynchronizedVector<CreatureObject> spawnedCreatures;
+
+	protected int difficulty;
+
+	protected int babiesSpawned;
+
+	protected float size;
+
+	public SpawnObserver() {
+		super();
+
+		Logger.setLoggingName("SpawnObserver");
+
+		lairTemplate = null;
+
+		difficulty = 2;
+		babiesSpawned = 0;
+		size = 20;
+	}
+
+	public abstract int notifyObserverEvent(unsigned int eventType, Observable observable, ManagedObject arg1, long arg2) {
+		return 1;
+	}
+
+	@local
+	public void setLairTemplate(LairTemplate tmpl) {
+		lairTemplate = tmpl;
+	}
+
+	public void setDifficulty(int diff) {
+		difficulty = diff;
+	}
+
+	public void setSize(float siz) {
+		size = siz;
+	}
+
+	public string getLairTemplateName() {
+		return lairTemplate.getName();
+	}
+
+	@local
+	public SynchronizedVector<CreatureObject> getSpawnedCreatures() {
+		return spawnedCreatures;
+	}
+
+	public int getBabiesSpawned() {
+		return babiesSpawned;
+	}
+
+	public boolean isSpawnObserver() {
+		return true;
+	}
+
+	public boolean isLairObserver() {
+		return false;
+	}
+
+	public boolean isDestroyMissionLairObserver() {
+		return false;
+	}
+
+	public boolean isTheaterSpawnObserver() {
+		return false;
+	}
+
+	public boolean isDynamicSpawnObserver() {
+		return false;
+	}
+	
+	public native void despawnSpawns();
+}

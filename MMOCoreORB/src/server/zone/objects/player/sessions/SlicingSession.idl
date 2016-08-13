@@ -1,0 +1,131 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.player.sessions;
+
+include engine.core.ManagedObject;
+
+import engine.log.Logger;
+import engine.core.ManagedReference;
+import engine.util.Facade;
+import system.lang.ref.Reference;
+import server.zone.objects.creature.CreatureObject;
+include server.zone.objects.creature.CreatureObject;
+import server.zone.objects.tangible.TangibleObject;
+include server.zone.objects.scene.SessionFacadeType;
+include server.zone.objects.player.sui.listbox.SuiListBox;
+include server.zone.objects.tangible.tool.smuggler.SlicingTool;
+include server.zone.objects.tangible.RelockLootContainerEvent;
+
+class SlicingSession extends Facade {
+	@weakReference
+	protected CreatureObject player;
+	
+	@weakReference
+	protected transient TangibleObject tangibleObject;
+
+	protected SuiListBox slicingSuiBox;
+
+	protected transient RelockLootContainerEvent relockEvent;
+
+	protected byte firstCable;
+	protected byte nodeCable;
+	protected boolean cableBlue;
+	protected boolean cableRed;
+
+	protected boolean usedNode;
+	protected boolean usedClamp;
+
+	protected boolean baseSlice;
+		
+	public SlicingSession(CreatureObject parent) {
+		Logger.setLoggingName("SlicingSession");
+		Logger.setLogging(true);
+		
+		initializeSession();
+
+	}
+
+	@local
+	public native void initalizeSlicingMenu(CreatureObject pl, TangibleObject obj);
+	
+	@local
+	public native void handleMenuSelect(CreatureObject pl, byte menuID, SuiListBox suiBox);
+
+	public native int initializeSession();
+	
+	public native int cancelSession();
+	
+	public int clearSession() {
+		player = null;
+		tangibleObject = null;
+
+		return 0;
+	}
+
+	public native void endSlicing();
+
+	private native void generateSliceMenu(SuiListBox suiBox);
+	
+	private string getPrefix(TangibleObject obj) {
+		if (obj.isMissionTerminal())
+			return "terminal_";
+		else if (isBaseSlice())
+			return "hq_security_";
+		else if (obj.isWeaponObject())
+			return "weapon_";
+		else if (obj.isArmorObject())
+			return "armor_";
+		else if (obj.isContainerObject() || tangibleObject.getGameObjectType() == 8245)
+			return "container_";
+		else
+			return "";
+	}
+
+	private byte getProgress() {
+		return ((byte) cableBlue + (byte) cableRed);
+	}
+
+	public native boolean isBaseSlice() {
+		return baseSlice;
+	}
+
+	public native void setBaseSlice(boolean val){
+		baseSlice = val;
+	}
+	private native void handleSliceFailed();
+
+	public native int getSlicingSkill(CreatureObject slicer);
+
+	public native boolean hasPrecisionLaserKnife(boolean removeItem = true);
+
+	public native boolean hasWeaponUpgradeKit();
+	
+	public native boolean hasArmorUpgradeKit();
+
+	public native void useClampFromInventory(SlicingTool clamp);
+
+	private native void handleUseClamp();
+
+	private native void handleUseFlowAnalyzer();
+
+	private native void handleSlice(SuiListBox suiBox);
+
+	private native void handleWeaponSlice();
+
+	private native void handleSliceDamage(byte percent);
+
+	private native void handleSliceSpeed(byte percent);
+
+	private native void handleArmorSlice();
+
+	private native void handleSliceEncumbrance(byte percent);
+
+	private native void handleSliceEffectiveness(byte percent);
+
+	private native void handleContainerSlice();
+
+
+
+}

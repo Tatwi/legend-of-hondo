@@ -1,0 +1,63 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+/*
+** Updated on: Thu Oct 13 08:27:23 PDT 2011 by lordkator - made getPlanetTravelPoint delayed lookup
+*/
+
+package server.zone.objects.tangible.terminal.travel;
+
+import server.zone.objects.tangible.terminal.Terminal;
+import server.zone.objects.scene.SceneObject;
+import engine.lua.LuaObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.Zone;
+import server.zone.objects.tangible.ticket.TicketObject;
+import server.zone.managers.planet.PlanetManager;
+
+include server.zone.managers.planet.PlanetTravelPoint;
+import server.zone.objects.area.ActiveArea;
+
+class TravelTerminal extends Terminal {	
+	@local
+	private transient PlanetTravelPoint planetTravelPoint;
+	
+	public TravelTerminal() {		
+		Logger.setLoggingName("TravelTerminal");
+		
+		planetTravelPoint == null;
+	}
+	
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		
+		Logger.setLoggingName("TravelTerminal");
+	}
+
+	public native void notifyInsertToZone(Zone zone);
+	
+	/**
+	 * Handles the radial selection sent by the client
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @returns 0 if successfull
+	 */
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+	
+	/**
+	 * Return the planetTravelPoint for this Travel Terminal
+	 *
+	 * NOTE: Resolution of the planetTravelPoint is delayed so the PlanetTravelPoints can get properly updated as objects load
+	 */
+	@local
+	@dirty
+	public PlanetTravelPoint getPlanetTravelPoint() {
+		if(planetTravelPoint != null)
+		    return planetTravelPoint;
+	
+		planetTravelPoint = getZone().getPlanetManager().getNearestPlanetTravelPoint(this);
+
+		return planetTravelPoint;
+	}
+}

@@ -1,0 +1,72 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.fishing;
+
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.Zone;
+import engine.lua.LuaObject;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.ZoneServer;
+
+class FishingPoleObject extends TangibleObject {	
+	protected int quality;
+	
+	public FishingPoleObject() {
+		Logger.setLoggingName("FishingPoleObject");
+		quality = 50;
+	}
+	
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		
+		Logger.setLoggingName("FishingPoleObject");
+	}
+	
+	@read
+	public int getQuality() {
+		return quality;
+	}
+	
+	public void setQuality(int value) {
+		if ((value > -1) && (value < 101))
+			quality = value;
+	}
+	
+	/**
+	 * Fills the radial options
+	 * @pre { this object is locked }
+	 * @post { this object is locked, menuResponse is complete}
+	 * @param menuResponse ObjectMenuResponse that will be sent to the client
+	 */
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+	
+	/**
+	 * Handles the radial selection sent by the client
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @returns 0 if successfull
+	 */
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+	
+	@local
+	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
+	
+	@dirty
+	public native int canAddObject(SceneObject object, int containmentType, string errorDescription);
+	
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+	
+	public native void doFishing(CreatureObject player);
+	
+	@dirty
+	public native string getText(CreatureObject player); 
+	
+	public native abstract boolean removeObject(SceneObject object, SceneObject destination, boolean notifyClient = false);
+}

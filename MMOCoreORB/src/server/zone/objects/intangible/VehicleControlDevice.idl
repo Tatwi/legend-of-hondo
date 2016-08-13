@@ -1,0 +1,113 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.intangible;
+
+import engine.lua.LuaObject;
+import server.zone.objects.intangible.IntangibleObject;
+import server.zone.objects.intangible.ControlDevice;
+import server.zone.objects.creature.VehicleObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.Zone;
+import system.lang.System;
+include server.zone.managers.radial.RadialOptions;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.intangible.VehicleControlObserver;
+
+class VehicleControlDevice extends ControlDevice {
+
+	VehicleControlObserver vehicleControlObserver;
+
+	public VehicleControlDevice() {
+		Logger.setLoggingName("VehicleControlDevice");
+		Logger.setLogging(false);
+		Logger.setGlobalLogging(true);
+	}
+
+	@preLocked
+	@arg1preLocked
+	public native void storeObject(CreatureObject player, boolean force = false);
+
+	@preLocked
+	@arg1preLocked
+	public native void generateObject(CreatureObject player);
+
+	@preLocked
+	@arg1preLocked
+	public native void spawnObject(CreatureObject player);
+
+	@arg1preLocked
+	public native void cancelSpawnObject(CreatureObject player);
+
+	@preLocked
+	@arg1preLocked
+	public int handleObjectMenuSelect(CreatureObject player, byte selectedID) {
+		Logger.info("selected call");
+
+		TangibleObject controlledObject = super.controlledObject;
+
+		if (selectedID == RadialOptions.VEHICLE_GENERATE) {
+
+			if (controlledObject == null) {
+				Logger.error("null controlled object in vehicle control device");
+				return 1;
+			} else {
+				this.generateObject(player);
+			}
+		} else if (selectedID == RadialOptions.VEHICLE_STORE) {
+			if (controlledObject == null) {
+				Logger.error("null controlled object in vehicle control device");
+				return 1;
+			} else {
+				if (super.status == 1 && !controlledObject.isInQuadTree()) {
+					this.generateObject(player);
+				} else {
+					this.storeObject(player);
+				}
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Destroys this object from database
+	 * @pre { this is locked }
+	 * @post { this is locked }
+	 * @param destroyContainedObjects if true, will destroy from database all its contained objects
+	 */
+	@preLocked
+	public native void destroyObjectFromDatabase(boolean destroyContainedObjects = false);
+
+	/**
+	 * Checks if the object can be destroyed
+	 * @pre { this is locked }
+	 * @post { this is locked }
+	 * @returns 0 on succes, != 0 on error
+	 */
+	@dirty
+	public native int canBeDestroyed(CreatureObject player);
+
+	@dirty
+	public native boolean canBeTradedTo(CreatureObject player, CreatureObject receiver, int numberInTrade);
+
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+
+	@dirty
+	public boolean isVehicleControlDevice() {
+		return true;
+	}
+}

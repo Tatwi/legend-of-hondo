@@ -1,0 +1,55 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.wearables;
+
+import server.zone.objects.tangible.Container;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.creature.CreatureObject;
+
+class WearableContainerObject extends Container {	
+	
+	@dereferenced
+	protected VectorMap<string, int> wearableSkillMods;
+
+	public WearableContainerObject() {
+		super();
+		Logger.setLoggingName("WearableContainerObject");
+		wearableSkillMods.setAllowOverwriteInsertPlan();
+	}
+
+	public native void initializeTransientMembers();
+
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+
+	public abstract void addSkillMod(final int skillType, final string skillMod, int value, boolean notifyClient = true) {
+		wearableSkillMods.put(skillMod, value);
+	}
+	
+	public abstract native void applySkillModsTo(CreatureObject creature);
+	
+	public abstract native void removeSkillModsFrom(CreatureObject creature);
+
+	@local
+	public VectorMap<string, int> getWearableSkillMods() {
+		return wearableSkillMods;
+	}
+
+	@dirty
+	public native boolean isEquipped();
+
+	@dirty
+	public boolean isWearableContainerObject() {
+		return true;
+	}
+}

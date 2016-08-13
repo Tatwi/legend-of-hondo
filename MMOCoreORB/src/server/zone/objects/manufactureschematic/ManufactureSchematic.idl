@@ -1,0 +1,339 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.manufactureschematic;
+
+import system.lang.ref.Reference;
+import engine.service.proto.BaseMessage;
+import system.util.Vector;
+import server.zone.objects.intangible.IntangibleObject;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.draftschematic.DraftSchematic;
+include server.zone.objects.creature.CreatureObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.area.ActiveArea;
+import server.zone.objects.installation.factory.FactoryObject;
+include server.zone.objects.scene.variables.DeltaVector;
+include server.zone.packets.object.ObjectControllerMessage;
+include server.zone.objects.manufactureschematic.ingredientslots.IngredientSlot;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+include server.zone.objects.manufactureschematic.factoryblueprint.FactoryBlueprint;
+include server.zone.objects.manufactureschematic.factoryblueprint.BlueprintEntry;
+include server.zone.objects.scene.variables.ContainerPermissions;
+include server.zone.objects.manufactureschematic.variables.StringIdDeltaVector;
+include server.zone.objects.manufactureschematic.variables.Uint64VectorDeltaVector;
+include server.zone.objects.manufactureschematic.variables.IntVectorDeltaVector;
+include server.zone.packets.DeltaMessage;
+//include server.zone.packets.manufactureschematic.ManufactureSchematicObjectDeltaMessage7;
+
+class ManufactureSchematic extends IntangibleObject {
+
+	protected DraftSchematic draftSchematic;
+	protected TangibleObject prototype;
+	protected float dataSize;
+	protected int manufactureLimit;
+	protected float complexity;
+	protected CreatureObject crafter;
+
+	@dereferenced
+	protected FactoryBlueprint factoryBlueprint;
+
+	@dereferenced
+	protected transient Vector<Reference<IngredientSlot> > ingredientSlots;
+
+	@dereferenced
+	protected transient StringIdDeltaVector ingredientNames;
+
+	@dereferenced
+	protected transient DeltaVector<int> ingredientTypes;
+
+	@dereferenced
+	protected transient Uint64VectorDeltaVector slotOIDs;
+
+	@dereferenced
+	protected transient IntVectorDeltaVector slotQuantities;
+
+	@dereferenced
+	protected transient DeltaVector<float> slotQualities;
+
+	@dereferenced
+	protected transient DeltaVector<int> slotClean;
+
+	@dereferenced
+	protected transient DeltaVector<int> slotIndexes;
+
+	protected transient boolean assembled;
+	protected transient boolean completed;
+	protected transient boolean initialized;
+	protected transient int ingredientCounter;
+	protected transient int experimentingCounter;
+	protected transient int experimentingCounterPrevious;
+
+	protected transient boolean possibleSyncIssue;
+
+	@transactional
+	protected transient CraftingValues craftingValues;
+
+	@dereferenced
+	protected Vector<byte> customizationOptions;
+
+	@dereferenced
+	protected Vector<byte> customizationDefaultValues;
+
+	public ManufactureSchematic() {
+		Logger.setLoggingName("ManufactureSchematic");
+
+		craftingValues = new CraftingValues();
+
+		prototype = null;
+
+		draftSchematic = null;
+		dataSize = 0;
+		complexity = 0;
+		crafter = null;
+
+		assembled = false;
+		completed = false;
+		initialized = false;
+		ingredientCounter = 0;
+		experimentingCounter = 0;
+		experimentingCounterPrevious = 0;
+
+		possibleSyncIssue = false;
+
+		manufactureLimit = 1000;
+
+		super.getContainerPermissions().setInheritPermissionsFromParent(true);
+
+		ContainerPermissions permissions = super.getContainerPermissions();
+		permissions.clearDefaultDenyPermission(ContainerPermissions.MOVECONTAINER);
+		permissions.clearDenyPermission("owner", ContainerPermissions.MOVECONTAINER);
+	}
+
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+	}
+
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+
+	/**
+	 * Sends the necessary messages to player in order to create this object
+	 * @pre { this object is locked }
+	 * @post { this object is locked, player received this object }
+	 * @param player SceneObject that will receive the messages
+	 * @param doClose if true a SceneObjectCloseMessage is sent to finish the object
+	 */
+	@dirty
+	public native abstract void sendTo(SceneObject player, boolean doClose);
+
+	/**
+	 * Sends the baseline messages of this object to the specified player
+	 * @pre { this object is locked }
+	 * @post { this object is locked, player received the baseline messages }
+	 * @param player SceneObject that will receive the baselines
+	 */
+	@dirty
+	public native void sendBaselinesTo(SceneObject player);
+
+	/**
+	 * Sends the baseline7 message of this object to the specified player
+	 * @pre { this object is locked }
+	 * @post { this object is locked, player received the baseline messages }
+	 * @param player SceneObject that will receive the baselines
+	 */
+	@dirty
+	private native void sendMsco7(CreatureObject player);
+
+	/**
+	 * Calls the appropriate UI Listener Function
+	 * @pre { this object is locked, object is locked }
+	 * @post {this object is locked, object is locked }
+	 * @param player CreatureObject using the item
+	 * @param value value from packet
+	 */
+	@preLocked
+	public native abstract void synchronizedUIListen(CreatureObject player, int value);
+
+	/**
+	 * Calls the appropriate UI Stop Listener Function
+	 * @pre { this object is locked, object is locked }
+	 * @post {this object is locked, object is locked }
+	 * @param player CreatureObject using the item
+	 * @param value value from packet
+	 */
+	public native abstract void synchronizedUIStopListen(CreatureObject player, int value);
+
+	@dirty
+	public boolean isManufactureSchematic() {
+		return true;
+	}
+
+	@preLocked
+	public native void setDraftSchematic(DraftSchematic schematic);
+
+	private native void initializeIngredientSlots();
+
+	@preLocked
+	public native int addIngredientToSlot(CreatureObject player, SceneObject satchel, TangibleObject tano, int slot);
+
+	@preLocked
+	public native int removeIngredientFromSlot(CreatureObject player, TangibleObject tano, int slot);
+
+	@dirty
+	private native void sendDelta7(IngredientSlot ingredientSlot, int slot, CreatureObject player);
+
+	public native void cleanupIngredientSlots(CreatureObject player);
+
+	@dirty
+	public DraftSchematic getDraftSchematic() {
+		return draftSchematic;
+	}
+
+	@preLocked
+	public void increaseComplexity() {
+		complexity++;
+	}
+
+	@preLocked
+	public void decreaseComplexity() {
+		if(complexity > 1)
+			complexity = complexity - 1;
+	}
+
+	@dirty
+	public float getComplexity() {
+		return complexity;
+	}
+
+	@dirty
+	public native boolean isReadyForAssembly();
+
+	@preLocked
+	public native void setAssembled();
+
+	@read
+	public boolean isAssembled() {
+		return assembled;
+	}
+
+	@preLocked
+	public void setCompleted() {
+		completed = true;
+	}
+
+	@read
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	@read
+	public int getSlotCount() {
+		return ingredientSlots.size();
+	}
+
+	@local
+	@dirty
+	public IngredientSlot getSlot(int i) {
+		return ingredientSlots.get(i);
+	}
+
+	@preLocked
+	public void setCrafter(CreatureObject player) {
+		crafter = player;
+	}
+
+	@read
+	public CreatureObject getCrafter() {
+		return crafter;
+	}
+
+	@local
+	@dirty
+	public CraftingValues getCraftingValues() {
+		return craftingValues;
+	}
+
+	@preLocked
+	public void setExperimentingCounter(int value) {
+		experimentingCounterPrevious = experimentingCounter;
+		experimentingCounter = value;
+	}
+
+	@read
+	public int getExperimentingCounter() {
+		return experimentingCounter;
+	}
+
+	@read
+	public int getExperimentingCounterPrevious() {
+		return experimentingCounterPrevious;
+	}
+
+	@preLocked
+	private void updateIngredientCounter() {
+		ingredientCounter += 4;
+	}
+
+	@read
+	public int getIngredientCounter() {
+		return ingredientCounter;
+	}
+
+	@preLocked
+	public void setManufactureLimit(int limit) {
+		manufactureLimit = limit;
+	}
+
+	@read
+	public int getManufactureLimit() {
+		return manufactureLimit;
+	}
+
+	public native void setPrototype(TangibleObject tano);
+
+	@dirty
+	public native TangibleObject getPrototype() {
+		return prototype;
+	}
+
+	@dirty
+	public void canManufactureItem(string type, string displayedName) {
+		factoryBlueprint.canManufactureItem(type, displayedName);
+	}
+
+	@preLocked
+	public void manufactureItem(FactoryObject factory) {
+		factoryBlueprint.manufactureItem(factory);
+		setManufactureLimit(getManufactureLimit() - 1);
+	}
+
+	@preLocked
+	public native void createFactoryBlueprint();
+
+	@dirty
+	public int getBlueprintSize() {
+		return factoryBlueprint.getConsolidatedSize();
+	}
+
+	@local
+	@dirty
+	public BlueprintEntry getBlueprintEntry(int i) {
+		return factoryBlueprint.getConsolidatedEntry(i);
+	}
+
+	public native boolean allowFactoryRun();
+
+	@dirty
+	public native int getLabratory();
+}

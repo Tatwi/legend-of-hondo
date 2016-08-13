@@ -1,0 +1,100 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.player.sui.listbox;
+
+import engine.lua.LuaObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+import engine.service.proto.BaseMessage;
+import server.zone.objects.player.sui.SuiBox;
+
+include server.zone.objects.player.sui.listbox.SuiListBoxMenuItem;
+include server.zone.packets.ui.SuiCreatePageMessage;
+import server.zone.objects.creature.CreatureObject;
+
+class SuiListBox extends SuiBox {
+	@dereferenced
+	protected Vector<SuiListBoxMenuItem> menuItems;
+
+	protected int type;
+
+	private unsigned long next;
+	private unsigned long previous;
+	
+	public static final int MSGSELECTED = 0;
+	public static final int HANDLESINGLEBUTTON = 1;
+	public static final int HANDLETWOBUTTON = 2;
+	public static final int HANDLETHREEBUTTON = 3;
+	
+	public SuiListBox(CreatureObject player, unsigned int windowType = 0, unsigned int listBoxType = 0) {
+		super(player, windowType, SuiBox.LISTBOX);
+		
+		type = listBoxType;
+		
+		init();
+	}
+
+	public void init() {
+		next = 0;
+		previous = 0;
+	}
+
+	/**
+	 * Use to add Menu Item to the ListBox Sui class. List will be looped through in generateBody
+	 */
+	public native void addMenuItem(final string name, unsigned long objectID = 0);
+
+	public string getMenuItemName(int index){
+		SuiListBoxMenuItem menuItem = menuItems.get(index);
+		
+		return menuItem.getOptionName();
+	}
+
+	/**
+	 * Clears all Menu Items from the list box
+	 * \warning If you are going to reuse the SuiBox object and call this method, you most likely need to call clearOptions() in SuiBoxImplementation
+	 */
+	public void removeAllMenuItems(){
+		menuItems.removeAll();
+	}
+
+	public unsigned long getMenuObjectID(unsigned int idx) {
+		if (idx < menuItems.size()) {
+			
+			SuiListBoxMenuItem menuItem = menuItems.get(idx);
+			
+			if (menuItem != null)
+				return menuItem.getObjectID();
+		}
+		
+		return 0;
+	}
+
+	public int getMenuSize() {
+		return menuItems.size();
+	}
+
+	public native BaseMessage generateMessage();
+
+	public void setNextBox(unsigned int boxID){
+		next = boxID;
+	}
+
+	public void setPreviousBox(unsigned int boxID){
+		previous = boxID;
+	}
+
+	public unsigned long getNextBox(){
+		return next;
+	}
+
+	public unsigned long getPreviousBox(){
+		return previous;
+	}
+	
+	public boolean isListBox() {
+		return true;
+	}
+}

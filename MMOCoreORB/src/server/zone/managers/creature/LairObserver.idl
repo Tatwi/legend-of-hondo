@@ -1,0 +1,55 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.
+*/
+
+package server.zone.managers.creature;
+import engine.core.ManagedObject;
+import engine.util.Observer;
+import engine.util.Observable;
+import server.zone.managers.creature.SpawnObserver;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.managers.creature.HealLairObserverEvent;
+include system.thread.atomic.AtomicInteger;
+
+class LairObserver extends SpawnObserver {
+
+	@dereferenced
+	protected AtomicInteger spawnNumber;
+
+	protected transient HealLairObserverEvent healLairEvent;
+
+	public LairObserver() {
+		super();
+
+		Logger.setLoggingName("LairObserver");
+
+		healLairEvent = null;
+		spawnNumber.set(0);
+	}
+
+	public native int notifyObserverEvent(unsigned int eventType, Observable observable, ManagedObject arg1, long arg2);
+
+	public native void notifyDestruction(TangibleObject lair, TangibleObject attacker, int condition);
+
+	@arg1preLocked
+	public abstract native boolean checkForNewSpawns(TangibleObject lair, TangibleObject attacker, boolean forceSpawn = false);
+	public native void healLair(TangibleObject lair, TangibleObject attacker);
+	public abstract native void checkForHeal(TangibleObject lair, TangibleObject attacker, boolean forceNewUpdate = false);
+	public native void doAggro(TangibleObject lair, TangibleObject attacker, boolean allAttack = false);
+
+	public boolean isLairObserver() {
+		return true;
+	}
+
+	public native int getLivingCreatureCount();
+
+	public int getMobType() {
+		return super.lairTemplate.getMobType();
+	}
+
+	public int getSpawnNumber() {
+		return spawnNumber.get();
+	}
+}

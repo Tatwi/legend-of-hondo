@@ -1,0 +1,36 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.terminal.startinglocation;
+
+import server.zone.objects.tangible.terminal.Terminal;
+import server.zone.objects.scene.SceneObject;
+import engine.lua.LuaObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.Zone;
+
+
+class StartingLocationTerminal extends Terminal {
+	
+	protected boolean authorizationState;
+	
+	public StartingLocationTerminal() {		
+		Logger.setLoggingName("StartingLocationTerminal");
+		authorizationState = true;
+	}
+	
+	public native void initializeTransientMembers();
+	
+	/**
+	 * Handles the radial selection sent by the client
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @returns 0 if successfull
+	 */
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+	
+	public void setAuthorizationState(boolean state) {
+		authorizationState = state;
+	}
+}

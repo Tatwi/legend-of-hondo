@@ -1,0 +1,36 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.
+*/
+
+package server.zone.managers.creature;
+import engine.core.ManagedObject;
+import engine.util.Observer;
+import engine.util.Observable;
+import server.zone.objects.scene.SceneObject;
+import server.zone.managers.creature.SpawnObserver;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.creature.ai.AiAgent;
+include templates.mobile.LairTemplate;
+
+class DynamicSpawnObserver extends SpawnObserver {
+
+	public DynamicSpawnObserver() {
+		super();
+
+		Logger.setLoggingName("DynamicSpawnObserver");
+	}
+
+	public native int notifyObserverEvent(unsigned int eventType, Observable observable, ManagedObject arg1, long arg2);
+
+	@arg1preLocked
+	public native void spawnInitialMobiles(SceneObject building);
+
+	public boolean isTheaterSpawnObserver() {
+		return super.lairTemplate.getBuildingType() == LairTemplate.THEATER;
+	}
+
+	public boolean isDynamicSpawnObserver() {
+		return super.lairTemplate.getBuildingType() == LairTemplate.NONE;
+	}
+}

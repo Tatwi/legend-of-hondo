@@ -1,0 +1,83 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.
+*/
+
+package server.zone.objects.player.sessions;
+import engine.core.ManagedObject;
+import engine.util.Facade;
+import server.zone.objects.player.PlayerObject;
+import system.util.SortedVector;
+import server.zone.objects.scene.SceneObject;
+
+class TradeSession extends Facade {
+	protected unsigned long tradeTargetPlayer;
+	
+	@dereferenced
+	protected SortedVector<SceneObject> itemsToTrade;
+	protected boolean verifiedTrade;
+	protected boolean acceptedTrade;
+	protected int moneyToTrade;
+
+	public TradeSession() {
+		tradeTargetPlayer = 0;
+		itemsToTrade.setNoDuplicateInsertPlan();
+		acceptedTrade = false;
+		verifiedTrade = false;
+		moneyToTrade = 0;
+	}
+	
+	public boolean getAcceptedTrade() {
+		return acceptedTrade;
+	}
+
+	public void addTradeItem(SceneObject object) {
+    	itemsToTrade.put(object);
+    }
+
+	@local
+	public SortedVector<SceneObject> getItemsToTrade() {
+		return itemsToTrade;
+	}
+
+	public SceneObject getTradeItem(int index) {
+    	return itemsToTrade.get(index);
+    }
+
+	public int getTradeSize() {
+    	return itemsToTrade.size();
+    }
+
+	public int getMoneyToTrade() {
+		return moneyToTrade;
+	}
+
+	public unsigned long getTradeTargetPlayer() {
+		return tradeTargetPlayer;
+	}
+
+	public boolean isTryingToTrade() {
+    	return tradeTargetPlayer != 0;
+    }
+
+	public boolean hasVerifiedTrade() {
+		return verifiedTrade;
+	}
+
+	public void setAcceptedTrade(boolean val) {
+		acceptedTrade = val;
+	}
+
+	public void setMoneyToTrade(int val) {
+		moneyToTrade = val;
+	}
+
+	public void setTradeTargetPlayer(unsigned long val) {
+		tradeTargetPlayer = val;
+	}
+
+	public void setVerifiedTrade(boolean val) {
+		verifiedTrade = val;
+	}
+
+}

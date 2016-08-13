@@ -1,0 +1,17 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.installation.garage;
+
+import server.zone.objects.installation.InstallationObject;
+
+class GarageInstallation extends InstallationObject {
+
+	public GarageInstallation() {
+		setLoggingName("GarageInstallation");
+	}
+
+	@preLocked
+	public native void createChildObjects();
+}

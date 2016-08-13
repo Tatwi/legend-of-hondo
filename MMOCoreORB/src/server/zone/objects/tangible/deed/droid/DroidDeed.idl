@@ -1,0 +1,86 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.deed.droid;
+
+import engine.lua.LuaObject;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.tangible.deed.Deed;
+import server.zone.Zone;
+import server.zone.packets.object.ObjectMenuResponse;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+include server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.creature.CreatureObject;
+import system.util.HashTable;
+import server.zone.objects.tangible.component.droid.DroidComponent;
+include server.zone.objects.tangible.components.droid.BaseDroidModuleComponent;
+include templates.SharedObjectTemplate;
+
+class DroidDeed extends Deed {
+
+	protected string controlDeviceObjectTemplate;
+	protected string mobileTemplate;
+	protected int species;
+	protected float overallQuality;
+	@dereferenced
+	protected HashTable<string,DroidComponent> modules;
+	protected int combatRating;
+	
+	public DroidDeed() {
+		Logger.setLoggingName("DroidDeed");
+		combatRating = 0;	
+		overallQuality = 0;	
+	}
+
+	public abstract native void onCloneObject(SceneObject objectToClone);
+
+	public native void initializeTransientMembers();
+	
+	/**
+	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { TangibleObject members are initialized }
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
+	 */
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+	
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage alm, CreatureObject object);
+	
+	@local
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+	
+	/**
+	 * Handles the radial selection sent by the client
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @returns 0 if successfull
+	 */
+	@preLocked
+	@arg1preLocked
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+	
+	@local
+	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
+	
+	@dirty
+	public boolean isDroidDeedObject() {
+		return true;
+	}
+
+	@local
+	@dirty
+	protected native void processModule(BaseDroidModuleComponent module, unsigned int crc);
+        
+	@local
+	public HashTable<string,DroidComponent> getModules() {
+		return modules;
+	}
+
+	public abstract native void destroyObjectFromDatabase(boolean destroyContainedObjects = false);
+	
+}

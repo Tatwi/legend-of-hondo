@@ -1,0 +1,23 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.managers.space;
+
+import engine.core.ManagedService;
+import server.zone.managers.planet.PlanetManager;
+include server.zone.managers.ship.ShipManager;
+
+class SpaceManager extends PlanetManager {
+	public SpaceManager(Zone planet, ZoneProcessServer srv) {
+		super(planet, srv);
+		
+		Logger.setLoggingName("SpaceManager " + planet.getZoneName());
+		Logger.setLogging(false);
+		Logger.setGlobalLogging(true);
+	}
+
+	public void initialize() {
+		Logger.info("loading space manager " + super.zone.getZoneName());
+	}
+}

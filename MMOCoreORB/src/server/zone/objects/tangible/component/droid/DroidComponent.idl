@@ -1,0 +1,43 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.component.droid;
+
+import server.zone.objects.tangible.component.Component;
+import engine.lua.LuaObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.Zone;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+ 
+class DroidComponent extends Component {
+
+	protected float quality;
+	protected float durability;
+	protected boolean surveyDroid;
+	public DroidComponent() {
+		Logger.setLoggingName("DroidComponent");
+		quality = 0;
+		durability = 0;
+		surveyDroid = false;
+	}
+	
+	/**
+	 * Initializes the transient members of SceneObject, must call the inherited object method first.
+	 * @pre {transient members are not initialized }
+	 * @post { transient members are initialized }
+	 */
+	public native void initializeTransientMembers();
+
+	@local
+	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
+
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+	
+	@local
+	public native boolean isSocketCluster();
+	
+		
+}

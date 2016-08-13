@@ -1,0 +1,47 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.mission;
+
+import engine.util.Observer;
+import engine.util.Observable;
+import server.zone.objects.mission.MissionObject;
+import server.zone.objects.mission.MissionObjective;
+import server.zone.objects.mission.MissionObserver;
+import server.zone.objects.scene.SceneObject;
+include templates.TemplateReference;
+include templates.SharedObjectTemplate;
+import server.zone.objects.area.MissionReconActiveArea;
+
+class ReconMissionObjective extends MissionObjective {
+	protected MissionReconActiveArea locationActiveArea;
+
+	public ReconMissionObjective(MissionObject mission) {
+		super(mission);
+
+		Logger.setLoggingName("ReconMissionObjective");
+	}
+
+	public native void finalize() {
+		//Logger.info("deleting from memory", true);
+	}
+
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+
+		Logger.setLoggingName("ReconMissionObjective");
+
+		activate();
+	}
+
+	@preLocked
+	public native void activate();
+	public native void abort();
+	public native void complete();
+
+	@dereferenced
+	@local
+	@dirty
+	public native Vector3 getEndPosition();
+}

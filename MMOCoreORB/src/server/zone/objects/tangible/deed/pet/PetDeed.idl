@@ -1,0 +1,339 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.deed.pet;
+
+import engine.lua.LuaObject;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.tangible.deed.Deed;
+import server.zone.Zone;
+import server.zone.packets.object.ObjectMenuResponse;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+include server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.creature.CreatureObject;
+include server.zone.objects.creature.ai.variables.CreatureAttackMap;
+include templates.SharedObjectTemplate;
+
+class PetDeed extends Deed {
+	// dna qulity
+	protected int quality;
+	// Pet Level
+	protected int level;
+	// Crafted pets have their own attack speed and chance to hit
+	protected float chanceHit;
+	protected float attackSpeed;
+	// Damage min/mac for the pet
+	protected int damageMin;	
+	protected int damageMax;
+	// Armor value of the pet
+	protected int armor;
+	// resists of the pet
+	protected float kinResist;
+	protected float energyResist;
+	protected float blastResist;
+	protected float coldResist;
+	protected float heatResist;
+	protected float elecResist;
+	protected float acidResist;
+	protected float stunResist;
+	protected float saberResist;
+	// ham of the pet
+	protected int health;
+	protected int action;
+	protected int mind;
+	protected int regen;
+	// specials
+	protected string special1;
+	protected string special2;
+	protected boolean ranged;
+		
+	protected string controlDeviceObjectTemplate;
+	protected string mobileTemplate;
+
+	protected int cleverness;
+	protected int endurance;
+	protected int fierceness;
+	protected int power;
+	protected int intelligence;
+	protected int courage;
+	protected int dependency;
+	protected int dexterity;
+	protected int fortitude;
+	protected int hardiness;
+	// sampling
+	protected int sampleCount;
+	protected int specialResists;
+	
+	@dereferenced
+	protected CreatureAttackMap attacks;
+	
+	public PetDeed() {
+		Logger.setLoggingName("PetDeed");
+		damageMin = 20;
+		damageMax = 20;
+		armor = 0;
+		kinResist = 0;
+		blastResist = 0;
+		coldResist = 0;
+		heatResist = 0;
+		elecResist = 0;
+		acidResist = 0;
+		stunResist = 0;
+		saberResist = -1;
+		health = 10;
+		action = 10;
+		mind = 10;
+		special1 = "none";
+		special2 = "none";
+		ranged = false;
+		chanceHit = 0;
+		attackSpeed = 0;
+		level = 1;
+		// Source DNA of a pet deed
+		cleverness = 0;
+		endurance = 0;
+		fierceness = 0;
+		power = 0;
+		intelligence = 0;
+		courage = 0;
+		dependency = 0;
+		dexterity = 0;
+		fortitude = 0;
+		hardiness = 0;	
+		quality = 7;
+		sampleCount = 0;	
+		specialResists = 0;
+		regen = 1;
+	}
+	@dirty
+	public native void setSpecialResist(int type);
+	
+	@dirty
+	public native boolean isSpecialResist(int type);
+	
+	@dirty
+	public int getSampleCount() {
+		return sampleCount;
+	}
+	
+	public void incrementSampleCount() {
+		sampleCount += 1;
+	}
+	public native void initializeTransientMembers();
+	
+	@local
+	public native CreatureAttackMap getAttacks();
+	
+	@dirty
+	public int getQuality() {
+		return quality;
+	}
+	
+	@dirty
+	public int getLevel() { 
+		return level; 
+	}
+	
+	@dirty
+	public float getAttackSpeed() { 
+		return attackSpeed; 
+	}
+
+	@dirty
+	public float getHitChance() { 
+		return chanceHit; 
+	}
+
+	@dirty
+	public int getHealth() { 
+		return health; 
+	}
+
+	@dirty
+	public int getAction() { 
+		return action; 
+	}
+
+	@dirty
+	public int getMind() { 
+		return mind; 
+	}
+
+	@dirty
+	public int getMinDamage() { 
+		return damageMin; 
+	}
+
+	@dirty
+	public int getMaxDamage() { 
+		return damageMax; 
+	}
+
+	@dirty
+	public float getKinetic() { 
+		return kinResist; 
+	}
+
+	@dirty
+	public float getEnergy() { 
+		return energyResist; 
+	}
+
+	@dirty
+	public float getBlast() { 
+		return blastResist; 
+	}
+
+	@dirty
+	public float getCold() { 
+		return coldResist; 
+	}
+
+	@dirty
+	public float getHeat() { 
+		return heatResist; 
+	}
+
+	@dirty
+	public float getElectric() { 
+		return elecResist; 
+	}
+
+	@dirty
+	public float getAcid() { 
+		return acidResist; 
+	}
+
+	@dirty
+	public float getStun() { 
+		return stunResist; 
+	}
+
+	@dirty
+	public float getSaber() { 
+		return saberResist; 
+	}
+
+	@dirty
+	public boolean getRanged() { 
+		return ranged; 
+	}
+
+	@dirty
+	public int getArmor() { 
+		return armor; 
+	}
+	
+	/**
+	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { TangibleObject members are initialized }
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
+	 */
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+	
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage alm, CreatureObject object);
+	
+	@local
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+	
+	/**
+	 * Handles the radial selection sent by the client
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @returns 0 if successfull
+	 */
+	@preLocked
+	@arg1preLocked
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+	
+	@local
+	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
+	
+	@dirty
+	public boolean isPetDeedObject() {
+		return true;
+	}	
+	
+	@dirty
+	public string getSpecial1() {
+		return special1;
+	}
+	@dirty
+	public string getSpecial2() {
+		return special2;
+	}
+	
+	@dirty
+	public int getCleverness() { 
+		return cleverness; 
+	}
+	
+	@dirty
+	public int getEndurance() { 
+		return endurance; 
+	}
+	
+	@dirty
+	public int getFierceness() { 
+		return fierceness; 
+	}
+	
+	@dirty
+	public int getPower() { 
+		return power; 
+	}
+	
+	@dirty
+	public int getIntelligence() { 
+		return intelligence; 
+	}
+	
+	@dirty
+	public int getCourage() { 
+		return courage; 
+	}
+	
+	@dirty
+	public int getDependency() { 
+		return dependency; 
+	}
+	
+	@dirty
+	public int getDexterity() { 
+		return dexterity; 
+	}
+	
+	@dirty
+	public int getFortitude() { 
+		return fortitude; 
+	}
+	
+	@dirty
+	public int getHardiness() { 
+		return hardiness; 
+	}
+	
+	@dirty
+	@local
+	public native string getTemplateName();
+	
+	/**
+	 * Setup attack map during initialize
+	 */
+	@local	
+	public native void setupAttacks();
+	
+	@local
+	public native int calculatePetLevel();
+	
+	@local
+	public native void adjustPetLevel(CreatureObject player, CreatureObject pet);
+	@local
+	public native boolean adjustPetStats(CreatureObject player, CreatureObject pet);
+}

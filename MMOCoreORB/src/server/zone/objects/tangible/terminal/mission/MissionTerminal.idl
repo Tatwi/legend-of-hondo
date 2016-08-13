@@ -1,0 +1,146 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.terminal.mission;
+
+import server.zone.objects.tangible.terminal.Terminal;
+import server.zone.objects.scene.SceneObject;
+import engine.lua.LuaObject;
+import server.zone.objects.creature.CreatureObject;
+include templates.tangible.MissionTerminalTemplate;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.Zone;
+
+class MissionTerminal extends Terminal {
+	protected string terminalType;
+	
+	@dereferenced
+	protected transient Vector<CreatureObject> slicers;
+	
+	public MissionTerminal() {
+		Logger.setLoggingName("MissionTerminal");
+	}
+	
+	/**
+	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { TangibleObject members are initialized }
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
+	 */
+	@local
+	public void loadTemplateData(SharedObjectTemplate templateData) {
+		super.loadTemplateData(templateData);
+		
+		if (!templateData.isMissionTerminalTemplate())
+			return;
+		
+		MissionTerminalTemplate templ = (MissionTerminalTemplate) templateData;
+		
+		terminalType = templ.getMissionTerminalType();
+
+		boolean sliceTempFix = true; // Temporary Hack.
+
+		if (isBountyTerminal()) {
+			setSliceable(!sliceTempFix);
+		} else {
+			setSliceable(sliceTempFix);
+		}
+
+	}
+	
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		
+		Logger.setLoggingName("MissionTerminal");
+	}
+
+	/**
+	 * Handles the radial selection sent by the client, must be overriden by inherited objects
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @param player CreatureObject that selected the option
+	 * @param selectedID selected menu id
+	 * @returns 0 if successfull
+	 */
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+	
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+	
+	@dirty
+	public native string getTerminalName();
+		
+	@dirty
+	public boolean isMissionTerminal() {
+		return true;
+	}
+	
+	@dirty
+	public boolean isArtisanTerminal() {
+		return terminalType == "artisan";
+	}
+	
+	@dirty
+	public boolean isGeneralTerminal() {
+		return terminalType == "general";
+	}
+	
+	@dirty
+	public boolean isBountyTerminal(){
+		return terminalType == "bounty";
+	}
+	
+	@dirty
+	public boolean isEntertainerTerminal() {
+		return terminalType == "entertainer";
+	}
+	
+	@dirty
+	public boolean isImperialTerminal() {
+		return terminalType == "imperial";
+	}
+	
+	@dirty
+	public boolean isNewbieTerminal() {
+		return terminalType == "newbie";
+	}
+	
+	@dirty
+	public boolean isRebelTerminal() {
+		return terminalType == "rebel";
+	}
+	
+	@dirty
+	public boolean isScoutTerminal() {
+		return terminalType == "scout";
+	}
+	
+	@dirty
+	public boolean isStatueTerminal() {
+		return terminalType == "statue";
+	}
+
+	@dirty
+	public boolean isSlicer(CreatureObject slicer) {
+		if (slicer == null)
+			return 0;
+
+		for (int i = 0; i < slicers.size(); ++i) {
+			CreatureObject player = slicers.get(i);
+			if (player == slicer)
+				return true;
+		}
+
+		return 0;
+	}
+
+	public void addSlicer(CreatureObject slicer) {
+		if (!slicers.contains(slicer))
+			slicers.add(slicer);
+	}
+
+	public void removeSlicer(CreatureObject slicer) {
+		slicers.removeElement(slicer);
+	}
+}

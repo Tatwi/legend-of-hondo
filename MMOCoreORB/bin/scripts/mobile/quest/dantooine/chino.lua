@@ -1,0 +1,36 @@
+chino = Creature:new {
+	objectName = "",
+	customName = "Chino (an Empire Chief Inquisitor)",	
+	socialGroup = "imperial",
+	faction = "imperial",
+	level = 120,
+	chanceHit = 4.000000,
+	damageMin = 745,
+	damageMax = 1200,
+	baseXp = 11296,
+	baseHAM = 44000,
+	baseHAMmax = 54000,
+	armor = 0,
+	resists = {50,50,50,0,50,0,50,50,-1},
+	meatType = "",
+	meatAmount = 0,
+	hideType = "",
+	hideAmount = 0,
+	boneType = "",
+	boneAmount = 0,
+	milk = 0,
+	tamingChance = 0.000000,
+	ferocity = 0,
+	pvpBitmask = ATTACKABLE,
+	creatureBitmask = PACK,
+	optionsBitmask = AIENABLED + CONVERSABLE,	
+	diet = HERBIVORE,
+
+	templates = {"object/mobile/dressed_imperial_inquisitor_human_male_01.iff"},
+	lootGroups = {},
+	weapons = {},
+	conversationTemplate = "jatrian_lytus_mission_target_convotemplate",	
+	attacks = brawlermaster
+}
+
+CreatureTemplates:addCreatureTemplate(chino, "chino")

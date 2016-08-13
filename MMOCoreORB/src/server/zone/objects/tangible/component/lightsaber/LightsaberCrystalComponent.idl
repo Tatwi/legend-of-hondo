@@ -1,0 +1,200 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.component.lightsaber;
+
+import server.zone.objects.tangible.component.Component;
+import engine.lua.LuaObject;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.Zone;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.objects.manufactureschematic.ManufactureSchematic;
+include templates.tangible.LightsaberCrystalObjectTemplate;
+
+class LightsaberCrystalComponent extends Component {
+	protected string postTuneName;
+	
+	protected transient LightsaberCrystalObjectTemplate lcoTemplate;
+	
+	protected int color;
+	protected int quality;
+	protected float attackSpeed;
+	protected int minimumDamage;	
+	protected int maximumDamage;
+	protected int sacHealth;
+	protected int sacAction;
+	protected int sacMind;
+	protected int woundChance;
+	protected string crystalType;
+	
+	// TODO: Remove this after a server wipe
+	protected int forceCost;
+	
+	protected float floatForceCost;
+	protected unsigned long ownerID;
+
+	public LightsaberCrystalComponent() {
+
+		attackSpeed = 0.0;
+		minimumDamage = 0;	
+		maximumDamage = 0;
+		sacHealth = 0;
+		sacAction = 0;
+		sacMind = 0;
+		woundChance = 0;
+		color = 0;
+		quality = 0;
+		postTuneName = "";
+		
+		forceCost = 0;
+
+		floatForceCost = 0.0;
+		ownerID = 0;
+
+		Logger.setLoggingName("LightsaberCrystal");
+	}
+	
+	public native void initializeTransientMembers();
+	
+	/**
+	 * Reads and sets the template data from a SharedTangibleObjectTemplate LuaObject
+	 * @pre { templateData is a valid pointer }
+	 * @post { TangibleObject members are initialized }
+	 * @param templateData templateData points to the SharedTangibleObjectTemplate LuaObject that is used to initialize the TangibleObject members
+	 */
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+
+	public native void notifyLoadFromDatabase();
+	
+	@local
+	public native void updateCraftingValues(CraftingValues values, boolean firstUpdate);
+	
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+	
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+
+	public native boolean hasPlayerAsParent(CreatureObject player);
+
+	public native void tuneCrystal(CreatureObject player);
+
+	public native void updateCrystal(int value);
+
+	public native int inflictDamage(TangibleObject attacker, int damageType, float damage, boolean destroy, boolean notifyClient = true);
+
+	@read
+	public int getMinimumDamage() {
+		return minimumDamage;
+	}
+
+	@read
+	public int getMaximumDamage() {
+		return maximumDamage;
+	}
+
+	@read
+	public float getForceCost() {
+		return floatForceCost;
+	}
+
+	@read
+	public int getSacHealth() {
+		return sacHealth;
+	}
+
+	@read
+	public float getAttackSpeed() {
+		return attackSpeed;
+	}
+	
+	@read
+	public int getSacAction() {
+		return sacAction;
+	}
+	
+	@read
+	public int getSacMind() {
+		return sacMind;
+	}
+	
+	@read
+	public int getWoundChance() {
+		return woundChance;
+	}
+
+	@read
+	public unsigned long getOwnerID() {
+		return ownerID;
+	}
+	
+	@read
+	public int getQuality() {
+		return quality;
+	}
+	
+	public void setQuality(int qual) {
+		quality = qual;
+	}
+	
+	@read
+	public int getColor() {
+		return color;
+	}
+	
+	public void setColor(int value) {
+		color = value;
+	}
+
+	public void setOwnerID(unsigned long value) {
+		ownerID = value;
+	}
+
+	public void setMinimumDamage(int value) {
+		minimumDamage = value;
+	}
+
+	public void setMaximumDamage(int value) {
+		maximumDamage = value;
+	}
+
+	public void setForceCost(float value) {
+		floatForceCost = value;
+	}
+
+	public void setSacHealth(int value) {
+		sacHealth = value;
+	}
+
+	public void setSacAction(int value) {
+		sacAction = value;
+	}
+
+	public void setSacMind(int value) {
+		sacMind = value;
+	}
+
+	public void setAttackSpeed(float value) {
+		attackSpeed = value;
+	}
+
+	public void setWoundChance(int value) {
+		woundChance = value;
+	}
+	
+	@dirty
+	public boolean isLightsaberCrystalObject() {
+		return true; 
+	}
+}
+

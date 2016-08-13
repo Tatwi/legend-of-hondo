@@ -1,0 +1,421 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.mission;
+
+import engine.lua.LuaObject;
+import server.zone.objects.intangible.IntangibleObject;
+import server.zone.objects.waypoint.WaypointObject;
+import server.zone.Zone;
+
+include server.zone.objects.scene.variables.StringId;
+include templates.SharedObjectTemplate;
+import server.zone.objects.mission.MissionObserver;
+import server.zone.objects.creature.CreatureObject;
+import system.util.SortedVector;
+import server.zone.objects.mission.MissionObjective;
+include templates.TemplateReference;
+import server.zone.managers.mission.spawnmaps.NpcSpawnPoint;
+include server.zone.objects.mission.MissionTypes;
+include server.zone.managers.faction.FactionManager;
+include server.zone.packets.scene.AttributeListMessage;
+include templates.faction.Factions;
+class MissionObject extends IntangibleObject {
+	protected WaypointObject waypointToMission;
+
+	protected MissionObjective missionObjective;
+
+	protected unsigned int typeCRC;
+	protected int difficultyLevel;
+	protected int difficultyDisplay;
+	protected int difficulty;
+	protected unicode creatorName;
+	protected int rewardCredits;
+	protected int rewardCreditsDivisor;
+	protected int rewardFactionPointsRebel;
+	protected int rewardFactionPointsImperial;
+	protected int missionNumber;
+	protected unsigned int faction;
+	protected int missionLevel;
+
+	protected float size;
+
+	protected float startPositionX;
+	protected float startPositionY;
+	protected string startPlanet;
+
+	protected float endPositionX;
+	protected float endPositionY;
+	protected string endPlanet;
+
+	protected unsigned long targetObjectId;
+
+	@dereferenced
+	protected StringId missionDescription;
+
+	@dereferenced
+	protected StringId missionTitle;
+
+	protected unsigned int refreshCounter;
+
+	protected string targetName;
+	protected NpcSpawnPoint missionTarget;
+	protected NpcSpawnPoint missionTargetDest;
+
+	protected string templateString1;
+	protected string templateString2;
+
+	//protected unsigned int targetTemplateCRC;
+	@dereferenced
+	protected TemplateReference<SharedObjectTemplate> targetTemplate;
+
+	protected string targetOptionalTemplate;
+
+	public MissionObject() {
+		typeCRC = MissionTypes.SURVEY;
+                
+		refreshCounter = 0;
+
+		//targetTemplateCRC = 2640304325;
+		//targetTemplate = null;
+
+		missionDescription.setStringId("mission/mission_npc_survey_neutral_easy", "m1o");
+		missionTitle.setStringId("mission/mission_npc_survey_neutral_easy", "m1t");
+		targetName = "Testing target name";
+		difficultyLevel = 50;
+		difficultyDisplay = 80;
+		difficulty = 2;
+
+		rewardCredits = 100;
+		rewardCreditsDivisor = 1;
+		rewardFactionPointsRebel = 0;
+		rewardFactionPointsImperial = 0;
+
+		size = 20;
+
+		startPositionX = 0;
+		startPositionY = 0;
+		endPositionX = 0;
+		endPositionY = 0;
+
+		missionTarget = null;
+		missionTargetDest = null;
+
+		targetObjectId = 0;
+
+		faction = Factions.FACTIONNEUTRAL;
+
+		missionNumber = 0;
+		missionLevel = 0;
+
+		Logger.setLoggingName("MissionObject");
+	}
+	
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
+
+	@preLocked
+	public native WaypointObject createWaypoint();
+
+	/**
+	 * Destroys this object from database
+	 * @pre { this is locked }
+	 * @post { this is locked }
+	 * @param destroyContainedObjects if true, will destroy from database all its contained objects
+	 */
+	@preLocked
+	public native void destroyObjectFromDatabase(boolean destroyContainedObjects = false);
+
+	/**
+	 * Updates this object and childre objects to database
+	 * @pre { this object is locked }
+	 * @post { this object is locked }
+	 * @param startTask if true, queues a new update task
+	 */
+	public native void updateToDatabaseAllObjects(boolean startTask);
+
+	@preLocked
+	public native void setRefreshCounter(int ctr, boolean notifyClient = true);
+	@preLocked
+	public native void setTypeCRC(unsigned int crc, boolean notifyClient = true);
+
+	public native void initializeTransientMembers();
+	@dirty
+	public native void sendBaselinesTo(SceneObject player);
+
+	@preLocked
+	public native void setMissionDescription(final string file, final string id, boolean notifyClient = true);
+	@preLocked
+	public native void setMissionTitle(final string file, final string id, boolean notifyClient = true);
+	@preLocked
+	public native void setMissionTargetName(final string target, boolean notifyClient = true);
+	public native void setMissionDifficulty(int diffLevel, boolean notifyClient = true);
+	@preLocked
+	public native void setMissionDifficulty(int diffLevel, int display, int diff, boolean notifyClient = true);
+	@preLocked
+	public native void setRewardCredits(int creds, boolean notifyClient = true);
+	@local
+	@preLocked
+	public native void setTargetTemplate(SharedObjectTemplate templ, boolean notifyClient = true);
+	@preLocked
+	public native void setStartPosition(float posX, float posY, final string planet, boolean notifyClient = true);
+	public native void setStartPosition(float posX, float posY, boolean notifyClient = true);
+	@preLocked
+	public native void setEndPosition(float posX, float posY, final string planet, boolean notifyClient = true);
+	@preLocked
+	public native void setCreatorName(final string name, boolean notifyClient = true);
+
+	@dirty
+	public native unsigned int getStartPlanetCRC();
+
+	public native void updateMissionLocation();
+
+	public void abort() {
+		if (missionObjective != null)
+			missionObjective.abort();
+	}
+
+	@preLocked
+	public void setFaction(final int missionFaction) {
+		faction = missionFaction;
+	}
+
+	@preLocked
+	public void setMissionObjective(MissionObjective obj) {
+		missionObjective = obj;
+	}
+
+	@preLocked
+	public void setRewardFactionPointsRebel(int points) {
+		rewardFactionPointsRebel = points;
+	}
+
+	@preLocked
+	public void setRewardFactionPointsImperial(int points) {
+		rewardFactionPointsImperial = points;
+	}
+
+	@local
+	@preLocked
+	public void setMissionTarget(NpcSpawnPoint target) {
+		missionTarget = target;
+	}
+
+	@local
+	@preLocked
+	public void setMissionTargetDest(NpcSpawnPoint target) {
+		missionTargetDest = target;
+	}
+
+	@preLocked
+	public void setMissionNumber(int num) {
+		missionNumber = num;
+	}
+
+	@preLocked
+	public void setTargetOptionalTemplate(final string tml) {
+		targetOptionalTemplate = tml;
+	}
+
+	@preLocked
+	public void setTemplateStrings(final string temp1, final string temp2) {
+		templateString1 = temp1;
+		templateString2 = temp2;
+	}
+
+	@dirty
+	public MissionObjective getMissionObjective() {
+		return missionObjective;
+	}
+
+	@read
+	public unsigned int getFaction() {
+		return faction;
+	}
+
+	@read
+	public int getRewardFactionPointsRebel() {
+		return rewardFactionPointsRebel;
+	}
+
+	@read
+	public int getRewardFactionPointsImperial() {
+		return rewardFactionPointsImperial;
+	}
+
+	@read
+	public float getStartPositionX() {
+		return startPositionX;
+	}
+
+	@read
+	public float getStartPositionY() {
+		return startPositionY;
+	}
+
+	@read
+	public string getTargetOptionalTemplate() {
+		return targetOptionalTemplate;
+	}
+
+	@read
+	public string getStartPlanet() {
+		return startPlanet;
+	}
+
+	@read
+	public float getEndPositionX() {
+		return endPositionX;
+	}
+
+	@read
+	public float getEndPositionY() {
+		return endPositionY;
+	}
+
+	@read
+	public string getEndPlanet() {
+		return endPlanet;
+	}
+
+	@dirty
+	public WaypointObject getWaypointToMission() {
+		return waypointToMission;
+	}
+
+	@dirty
+	@local
+	public NpcSpawnPoint getMissionTarget() {
+		return missionTarget;
+	}
+
+	@dirty
+	@local
+	public NpcSpawnPoint getMissionTargetDest() {
+		return missionTargetDest;
+	}
+
+	@read
+	public unsigned int getTypeCRC() {
+		return typeCRC;
+	}
+
+	@read
+	public int getRewardCredits() {
+		return rewardCredits;
+	}
+
+	@read
+	public int getRewardCreditsDivisor() {
+		return rewardCreditsDivisor;
+	}
+
+	@read
+	public unicode getCreatorName() {
+		return creatorName;
+	}
+
+	@read
+	public int getDifficultyLevel() {
+		return difficultyLevel;
+	}
+
+	@read
+	public int getDifficultyDisplay() {
+		return difficultyDisplay;
+	}
+
+	@read
+	public int getDifficulty() {
+		return difficulty;
+	}
+
+	@local
+	@dirty
+	public StringId getMissionDescription() {
+		return missionDescription;
+	}
+
+	@local
+	@dirty
+	public StringId getMissionTitle() {
+		return missionTitle;
+	}
+
+	@read
+	public string getTargetName() {
+		return targetName;
+	}
+
+	@read
+	public int getRefreshCounter() {
+		return refreshCounter;
+	}
+
+	@read
+	public int getMissionNumber() {
+		return missionNumber;
+	}
+
+	@local
+	@dirty
+	public native SharedObjectTemplate getTargetTemplate();
+
+	@dirty
+	public boolean isSurveyMission() {
+		return typeCRC == MissionTypes.SURVEY;
+	}
+
+	@dirty
+	public boolean isMissionObject() {
+		return true;
+	}
+
+	@read
+	public string getTemplateString1() {
+		return templateString1;
+	}
+
+	@read
+	public string getTemplateString2() {
+		return templateString2;
+	}
+
+	@read
+	public unsigned long getTargetObjectId() {
+		return targetObjectId;
+	}
+
+	@preLocked
+	public void setTargetObjectId(unsigned long id) {
+		targetObjectId = id;
+	}
+
+	@preLocked
+	public void setMissionLevel(int level) {
+		missionLevel = level;
+	}
+
+	public int getMissionLevel() {
+		return missionLevel;
+	}
+
+	@preLocked
+	public void setSize(float siz) {
+		size = siz;
+	}
+
+	@read
+	public float getSize() {
+		return size;
+	}
+}

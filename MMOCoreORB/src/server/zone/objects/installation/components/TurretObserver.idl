@@ -1,0 +1,24 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.installation;
+
+import engine.util.Observer;
+import engine.util.Observable;
+import server.zone.objects.building.BuildingObject;
+import server.zone.objects.scene.SceneObject;
+import engine.log.Logger;
+
+import engine.util.Observer;
+
+
+class TurretObserver extends Observer implements Logger{
+	
+	public TurretObserver() {
+		Logger.setLoggingName("TurretObserver");
+	}
+
+	public abstract native int notifyObserverEvent(unsigned int eventType, Observable observable, ManagedObject arg1, long arg2);
+	
+}

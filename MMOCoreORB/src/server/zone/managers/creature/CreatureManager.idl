@@ -1,0 +1,164 @@
+package server.zone.managers.creature;
+
+import server.zone.Zone;
+import server.zone.packets.MessageCallback;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.creature.ai.NonPlayerCreatureObject;
+import server.zone.objects.creature.ai.AiAgent;
+import server.zone.objects.creature.ai.Creature;
+import server.zone.managers.ZoneManager;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.managers.creature.CreatureTemplateManager;
+import server.zone.managers.creature.DnaManager;
+import server.zone.objects.area.SpawnArea;
+import system.util.Vector;
+include server.zone.managers.creature.CreatureMap;
+include server.zone.managers.creature.SpawnAreaMap;
+include server.zone.managers.creature.AiMap;
+include server.zone.managers.creature.AiSpeciesData;
+import engine.util.u3d.Vector3;
+import system.thread.Mutex;
+
+class CreatureManager extends ZoneManager {
+	protected Zone zone;
+	
+	/*@dereferenced
+	protected CreatureMap creatureMap;*/
+	
+	@dereferenced
+	protected SpawnAreaMap spawnAreaMap;
+	
+	protected transient CreatureTemplateManager creatureTemplateManager;
+	
+	// DNA manager
+	protected transient DnaManager dnaManager;
+
+	@dereferenced
+	protected SortedVector<AiAgent> reservePool;
+	
+	protected int spawnedRandomCreatures;
+
+	@dereferenced
+	protected static transient Mutex loadMutex;
+
+	public static final short NOTMILKED = 0x00;
+	public static final short BEINGMILKED = 0x01;
+	public static final short ALREADYMILKED = 0x02;
+	public static final short HASDNA = 0x00;
+	public static final short DNASAMPLED = 0x01;
+	public static final short DNADEATH = 0x03;
+
+	public CreatureManager(Zone planet) {
+		super("CreatureManager " + planet.getZoneName());
+		
+		zone = planet;
+		
+		setCreatureTemplateManager();
+		spawnedRandomCreatures = 0;
+		//reservePool.setAllowDuplicateInsertPlan();
+	}
+	
+	public void initialize() {
+		loadSpawnAreas();
+	}
+
+	public native SceneObject spawn(unsigned int lairTemplate, int difficultyLevel, int difficulty, float x, float z, float y, float size);
+
+	public native SceneObject spawnLair(unsigned int lairTemplate, int difficultyLevel, int difficulty, float x, float z, float y, float size = 20);
+
+	public native SceneObject spawnTheater(unsigned int lairTemplate, int difficulty, float x, float z, float y, float size = 10);
+
+	public native SceneObject spawnDynamicSpawn(unsigned int lairTemplate, int difficulty, float x, float z, float y, float size = 10);
+
+	/**
+	 * Spawns the specified creature into zone
+	 * @pre { this unlocked }
+	 * @post { creature is in zone }
+	 * @param templateCRC template string crc of the creature to spawn
+	 * @param x position x
+	 * @param y position y
+	 * @param parentID cell object id (optional)
+	 * @return returns creature object that has been spawned, NULL on error
+	 */
+	public native CreatureObject spawnCreatureWithAi(unsigned int templateCRC, float x, float z, float y, unsigned long parentID = 0, boolean persistent = false);
+	public native CreatureObject spawnCreatureWithLevel(unsigned int mobileTemplateCRC, int level, float x, float z, float y, unsigned long parentID = 0);
+	public native CreatureObject spawnCreatureAsBaby(unsigned int templateCRC, float x, float z, float y, unsigned long parentID = 0);
+	public native CreatureObject spawnCreatureAsEventMob(unsigned int templateCRC, int level, float x, float z, float y, unsigned long parentID = 0);
+	public native CreatureObject spawnCreature(unsigned int templateCRC, float x, float z, float y, unsigned long parentID = 0);
+	public native CreatureObject spawnCreature(unsigned int templateCRC, unsigned int objectCRC, float x, float z, float y, unsigned long parentID = 0, boolean persistent = false);
+	public native CreatureObject createCreature(unsigned int templateCRC, boolean persistent = false, unsigned int mobileTemplate = 0);
+	public native void placeCreature(CreatureObject creature, float x, float z, float y, unsigned long parentID);
+	
+	@dereferenced
+	public native string getTemplateToSpawn(unsigned int templateCRC);
+
+	public native boolean checkSpawnAsBaby(float tamingChance, int babiesSpawned, int chance);
+
+	/**
+	 * @pre { destructor and destructedObject locked }
+	 * @post { destructor and destructedObject locked }
+	 */
+	@local
+	@arg1preLocked
+	@arg2preLocked
+	public native int notifyDestruction(TangibleObject destructor, AiAgent destructedObject, int condition, boolean isCombatAction);
+	
+	public native void loadSpawnAreas();
+	
+	private native boolean createCreatureChildrenObjects(CreatureObject creature, unsigned int templateCRC, boolean persistent = false, unsigned int mobileTemplateCRC = 0);
+	
+	public native void spawnRandomCreaturesAround(SceneObject creature);
+	public native void spawnRandomCreature(int number, float x, float z, float y, unsigned long parentID = 0);
+	
+	/*public synchronized void addCreatureToMap(CreatureObject creature) {
+		creatureMap.put(creature.getObjectID(), creature);
+	}
+	
+	public synchronized void removeCreatureFromMap(unsigned long oid) {
+		creatureMap.remove(oid);
+	}*/
+	
+	private native void setCreatureTemplateManager();
+	
+	public native void harvest(Creature creature, CreatureObject player, int selectedID);
+	
+	public native void droidHarvest(Creature creature, CreatureObject droid, int selectedID, int bonus);
+	
+	public native void tame(Creature creature, CreatureObject player, boolean force = false, boolean adult = false);
+
+	public native void milk(Creature creature, CreatureObject player);
+	
+	/** Gather a DNA sample from the given creature*/
+	public native void sample(Creature creature, CreatureObject player);
+
+	public synchronized void addToReservePool(AiAgent agent) {
+		if (spawnedRandomCreatures > 0) {
+			spawnedRandomCreatures = spawnedRandomCreatures - 1;
+		} else {
+			
+		}
+		
+		reservePool.put(agent);
+	}
+	
+	public int getSpawnedRandomCreatures() {
+		return spawnedRandomCreatures;
+	}
+	
+	@local
+	public Vector<SpawnArea> getWorldSpawnAreas() {
+		return spawnAreaMap.getWorldSpawnAreas();
+	}
+
+	@local
+	public AiSpeciesData getAiSpeciesData(unsigned int speciesID) {
+		return creatureTemplateManager.getAiSpeciesData(speciesID);
+	}
+
+	public native SpawnArea getSpawnArea(final string areaname);
+	
+	public native boolean addWearableItem(CreatureObject creature, TangibleObject clothing);
+
+}
+

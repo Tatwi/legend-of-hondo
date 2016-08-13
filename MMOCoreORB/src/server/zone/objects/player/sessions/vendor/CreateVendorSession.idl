@@ -1,0 +1,77 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions. */
+
+package server.zone.objects.player.sessions.vendor;
+
+include engine.core.ManagedObject;
+
+import engine.log.Logger;
+import engine.core.ManagedReference;
+import engine.util.Facade;
+import system.lang.ref.Reference;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.tangible.TangibleObject;
+include server.zone.objects.scene.SessionFacadeType;
+include server.zone.objects.player.sui.listbox.SuiListBox;
+include server.zone.objects.player.sui.inputbox.SuiInputBox;
+include server.zone.managers.vendor.VendorSelectionNode;
+import server.zone.managers.auction.AuctionManager;
+include templates.creature.VendorCreatureTemplate;
+
+
+class CreateVendorSession extends Facade {
+	@weakreference
+	protected CreatureObject player;
+
+	VendorSelectionNode currentNode;
+	
+	protected SuiListBox suiSelectVendor;
+	protected SuiInputBox suiNameVendor;
+
+	private string templatePath;
+		
+	public CreateVendorSession(CreatureObject play) {
+		Logger.setLoggingName("CreateVendorSession");
+		Logger.setLogging(true);
+
+		player = play;
+		suiNameVendor = null;
+	}
+	
+	// Session
+	public native int initializeSession();
+	
+	public int cancelSession() {
+		if (player != null)
+			player.dropActiveSession(SessionFacadeType.CREATEVENDOR);
+
+		clearSession();
+		return 0;
+	}
+	
+	public int clearSession() {
+		player = null;
+		currentNode = null;
+		suiSelectVendor = null;
+		suiNameVendor = null;
+
+		return 0;
+	}
+
+	public native void handleVendorSelection(byte menuID);
+
+	public native void createVendor(string name);
+
+	public native void randomizeVendorLooks(CreatureObject vendor);
+	
+	private native void randomizeVendorClothing(CreatureObject vendor, VendorCreatureTemplate vendorTempl);
+	
+	private native void randomizeVendorHair(CreatureObject vendor, VendorCreatureTemplate vendorTempl);
+	
+	private native void randomizeVendorFeatures(CreatureObject vendor, VendorCreatureTemplate vendorTempl);
+	
+	private native void randomizeVendorHeight(CreatureObject vendor, VendorCreatureTemplate vendorTempl);
+
+}

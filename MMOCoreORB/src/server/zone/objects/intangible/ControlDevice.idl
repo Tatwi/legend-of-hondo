@@ -1,0 +1,87 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.intangible;
+
+import engine.lua.LuaObject;
+import server.zone.objects.intangible.IntangibleObject;
+import server.zone.objects.creature.VehicleObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.Zone;
+include server.zone.managers.radial.RadialOptions;
+import server.zone.objects.creature.CreatureObject;
+include server.zone.objects.scene.variables.ContainerPermissions;
+
+@lua
+class ControlDevice extends IntangibleObject {
+	@weakReference
+	protected TangibleObject controlledObject;
+
+	public ControlDevice() {
+		controlledObject = null;
+
+		Logger.setLoggingName("ControlDevice");
+		Logger.setLogging(false);
+		Logger.setGlobalLogging(true);
+
+		super.getContainerPermissions().setInheritPermissionsFromParent(true);
+
+		ContainerPermissions permissions = super.getContainerPermissions();
+		permissions.clearDefaultDenyPermission(ContainerPermissions.MOVECONTAINER);
+		permissions.clearDenyPermission("owner", ContainerPermissions.MOVECONTAINER);
+	}
+
+	/**
+	 * Updates this object to database (calls updatesToDatabaseAllObjects())
+	 * @pre { this object is locked }
+	 * @post { this object is locked }
+	 * @param startTask if true, queues a new update task
+	 */
+	public void updateToDatabaseAllObjects(boolean startTask) {
+		TangibleObject obj = controlledObject;
+
+		if (obj != null) {
+			obj.updateToDatabaseWithoutChildren();
+
+			super.updateToDatabaseAllObjects(startTask);
+		} else {
+			super.updateToDatabaseAllObjects(startTask);
+		}
+	}
+
+	public abstract void storeObject(CreatureObject player, boolean force = false) {
+		Logger.error("called storeObject on an abstract method");
+	}
+
+	public abstract void generateObject(CreatureObject player) {
+		Logger.error("called generateObject on an abstract method");
+	}
+
+	public abstract void callObject(CreatureObject player) {
+		Logger.error("called callObject on an abstract method");
+	}
+
+	public abstract boolean canBeTradedTo(CreatureObject player, CreatureObject receiver, int numberInTrade) {
+		Logger.error("called canBeTradedTo on an abstract method");
+		return false;
+	}
+
+	@preLocked
+	public void setControlledObject(TangibleObject object) {
+		controlledObject = object;
+	}
+
+	@dirty
+	public TangibleObject getControlledObject() {
+		TangibleObject obj = controlledObject;
+		return obj;
+	}
+
+	@dirty
+	public boolean isControlDevice() {
+		return true;
+	}
+}

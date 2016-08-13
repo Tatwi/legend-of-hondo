@@ -1,0 +1,137 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible;
+
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.Zone;
+import engine.lua.LuaObject;
+include templates.SharedObjectTemplate;
+include templates.tangible.InstrumentObjectTemplate;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.managers.object.ObjectManager;
+include templates.params.ObserverEventType;
+import server.zone.objects.tangible.InstrumentObserver;
+
+class Instrument extends TangibleObject {
+	protected int instrumentType;
+	protected boolean beingUsed;
+	protected SceneObject spawnedObject;
+
+	@weakReference
+	protected CreatureObject spawnerPlayer;
+
+	/* Redoing instrument consts to match the instrumentAudioId in TRE
+	 * The actual packets for triggering sound is different & in creature
+	 * implementation as well as the appropriate animation for each inst type
+	1	traz
+	2	slitherhorn
+	3	fanfar
+	4	flutedroopy
+	5	kloohorn
+	6	fizz
+	7	bandfill
+	8	omnibox
+	9	nalargon
+	10	mandoviol*/
+
+	public static final int TRAZ = 1;
+	public static final int SLITHERHORN = 2;
+	public static final int FANFAR = 3;
+	public static final int FLUTEDROOPY = 4;
+	public static final int KLOOHORN = 5;
+	public static final int FIZZ = 6;
+	public static final int BANDFILL = 7;
+	public static final int OMNIBOX = 8;
+	public static final int NALARGON = 9;
+	public static final int MANDOVIOL = 10;
+
+	public Instrument() {
+		instrumentType = 0;
+
+		beingUsed = false;
+
+		Logger.setLoggingName("Instrument");
+	}
+
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+
+		Logger.setLoggingName("Instrument");
+	}
+
+	public void notifyLoadFromDatabase() {
+		super.notifyLoadFromDatabase();
+
+		beingUsed = false;
+
+		if (spawnedObject != null) {
+			spawnedObject.destroyObjectFromWorld(false);
+		}
+	}
+
+	@local
+	public void loadTemplateData(SharedObjectTemplate templateData) {
+		super.loadTemplateData(templateData);
+
+		if (!templateData.isInstrumentObjectTemplate())
+			return;
+
+		InstrumentObjectTemplate templ = (InstrumentObjectTemplate) templateData;
+
+		instrumentType = templ.getInstrumentType();
+	}
+
+	/**
+	 * Fills the radial options, needs to be overriden
+	 * @pre { this object is locked }
+	 * @post { this object is locked, menuResponse is complete}
+	 * @param menuResponse ObjectMenuResponse that will be sent to the client
+	 */
+	@local
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+
+	/**
+	 * Handles the radial selection sent by the client, must be overriden by inherited objects
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @param player CreatureObject that selected the option
+	 * @param selectedID selected menu id
+	 * @returns 0 if successfull
+	 */
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+
+	public native void spawnInAdminCell(CreatureObject spawner);
+	public native void spawnNonAdmin(CreatureObject spawner);
+
+	@dirty
+	public native boolean canDropInstrument();
+
+	@dirty
+	public int getInstrumentType() {
+		return instrumentType;
+	}
+
+	@weakReference
+	@dirty
+	public CreatureObject getSpawnerPlayer() {
+		return spawnerPlayer;
+	}
+
+	public void setSpawnerPlayer(CreatureObject pla) {
+		spawnerPlayer = pla;
+	}
+
+	@read
+	public boolean isBeingUsed() {
+		return beingUsed;
+	}
+
+	public void setBeingUsed(boolean val) {
+		beingUsed = val;
+	}
+}

@@ -1,0 +1,300 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.creature;
+
+import server.zone.objects.tangible.TangibleObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.packets.object.ObjectMenuResponse;
+import server.zone.packets.scene.AttributeListMessage;
+import server.zone.objects.intangible.VehicleControlDevice;
+import engine.core.ManagedObject;
+import engine.lua.LuaObject;
+import system.util.Vector;
+import server.zone.Zone;
+include server.zone.objects.scene.SceneObjectType;
+include templates.SharedObjectTemplate;
+
+class VehicleObject extends CreatureObject {
+	protected int vehicleType;
+	protected int paintCount;
+
+	/*
+	In October 21, 2004 :Jump to Lightspeed Expansion Publish Part 1: 
+	 was 2000 but get a good cut in a successive patch
+	*/
+	public static final int PAINTCHARGES = 999;
+
+	public VehicleObject() {
+		vehicleType = SceneObjectType.HOVERVEHICLE;
+		paintCount = 0;
+		Logger.setLoggingName("VehicleObject");
+		Logger.setLogging(false);
+		Logger.setGlobalLogging(true);
+	}
+
+	@local
+	public void loadTemplateData(SharedObjectTemplate templateData) {
+		super.loadTemplateData(templateData);
+
+		super.optionsBitmask = 0x1080;
+		super.pvpStatusBitmask = 0;
+	}
+
+	@local
+	@dirty
+	public native void fillObjectMenuResponse(ObjectMenuResponse menuResponse, CreatureObject player);
+
+	/**
+	 * Fills the attribute list message options that are sent to player creature
+	 * @pre { }
+	 * @post { }
+	 * @param msg attribute list message with the attributes
+	 * @param object player creature to which the message is sent
+	 */
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage alm, CreatureObject object);	
+
+	@dirty
+	public native boolean checkInRangeGarage();
+
+	/**
+	 * Inserts this object into zone
+	 * @pre { this object is locked }
+	 * @post { this object is locked and inserted into zone }
+	 * @param zone Zone object where this object will be inserted
+	 */
+	public native void notifyInsertToZone(Zone zone);
+
+	/**
+	 * Sets a new posture
+	 * @pre { this object is locked }
+	 * @post {this object is locked, this object has the new posture set }
+	 * @param newPosture posture to set
+	 * @param notifyClient if set true the client will be updated with the changes
+	 */
+	@dirty
+	public void setPosture(int newPosture, boolean notifyClient = true) {
+		//vehicles should not change posture
+		return;
+	}
+
+	/**
+	 * Sends BasePacket msg to the owner of this object, needs to be overriden
+	 * @pre { } 
+	 * @post {owner of this object received message, message is deleted }
+	 * @param msg BasePacket to be sent
+	 */
+	@dirty
+	public native void sendMessage(BasePacket msg);
+
+	/**
+	 * Inflicts damage into the object
+	 * @pre { this object is locked }
+	 * @post { this object is locked }
+	 * @return unused for now
+	 */
+	@preLocked
+	@arg1preLocked
+	public native int inflictDamage(TangibleObject attacker, int damageType, float damage, boolean destroy, boolean notifyClient = true, boolean isCombatAction = false);
+
+	@preLocked
+	@arg1preLocked
+	public native int inflictDamage(TangibleObject attacker, int damageType, float damage, boolean destroy, final string xp, boolean notifyClient = true, boolean isCombatAction = false);
+
+	/**
+	 * Heals damage
+	 * @pre { this, healer locked }
+	 * @post { this, healer locked }
+	 */
+	@preLocked
+	public native int healDamage(TangibleObject healer, int damageType, int damageToHeal, boolean notifyClient = true);
+
+	/**
+	 * Heals wounds
+	 * @pre { this object is locked }
+	 * @post { this object is locked }
+	 */
+	public int healWound(TangibleObject healer, int damageType, int damage, boolean notifyClient = true, boolean notifyObservers = true) {
+		return 0;
+	}
+
+	/**
+	 * adds wounds
+	 * @pre { this object is locked }
+	 * @post { this object is locked }
+	 */
+	public int addWounds(int type, int value, boolean notifyClient = true, boolean doShockWounds = true) {
+		return 0;
+	}
+
+	/**
+	 * Updates a specific type of wound
+	 * @pre { this object is locked }
+	 * @post { this object is locked, }
+	 */
+	public void setWounds(int type, int value, boolean notifyClient = true) {
+
+	}
+
+	/**
+	 * Adds a SceneObject to the defender vector
+	 * @pre { this object is locked }
+	 * @post { this object is locked, defender is in the defender vector }
+	 * @param defender SceneObject to add to the defender vector
+	 */
+	@dirty
+	@preLocked
+	public void addDefender(SceneObject defender) {
+		
+	}
+
+	/**
+	 * Removes the specified defender from the defender vector
+	 * @pre { this object is locked }
+	 * @post { this object is locked, defender is not in the defender vector }
+	 * @param defender SceneObject to remove from the defender vector
+	 */
+	@dirty
+	@preLocked
+	public void removeDefender(SceneObject defender) {
+		
+	}
+
+	/**
+	 * Sets the active defender
+	 * @pre { this object is locked }
+	 * @post { this object is locked, defender is active }
+	 * @param defender SceneObject to set as the active defender
+	 */
+	@dirty
+	@preLocked
+	public void setDefender(SceneObject defender) {
+		
+	}
+
+	/**
+	 * Evaluates if this object can be attacked by the passed creature object
+	 * @pre { }
+	 * @post { }
+	 * @return returns true if the creature object can attack this 
+	 */
+	@dirty
+	public boolean isAttackableBy(CreatureObject object) {
+		CreatureObject creature = super.linkedCreature;
+
+		if (creature == null || isDestroyed())
+			return false;
+
+		if (object.getZone() != getZone())
+			return false;
+
+		return creature.isAttackableBy(object);
+	}
+
+	/**
+	 * Is called when this object is destroyed
+	 * @pre { this, attacker locked }
+	 * @post { this, attacker locked }
+	 */
+	@preLocked
+	@arg1preLocked
+	public native int notifyObjectDestructionObservers(TangibleObject attacker, int condition, boolean isCombatAction);
+
+	/**
+	 * Handles the radial selection sent by the client, must be overriden by inherited objects
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @param player CreatureObject that selected the option
+	 * @param selectedID selected menu id
+	 * @returns 0 if successfull
+	 */
+	@preLocked
+	@arg1preLocked
+	public native int handleObjectMenuSelect(CreatureObject player, byte selectedID);
+
+	/**
+	 * Attempts to see if the vehicle can be repaired. If tests are passed, then it sends the confirmation box to the player.
+	 * @pre { this object is locked, player is locked }
+	 * @post { this object is locked, player is locked }
+	 * @param player The player that is repairing the vehicle.
+	 */
+	@preLocked
+	@arg1preLocked
+	public native void repairVehicle(CreatureObject player);
+
+	@dirty
+	public native int calculateRepairCost(CreatureObject player);
+
+	@dirty
+	public native void sendRepairConfirmTo(CreatureObject player);
+
+	@preLocked
+	public void refreshPaint() {
+		paintCount = PAINTCHARGES;
+	}	
+
+	@read
+	public int getPaintCount(){
+		return paintCount;
+	}
+
+	@dirty
+	public boolean isVehicleObject() {
+		return true;
+	}
+
+	@dirty
+	public unsigned int getArmor() {
+		return 0;
+	}
+
+	@dirty
+	public float getKinetic() {
+		return 30 - getConditionReduction(30);
+	}
+
+	@dirty
+	public float getEnergy() {
+		return 25 - getConditionReduction(25);
+	}
+
+	@dirty
+	public float getElectricity() {
+		return 25 - getConditionReduction(25);
+	}
+
+	@dirty
+	public float getStun() {
+		return 25 - getConditionReduction(25);
+	}
+
+	@dirty
+	public float getBlast() {
+		return 25 - getConditionReduction(25);
+	}
+
+	@dirty
+	public float getHeat() {
+		return 25 - getConditionReduction(25);
+	}
+
+	@dirty
+	public float getCold() {
+		return 25 - getConditionReduction(25);
+	}
+
+	@dirty
+	public float getAcid() {
+		return 25 - getConditionReduction(25);
+	}
+
+	@dirty
+	public float getLightSaber() {
+		return 25 - getConditionReduction(25);
+	}
+}

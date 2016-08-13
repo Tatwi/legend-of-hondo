@@ -1,0 +1,28 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.tangible.wearables;
+
+import server.zone.objects.tangible.wearables.WearableObject;
+import server.zone.objects.creature.CreatureObject;
+import engine.lua.LuaObject;
+import server.zone.Zone;
+include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
+
+class ClothingObject extends WearableObject {
+	public ClothingObject() {		
+		Logger.setLoggingName("ClothingObject");
+	}
+	
+	public void initializeTransientMembers() {
+		super.initializeTransientMembers();
+		
+		Logger.setLoggingName("ClothingObject");
+	}
+	
+	@local
+	public void updateCraftingValues(CraftingValues values, boolean firstUpdate) {
+		super.updateCraftingValues(values, firstUpdate);
+	}
+}

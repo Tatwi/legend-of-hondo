@@ -1,0 +1,96 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.building;
+
+import server.zone.objects.building.BuildingObject;
+import server.zone.objects.tangible.DespawnLairOnPlayerDisappear;
+import server.zone.objects.creature.CreatureObject;
+include engine.util.u3d.CloseObjectsVector;
+include engine.util.u3d.QuadTreeEntry;
+
+class PoiBuilding extends BuildingObject {
+	@dereferenced
+	protected transient AtomicInteger numberOfPlayersInRange;
+	protected boolean despawnOnNoPlayersInRange;
+
+	protected transient DespawnLairOnPlayerDisappear despawnEvent;
+
+	public PoiBuilding() {
+		Logger.setLoggingName("PoiBuilding");
+
+		super.closeobjects = new CloseObjectsVector();
+		super.closeobjects.setNoDuplicateInsertPlan();
+
+		despawnOnNoPlayersInRange = false;
+	}
+
+	@dirty
+	public int getNumberOfPlayersInRange() {
+		return numberOfPlayersInRange.get();
+	}
+
+	@read
+	public boolean getDespawnOnNoPlayersInRange() {
+		return despawnOnNoPlayersInRange;
+	}
+
+	@preLocked
+	public void setDespawnOnNoPlayersInRange(boolean b) {
+		despawnOnNoPlayersInRange = b;
+	}
+
+	public void notifyInsert(QuadTreeEntry entry) {
+		SceneObject obj = (SceneObject) entry;
+
+		if (obj == this)
+			return;
+
+		if (obj.isPlayerCreature()) {
+			CreatureObject creo = (CreatureObject) obj;
+			if (!creo.isInvisible()) {
+				numberOfPlayersInRange.increment();
+				clearDespawnEvent();
+			}
+		}
+	}
+
+	public void notifyDissapear(QuadTreeEntry entry) {
+		SceneObject obj = (SceneObject) entry;
+
+		if (obj == this)
+			return;
+
+		if (obj.isPlayerCreature()) {
+			CreatureObject creo = (CreatureObject) obj;
+			if (!creo.isInvisible()) {
+				int val = numberOfPlayersInRange.decrement();
+
+				if (val <= 0 && despawnOnNoPlayersInRange)
+					activateDespawnEvent();
+			}
+		}
+	}
+
+	public void activateDespawnEvent() {
+		if (despawnEvent != null)
+			return;
+
+		despawnEvent = new DespawnLairOnPlayerDisappear(this);
+		despawnEvent.schedule(300000);
+	}
+
+	public void clearDespawnEvent() {
+		if (despawnEvent == null)
+			return;
+
+		despawnEvent.cancel();
+		despawnEvent = null;
+	}
+
+	@dirty
+	public boolean isPoiBuilding() {
+		return true;
+	}
+}

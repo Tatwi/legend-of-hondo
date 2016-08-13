@@ -1,0 +1,35 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.player.sui.colorbox;
+
+import engine.lua.LuaObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+import engine.service.proto.BaseMessage;
+import server.zone.objects.player.sui.SuiBox;
+include server.zone.packets.ui.SuiCreatePageMessage;
+
+class SuiColorBox extends SuiBox {
+
+	protected string variable;
+
+	public SuiColorBox(CreatureObject player, unsigned int windowType) {
+		super(player, windowType, SuiBox.COLORPICKER);
+	}
+
+	public native BaseMessage generateMessage();
+
+	public string getColorPalette() {
+		return variable;
+	}
+
+	public void setColorPalette(string pal) {
+		variable = pal;
+	}
+	
+	public boolean isColorPicker() {
+		return true;
+	}
+}

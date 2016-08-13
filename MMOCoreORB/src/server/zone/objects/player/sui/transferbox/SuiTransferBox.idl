@@ -1,0 +1,39 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.player.sui.messagebox;
+
+import engine.lua.LuaObject;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+import engine.service.proto.BaseMessage;
+import server.zone.objects.player.sui.SuiBox;
+include server.zone.packets.ui.SuiCreatePageMessage;
+import server.zone.objects.creature.CreatureObject;
+
+class SuiTransferBox extends SuiBox {
+	protected string lblFrom;
+	protected string lblStartingFrom;
+	protected string lblInputFrom;
+	protected string lblTo;
+	protected string lblStartingTo;
+	protected string lblInputTo;
+	
+	protected string convertRatioFrom;
+	protected string convertRatioTo;
+
+
+	public SuiTransferBox(CreatureObject player, unsigned int windowType) {
+		super(player, windowType, SuiBox.TRANSFERBOX);
+	}
+
+	public native BaseMessage generateMessage();
+
+	public native void addFrom(final string from, final string startingFrom, final string inputFrom, final string rFrom);
+	public native void addTo(final string to, final string startingTo, final string inputTo, final string rTo);
+	
+	public boolean isTransferBox() {
+		return true;
+	}
+}

@@ -1,0 +1,449 @@
+/*
+				Copyright <SWGEmu>
+		See file COPYING for copying conditions.*/
+
+package server.zone.objects.building;
+
+import server.zone.objects.structure.StructureObject;
+import engine.lua.LuaObject;
+import engine.util.u3d.QuadTree;
+import engine.util.u3d.QuadTreeEntry;
+import system.util.SortedVector;
+import system.util.SynchronizedSortedVector;
+import system.util.Vector;
+import server.zone.objects.scene.SceneObject;
+import server.zone.objects.creature.CreatureObject;
+import server.zone.objects.tangible.sign.SignObject;
+import server.zone.ZoneServer;
+import server.zone.Zone;
+include templates.SharedObjectTemplate;
+include templates.ChildObject;
+include templates.building.SignTemplate;
+import engine.util.u3d.Vector3;
+import system.lang.StackTrace;
+include server.zone.objects.cell.CellObject;
+include engine.util.u3d.CloseObjectsVector;
+import system.thread.Mutex;
+
+class BuildingObject extends StructureObject {
+	@dereferenced
+	protected VectorMap<unsigned int, CellObject> cells;
+
+	protected int totalCellNumber;
+	
+	protected SignObject signObject;
+	
+	protected unsigned long deedObjectID;
+	
+	protected int accessFee;
+	protected int accessDuration;
+	protected transient unsigned int lastAccessFeeChange;
+	
+	@dereferenced
+	protected transient Mutex paidAccessListMutex; 
+	
+	@dereferenced
+	protected VectorMap<unsigned long, unsigned int> paidAccessList;
+
+	@dereferenced
+	protected SortedVector<CreatureObject> childCreatureObjects;
+
+	@dereferenced
+	protected transient SynchronizedSortedVector<unsigned long> registeredPlayerIdList;
+
+	public boolean publicStructure;
+	
+	public static final int MAXPLAYERITEMS = 400;
+
+	protected unicode signName;
+		
+	protected boolean isOwnerResidence;
+
+	protected int factionBaseType;
+
+	public BuildingObject() {
+		Logger.setLoggingName("BuildingObject");
+		
+		super.closeobjects = new CloseObjectsVector();
+		super.closeobjects.setNoDuplicateInsertPlan();
+
+		super.staticObject = false;
+						
+		totalCellNumber = 0;
+		
+		accessFee = 0;
+		accessDuration = 0;
+		lastAccessFeeChange = 0;
+		
+		deedObjectID = 0;
+		
+		publicStructure = true;
+
+		signName = "";
+		isOwnerResidence = false;
+
+		factionBaseType = 0;
+	}
+
+	@preLocked
+	public native void createCellObjects();
+
+	@preLocked
+	public native void destroyObjectFromDatabase(boolean destroyContainedObjects = false);
+
+	@local
+	public native void loadTemplateData(SharedObjectTemplate templateData);
+
+	public native void initializeTransientMembers();
+
+	public native void createContainerComponent();
+
+	@preLocked
+	public void setCustomObjectName(final unicode name, boolean notifyClient) {
+		super.customName = name;
+		signName = name;
+		updateSignName(notifyClient);
+	}
+
+	@preLocked
+	public native void updateSignName(boolean notifyClient);
+
+	/**
+	 * Sends the contained non slotted objects to the specified player
+	 * @pre { this object is locked }
+	 * @post { this object is locked, player received the container objects }
+	 * @param player SceneObject that will receive the objects 
+	 */
+	@dirty
+	public native void sendContainerObjectsTo(SceneObject player);
+
+	/**
+	 * Updates the cell permissions to the player based on the players permission in the StructurePermissionList.
+	 * @param creature The player to update cell permissions to.
+	 */
+	public native void updateCellPermissionsTo(CreatureObject creature);
+
+	/**
+	 * Updates the cell permissions to the players in the area.
+	 * @pre Zone unlocked
+	 * @post Zone unlocked
+	 */
+	@dirty
+	public native void broadcastCellPermissions();
+
+	/**
+	 * Updates a specific cell's permissions to the players in the area
+	 */
+	@dirty
+	public native void broadcastCellPermissions(unsigned long objectid);
+
+	/**
+	 * Checks to see if the player with the name is allowed entry.
+	 * @param firstName The name of the player.
+	 * @return Returns true if allowed to enter.
+	 */
+	@dirty
+	public native boolean isAllowedEntry(CreatureObject player);
+
+	/**
+	 * Checks to see if the player is CityBanned from the city
+	 * that the building is in
+	 * returns true if the player is cityBanned
+	 * returns false if the player is not CityBanned
+	 */
+	@dirty
+	public native boolean isCityBanned(CreatureObject player);
+
+	/**
+	 * Gets called when the structure has been created;
+	 */
+	public abstract int notifyStructurePlaced(CreatureObject player) {
+		return 0;
+	}
+
+	/**
+	* Checks if the template has an ejection point
+	*/
+	@dirty
+	public native boolean hasTemplateEjectionPoint();
+
+	/**
+	* Returns the template ejection point
+	*/
+	@local
+	@dereferenced
+	@dirty
+	public native Vector3 getTemplateEjectionPoint();
+
+	@local
+	@dereferenced
+	@dirty
+	public native Vector3 getEjectionPoint();
+
+	/**
+	 * Ejects an object to this building's ejection point.
+	 * @param creature The creature to eject.
+	 */
+	public native void ejectObject(CreatureObject creature);
+
+	public native void notifyRemoveFromZone();
+
+	/**
+	 * Gets called when this objects is loaded from database
+	 * @pre { this locked }
+	 * @post { this locked }
+	 */
+	public native void notifyLoadFromDatabase();
+
+	@local
+	@dirty
+	public native void notifyInsert(QuadTreeEntry obj);
+
+	public native void notifyInsertToZone(Zone zone);
+
+	@local
+	@dirty
+	public native void notifyDissapear(QuadTreeEntry obj);
+
+	public native void notifyObjectInsertedToZone(SceneObject object);
+
+	@local
+	public native void insert(QuadTreeEntry obj);
+
+	@local
+	public native void remove(QuadTreeEntry obj);
+
+	@local
+	public native void update(QuadTreeEntry obj);
+
+	@local
+	public native void inRange(QuadTreeEntry obj, float range);
+
+	@dirty
+	public native void sendTo(SceneObject player, boolean doClose);
+	@dirty
+	public native void sendBaselinesTo(SceneObject player);
+	@dirty
+	public native void sendDestroyTo(SceneObject player);
+
+	@preLocked
+	public native void addCell(CellObject cell, unsigned int cellNumber);
+
+	@dirty
+	public boolean isStaticBuilding() {
+		return super.staticObject;
+	}
+
+	/**
+	 * Returns cell based on the index.
+	 * Cells start index 1
+	 */
+	@dirty
+	public CellObject getCell(unsigned int idx) {
+		if (idx == 0) {
+			super.error("trying to get Cell with id = 0");
+			
+			StackTrace.printStackTrace();
+		}
+			
+		return cells.get(idx);
+	}
+
+	@dirty
+	public native CellObject getCell(final string cellName);
+
+	@read
+	public int getTotalCellNumber() {
+		return totalCellNumber;
+	}
+
+	public native int notifyObjectInsertedToChild(SceneObject object, SceneObject child, SceneObject oldParent);
+	public native int notifyObjectRemovedFromChild(SceneObject object, SceneObject child);
+
+	@dirty
+	public native int getCurrentNumberOfPlayerItems();
+
+	/**
+	 * Loops through all the cells, destroying items from the database that aren't contained in the child objects vector.
+	 */
+	public native void destroyAllPlayerItems();
+
+	/**
+	 * Abstract function that is triggered when a player enters a building.
+	 * This function should only be called from CreatureObject::insertToBuilding.
+	 * Overloaded functions must meet the post conditions for this function.
+	 * @pre { player is locked, zone is locked }
+	 * @post { player is locked, zone is locked }
+	 * @param player CreatureObject that entered the building
+	 */
+	@dirty
+	public native abstract void onEnter(CreatureObject player);
+
+	/**
+	 * Abstract function that is triggered when a player exits a building.
+	 * This function should only be called from CreatureObject::removeFromBuilding.
+	 * Overloaded functions must meet the post conditions for this function.
+	 * @pre { player is locked, zone is locked }
+	 * @post { player is locked, zone is locked }
+	 * @param player CreatureObject that exited the building
+	 */
+	@dirty
+	public native abstract void onExit(CreatureObject player, unsigned long parentid);
+
+	@dirty
+	public boolean isBuildingObject() {
+		return true;
+	}
+
+	@preLocked
+	public void setSignObject(SignObject sign) {
+		signObject = sign;
+	}
+
+	public SignObject getSignObject() {
+		return signObject;
+	}
+
+	@dirty
+	public boolean isPublicStructure() {
+		return publicStructure;
+	}
+
+	@dirty
+	public boolean isPrivateStructure() {
+		return !publicStructure;
+	}
+
+	@preLocked
+	public void setPublicStructure(boolean privacy) {
+		publicStructure = privacy;
+	}
+
+	@dirty
+	public boolean isCondemned() {
+		return super.isDecayed();
+	}
+
+	@read
+	public int getMapCellSize() {
+		return cells.size();
+	}
+
+	/**
+	 * Switches the state of this building's privacy. If it is public, it becomes private, and vice-versa.
+	 * @return Returns true if the structure is now public, or false if it is now private.
+	 */
+	@preLocked
+	public native boolean togglePrivacy();
+
+	/**
+	 * Calculates the maximum number of items that can be stored by a player in this building.
+	 * @return Returns a uint32 number representing the max items that can be stored in this building.
+	 */
+	@dirty
+	public abstract native unsigned int getMaximumNumberOfPlayerItems();
+
+	@dirty
+	public string getRedeedMessage() {
+		if(getCurrentNumberOfPlayerItems() > 0)
+			return "clear_building_for_delete";
+
+		return "";
+	}
+
+	@read
+	public boolean hasAccessFee() {
+		return accessFee > 0;
+	}
+
+	@read
+	public int getAccessFee() {
+		return accessFee;
+	}
+
+	@dirty
+	public native boolean canChangeAccessFee();
+
+	public native void setAccessFee(int fee, int duration);
+
+	public void removeAccessFee() {
+		synchronized (paidAccessListMutex) {
+			accessFee = 0;
+			accessDuration = 0;
+			paidAccessList.removeAll();
+			updatePaidAccessList();
+		}
+	}
+	
+	@dirty
+	@nativeStub
+	@local
+	public native BuildingObject asBuildingObject();
+
+	@dirty
+	public native int getAccessFeeDelay();
+
+	@dirty
+	private native void promptPayAccessFee(CreatureObject player);
+
+	@arg1preLocked
+	public native void payAccessFee(CreatureObject player);
+
+	public native void updatePaidAccessList();
+
+	//public native boolean isGCWBase();
+
+	public native void registerProfessional(CreatureObject player);
+	public native void unregisterProfessional(CreatureObject player);
+	@dirty
+	public native boolean isInPlayerCity();
+	@dirty
+	public native boolean canPlayerRegisterWithin();
+
+	public boolean isPlayerRegisteredWithin(unsigned long id) {
+		return registeredPlayerIdList.contains(id);
+	}
+
+	@preLocked
+	public native void createChildObjects();
+
+	@local
+	public native void spawnChildSceneObject(string templatePath, float x, float z, float y, unsigned long cellID, float dw, float dx, float dy, float dz);
+
+	@preLocked
+	public native void spawnChildCreaturesFromTemplate();
+
+	@local
+	@preLocked
+	public native void spawnChildCreature(string mobile, int respawnTimer, float x, float z, float y, float heading, unsigned long cellID);
+
+	public native boolean hasTemplateChildCreatures();
+
+	@preLocked
+	public native void destroyChildObjects();
+
+	@dirty
+	public boolean isResidence(){
+		return isOwnerResidence;
+	}
+
+	@preLocked
+	public void setResidence (boolean isResidence){
+		isOwnerResidence = isResidence;
+	}
+
+	@read
+	public int getFactionBaseType() {
+		return factionBaseType;
+	}
+	
+	/**
+	 * Adds the desired sign as a child object, removing any current sign
+	 * @param SignTemplate sign config from structure lua
+	 * @pre structure object is locked
+	 * @post structure object is locked 
+	 */
+	@local
+	@preLocked
+	public native void changeSign( SignTemplate signConfig );	
+}
