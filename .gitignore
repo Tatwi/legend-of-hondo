@@ -1,0 +1,5 @@
+
+MMOCoreORB/src/autogen/*
+MMOCoreORB/src/client/build/*
+MMOCoreORB/src/client/autom4te.cache/*
+MMOCoreORB/src/odb/build/*
