@@ -24,6 +24,11 @@ require("sui.custom.SuiProcessorPuzzle")
 require("sui.custom.SuiRadiationSensor")
 require("sui.custom.SuiReceiverPuzzle")
 
+--Legend of Hondo
+require("hondo.admin.decor_menu")
+require("hondo.admin.placestructure_menu")
+require("hondo.sui.SuiHondoDecoration")
+
 includeFile("helperfuncs.lua")
 
 -- Theme parks
