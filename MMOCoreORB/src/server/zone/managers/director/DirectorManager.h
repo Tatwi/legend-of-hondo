@@ -182,6 +182,12 @@ namespace server {
 		static int getQuestVectorMap(lua_State* L);
 		static int removeQuestVectorMap(lua_State* L);
 		static int createQuestVectorMap(lua_State* L);
+		static int dropDecoration(lua_State* L);
+		static int pickupDecoration(lua_State* L);
+		static int getCityRegionNameAt(lua_State* L);
+		static int getAdminLevel(lua_State* L);
+		static int adminPlaceStructure(lua_State* L);
+		static int objectPlaceStructure(lua_State* L);
 
 	private:
 		void setupLuaPackagePath(Lua* luaEngine);

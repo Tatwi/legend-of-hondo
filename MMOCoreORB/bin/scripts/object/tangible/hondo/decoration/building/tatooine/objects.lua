@@ -1,0 +1,129 @@
+-- Legend of Hondo
+-- "Static Object" models as decorative items for use in screenplays.
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_block_64x16_style_01 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_block_64x16_style_01.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_block_64x16_style_01, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_block_64x16_style_01.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_block_64x16_style_02 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_block_64x16_style_02.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_block_64x16_style_02, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_block_64x16_style_02.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_block_64x32_style_01 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_block_64x32_style_01.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_block_64x32_style_01, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_block_64x32_style_01.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_block_64x32_style_02 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_block_64x32_style_02.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_block_64x32_style_02, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_block_64x32_style_02.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_slave_quarters_style_01 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_slave_quarters_style_01.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_slave_quarters_style_01, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_slave_quarters_style_01.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_01 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_01.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_01, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_01.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_02 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_02.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_02, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_02.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_03 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_03.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_03, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_03.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_04 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_04.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_04, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_04.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_05 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_05.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_05, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_05.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_06 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_06.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_06, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_06.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_07 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_07.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_07, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_07.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_08 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_08.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_08, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_08.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_09 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_09.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_09, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_09.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_10 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_10.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_10, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_10.iff")
+
+
+object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_11 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_11.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_building_tatooine_shared_filler_building_tatt_style01_11, "object/tangible/hondo/decoration/building/tatooine/shared_filler_building_tatt_style01_11.iff")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

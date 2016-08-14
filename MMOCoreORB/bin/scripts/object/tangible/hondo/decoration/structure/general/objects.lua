@@ -1,0 +1,123 @@
+-- Legend of Hondo
+-- "Static Object" models as decorative items for use in screenplays.
+
+object_tangible_hondo_decoration_structure_general_shared_planter_generic_style_1 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_planter_generic_style_1.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_planter_generic_style_1, "object/tangible/hondo/decoration/structure/general/shared_planter_generic_style_1.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_planter_generic_style_2 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_planter_generic_style_2.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_planter_generic_style_2, "object/tangible/hondo/decoration/structure/general/shared_planter_generic_style_2.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_planter_generic_style_3 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_planter_generic_style_3.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_planter_generic_style_3, "object/tangible/hondo/decoration/structure/general/shared_planter_generic_style_3.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_planter_generic_style_4 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_planter_generic_style_4.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_planter_generic_style_4, "object/tangible/hondo/decoration/structure/general/shared_planter_generic_style_4.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_xwing = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_xwing.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_xwing, "object/tangible/hondo/decoration/structure/general/shared_xwing.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_32x32_s01 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_32x32_s01.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_32x32_s01, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_32x32_s01.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_32x32_s02 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_32x32_s02.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_32x32_s02, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_32x32_s02.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_32x32_s03 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_32x32_s03.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_32x32_s03, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_32x32_s03.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_32x32_s04 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_32x32_s04.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_32x32_s04, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_32x32_s04.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_64x64_s01 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_64x64_s01.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_64x64_s01, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_64x64_s01.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_64x64_s02 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_64x64_s02.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_64x64_s02, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_64x64_s02.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_64x64_s03 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_64x64_s03.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_64x64_s03, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_64x64_s03.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_64x64_s04 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_64x64_s04.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_half_64x64_s04, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_half_64x64_s04.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_pen_16x8_s01 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_pen_16x8_s01.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_corral_pen_16x8_s01, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_corral_pen_16x8_s01.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_farm_32x32_s01 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_farm_32x32_s01.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_farm_32x32_s01, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_farm_32x32_s01.iff")
+
+
+object_tangible_hondo_decoration_structure_general_shared_poi_tato_farm_32x32_s02 = SharedTangibleObjectTemplate:new {
+    clientTemplateFileName = "object/tangible/hondo/decoration/structure/general/shared_poi_tato_farm_32x32_s02.iff"
+}
+ObjectTemplates:addClientTemplate(object_tangible_hondo_decoration_structure_general_shared_poi_tato_farm_32x32_s02, "object/tangible/hondo/decoration/structure/general/shared_poi_tato_farm_32x32_s02.iff")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
