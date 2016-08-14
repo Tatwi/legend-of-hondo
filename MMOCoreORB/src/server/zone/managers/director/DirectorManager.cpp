@@ -79,6 +79,7 @@
 #include "server/zone/objects/player/sui/SuiBoxPage.h"
 #include "server/zone/objects/tangible/powerup/PowerupObject.h"
 
+
 int DirectorManager::DEBUG_MODE = 0;
 int DirectorManager::ERROR_CODE = NO_ERROR;
 
@@ -341,6 +342,12 @@ void DirectorManager::initializeLuaEngine(Lua* luaEngine) {
 	lua_register(luaEngine->getLuaState(), "getQuestVectorMap", getQuestVectorMap);
 	lua_register(luaEngine->getLuaState(), "createQuestVectorMap", createQuestVectorMap);
 	lua_register(luaEngine->getLuaState(), "removeQuestVectorMap", removeQuestVectorMap);
+	lua_register(luaEngine->getLuaState(), "dropDecoration", dropDecoration);
+	lua_register(luaEngine->getLuaState(), "pickupDecoration", pickupDecoration);
+	lua_register(luaEngine->getLuaState(), "getCityRegionNameAt", getCityRegionNameAt);
+	lua_register(luaEngine->getLuaState(), "getAdminLevel", getAdminLevel);
+	lua_register(luaEngine->getLuaState(), "adminPlaceStructure", adminPlaceStructure);
+	lua_register(luaEngine->getLuaState(), "objectPlaceStructure", adminPlaceStructure);
 
 	luaEngine->setGlobalInt("POSITIONCHANGED", ObserverEventType::POSITIONCHANGED);
 	luaEngine->setGlobalInt("CLOSECONTAINER", ObserverEventType::CLOSECONTAINER);
@@ -3133,4 +3140,215 @@ void DirectorManager::removeQuestVectorMap(const String& keyString) {
 
 	if (questMap != NULL)
 		ObjectManager::instance()->destroyObjectFromDatabase(questMap->_getObjectID());
+}
+
+// Legend of Hondo
+// dropDecoration(pPlayer, pObject)
+// Designed to be used only with objects in object/tangible/hondo/decoration_*
+// Can work with other items, but the dupe process will delete any custom stats on the object.
+// Dupe->PlayerStructure requried to work around the server deleting objects that don't have
+// a parent cell and aren't classed as player structures or aren't attached to a player city.
+int DirectorManager::dropDecoration(lua_State* L) {
+	SceneObject* player = (SceneObject*) lua_touserdata(L, -2);
+	SceneObject* object = (SceneObject*) lua_touserdata(L, -1);
+
+	if (player == NULL) {
+		DirectorManager::instance()->error("Error: pPlayer was NULL in dropDecoration(pPlayer, pObject)");
+		return 0;
+	}
+
+	if (object == NULL) {
+		DirectorManager::instance()->error("Error: pObject was NULL in dropDecoration(pPlayer, pObject)");
+		return 0;
+	}
+
+	Zone* zone = player->getZone();
+	float x = player->getWorldPositionX();
+	float y = player->getWorldPositionY();
+	float z = zone->getHeight(x, y);
+	float angle = player->getDirectionAngle();
+
+	String originalObject = object->getObjectTemplate()->getFullTemplateString();
+	String strDatabase = "playerstructures";
+	
+	// Delete the original object
+	object->destroyObjectFromDatabase(true);
+	object->destroyObjectFromWorld(true);
+	
+	// Create a duplicate object as a persistent object stored in the playerstructures database
+	ManagedReference<SceneObject*> dupe = ObjectManager::instance()->createObject(originalObject.hashCode(), 1, strDatabase);
+	
+	// Initialize the position/roatation of the new object
+	dupe->initializePosition(x, z, y);
+	dupe->rotate(angle);
+	
+	// Move the dupe into the world
+	zone->transferObject(dupe, -1, true);
+
+	return 0;
+}
+
+// Legend of Hondo
+// pickupDecoration(pPlayer, pObject)
+// Note that this function also uses the dupe process
+int DirectorManager::pickupDecoration(lua_State* L) {
+	SceneObject* player = (SceneObject*) lua_touserdata(L, -2);
+	SceneObject* object = (SceneObject*) lua_touserdata(L, -1);
+
+	if (player == NULL || !player->isPlayerCreature()) {
+		DirectorManager::instance()->error("Error: object picking up item is not player in pickupDecoration(pPlayer, pObject)");
+		return 0;
+	}
+
+	CreatureObject* creature = dynamic_cast<CreatureObject*>(player);
+
+	SceneObject* inventory = creature->getSlottedObject("inventory");
+
+	if (inventory == NULL) {
+		DirectorManager::instance()->error("Error: No player inventory found in pickupDecoration(pPlayer, pObject)");
+		return 0;
+	}
+
+	if (object == NULL) {
+		DirectorManager::instance()->error("Error: pObject was NULL in pickupDecoration(pPlayer, pObject)");
+		return 0;
+	}
+
+	String originalObject = object->getObjectTemplate()->getFullTemplateString();
+
+	Zone* zone = player->getZone();
+	float x = object->getWorldPositionX();
+	float y = object->getWorldPositionY();
+	float z = zone->getHeight(x, y);
+	
+	// Delete the original object so it's no longer in the world/database
+	object->destroyObjectFromDatabase(true);
+	object->destroyObjectFromWorld(true);
+	
+	// Create a duplicate object for the player to use again
+	ZoneServer* zoneServer = ServerCore::getZoneServer();
+	ManagedReference<SceneObject*> dupe = zoneServer->createObject(originalObject.hashCode(), 1);
+
+	// Place in world, move to inventory so it shows up without having to relog the client
+	dupe->initializePosition(x, z, y);
+	zone->transferObject(dupe, -1, true);
+	inventory->transferObject(dupe, -1, true);
+
+	return 0;
+}
+
+// Legend of Hondo
+int DirectorManager::getCityRegionNameAt(lua_State* L) {
+	if (checkArgumentCount(L, 3) == 1) {
+		instance()->error("incorrect number of arguments passed to DirectorManager::getCityRegionNameAt");
+		ERROR_CODE = INCORRECT_ARGUMENTS;
+		return 0;
+	}
+
+	String zoneid = lua_tostring(L, -3);
+	float x = lua_tonumber(L, -2);
+	float y = lua_tonumber(L, -1);
+
+	PlanetManager* planetManager = ServerCore::getZoneServer()->getZone(zoneid)->getPlanetManager();
+	CityRegion* cityRegion = planetManager->getRegionAt(x, y);
+
+	 if (cityRegion != NULL){
+        String regionName = cityRegion->getRegionName();
+		lua_pushstring(L, regionName.toCharArray());
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
+// Legend of Hondo
+// lua: getAdminLevel(pPlayer)
+int DirectorManager::getAdminLevel(lua_State* L) {
+	SceneObject* player = (SceneObject*) lua_touserdata(L, -1);
+
+	if (player == NULL || !player->isPlayerCreature()) {
+		DirectorManager::instance()->error("Attempted to get admin level of a non-player Scene Object.");
+		return 0;
+	}
+
+	Reference<PlayerObject*> ghost = player->getSlottedObject("ghost").castTo<PlayerObject*>();
+
+	if (ghost == NULL) {
+		DirectorManager::instance()->error("getAdminLevel failed to create ghost as player object.");
+		return 0;
+	}
+	
+	int adminLevel = ghost->getAdminLevel();
+
+	if (adminLevel >= 0)
+		lua_pushinteger(L, adminLevel);
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
+// Legend of Hondo
+// Place a structure as a "player structure" based where the character is standing.
+// lua: adminPlaceStructure(pPlayer. templateString)
+int DirectorManager::adminPlaceStructure(lua_State* L) {
+	Reference<CreatureObject*> creature = (CreatureObject*)lua_touserdata(L, -2);
+	String templateString = lua_tostring(L, -1);
+	
+	ManagedReference<Zone*> zone = creature->getZone();
+
+	if (zone == NULL)
+		return 0;
+
+	if (creature->getParent() != NULL) {
+			DirectorManager::instance()->error("adminPlaceStructure - You were not outside.");
+			return 0;
+	}
+	
+	int angle = creature->getDirectionAngle();
+
+	if (templateString.contains("housing_tatt_style02_med") || templateString.contains("player/city/cloning") || templateString.contains("player/city/hospital"))
+		angle -= 90; // Correct unusual default POB rotation
+
+	if (templateString.contains("guild_theater"))
+		angle -= 180; // Correct unusual default POB rotation
+		
+	float x = creature->getPositionX();
+	float y = creature->getPositionY();
+	int persistenceLevel = 1;
+
+	// Create Structure
+	StructureObject* structureObject = StructureManager::instance()->placeStructure(creature, templateString, x, y, angle, persistenceLevel);
+
+	return 0;
+}
+
+// Legend of Hondo
+// Place a structure as a "player structure" using a screenplay scripted object, such as a terminal.
+// lua: objectPlaceStructure(pPlayer, templateString, x, y, angle)
+int DirectorManager::objectPlaceStructure(lua_State* L) {
+	Reference<CreatureObject*> creature = (CreatureObject*)lua_touserdata(L, -5); // Using player required for placeStructure()
+	String templateString = lua_tostring(L, -4);
+	float x = lua_tonumber(L, -3);
+	float y = lua_tonumber(L, -2);
+	int angle = lua_tonumber(L, -1);
+	
+	ManagedReference<Zone*> zone = creature->getZone();
+
+	if (zone == NULL)
+		return 0;
+
+	if (templateString.contains("housing_tatt_style02_med") || templateString.contains("player/city/cloning") || templateString.contains("player/city/hospital"))
+		angle -= 90; // Correct unusual default POB rotation
+
+	if (templateString.contains("guild_theater"))
+		angle -= 180; // Correct unusual default POB rotation
+
+	int persistenceLevel = 1;
+
+	// Create Structure
+	StructureObject* structureObject = StructureManager::instance()->placeStructure(creature, templateString, x, y, angle, persistenceLevel);
+
+	return 0;
 }

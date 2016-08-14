@@ -3,3 +3,4 @@ MMOCoreORB/src/autogen/*
 MMOCoreORB/src/client/build/*
 MMOCoreORB/src/client/autom4te.cache/*
 MMOCoreORB/src/odb/build/*
+MMOCoreORB/bin/conf/rev.txt
