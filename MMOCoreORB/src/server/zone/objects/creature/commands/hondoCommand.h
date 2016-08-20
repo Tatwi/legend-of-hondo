@@ -25,12 +25,12 @@ public:
 
 		if (!creature->isPlayerCreature())
 			return GENERALERROR;
-				
+
 		ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
 
 		if (ghost == NULL)
 			return GENERALERROR;
-		
+
 		int adminLevelCheck = ghost->getAdminLevel();
 
 		ResourceManager* resMan = creature->getZoneServer()->getResourceManager();
@@ -52,7 +52,7 @@ public:
 					}
 
 					String adminCommand;
-					
+
 					if(args.hasMoreTokens()){
 						args.getStringToken(adminCommand);
 						adminCommand = adminCommand.toLowerCase();
@@ -69,10 +69,10 @@ public:
 							   creature->sendSystemMessage("Target must be a creature for: /hondo admin spoutMobile [file_name]");
 							   return GENERALERROR;
 							}
-							
+
 							String templateFile = object->getObjectTemplate()->getFullTemplateString();
 
-							if (templateFile.contains("junk") || templateFile.contains("vehicle") || templateFile.contains("vendor")){ 
+							if (templateFile.contains("junk") || templateFile.contains("vehicle") || templateFile.contains("vendor")){
 							   creature->sendSystemMessage("Sorry, /hondo admin spoutMobile: " + templateFile);
 							   return GENERALERROR; // Beause they crash the server if we try to use them as an AI agent when getting the mob name.
 							}
@@ -81,7 +81,7 @@ public:
 							if(object->isCreatureObject()){
 							   creature->sendSystemMessage("Target must be a tangible or static object for: /hondo admin spoutObject [file_name]");
 							   return GENERALERROR;
-							}				
+							}
 							spout(creature, &args, formatSpoutText(creature, target, 2));
 						} else if(adminCommand == "spoutstatic") {
 							if(object->isCreatureObject()){
@@ -101,11 +101,19 @@ public:
 							hondoPlaceStructure(creature);
 						} else if(adminCommand == "showruler") {
 							showRuler(creature);
-						}else if(adminCommand == "getbuildinginfo") {
+						} else if(adminCommand == "getbuildinginfo") {
 							getBuildingInfo(creature, &args);
-						}  else {
+						} else if(adminCommand == "testlayout") {
+							testLayout(creature, &args);
+						} else if(adminCommand == "housingfixplotstatus") {
+							housingFixPlotStatus(creature, &args);
+						}else if(adminCommand == "housingfixplayerplotsused") {
+							housingFixPlayerPlotsUsed(creature, &args);
+						}else if(adminCommand == "housingfixplayertourstatus") {
+							housingFixPlayerTourStatus(creature, &args);
+						} else {
 							throw Exception(); // Used: /hondo admin <wrong>
-						}	
+						}
 					} else {
 						throw Exception(); // Used: /hondo admin <blank>
 					}
@@ -159,6 +167,19 @@ public:
 						text << "- spawnSceneObject for all decorations in the room (cell) you are standing in. Layout iff loaded items excluded."  << endl;
 						text << "/hondo admin spoutBuilding [file_name]"  << endl;
 						text << "- spawnSceneObject for all decorations in the whole building you are standing in. Layout iff loaded items excluded."  << endl;
+						text << endl;
+						text << "- - - - - - - - - - - - - - - - - - -" << endl;
+						text << "Housing System Commands:" << endl;
+						text << "- - - - - - - - - - - - - - - - - - -" << endl;
+						text << "/hondo admin housingFixPlotStatus [planetName] [site] [plot] [status]"  << endl;
+						text << "- Fix a plot that gotten out of sync. Status: 0 or 1."  << endl;
+						text << "/hondo admin housingFixPlayerPlotsUsed [playerStationID] [plotsUsed]"  << endl;
+						text << "- Adjust how many HHS buildings a player owns by overwriting the value."  << endl;
+						text << "/hondo admin housingFixPlayerTourStatus [playerID]"  << endl;
+						text << "- Remove erroneous status of touring a structure, as touring prevents use of the system."  << endl;
+						text << "/hondo admin testLayout [layoutName] [BuildingTypeNumber]"  << endl;
+						text << "- Plop a mockup site into the world for several seconds to see how it looks."  << endl;
+						text << endl;
 					}
 					creature->sendSystemMessage(text.toString());
 				} else {
@@ -166,14 +187,14 @@ public:
 				}
 			} else {
 				throw Exception();
-			}	
+			}
 		} catch (Exception& e){
 			creature->sendSystemMessage("Invalid arguments for hondo command. Help: /hondo help");
 		}
 
 		return SUCCESS;
 	}
-	
+
 	/* Legend of Hondo
 	 * Helpful Admin Commands
 	 */
@@ -183,7 +204,7 @@ public:
 
 		String planetName = "";
 		String templateFile = "";
-		
+
 		if (object == NULL){
 			planetName = creature->getZone()->getZoneName();
 		} else {
@@ -192,7 +213,7 @@ public:
 		}
 
 		StringBuffer text;
-		
+
 		if (textType == 1){
 			int angle = object->getDirectionAngle();
 
@@ -201,7 +222,7 @@ public:
 			String mobileName = creatureTemplate->getTemplateName();
 
 			text << "spawnMobile(\"" << planetName << "\", " <<  "\"" << mobileName << "\", 1, ";
-		
+
 			if (object->getParent() != NULL && object->getParent().get()->isCellObject()) {
 				// Inside
 				ManagedReference<CellObject*> cell = cast<CellObject*>( object->getParent().get().get());
@@ -211,13 +232,13 @@ public:
 			}else {
 				// Outside
 				Vector3 worldPosition = object->getWorldPosition();
-				
+
 				text << worldPosition.getX() << ", " << worldPosition.getZ() << ", " << worldPosition.getY() << ", " << angle << ", " << "0" << ")";
 			}
 			// Returning: spawnMobile("planet", "mobileTemplate", 1, x, z, y, heading, cellid)
 		} else if (textType == 2){
 			text << "spawnSceneObject(\"" << planetName << "\", \"" << templateFile << "\", ";
-		
+
 			if (object->getParent() != NULL && object->getParent().get()->isCellObject()) {
 				// Inside
 				ManagedReference<CellObject*> cell = cast<CellObject*>( object->getParent().get().get());
@@ -229,31 +250,31 @@ public:
 				Vector3 worldPosition = object->getWorldPosition();
 				text << worldPosition.getX() << ", " << worldPosition.getZ() << ", " << worldPosition.getY() << ", " << "0" << ", ";
 			}
-			
+
 			Quaternion* dir = object->getDirection();
 			text << dir->getW() << ", " << dir->getX() << ", " << dir->getY() << ", " << dir->getZ() << ")";
-			// Returning: spawnSceneObject("planet", "objectTemplateFilePathAndName", x, z, y, cellNumber, dw, dx, dy, dz> 
+			// Returning: spawnSceneObject("planet", "objectTemplateFilePathAndName", x, z, y, cellNumber, dw, dx, dy, dz>
 		} else if (textType == 3){
 			if (!templateFile.contains("hondo/decoration")){
 				creature->sendSystemMessage("Error: Target object must be a decendant of object/tangible/hondo/decoration/");
 				throw Exception();
 			}
-			
+
 			// Examples:
 			// object/tangible/hondo/decoration/building/tatooine/filler_building_tatt_style01_01.lua
 			// object/tangible/hondo/decoration/structure/tatooine/antenna_tatt_style_2.lua
 			// get changed to
 			// object/building/tatooine/filler_building_tatt_style01_01.lua
 			// object/static/structure/tatooine/antenna_tatt_style_2.iff
-			
+
 			if (templateFile.contains("decoration/building")){
 				templateFile = templateFile.replaceAll("tangible/hondo/decoration/", ""); // Fix path for filler type buildings
 			} else {
 				templateFile = templateFile.replaceAll("tangible/hondo/decoration", "static"); // Fix path for static objects
 			}
-			
+
 			text << "spawnSceneObject(\"" << planetName << "\", \"" << templateFile << "\", ";
-			
+
 			if (object->getParent() != NULL && object->getParent().get()->isCellObject()) {
 				// Inside
 				ManagedReference<CellObject*> cell = cast<CellObject*>( object->getParent().get().get());
@@ -265,17 +286,17 @@ public:
 				Vector3 worldPosition = object->getWorldPosition();
 				text << worldPosition.getX() << ", " << worldPosition.getZ() << ", " << worldPosition.getY() << ", " << "0" << ", ";
 			}
-			
+
 			Quaternion* dir = object->getDirection();
-			
+
 			text << dir->getW() << ", " << dir->getX() << ", " << dir->getY() << ", " << dir->getZ() << ")";
-			
-			// Returning: spawnSceneObject("planet", "staticObjectTemplateFilePathAndName", x, z, y, cellNumber, dw, dx, dy, dz> 
+
+			// Returning: spawnSceneObject("planet", "staticObjectTemplateFilePathAndName", x, z, y, cellNumber, dw, dx, dy, dz>
 		} else if (textType == 4){
 			int angle = creature->getDirectionAngle();
-			
+
 			text << "spawnMobile(\"" << planetName << "\", " <<  "\"commoner" << "\", 1, ";
-                
+
 			if (creature->getParent() != NULL && creature->getParent().get()->isCellObject()) {
 				// Inside
 				ManagedReference<CellObject*> cell = cast<CellObject*>( creature->getParent().get().get());
@@ -285,7 +306,7 @@ public:
 			}else {
 				// Outside
 				Vector3 worldPosition = creature->getWorldPosition();
-				
+
 				text << worldPosition.getX() << ", " << worldPosition.getZ() << ", " << worldPosition.getY() << ", " << angle << ", " << "0" << ")";
 			}
 			// Returning: spawnMobile("planet", "commoner", 1, x, z, y, heading, cellid)
@@ -298,11 +319,11 @@ public:
 	String formatSpoutTextMulti(CreatureObject* creature, int roomOnly) const {
 		if (creature->getParent() == NULL){
 			creature->sendSystemMessage("You need to be inside a building to output info about the decorations in it.");
-			throw Exception(); 
+			throw Exception();
 		}
 
 		ManagedReference<SceneObject*> parent = creature->getParent();
-		
+
 		if (parent == NULL)
 			throw Exception();
 
@@ -312,7 +333,7 @@ public:
 		ManagedReference<SceneObject*> building;
 		building = parent->getParent();
 		BuildingObject* buildingObject = building.castTo<BuildingObject*>();
-		
+
 		StringBuffer text;
 
 		text << "-- " << building->getObjectNameStringIdName() << " world position: " << building->getPositionX() << " " << building->getPositionY() << endl;
@@ -338,13 +359,13 @@ public:
 
 			for (int j = 0; j < items; ++j) {
 				ReadLocker rlocker(cell->getContainerLock());
-				
+
 				ManagedReference<SceneObject*> childObject = cell->getContainerObject(j);
 
 				rlocker.release();
 
 				templateFile = childObject->getObjectTemplate()->getFullTemplateString();
-				
+
 				if (!childObject->isCreatureObject() && !childObject->isVendor() && !templateFile.contains("terminal_player_structure")) {
 					if (creature->getParent().get()->getParent().get() == childObject->getParent().get()->getParent().get()) {
 						Vector3 cellPosition = childObject->getPosition();
@@ -359,7 +380,7 @@ public:
 		}
 		return text.toString();
 	}
-	
+
 
 	// Ouput screenplay formated code to a file on the server
 	void spout(CreatureObject* creature, StringTokenizer* args, String outputText) const {
@@ -381,7 +402,7 @@ public:
 		writer->close();
 		delete file;
 		delete writer;
-		
+
 		creature->sendSystemMessage("Data written to bin/custom_scripts/spout/" + fileName + ".lua!");
 	}
 
@@ -393,7 +414,7 @@ public:
 	void aboutMe(CreatureObject* creature) const {
 		if(creature->getZoneServer() == NULL)
 			return;
-			
+
 		ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
 		ManagedReference<AuctionManager*> auctionManager = server->getZoneServer()->getAuctionManager();
 
@@ -408,7 +429,7 @@ public:
 
 		if(playerManager == NULL)
 			return;
-			
+
 		int lotsRemaining = ghost->getLotsRemaining();
 
 
@@ -434,10 +455,10 @@ public:
 			body << "    Lots: " << String::valueOf(structure->getLotSize()) << endl;
 			body << "    Maintenance Pool: " << String::valueOf(structure->getSurplusMaintenance()) << " credits" << endl;
 			body << "    Maintenance Rate: " << String::valueOf(structure->getMaintenanceRate()) << " credits/hr" << endl;
-			
+
 			if (structure->getBasePowerRate() > 0) {
 				body << "    Power Reserves: " << String::valueOf(structure->getSurplusPower()) << " units" << endl;
-				body << "    Power Consumption: " << String::valueOf(structure->getBasePowerRate()) << " units/hr" << endl;	
+				body << "    Power Consumption: " << String::valueOf(structure->getBasePowerRate()) << " units/hr" << endl;
 			}
 
 			body << "    Planet: ";
@@ -457,7 +478,7 @@ public:
 		body << "Max # of items: " << creature->getSkillMod("vendor_item_limit") << endl;
 		body << "Total # of items: " << auctionsMap->getPlayerItemCount(creature) << endl;
 		body << endl;
-		
+
 		SortedVector<unsigned long long>* ownedVendors = ghost->getOwnedVendors();
 		for (int i = 0; i < ownedVendors->size(); i++) {
 			ManagedReference<SceneObject*> vendor = creature->getZoneServer()->getObject(ownedVendors->elementAt(i));
@@ -490,7 +511,7 @@ public:
 
 			body << "    Initialized? " << (init ? "Yes" : "No");
 			body << endl << "    # of items: " << auctionsMap->getVendorItemCount(vendor) << endl;
-			
+
 			float secsRemaining = 0.f;
 			if( vendorData->getMaint() > 0 ){
 				secsRemaining = (vendorData->getMaint() / vendorData->getMaintenanceRate())*3600;
@@ -501,7 +522,7 @@ public:
 
 			body << "    Planet: ";
 			Zone* zone = vendor->getZone();
-			if (zone == NULL){ 
+			if (zone == NULL){
 				body << "NULL" << endl;
 			} else if (!vendor->getParent().get()->isCellObject()) {
 				body << zone->getZoneName() << endl;
@@ -531,7 +552,7 @@ public:
 		}
 
 		ManagedReference<Account*> account = ghost->getAccount();
-			
+
 		body << " I have " << account->getAgeInDays() << " days logged for veteran rewards.";
 
 		// Wrap it up and send it off
@@ -543,7 +564,7 @@ public:
 
 		ghost->addSuiBox(box);
 		creature->sendMessage(box->generateMessage());
-		
+
 	}
 
 	// Opens a window that despenses special LoH decorations
@@ -561,7 +582,7 @@ public:
 	// Allow Outside: rotate only LoH specific decor and only when it's in Mos Espa.
 	void playerMoveRotateRules(CreatureObject* creature, SceneObject* object) const {
 		ManagedReference<SceneObject*> objParent = object->getParent().get(); // Should be a CellObject or NULL if outside
-			
+
 		if (objParent) { // Inside
 			ManagedReference<SceneObject*> objParentParent = objParent->getParent().get();
 
@@ -579,12 +600,12 @@ public:
 			}
 		} else { // Outside
 			String templateFile = object->getObjectTemplate()->getFullTemplateString();
-			
+
 			if (!templateFile.contains("hondo/decoration")){
 				creature->sendSystemMessage("Error: Invalid Target. Must be a Legend of Hondo exterior decoration.");
 				throw Exception();
 			}
-			
+
 			Zone* zone = object->getZone();
 			PlanetManager* planetManager = zone->getPlanetManager();
 			CityRegion* cityRegion = planetManager->getRegionAt(object->getWorldPositionX(), object->getWorldPositionY());
@@ -592,8 +613,8 @@ public:
 
 			if (cityRegion != NULL)
 				regionName = cityRegion->getRegionName();
-			
-			if (regionName != "@tatooine_region_names:mos_espa"){ 
+
+			if (regionName != "@tatooine_region_names:mos_espa"){
 				creature->sendSystemMessage("Error: Must be in Mos Espa to move/rotate exterior objects.");
 				throw Exception();
 			}
@@ -603,7 +624,7 @@ public:
 	// Rotate objects with Yaw, Pitch, Roll. Also allows admin to rotate most objects and players to rotate LoH decor outside in Mos Espa.
 	void rotate(CreatureObject* creature, const uint64& target, int adminLevelCheck, StringTokenizer* args) const {
 		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target, false);
-		
+
 		if (object == NULL){
 			creature->sendSystemMessage("Target required for /hondo rotate");
 			throw Exception();
@@ -617,12 +638,12 @@ public:
 		if (adminLevelCheck < 15){
 			playerMoveRotateRules(creature, object);
 		}
-		
+
 		String possibleDirections = "left right yaw pitch roll reset yxx pxx rxx";
 		String dir = "";
 		String deg = "";
 		int degrees = 0;
-		
+
 		if(args->hasMoreTokens()){
 			args->getStringToken(dir);
 			args->getStringToken(deg);
@@ -641,7 +662,7 @@ public:
 		} catch (const Exception& e) {
 			creature->sendSystemMessage("Error: /hondo rotate <direction> [number] was not provided a numerical value.");
 		}
-		
+
 		// Setup rotation
         if (dir == "right"){
             object->rotate(-degrees);
@@ -664,7 +685,7 @@ public:
 			creature->sendSystemMessage("Error: /hondo rotate command requires using the whole direction word.");
 			throw Exception();
 		}
-    
+
         // Apply rotation
         object->incrementMovementCounter();
         if (object->getParent() != NULL)
@@ -672,11 +693,11 @@ public:
 		else
 			object->teleport(object->getPositionX(), object->getPositionZ(), object->getPositionY());
 	}
-	
+
 	// Allows admin to move most objects and players to move LoH decor outside in Mos Espa.
 	void move(CreatureObject* creature, const uint64& target, int adminLevelCheck, StringTokenizer* args) const {
 		ManagedReference<SceneObject*> object = server->getZoneServer()->getObject(target, false);
-		
+
 		if (object == NULL){
 			creature->sendSystemMessage("Target required for /hondo rotate");
 			throw Exception();
@@ -690,12 +711,12 @@ public:
 		if (adminLevelCheck < 15){
 			playerMoveRotateRules(creature, object);
 		}
-		
+
 		String possibleDirections = "forward back up down";
 		String dir = "";
 		String dist = "";
 		float distance = 0.0;
-		
+
 		if(args->hasMoreTokens()){
 			args->getStringToken(dir);
 			args->getStringToken(dist);
@@ -717,9 +738,9 @@ public:
 
 		if (distance < 1.f || distance > 500.f){
 			creature->sendSystemMessage("@player_structure:movefurniture_params"); //The amount to move must be between 1 and 500.
-			throw Exception(); 
+			throw Exception();
 		}
-		
+
 		float degrees = creature->getDirectionAngle();
 		float radians = Math::deg2rad(degrees);
 
@@ -752,16 +773,16 @@ public:
 		if (object->getParent() != NULL)
 			object->teleport(x, z, y, object->getParent().get()->getObjectID());
 		else
-			object->teleport(x, z, y);		
+			object->teleport(x, z, y);
 	}
 
 	// Opens a window that allows an admin to place a structure from the list
 	void hondoPlaceStructure(CreatureObject* creature) const {
 		if (creature->getParent() != NULL){
 			creature->sendSystemMessage("You must be outside to place a structure.");
-			throw Exception(); 
+			throw Exception();
 		}
-		
+
 		Lua* lua = DirectorManager::instance()->getLuaInstance();
 
 		Reference<LuaFunction*> adminPlaceStructure = lua->createFunction("AdminPlaceStructure", "openWindow", 0);
@@ -780,14 +801,14 @@ public:
 	void getBuildingInfo(CreatureObject* creature, StringTokenizer* args) const {
 		if (creature->getParent() == NULL){
 			creature->sendSystemMessage("You need to be inside a building to get info about it.");
-			throw Exception(); 
+			throw Exception();
 		}
 
 		Zone* zone = creature->getZone();
 
 		if (zone == NULL)
 			throw Exception();
-		
+
 		PlanetManager* planetManager = zone->getPlanetManager();
 		String planetName = creature->getZone()->getZoneName();
 
@@ -804,7 +825,7 @@ public:
 
 		ManagedReference<SceneObject*> building;
 		building = cell->getParent();
-		
+
 		uint64 buildingID = building->getObjectID();
 		buildingTemplate = building->getServerObjectCRC();
 		buildingTemplateObject = dynamic_cast<SharedStructureObjectTemplate*>(building->getObjectTemplate());
@@ -819,10 +840,10 @@ public:
 
 		int tmp = 0;
 
-		if (angle > 180){ // Convert to +-180 notation 
+		if (angle > 180){ // Convert to +-180 notation
 			tmp = angle - 180; // get difference
 			angle = tmp - 180; // make negative angle
-		}	
+		}
 
 		float buildingX = building->getPositionX();
 		float buildingZ = building->getPositionZ();
@@ -830,11 +851,11 @@ public:
 		Quaternion* buildingHeading = building->getDirection();
 		int buildingAngle = building->getDirectionAngle();
 
-		if (buildingAngle > 180){ // Convert to +-180 notation 
+		if (buildingAngle > 180){ // Convert to +-180 notation
 			tmp = buildingAngle - 180; // get difference
 			buildingAngle = tmp - 180; // make negative angle
-		}	
-		
+		}
+
 		StringBuffer text;
 
 		text << "Building Information: " << endl;
@@ -850,7 +871,7 @@ public:
 		text << "BuildingID: " << buildingID << endl;
 		text << "x = " << posX << ", z = " << posZ << ", y = " << posY << ", angle = " << angle << endl;
 		text << "ow = " << direction->getW() << ", ox = " << direction->getX() << ", oz = " << direction->getZ() << ", oy = " << direction->getY() << endl;
-		
+
 		ChatManager* chatManager = server->getZoneServer()->getChatManager();
 		chatManager->sendMail("System", "Building Information", text.toString(), creature->getFirstName());
 
@@ -872,6 +893,104 @@ public:
 
 			creature->sendSystemMessage("Information logged in bin/custom_scripts/spout/building_info_log.lua");
 		}
+	}
+
+	// Hondo Housing System: Test layout by placing it into the world for a few seconds.
+	void testLayout(CreatureObject* creature, StringTokenizer* args) const {
+		if (creature->getParent() != NULL){
+			creature->sendSystemMessage("You must be outside to place a structure.");
+			throw Exception();
+		}
+
+		String layoutName = "tatooineEstateSmall";
+		String building = "1";
+		int buildingNumber = 1;
+
+		if(args->hasMoreTokens()){
+			args->getStringToken(layoutName);
+			args->getStringToken(building);
+			buildingNumber = Integer::valueOf(building);
+		} else {
+			creature->sendSystemMessage("Usage: /hondo admin testlayout tatooineEstateSmall 1");
+			throw Exception();
+		}
+
+		Lua* lua = DirectorManager::instance()->getLuaInstance();
+
+		Reference<LuaFunction*> adminTestLayout = lua->createFunction("HondoHousingSystem", "adminTestLayout", 0);
+		*adminTestLayout << creature;
+		*adminTestLayout << layoutName;
+		*adminTestLayout << buildingNumber;
+
+		adminTestLayout->callFunction();
+	}
+
+	// Hondo Housing System: /hondo admin housingFixPlotStatus [planetName] [site] [plot] [status]
+	void housingFixPlotStatus(CreatureObject* creature, StringTokenizer* args) const {
+		String planetName, site, plot, status = "";
+
+		if(args->hasMoreTokens()){
+			args->getStringToken(planetName);
+			args->getStringToken(site);
+			args->getStringToken(plot);
+			args->getStringToken(status);
+		} else {
+			creature->sendSystemMessage("Usage: /hondo admin housingFixPlotStatus [planetName] [site] [plot] [status] \n Example: /hondo admin housingFixPlotStatus tatooine 15 2 1");
+			throw Exception();
+		}
+
+		Lua* lua = DirectorManager::instance()->getLuaInstance();
+
+		Reference<LuaFunction*> adminFixPlotStatus = lua->createFunction("HondoHousingSystem", "adminFixPlotStatus", 0);
+		*adminFixPlotStatus << creature;
+		*adminFixPlotStatus << planetName;
+		*adminFixPlotStatus << site;
+		*adminFixPlotStatus << plot;
+		*adminFixPlotStatus << status;
+
+		adminFixPlotStatus->callFunction();
+	}
+
+	// Hondo Housing System: /hondo admin housingFixPlayerPlotsUsed [playerAccountID] [plotsUsed]
+	void housingFixPlayerPlotsUsed(CreatureObject* creature, StringTokenizer* args) const {
+		String playerAccountID, plotsUsed = "";
+
+		if(args->hasMoreTokens()){
+			args->getStringToken(playerAccountID);
+			args->getStringToken(plotsUsed);
+		} else {
+			creature->sendSystemMessage("Usage: /hondo admin housingFixPlayerPlotsUsed [playerStationID] [plotsUsed] \n Example: /hondo admin housingFixPlayerPlotsUsed 476 1");
+			throw Exception();
+		}
+
+		Lua* lua = DirectorManager::instance()->getLuaInstance();
+
+		Reference<LuaFunction*> adminFixPlayerPlotsUsed = lua->createFunction("HondoHousingSystem", "adminFixPlayerPlotsUsed", 0);
+		*adminFixPlayerPlotsUsed << creature;
+		*adminFixPlayerPlotsUsed << playerAccountID;
+		*adminFixPlayerPlotsUsed << plotsUsed;
+
+		adminFixPlayerPlotsUsed->callFunction();
+	}
+
+	// Hondo Housing System: /hondo admin housingFixPlayerTourStatus [playerID]
+	void housingFixPlayerTourStatus(CreatureObject* creature, StringTokenizer* args) const {
+		String playerID = "";
+
+		if(args->hasMoreTokens()){
+			args->getStringToken(playerID);
+		} else {
+			creature->sendSystemMessage("Usage: /hondo admin housingFixPlayerTourStatus [playerID] \n Example: /hondo admin housingFixPlayerTourStatus 281474993516370");
+			throw Exception();
+		}
+
+		Lua* lua = DirectorManager::instance()->getLuaInstance();
+
+		Reference<LuaFunction*> adminFixPlayerTourStatus = lua->createFunction("HondoHousingSystem", "adminFixPlayerTourStatus", 0);
+		*adminFixPlayerTourStatus << creature;
+		*adminFixPlayerTourStatus << playerID;
+
+		adminFixPlayerTourStatus->callFunction();
 	}
 };
 

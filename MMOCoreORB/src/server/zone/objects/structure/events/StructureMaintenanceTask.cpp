@@ -33,6 +33,10 @@ void StructureMaintenanceTask::run() {
 	ManagedReference<CreatureObject*> owner = strongRef->getOwnerCreatureObject();
 
 	if (owner == NULL || !owner->isPlayerCreature()) {
+		// Legend of Hondo - Exception to allow temp buildings for housing system
+		if (owner->getFirstName().toLowerCase() == "r3-0wn3r")
+			return;
+
 		info("Player structure has NULL owner, destroying.", true);
 		StructureManager::instance()->destroyStructure(strongRef);
 		return;
@@ -41,6 +45,10 @@ void StructureMaintenanceTask::run() {
 	ManagedReference<PlayerObject*> ghost = owner->getPlayerObject();
 
 	if (ghost == NULL) {
+		// Legend of Hondo - Exception to allow temp buildings for housing system
+		if (owner->getFirstName().toLowerCase() == "r3-0wn3r")
+			return;
+
 		info("Player structure has NULL owner ghost, destroying.", true);
 
 		StructureManager::instance()->destroyStructure(strongRef);
