@@ -1,0 +1,2 @@
+-- Legend Hondo
+-- Misc objects directly in object/tangible/hondo/

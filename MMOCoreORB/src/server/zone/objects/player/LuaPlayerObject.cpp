@@ -13,6 +13,7 @@
 #include "server/zone/objects/tangible/eventperk/Jukebox.h"
 #include "server/zone/objects/tangible/eventperk/ShuttleBeacon.h"
 #include "server/zone/managers/skill/SkillManager.h"
+#include "server/login/account/Account.h"
 
 const char LuaPlayerObject::className[] = "LuaPlayerObject";
 
@@ -71,6 +72,7 @@ Luna<LuaPlayerObject>::RegType LuaPlayerObject::Register[] = {
 		{ "getSuiBox", &LuaPlayerObject::getSuiBox },
 		{ "addSuiBox", &LuaPlayerObject::addSuiBox },
 		{ "removeSuiBox", &LuaPlayerObject::removeSuiBox },
+		{ "getStationID", &LuaPlayerObject::getStationID },
 		{ 0, 0 }
 };
 
@@ -613,6 +615,14 @@ int LuaPlayerObject::addSuiBox(lua_State* L) {
 int LuaPlayerObject::removeSuiBox(lua_State* L) {
 	uint32 pageId = lua_tointeger(L, -1);
 	realObject->removeSuiBox(pageId, true);
+
+	return 1;
+}
+
+int LuaPlayerObject::getStationID(lua_State* L) {
+	ManagedReference<Account*> account = realObject->getAccount();;
+
+	lua_pushinteger(L, account->getStationID());
 
 	return 1;
 }

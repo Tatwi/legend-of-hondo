@@ -79,6 +79,7 @@ namespace creature {
 		int getFactionRank(lua_State* L);
 		int getCashCredits(lua_State* L);
 		int subtractCashCredits(lua_State* L);
+		int subtractBankCredits(lua_State* L);
 		int addCashCredits(lua_State* L);
 		int removeScreenPlayState(lua_State* L);
 		int setLootRights(lua_State* L);

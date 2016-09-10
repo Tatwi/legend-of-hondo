@@ -1,1 +1,10 @@
-
+218cb18 was R. Bassett Jr. (Tatwi), 2 minutes ago, message: Merge branch 'add-housingsystem_squashed' into hondo-master
+22bd764 was R. Bassett Jr. (Tatwi), 3 weeks ago, message: [Add Feature] Hondo Housing System - A site-centric system that allows administrators to easily create player housing anywhere. - Sites contain a number of plots and each plot is home to one structure. Players use a terminal at the site to purchase a structure. - Over 20 pre-defined site layouts (that are easy to customize!). - Contains a building tour system so players can see them first hand before making their purchase. - Enable the "simple" planet and teleport to 1000x 1000y to see a demonstration city that was created using this system. - Full documentation is located in doc/features/add-housingsystem.md
+4a0f5db was R. Bassett Jr. (Tatwi), 4 weeks ago, message: Merge branch 'add-admintools' into hondo-master
+0d5dd30 was R. Bassett Jr. (Tatwi), 4 weeks ago, message: [Add Feature] Admin Tools - Added a multi-function slash command, /hondo, which has both player and admin commands. - Added ability for admin to drop/pickup objects outside. - Added out door decoration system and admin menu to depense its items. - Added a menu that allows admin to place a structure anywhere. All player structures and nearly all NPC structures included. - Added a set of commands that output spawnMobile and spawnSceneObject calls to a directory on the server. - Verbose log: https://github.com/Tatwi/legend-of-hondo/doc/features/add-admintools.md
+114b2db was R. Bassett Jr. (Tatwi), 4 weeks ago, message: Start Legend of Hondo - Makefile adjustments (locations mostly) - Added a whack of things to gitignore
+9c39a47 was Ivojedi, 4 weeks ago, message: [Added] Dilvin Lormurojo task
+a36de93 was Nee Shadowfire, 4 weeks ago, message: [adjusted] FS conversion ratio for 'Survey xp' (Mantis #7162) -- [FIXED] incorrect spawn type for prior commit 'PHASE 2' of SMC themepark
+dc6835d was Nee Shadowfire, 5 weeks ago, message: [added] the SMC themepark to Dathomir (Mantis #6900) -- PHASE 2 (Vhaunda & Izaryx portion)
+2d23fef was Ivojedi, 4 weeks ago, message: [Added] philosopher convo
+6c2c275 was Ivojedi, 5 weeks ago, message: [Added] Damalia Korde task

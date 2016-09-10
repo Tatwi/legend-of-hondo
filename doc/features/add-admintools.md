@@ -92,9 +92,9 @@ Down the road I may create some additional tools, both to be used in the game as
 ####Files
 These are the files that were added or updated in this feature.
 
-C++ Files
-Lua Files
-TRE Files
+C++ Files  
+Lua Files  
+TRE Files  
 - What they were used for
 
 MMOCoreORB/src/server/zone/managers/director/DirectorManager.cpp

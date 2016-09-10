@@ -1,5 +1,8 @@
 -- Legend of Hondo
 
+-- Misc objects
+
+
 -- Filler buildings Tatooine
 includeFile("tangible/hondo/decoration/building/tatooine/filler_building_block_64x16_style_01.lua")
 includeFile("tangible/hondo/decoration/building/tatooine/filler_building_block_64x16_style_02.lua")
