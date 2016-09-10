@@ -12,22 +12,22 @@ include server.zone.objects.scene.SessionFacadeType;
 
 class DestroyStructureSession extends Facade {
 	protected CreatureObject creatureObject;
-	
+
 	protected StructureObject structureObject;
-	
+
 	protected unsigned int destroyCode;
-	
+
 	public DestroyStructureSession(CreatureObject creature, StructureObject structure) {
 		Logger.setLoggingName("DestroyStructureSession");
 		Logger.setLogging(true);
-		
+
 		creatureObject = creature;
-		
+
 		structureObject = structure;
-		
+
 		destroyCode = 0;
 	}
-	
+
 	public boolean isDestroyCode(unsigned int code) {
 		return code == destroyCode;
 	}
@@ -35,17 +35,20 @@ class DestroyStructureSession extends Facade {
 	public native int initializeSession();
 	public native int sendDestroyCode();
 	public native int destroyStructure();
-	
+
+	@local
+	public native int hondoHousingUpdate(StructureObject structure);
+
 	public int cancelSession() {
 		creatureObject.dropActiveSession(SessionFacadeType.DESTROYSTRUCTURE);
-		
+
 		return 0;
 	}
-	
+
 	public int clearSession() {
 		return 0;
 	}
-	
+
 	public StructureObject getStructureObject() {
 		return structureObject;
 	}

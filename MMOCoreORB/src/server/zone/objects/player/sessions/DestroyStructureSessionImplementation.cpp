@@ -19,6 +19,9 @@
 #include "server/zone/managers/gcw/GCWManager.h"
 #include "server/zone/managers/gcw/tasks/DestroyFactionInstallationTask.h"
 
+#include "server/db/ServerDatabase.h"
+#include "server/zone/managers/director/DirectorManager.h"
+
 int DestroyStructureSessionImplementation::initializeSession() {
 	//TODO: Temporary until CreatureObject* dependency removed.
 	if (!creatureObject->isPlayerCreature())
@@ -104,11 +107,38 @@ int DestroyStructureSessionImplementation::sendDestroyCode() {
 	return 0;
 }
 
+// Legend of Hondo
+// Run Lua function to update site after house destroyed
+int DestroyStructureSessionImplementation::hondoHousingUpdate(StructureObject* structure){
+	String structureID = String::valueOf(structure->getObjectID());
+	String planetName = structure->getZone()->getZoneName();
+
+	CreatureObject* player = cast<CreatureObject*>( creatureObject.get());
+
+	Lua* lua = DirectorManager::instance()->getLuaInstance();
+
+	Reference<LuaFunction*> updateSite = lua->createFunction("HondoHousingSystem", "updateSite", 0);
+	*updateSite << player;
+	*updateSite << structureID;
+	*updateSite << planetName;
+
+	try {
+		updateSite->callFunction();
+	} catch (Exception& e) {
+		error("DestroyStructureSessionImplementation::hondoHousingUpdate() encountered a problem while running updateSite Lua function.");
+		return 0;
+	}
+
+	return 0;
+}
+
 int DestroyStructureSessionImplementation::destroyStructure() {
 	creatureObject->sendSystemMessage("@player_structure:processing_destruction"); //Processing confirmed structure destruction...
 
 	if (structureObject == NULL || structureObject->getZone() == NULL)
 		return cancelSession();
+
+	hondoHousingUpdate(structureObject);
 
 	if (structureObject->isGCWBase()) {
 		Zone* zone = structureObject->getZone();

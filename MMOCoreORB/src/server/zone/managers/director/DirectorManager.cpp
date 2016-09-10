@@ -347,7 +347,10 @@ void DirectorManager::initializeLuaEngine(Lua* luaEngine) {
 	lua_register(luaEngine->getLuaState(), "getCityRegionNameAt", getCityRegionNameAt);
 	lua_register(luaEngine->getLuaState(), "getAdminLevel", getAdminLevel);
 	lua_register(luaEngine->getLuaState(), "adminPlaceStructure", adminPlaceStructure);
-	lua_register(luaEngine->getLuaState(), "objectPlaceStructure", adminPlaceStructure);
+	lua_register(luaEngine->getLuaState(), "objectPlaceStructure", objectPlaceStructure);
+	lua_register(luaEngine->getLuaState(), "getMaxStorage", getMaxStorage);
+	lua_register(luaEngine->getLuaState(), "getMaintenanceRate", getMaintenanceRate);
+	lua_register(luaEngine->getLuaState(), "getPowerRate", getPowerRate);
 
 	luaEngine->setGlobalInt("POSITIONCHANGED", ObserverEventType::POSITIONCHANGED);
 	luaEngine->setGlobalInt("CLOSECONTAINER", ObserverEventType::CLOSECONTAINER);
@@ -1940,7 +1943,7 @@ int DirectorManager::spawnBuilding(lua_State* L) {
 		instance()->error("Unable to find template for building " + script);
 		lua_pushnil(L);
 	} else {
-		StructureObject* structure = StructureManager::instance()->placeStructure(creature, script, x, y, 0, 0);
+		StructureObject* structure = StructureManager::instance()->placeStructure(creature, script, x, y, angle, 0);
 		if (structure == NULL) {
 			instance()->error("Unable to spawn building " + script);
 			lua_pushnil(L);
@@ -3170,18 +3173,18 @@ int DirectorManager::dropDecoration(lua_State* L) {
 
 	String originalObject = object->getObjectTemplate()->getFullTemplateString();
 	String strDatabase = "playerstructures";
-	
+
 	// Delete the original object
 	object->destroyObjectFromDatabase(true);
 	object->destroyObjectFromWorld(true);
-	
+
 	// Create a duplicate object as a persistent object stored in the playerstructures database
 	ManagedReference<SceneObject*> dupe = ObjectManager::instance()->createObject(originalObject.hashCode(), 1, strDatabase);
-	
+
 	// Initialize the position/roatation of the new object
 	dupe->initializePosition(x, z, y);
 	dupe->rotate(angle);
-	
+
 	// Move the dupe into the world
 	zone->transferObject(dupe, -1, true);
 
@@ -3220,11 +3223,11 @@ int DirectorManager::pickupDecoration(lua_State* L) {
 	float x = object->getWorldPositionX();
 	float y = object->getWorldPositionY();
 	float z = zone->getHeight(x, y);
-	
+
 	// Delete the original object so it's no longer in the world/database
 	object->destroyObjectFromDatabase(true);
 	object->destroyObjectFromWorld(true);
-	
+
 	// Create a duplicate object for the player to use again
 	ZoneServer* zoneServer = ServerCore::getZoneServer();
 	ManagedReference<SceneObject*> dupe = zoneServer->createObject(originalObject.hashCode(), 1);
@@ -3278,7 +3281,7 @@ int DirectorManager::getAdminLevel(lua_State* L) {
 		DirectorManager::instance()->error("getAdminLevel failed to create ghost as player object.");
 		return 0;
 	}
-	
+
 	int adminLevel = ghost->getAdminLevel();
 
 	if (adminLevel >= 0)
@@ -3289,13 +3292,15 @@ int DirectorManager::getAdminLevel(lua_State* L) {
 	return 1;
 }
 
-// Legend of Hondo
-// Place a structure as a "player structure" based where the character is standing.
-// lua: adminPlaceStructure(pPlayer. templateString)
+/*
+* Legend of Hondo
+* Place a structure as a "player structure" based where the character is standing.
+* lua: adminPlaceStructure(pPlayer, templateString)
+*/
 int DirectorManager::adminPlaceStructure(lua_State* L) {
 	Reference<CreatureObject*> creature = (CreatureObject*)lua_touserdata(L, -2);
 	String templateString = lua_tostring(L, -1);
-	
+
 	ManagedReference<Zone*> zone = creature->getZone();
 
 	if (zone == NULL)
@@ -3305,7 +3310,7 @@ int DirectorManager::adminPlaceStructure(lua_State* L) {
 			DirectorManager::instance()->error("adminPlaceStructure - You were not outside.");
 			return 0;
 	}
-	
+
 	int angle = creature->getDirectionAngle();
 
 	if (templateString.contains("housing_tatt_style02_med") || templateString.contains("player/city/cloning") || templateString.contains("player/city/hospital"))
@@ -3313,7 +3318,7 @@ int DirectorManager::adminPlaceStructure(lua_State* L) {
 
 	if (templateString.contains("guild_theater"))
 		angle -= 180; // Correct unusual default POB rotation
-		
+
 	float x = creature->getPositionX();
 	float y = creature->getPositionY();
 	int persistenceLevel = 1;
@@ -3324,31 +3329,90 @@ int DirectorManager::adminPlaceStructure(lua_State* L) {
 	return 0;
 }
 
-// Legend of Hondo
-// Place a structure as a "player structure" using a screenplay scripted object, such as a terminal.
-// lua: objectPlaceStructure(pPlayer, templateString, x, y, angle)
+/*
+* Legend of Hondo
+*  Place a structure as a "player structure" using a screenplay scripted object, such as a terminal.
+* lua: objectPlaceStructure(pPlayer/pCreature, templateString, x, y, angle)
+* Note that the structure maintainance system will destroy any non player owned building, unless it belongs to "r3-0wn3r".
+*/
 int DirectorManager::objectPlaceStructure(lua_State* L) {
-	Reference<CreatureObject*> creature = (CreatureObject*)lua_touserdata(L, -5); // Using player required for placeStructure()
+	Reference<CreatureObject*> creature = (CreatureObject*)lua_touserdata(L, -5); // Using creature required for placeStructure()
 	String templateString = lua_tostring(L, -4);
 	float x = lua_tonumber(L, -3);
 	float y = lua_tonumber(L, -2);
 	int angle = lua_tonumber(L, -1);
-	
+
 	ManagedReference<Zone*> zone = creature->getZone();
 
 	if (zone == NULL)
 		return 0;
-
-	if (templateString.contains("housing_tatt_style02_med") || templateString.contains("player/city/cloning") || templateString.contains("player/city/hospital"))
-		angle -= 90; // Correct unusual default POB rotation
-
-	if (templateString.contains("guild_theater"))
-		angle -= 180; // Correct unusual default POB rotation
 
 	int persistenceLevel = 1;
 
 	// Create Structure
 	StructureObject* structureObject = StructureManager::instance()->placeStructure(creature, templateString, x, y, angle, persistenceLevel);
 
-	return 0;
+	if (structureObject == NULL) {
+		instance()->error("objectPlaceStructure was unable to spawn building.");
+		lua_pushnil(L);
+	} else {
+		structureObject->_setUpdated(true);
+		lua_pushlightuserdata(L, structureObject);
+	}
+
+	return 1;
+}
+
+/*
+* Legend of Hondo
+* Return the max number of items the specified template can store.
+*/
+int DirectorManager::getMaxStorage(lua_State* L) {
+	String script = lua_tostring(L, -1);
+
+	SharedStructureObjectTemplate* serverTemplate = dynamic_cast<SharedStructureObjectTemplate*>(TemplateManager::instance()->getTemplate(script.hashCode()));
+
+	int lots = serverTemplate->getLotSize();
+
+	if (lots == 0){
+		lots = 400;
+	} else {
+		lots = lots * 100;
+	}
+
+	lua_pushinteger(L, lots);
+
+	return 1;
+}
+
+/*
+* Legend of Hondo
+* Return the base maintainance rate of a the specified template.
+*/
+int DirectorManager::getMaintenanceRate(lua_State* L) {
+	String script = lua_tostring(L, -1);
+
+	SharedStructureObjectTemplate* serverTemplate = dynamic_cast<SharedStructureObjectTemplate*>(TemplateManager::instance()->getTemplate(script.hashCode()));
+
+	int rate = serverTemplate->getBaseMaintenanceRate();
+
+	lua_pushinteger(L, rate);
+
+	return 1;
+}
+
+/*
+* Legend of Hondo
+* Return the base power rate of a the specified template.
+*/
+int DirectorManager::getPowerRate(lua_State* L) {
+	String script = lua_tostring(L, -1);
+
+	SharedStructureObjectTemplate* serverTemplate = dynamic_cast<SharedStructureObjectTemplate*>(TemplateManager::instance()->getTemplate(script.hashCode()));
+
+	int rate = serverTemplate->getBasePowerRate();
+
+	lua_pushinteger(L, rate);
+
+	return 1;
 }
