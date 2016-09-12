@@ -203,3 +203,9 @@ includeFile("conversations/pet/pets_conv.lua")
 
 -- Misc
 includeFile("conversations/misc/philosopher_conv.lua")
+
+
+-- Legend of Hondo
+-------------------
+-- Breadcrumb Quests
+includeFile("conversations/hondo/quests/breadcrumb_bob.lua")
