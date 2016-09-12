@@ -500,3 +500,4 @@ includeFile("tests/tests.lua")
 -- Legend of Hondo
 includeFile("hondo/housing_system/housing_system.lua")
 includeFile("hondo/housing_system/locations_simple_demo_city.lua")
+includeFile("hondo/quests/quests.lua")
