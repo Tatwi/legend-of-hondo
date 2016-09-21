@@ -2260,3 +2260,209 @@ object_building_player_shared_player_merchant_tent_style_03 = SharedBuildingObje
 }
 
 ObjectTemplates:addClientTemplate(object_building_player_shared_player_merchant_tent_style_03, "object/building/player/shared_player_merchant_tent_style_03.iff")
+
+
+-- Legend of Hondo
+
+object_building_player_shared_player_house_tatooine_large_style_02 = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_house_tatooine_large_style_02.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_house_tatooine_large_style_02, "object/building/player/shared_player_house_tatooine_large_style_02.iff")
+
+
+object_building_player_shared_player_house_tatooine_medium_style_02 = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_house_tatooine_medium_style_02.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_house_tatooine_medium_style_02, "object/building/player/shared_player_house_tatooine_medium_style_02.iff")
+
+
+object_building_player_shared_player_salon_tent_style_01 = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_salon_tent_style_01.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_salon_tent_style_01, "object/building/player/shared_player_salon_tent_style_01.iff")
+
+
+object_building_player_shared_player_salon_tent_style_02 = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_salon_tent_style_02.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_salon_tent_style_02, "object/building/player/shared_player_salon_tent_style_02.iff")
+
+
+object_building_player_shared_player_salon_tent_style_03 = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_salon_tent_style_03.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_salon_tent_style_03, "object/building/player/shared_player_salon_tent_style_03.iff")
+
+
+object_building_player_shared_player_npc_combat_guildhall_corellia = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_combat_guildhall_corellia.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_combat_guildhall_corellia, "object/building/player/shared_player_npc_combat_guildhall_corellia.iff")
+
+
+object_building_player_shared_player_npc_commerce_guildhall_corellia = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_commerce_guildhall_corellia.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_commerce_guildhall_corellia, "object/building/player/shared_player_npc_commerce_guildhall_corellia.iff")
+
+
+object_building_player_shared_player_npc_university_corellia = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_university_corellia.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_university_corellia, "object/building/player/shared_player_npc_university_corellia.iff")
+
+
+object_building_player_shared_player_npc_combat_guildhall_naboo = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_combat_guildhall_naboo.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_combat_guildhall_naboo, "object/building/player/shared_player_npc_combat_guildhall_naboo.iff")
+
+
+object_building_player_shared_player_npc_commerce_guildhall_naboo = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_commerce_guildhall_naboo.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_commerce_guildhall_naboo, "object/building/player/shared_player_npc_commerce_guildhall_naboo.iff")
+
+
+object_building_player_shared_player_npc_university_naboo = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_university_naboo.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_university_naboo, "object/building/player/shared_player_npc_university_naboo.iff")
+
+
+object_building_player_shared_player_npc_combat_guildhall_tatooine = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_combat_guildhall_tatooine.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_combat_guildhall_tatooine, "object/building/player/shared_player_npc_combat_guildhall_tatooine.iff")
+
+
+object_building_player_shared_player_npc_commerce_guildhall_tatooine = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_commerce_guildhall_tatooine.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_commerce_guildhall_tatooine, "object/building/player/shared_player_npc_commerce_guildhall_tatooine.iff")
+
+
+object_building_player_shared_player_npc_university_tatooine = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_university_tatooine.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_university_tatooine, "object/building/player/shared_player_npc_university_tatooine.iff")
+
+
+object_building_player_shared_player_npc_cantina_corellia = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_cantina_corellia.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_cantina_corellia, "object/building/player/shared_player_npc_cantina_corellia.iff")
+
+
+object_building_player_shared_player_npc_cantina_naboo = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_cantina_naboo.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_cantina_naboo, "object/building/player/shared_player_npc_cantina_naboo.iff")
+
+
+object_building_player_shared_player_npc_cantina_tatooine = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_cantina_tatooine.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_cantina_tatooine, "object/building/player/shared_player_npc_cantina_tatooine.iff")
+
+
+object_building_player_shared_player_npc_theater_corellia = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_theater_corellia.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_theater_corellia, "object/building/player/shared_player_npc_theater_corellia.iff")
+
+
+object_building_player_shared_player_npc_theater_naboo = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_theater_naboo.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_theater_naboo, "object/building/player/shared_player_npc_theater_naboo.iff")
+
+
+object_building_player_shared_player_npc_theater_tatooine = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_theater_tatooine.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_theater_tatooine, "object/building/player/shared_player_npc_theater_tatooine.iff")
+
+
+object_building_player_shared_player_npc_hotel_corellia = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_hotel_corellia.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_hotel_corellia, "object/building/player/shared_player_npc_hotel_corellia.iff")
+
+
+object_building_player_shared_player_npc_hotel_naboo = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_hotel_naboo.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_hotel_naboo, "object/building/player/shared_player_npc_hotel_naboo.iff")
+
+
+object_building_player_shared_player_npc_hotel_tatooine = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_hotel_tatooine.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_hotel_tatooine, "object/building/player/shared_player_npc_hotel_tatooine.iff")
+
+
+object_building_player_shared_player_npc_capitol_corellia = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_capitol_corellia.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_capitol_corellia, "object/building/player/shared_player_npc_capitol_corellia.iff")
+
+
+object_building_player_shared_player_npc_capitol_naboo = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_capitol_naboo.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_capitol_naboo, "object/building/player/shared_player_npc_capitol_naboo.iff")
+
+
+object_building_player_shared_player_npc_capitol_tatooine = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_capitol_tatooine.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_capitol_tatooine, "object/building/player/shared_player_npc_capitol_tatooine.iff")
+
+
+object_building_player_shared_player_npc_hospital_corellia = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_hospital_corellia.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_hospital_corellia, "object/building/player/shared_player_npc_hospital_corellia.iff")
+
+
+object_building_player_shared_player_npc_hospital_naboo = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_hospital_naboo.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_hospital_naboo, "object/building/player/shared_player_npc_hospital_naboo.iff")
+
+
+object_building_player_shared_player_npc_hospital_tatooine = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_hospital_tatooine.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_hospital_tatooine, "object/building/player/shared_player_npc_hospital_tatooine.iff")
+
+
+object_building_player_shared_player_npc_police_station_imperial = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_police_station_imperial.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_police_station_imperial, "object/building/player/shared_player_npc_police_station_imperial.iff")
+
+
+object_building_player_shared_player_npc_police_station_rebel = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_police_station_rebel.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_police_station_rebel, "object/building/player/shared_player_npc_police_station_rebel.iff")
+
+
+object_building_player_shared_player_npc_bunker_large = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_bunker_large.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_bunker_large, "object/building/player/shared_player_npc_bunker_large.iff")
+
+
+object_building_player_shared_player_npc_bunker_medium = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_bunker_medium.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_bunker_medium, "object/building/player/shared_player_npc_bunker_medium.iff")
+
+
+object_building_player_shared_player_npc_bunker_small = SharedBuildingObjectTemplate:new {
+	clientTemplateFileName = "object/building/player/shared_player_npc_bunker_small.iff"
+}
+ObjectTemplates:addClientTemplate(object_building_player_shared_player_npc_bunker_small, "object/building/player/shared_player_npc_bunker_small.iff")
