@@ -3168,7 +3168,7 @@ int DirectorManager::dropDecoration(lua_State* L) {
 	Zone* zone = player->getZone();
 	float x = player->getWorldPositionX();
 	float y = player->getWorldPositionY();
-	float z = zone->getHeight(x, y);
+	float z = player->getWorldPositionZ();
 	float angle = player->getDirectionAngle();
 
 	String originalObject = object->getObjectTemplate()->getFullTemplateString();

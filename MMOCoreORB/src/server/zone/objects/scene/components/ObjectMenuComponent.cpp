@@ -25,15 +25,10 @@ void ObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Objec
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
 	int adminLevelCheck = ghost->getAdminLevel();
 
-	Logger::console.info("adminLevelCheck: " + String::valueOf(adminLevelCheck), true);
-
 	ManagedReference<SceneObject*> parent = sceneObject->getParent().get();
 	ManagedReference<SceneObject*> playersParent = player->getParent().get();
 
 	if (adminLevelCheck != 15) {
-
-		Logger::console.info("adminLevelCheck evaluated as a player", true);
-
 		if (parent == NULL || !parent->isCellObject())
 			return;
 
@@ -66,9 +61,7 @@ void ObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Objec
 	menuResponse->addRadialMenuItemToRadialID(51, 53, 3, "@ui_radial:item_rotate_right"); //Rotate Right
 
 	if (adminLevelCheck == 15 && playersParent == NULL) {
-		Logger::console.info("adminLevelCheck 15 OK and playersParent NULL", true);
 		if (parent != NULL){
-			Logger::console.info("object parent was not NULL", true);
 			menuResponse->addRadialMenuItem(73, 3, "Admin Drop Outside");
 		} else if (!sceneObject->isCreatureObject()){
 			menuResponse->addRadialMenuItem(72, 3, "Admin Pickup Outside");
@@ -79,30 +72,30 @@ void ObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Objec
 
 int ObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
 	switch (selectedID) {
-	case 10: //Pick Up
-	{
-		//String actionName = "transferitemmisc";
-		//player->executeObjectControllerAction(actionName.hashCode(), getObjectID(), "");
-		//transferitem
-		break;
-	}
-	case 72: // Admin Pick Up
-	{
-		SceneObject* playerInventory = player->getSlottedObject("inventory");
-		playerInventory->transferObject(sceneObject, -1, true);
+		case 10: //Pick Up
+		{
+			//String actionName = "transferitemmisc";
+			//player->executeObjectControllerAction(actionName.hashCode(), getObjectID(), "");
+			//transferitem
+			break;
+		}
+		case 72: // Admin Pick Up
+		{
+			SceneObject* playerInventory = player->getSlottedObject("inventory");
+			playerInventory->transferObject(sceneObject, -1, true);
 
-		break;
-	}
-	case 73: // Admin Drop
-	{
-		Vector3 worldPosition = player->getWorldPosition();
-		sceneObject->initializePosition(worldPosition.getX(), worldPosition.getZ(), worldPosition.getY());
+			break;
+		}
+		case 73: // Admin Drop
+		{
+			Vector3 worldPosition = player->getWorldPosition();
+			sceneObject->initializePosition(worldPosition.getX(), worldPosition.getZ(), worldPosition.getY());
 
-		ManagedReference<Zone*> zone = player->getZone();
-		zone->transferObject(sceneObject, -1, true);
+			ManagedReference<Zone*> zone = player->getZone();
+			zone->transferObject(sceneObject, -1, true);
 
-		break;
-	}
+			break;
+		}
 	}
 
 	return 0;
