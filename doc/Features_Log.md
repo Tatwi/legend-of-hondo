@@ -4,7 +4,7 @@ This is a summary of the features I have posted. More detailed descriptions, alo
 
 ####Admin Tools  
 *Detailed Description: doc/features/add-admintools.md*  
-*Last Patched On: N/A*  
+*Last Patched On: 2016.09.21*  
 A collection of modifications to aid in "world building" and assisting players with roleplay events. Tools range from automatic generation of screenplay calls (spawnMobile and spawnSceneObject) to a SUI list box that drops persistent structures into the world.
 
 ####Hondo Housing System  
