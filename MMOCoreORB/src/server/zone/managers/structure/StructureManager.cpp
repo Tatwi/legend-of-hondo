@@ -474,7 +474,7 @@ StructureObject* StructureManager::placeStructure(CreatureObject* creature,
 			buildingObject->createCellObjects();
 	}
 
-	structureObject->setPublicStructure(serverTemplate->isPublicStructure());
+	structureObject->setPublicStructure(true);
 	structureObject->initializePosition(x, z, y);
 	structureObject->rotate(angle);
 

@@ -9,7 +9,7 @@ A collection of modifications to aid in "world building" and assisting players w
 
 ####Hondo Housing System  
 *Detailed Description: doc/features/add-housingsystem.md* 
-*Last Patched On: 2016.09.21*   
+*Last Patched On: 2016.09.23*   
 A site-centric system that allows administrators to easily create player housing anywhere. Sites contain a number of plots and each plot is home to one structure. Players use a terminal at the site to purchase a structure. Contains a building tour system so players can see them first hand before making their purchase.
 
 ####Breadcrumb Quest  
