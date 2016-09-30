@@ -21,6 +21,7 @@
 #include "server/zone/objects/mission/MissionObject.h"
 #include "server/zone/objects/mission/MissionObserver.h"
 #include "server/zone/objects/creature/ai/CreatureTemplate.h"
+#include "server/zone/managers/player/PlayerManager.h"
 
 void HuntingMissionObjectiveImplementation::activate() {
 	MissionObjectiveImplementation::activate();
@@ -60,6 +61,19 @@ void HuntingMissionObjectiveImplementation::abort() {
 void HuntingMissionObjectiveImplementation::complete() {
 
 	MissionObjectiveImplementation::complete();
+	
+	//Award Wilderness Survival XP.
+	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<CreatureObject*> owner = getPlayerOwner();
+	
+	float diversityBonus = 0.0f; // Bonus for having more Scout/Ranger branches/SEAs
+	int trappingSkill = owner->getSkillMod("trapping");
+	
+	if (trappingSkill > 0)
+		diversityBonus= 2000.0f * (float)(MIN(125, trappingSkill) / 100); 
+	
+	int xp = mission->getRewardCredits() / 3 + (float)diversityBonus;
+	owner->getZoneServer()->getPlayerManager()->awardExperience(owner, "camp", xp, true, 1);
 }
 
 int HuntingMissionObjectiveImplementation::notifyObserverEvent(MissionObserver* observer, uint32 eventType, Observable* observable, ManagedObject* arg1, int64 arg2) {
