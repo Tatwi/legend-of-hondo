@@ -109,10 +109,8 @@ void MissionObjectImplementation::setMissionTitle(const String& file, const Stri
 	}
 }
 
-/*
- * Make the mission title useful
- * [Level #]: Kill ## Animal Name
- */ 
+
+// Make the mission title useful: [Level #]: Kill ## Animal Name 
 void MissionObjectImplementation::setHuntingMissionTitle(const String& difficulty, const String& name, bool notifyClient) {
 	Locker clocker(waypointToMission, _this.getReferenceUnsafeStaticCast());
 
@@ -128,6 +126,23 @@ void MissionObjectImplementation::setHuntingMissionTitle(const String& difficult
 	if (player != NULL) {
 		MissionObjectDeltaMessage3* delta = new MissionObjectDeltaMessage3(_this.getReferenceUnsafeStaticCast());
 		delta->updateHuntingMissionTitle(difficulty, name);
+		delta->close();
+
+		player->sendMessage(delta);
+	}
+}
+
+// Make the description in the datapad useful by showing how many animals are left to kill.
+void MissionObjectImplementation::updateHuntingMissionDescription(const String& message, bool notifyClient) {
+
+	if (!notifyClient)
+		return;
+
+	ManagedReference<SceneObject*> player = getParentRecursively(SceneObjectType::PLAYERCREATURE);
+
+	if (player != NULL) {
+		MissionObjectDeltaMessage3* delta = new MissionObjectDeltaMessage3(_this.get());
+		delta->updateHuntingMissionDescription(message);
 		delta->close();
 
 		player->sendMessage(delta);

@@ -23,6 +23,11 @@
 #include "server/zone/objects/creature/ai/CreatureTemplate.h"
 #include "server/zone/managers/player/PlayerManager.h"
 
+#include "server/zone/packets/DeltaMessage.h"
+#include "server/zone/packets/mission/MissionObjectMessage3.h"
+#include "server/zone/packets/mission/MissionObjectDeltaMessage3.h"
+
+
 void HuntingMissionObjectiveImplementation::activate() {
 	MissionObjectiveImplementation::activate();
 
@@ -112,6 +117,9 @@ int HuntingMissionObjectiveImplementation::notifyObserverEvent(MissionObserver* 
 			message.setTO(mission->getTargetName());
 
 			getPlayerOwner().get()->sendSystemMessage(message);
+			
+			// Change mission description in datapad for easy tracking of progress.
+			mission->updateHuntingMissionDescription(" To complete this mission you must eliminate " + String::valueOf(targetsKilled) + " more creatures.");
 		}
 	}
 
