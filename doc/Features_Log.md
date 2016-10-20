@@ -17,3 +17,7 @@ A site-centric system that allows administrators to easily create player housing
 *Last Patched On: N/A*  
 A simple example of a stand-alone quest that can be used as a template for other custom quests. The quest sends the player to a series of waypoints, ending back at the quest giver who then grants the player a reward.
 
+####Buff Terminals
+*Detailed Description: doc/features/add-buff-terminals.md*  
+*Last Patched On: N/A*  
+To provide stat buffs and health services to the player that they would normally get through interacting with other players. 
