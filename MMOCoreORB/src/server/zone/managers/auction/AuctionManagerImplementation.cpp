@@ -563,6 +563,22 @@ int AuctionManagerImplementation::checkBidAuction(CreatureObject* player, Auctio
 	return 0;
 }
 
+void AuctionManagerImplementation::bazaarBotLogSale(const String& buyerName, const String& itemName, int price) {	
+	time_t now = time(0);
+	String dt = ctime(&now);
+	String timeStamp = dt.replaceAll("\n", "");
+	
+	StringBuffer msg;
+	msg << timeStamp << ": " << itemName << " (" << buyerName << ") " << String::valueOf(price) << "cr" << endl;
+	
+	File* file = new File("log/bazaarbot_buyers.log");
+	FileWriter* writer = new FileWriter(file, true); // true for append new lines
+	writer->write(msg.toString());
+	writer->close();
+	delete file;
+	delete writer;
+}
+
 void AuctionManagerImplementation::doInstantBuy(CreatureObject* player, AuctionItem* item) {
 	ManagedReference<SceneObject*> vendor = zoneServer->getObject(item->getVendorID());
 
@@ -727,6 +743,10 @@ void AuctionManagerImplementation::doInstantBuy(CreatureObject* player, AuctionI
 		UnicodeString blankBody;
 		cman->sendMail(sender, sellerSubject, blankBody, sellerName, &sellerBodyVector, &sellerWaypointVector);
 		cman->sendMail(sender, buyerSubject, blankBody, item->getBidderName(), &buyerBodyVector, &buyerWaypointVector);
+		
+		if (sellerName == "BazaarBot"){
+			bazaarBotLogSale(item->getBidderName(), itemName, item->getPrice());
+		}
 
 	}
 
@@ -1796,4 +1816,81 @@ String AuctionManagerImplementation::removeColorCodes(const String& name) {
 	}
 
 	return itemName;
+}
+
+// BazaarBot item listing functionality
+void AuctionManagerImplementation::bazaarBotListItem(CreatureObject* player, SceneObject* objectToSell, SceneObject* vendor, const UnicodeString& description, int price) {
+
+	if (!vendor->isBazaarTerminal()) {
+		error("BazaarBot: Vendor was not a valid Bazaar Terminal object");
+		return;
+	}
+
+	ManagedReference<TradeSession*> tradeContainer = player->getActiveSession(SessionFacadeType::TRADE).castTo<TradeSession*>();
+
+	if (tradeContainer != NULL) {
+		zoneServer->getPlayerManager()->handleAbortTradeMessage(player);
+	}
+
+	String vendorUID = getVendorUID(vendor);
+	bool stockroomSale = false;
+
+	if (objectToSell == NULL) {
+		error("BazaarBot: Unable to list a NULL object");
+		return;
+	}
+	
+	if (objectToSell->isNoTrade()) {
+		error("BazaarBot: Unable to list a No-Trade object " + objectToSell->getDisplayedName() + ". The object was deleted.");
+		return;
+	}
+	
+	if (objectToSell->containsNoTradeObjectRecursive()) {
+		objectToSell->destroyObjectFromWorld(true);
+		error("BazaarBot: Unable to list a container that cotains a No-Trade item "+ objectToSell->getDisplayedName() + ". The object was deleted.");
+		return;
+	}
+
+	ManagedReference<Zone*> zone = vendor->getZone();
+	if (zone == NULL) {
+		objectToSell->destroyObjectFromWorld(true);
+		error("BazaarBot: The zone containing the vendor was not found. Object not listed and deleted");
+		return;
+	}
+
+	if(auctionMap->containsItem(objectToSell->getObjectID())) {
+		error("BazaarBot: Attempted to sell item that was already for sale " + objectToSell->getDisplayedName());
+		return;
+	}
+	
+	// Set some values used by createVendorItem
+	uint32 duration = AuctionManager::COMMODITYEXPIREPERIOD; // Default is 7 days (in seconds)
+	bool auction = false;
+	bool premium = false;
+
+	ManagedReference<AuctionItem*> item = createVendorItem(player, objectToSell, vendor, description, price, duration, auction, premium);
+
+	if(item == NULL) {
+		objectToSell->destroyObjectFromWorld(true);
+		error("BazaarBot: createVendorItem returned NULL object when trying to list " + objectToSell->getDisplayedName() + ". The object was deleted.");
+		return;
+	}
+
+	Locker locker(item);
+
+	int result = auctionMap->addItem(player, vendor, item);
+
+	if(result != ItemSoldMessage::SUCCESS) {
+		error("BazaarBot: Item was not successfully listed... ");
+		auctionMap->removeFromCommodityLimit(item);
+		return;
+	}
+
+	Locker objectToSellLocker(objectToSell);
+
+	objectToSell->destroyObjectFromWorld(true);
+
+	objectToSellLocker.release();
+
+	item->setPersistent(1);
 }

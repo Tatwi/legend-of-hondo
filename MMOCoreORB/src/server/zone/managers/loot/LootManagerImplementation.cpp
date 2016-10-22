@@ -945,3 +945,19 @@ float LootManagerImplementation::calculateDotValue(float min, float max, float l
 
 	return value;
 }
+
+TangibleObject* LootManagerImplementation::bazaarBotCreateLoot(const String& lootItem, int level, bool maxCondition) {
+	Reference<LootItemTemplate*> itemTemplate = lootGroupMap->getLootItemTemplate(lootItem);
+
+	if (itemTemplate == NULL) {
+		warning("BazaarBot Error: Loot item template " + lootItem + " does not exist");
+		return 0;
+	}
+
+	TangibleObject* obj = createLootObject(itemTemplate, level, maxCondition);
+
+	if (obj == NULL)
+		return 0;
+
+	return obj;
+}

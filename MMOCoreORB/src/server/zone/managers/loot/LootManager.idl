@@ -188,4 +188,6 @@ class LootManager extends ManagedService implements Logger {
 		return lootGroupMap;
 	}
 
+	@local
+	public native TangibleObject bazaarBotCreateLoot(final string lootItem, int level = -1, boolean maxCondition = false);
 }

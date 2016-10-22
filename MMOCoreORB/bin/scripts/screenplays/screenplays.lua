@@ -525,8 +525,11 @@ includeFile("record_keepers/record_keepers.lua")
 --Tests
 includeFile("tests/tests.lua")
 
+
 -- Legend of Hondo
 includeFile("hondo/housing_system/housing_system.lua")
 includeFile("hondo/housing_system/locations_simple_demo_city.lua")
 includeFile("hondo/quests/quests.lua")
 includeFile("hondo/buff_terminals.lua")
+includeFile("hondo/bazaarbot/BazaarBot.lua")
+

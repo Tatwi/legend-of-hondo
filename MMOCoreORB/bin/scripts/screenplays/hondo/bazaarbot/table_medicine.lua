@@ -1,0 +1,208 @@
+BBMedicineConfig = {
+	path = "object/draft_schematic/chemistry/",
+	qualityMin = 55,
+	qualityAvg = 60, -- 10% chance to use this as the min value and qualityMax as the max value
+	qualityMax = 65, -- 1% Chance to get up to +5 to the max value, with qualityMax as the min value
+	freq = 16700, -- Every x seconds
+	eventName = "BazaarBotAddMedicine",
+	functionName = "addMoreMedicine",
+}
+
+-- {price, quantity, crateQuantity, "altTemplate", "templates"...},
+-- price: Price * (random(QualityRoll/4, QualityRoll/2) / 100 + 1) * crateQuantity
+-- quantity: How many of each item in the group will be listed every freq seconds
+-- crateQuantity: Set higher than 1 to make factory crates rather than individual items
+-- altTemplate: Items such as statues that have a drop down to choose alternate final objects
+-- Items that don't have altTemplates and should be the same price can be grouped together
+BBMedicineItems = {
+	{50, 2, 10, 0, "med_stimpack_a"},
+	--{350, 2, 10, 0, "med_stimpack_area_a"},
+	--{150, 2, 10, 0, "med_stimpack_range_a"},
+	{25, 1, 10, 0, "medpack_wound_action_a", "medpack_wound_constitution_a", "medpack_wound_health_a", "medpack_wound_quickness_a", "medpack_wound_stamina_a", "medpack_wound_strength_a"},
+}
+
+-- These are here to make it easier to add them in later. Just cut/paste into the above table and set the prices. 
+BBMeds_UNUSED = {
+	{25, 1, 1, 0, "med_fire_blanket"},
+	{25, 1, 1, 0, "medpack_cure_disease_area_a"},
+	{25, 1, 1, 0, "medpack_cure_disease_area_b"},
+	{25, 1, 1, 0, "medpack_cure_disease_area_c"},
+	{25, 1, 1, 0, "medpack_cure_disease_a"},
+	{25, 1, 1, 0, "medpack_cure_disease_b"},
+	{25, 1, 1, 0, "medpack_cure_disease_c"},
+	{25, 1, 1, 0, "medpack_cure_poison_area_a"},
+	{25, 1, 1, 0, "medpack_cure_poison_area_b"},
+	{25, 1, 1, 0, "medpack_cure_poison_area_c"},
+	{25, 1, 1, 0, "medpack_cure_poison_a"},
+	{25, 1, 1, 0, "medpack_cure_poison_b"},
+	{25, 1, 1, 0, "medpack_cure_poison_c"},
+	{25, 1, 1, 0, "medpack_disease_action_a"},
+	{25, 1, 1, 0, "medpack_disease_action_b"},
+	{25, 1, 1, 0, "medpack_disease_action_c"},
+	{25, 1, 1, 0, "medpack_disease_area_action_a"},
+	{25, 1, 1, 0, "medpack_disease_area_action_b"},
+	{25, 1, 1, 0, "medpack_disease_area_action_c"},
+	{25, 1, 1, 0, "medpack_disease_area_constitution_a"},
+	{25, 1, 1, 0, "medpack_disease_area_constitution_b"},
+	{25, 1, 1, 0, "medpack_disease_area_constitution_c"},
+	{25, 1, 1, 0, "medpack_disease_area_focus_a"},
+	{25, 1, 1, 0, "medpack_disease_area_focus_b"},
+	{25, 1, 1, 0, "medpack_disease_area_focus_c"},
+	{25, 1, 1, 0, "medpack_disease_area_health_a"},
+	{25, 1, 1, 0, "medpack_disease_area_health_b"},
+	{25, 1, 1, 0, "medpack_disease_area_health_c"},
+	{25, 1, 1, 0, "medpack_disease_area_mind_a"},
+	{25, 1, 1, 0, "medpack_disease_area_mind_b"},
+	{25, 1, 1, 0, "medpack_disease_area_mind_c"},
+	{25, 1, 1, 0, "medpack_disease_area_quickness_a"},
+	{25, 1, 1, 0, "medpack_disease_area_quickness_b"},
+	{25, 1, 1, 0, "medpack_disease_area_quickness_c"},
+	{25, 1, 1, 0, "medpack_disease_area_stamina_a"},
+	{25, 1, 1, 0, "medpack_disease_area_stamina_b"},
+	{25, 1, 1, 0, "medpack_disease_area_stamina_c"},
+	{25, 1, 1, 0, "medpack_disease_area_strength_a"},
+	{25, 1, 1, 0, "medpack_disease_area_strength_b"},
+	{25, 1, 1, 0, "medpack_disease_area_strength_c"},
+	{25, 1, 1, 0, "medpack_disease_area_willpower_a"},
+	{25, 1, 1, 0, "medpack_disease_area_willpower_b"},
+	{25, 1, 1, 0, "medpack_disease_area_willpower_c"},
+	{25, 1, 1, 0, "medpack_disease_constitution_a"},
+	{25, 1, 1, 0, "medpack_disease_constitution_b"},
+	{25, 1, 1, 0, "medpack_disease_constitution_c"},
+	{25, 1, 1, 0, "medpack_disease_focus_a"},
+	{25, 1, 1, 0, "medpack_disease_focus_b"},
+	{25, 1, 1, 0, "medpack_disease_focus_c"},
+	{25, 1, 1, 0, "medpack_disease_health_a"},
+	{25, 1, 1, 0, "medpack_disease_health_b"},
+	{25, 1, 1, 0, "medpack_disease_health_c"},
+	{25, 1, 1, 0, "medpack_disease_mind_a"},
+	{25, 1, 1, 0, "medpack_disease_mind_b"},
+	{25, 1, 1, 0, "medpack_disease_mind_c"},
+	{25, 1, 1, 0, "medpack_disease_quickness_a"},
+	{25, 1, 1, 0, "medpack_disease_quickness_b"},
+	{25, 1, 1, 0, "medpack_disease_quickness_c"},
+	{25, 1, 1, 0, "medpack_disease_stamina_a"},
+	{25, 1, 1, 0, "medpack_disease_stamina_b"},
+	{25, 1, 1, 0, "medpack_disease_stamina_c"},
+	{25, 1, 1, 0, "medpack_disease_strength_a"},
+	{25, 1, 1, 0, "medpack_disease_strength_b"},
+	{25, 1, 1, 0, "medpack_disease_strength_c"},
+	{25, 1, 1, 0, "medpack_disease_willpower_a"},
+	{25, 1, 1, 0, "medpack_disease_willpower_b"},
+	{25, 1, 1, 0, "medpack_disease_willpower_c"},
+	{25, 1, 1, 0, "medpack_enhance_action_a"},
+	{25, 1, 1, 0, "medpack_enhance_action_b"},
+	{25, 1, 1, 0, "medpack_enhance_action_c"},
+	{25, 1, 1, 0, "medpack_enhance_action_d"},
+	{25, 1, 1, 0, "medpack_enhance_constitution_a"},
+	{25, 1, 1, 0, "medpack_enhance_constitution_b"},
+	{25, 1, 1, 0, "medpack_enhance_constitution_c"},
+	{25, 1, 1, 0, "medpack_enhance_constitution_d"},
+	{25, 1, 1, 0, "medpack_enhance_disease_a"},
+	{25, 1, 1, 0, "medpack_enhance_disease_b"},
+	{25, 1, 1, 0, "medpack_enhance_disease_c"},
+	{25, 1, 1, 0, "medpack_enhance_health_a"},
+	{25, 1, 1, 0, "medpack_enhance_health_b"},
+	{25, 1, 1, 0, "medpack_enhance_health_c"},
+	{25, 1, 1, 0, "medpack_enhance_health_d"},
+	{25, 1, 1, 0, "medpack_enhance_poison_a"},
+	{25, 1, 1, 0, "medpack_enhance_poison_b"},
+	{25, 1, 1, 0, "medpack_enhance_poison_c"},
+	{25, 1, 1, 0, "medpack_enhance_quickness_a"},
+	{25, 1, 1, 0, "medpack_enhance_quickness_b"},
+	{25, 1, 1, 0, "medpack_enhance_quickness_c"},
+	{25, 1, 1, 0, "medpack_enhance_quickness_d"},
+	{25, 1, 1, 0, "medpack_enhance_stamina_a"},
+	{25, 1, 1, 0, "medpack_enhance_stamina_b"},
+	{25, 1, 1, 0, "medpack_enhance_stamina_c"},
+	{25, 1, 1, 0, "medpack_enhance_stamina_d"},
+	{25, 1, 1, 0, "medpack_enhance_strength_a"},
+	{25, 1, 1, 0, "medpack_enhance_strength_b"},
+	{25, 1, 1, 0, "medpack_enhance_strength_c"},
+	{25, 1, 1, 0, "medpack_enhance_strength_d"},
+	{25, 1, 1, 0, "medpack_poison_action_a"},
+	{25, 1, 1, 0, "medpack_poison_action_b"},
+	{25, 1, 1, 0, "medpack_poison_action_c"},
+	{25, 1, 1, 0, "medpack_poison_area_action_a"},
+	{25, 1, 1, 0, "medpack_poison_area_action_b"},
+	{25, 1, 1, 0, "medpack_poison_area_action_c"},
+	{25, 1, 1, 0, "medpack_poison_area_health_a"},
+	{25, 1, 1, 0, "medpack_poison_area_health_b"},
+	{25, 1, 1, 0, "medpack_poison_area_health_c"},
+	{25, 1, 1, 0, "medpack_poison_area_mind_a"},
+	{25, 1, 1, 0, "medpack_poison_area_mind_b"},
+	{25, 1, 1, 0, "medpack_poison_area_mind_c"},
+	{25, 1, 1, 0, "medpack_poison_health_a"},
+	{25, 1, 1, 0, "medpack_poison_health_b"},
+	{25, 1, 1, 0, "medpack_poison_health_c"},
+	{25, 1, 1, 0, "medpack_poison_mind_a"},
+	{25, 1, 1, 0, "medpack_poison_mind_b"},
+	{25, 1, 1, 0, "medpack_poison_mind_c"},
+	{25, 1, 1, 0, "medpack_revive"},
+	
+	{25, 1, 1, 0, "medpack_wound_action_b"},
+	{25, 1, 1, 0, "medpack_wound_action_c"},
+	{25, 1, 1, 0, "medpack_wound_action_d"},
+	{25, 1, 1, 0, "medpack_wound_action_e"},
+	
+	{25, 1, 1, 0, "medpack_wound_constitution_b"},
+	{25, 1, 1, 0, "medpack_wound_constitution_c"},
+	{25, 1, 1, 0, "medpack_wound_constitution_d"},
+	{25, 1, 1, 0, "medpack_wound_constitution_e"},
+	{25, 1, 1, 0, "medpack_wound_constitution"},
+	
+	{25, 1, 1, 0, "medpack_wound_health_b"},
+	{25, 1, 1, 0, "medpack_wound_health_c"},
+	{25, 1, 1, 0, "medpack_wound_health_d"},
+	{25, 1, 1, 0, "medpack_wound_health_e"},
+	
+	{25, 1, 1, 0, "medpack_wound_quickness_b"},
+	{25, 1, 1, 0, "medpack_wound_quickness_c"},
+	{25, 1, 1, 0, "medpack_wound_quickness_d"},
+	{25, 1, 1, 0, "medpack_wound_quickness_e"},
+	
+	{25, 1, 1, 0, "medpack_wound_stamina_b"},
+	{25, 1, 1, 0, "medpack_wound_stamina_c"},
+	{25, 1, 1, 0, "medpack_wound_stamina_d"},
+	{25, 1, 1, 0, "medpack_wound_stamina_e"},
+	
+	{25, 1, 1, 0, "medpack_wound_strength_b"},
+	{25, 1, 1, 0, "medpack_wound_strength_c"},
+	{25, 1, 1, 0, "medpack_wound_strength_d"},
+	{25, 1, 1, 0, "medpack_wound_strength_e"},
+	
+	{25, 1, 1, 0, "med_stimpack_area_b"},
+	{25, 1, 1, 0, "med_stimpack_area_c"},
+	
+	{25, 1, 1, 0, "med_stimpack_b"},
+	{25, 1, 1, 0, "med_stimpack_c"},
+	{25, 1, 1, 0, "med_stimpack_d"},
+	{25, 1, 1, 0, "med_stimpack_e"},
+	
+	{25, 1, 1, 0, "med_stimpack_range_b"},
+	{25, 1, 1, 0, "med_stimpack_range_c"},
+	{25, 1, 1, 0, "med_stimpack_range_d"},
+	{25, 1, 1, 0, "med_stimpack_range_e"},
+	{25, 1, 1, 0, "med_stimpack_state_blinded_a"},
+	{25, 1, 1, 0, "med_stimpack_state_blinded_b"},
+	{25, 1, 1, 0, "med_stimpack_state_dizzy_a"},
+	{25, 1, 1, 0, "med_stimpack_state_dizzy_b"},
+	{25, 1, 1, 0, "med_stimpack_state_intimidated_a"},
+	{25, 1, 1, 0, "med_stimpack_state_intimidated_b"},
+	{25, 1, 1, 0, "med_stimpack_state_stunned_a"},
+	{25, 1, 1, 0, "med_stimpack_state_stunned_b"},
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
