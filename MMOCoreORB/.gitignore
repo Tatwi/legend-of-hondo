@@ -45,4 +45,4 @@ bin/conf/*
 .*.swp
 .ycm_extra_conf.py*
 sql/insert_strings.sql
-
+bin/scripts/managers/resource_manager_spawns.lua
