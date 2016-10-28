@@ -71,8 +71,7 @@ public:
 	VendorDataComponent();
 
 	virtual ~VendorDataComponent() {
-		if (vendorCheckTask != NULL)
-			vendorCheckTask->cancel();
+
 	}
 
 	void initializeTransientMembers();
@@ -172,6 +171,7 @@ public:
 	}
 
 	inline bool isEmpty() {
+		ManagedReference<AuctionManager*> auctionManager = auctionMan.get();
 
 		if (auctionManager == NULL)
 			return false;
@@ -270,6 +270,8 @@ public:
 	void performVendorBark(SceneObject* target);
 
 	void scheduleVendorCheckTask(int delay); // In minutes
+
+	void cancelVendorCheckTask();
 
 private:
 	void addSerializableVariables();

@@ -41,6 +41,7 @@
 #include "server/zone/objects/player/sui/callbacks/TurretControlSuiCallback.h"
 
 #include "server/zone/managers/structure/StructureManager.h"
+#include "server/zone/managers/player/PlayerManager.h"
 #include "server/zone/packets/scene/PlayClientEffectLocMessage.h"
 
 void GCWManagerImplementation::initialize() {
@@ -165,6 +166,13 @@ void GCWManagerImplementation::loadLuaConfig() {
 
 	delete lua;
 	lua = NULL;
+}
+
+void GCWManagerImplementation::stop() {
+	gcwBaseList.removeAll();
+	gcwStartTasks.removeAll();
+	gcwEndTasks.removeAll();
+	gcwDestroyTasks.removeAll();
 }
 
 void GCWManagerImplementation::performGCWTasks() {
@@ -1570,7 +1578,9 @@ void GCWManagerImplementation::broadcastBuilding(BuildingObject* building, Strin
 
 	SortedVector<QuadTreeEntry*> closeObjects;
 	if (building->getCloseObjects() == NULL) {
+#ifdef COV_DEBUG
 		building->info("Null closeobjects vector in GCWManagerImplementation::broadcastBuilding", true);
+#endif
 		zone->getInRangeObjects(building->getPositionX(), building->getPositionY(), range, &closeObjects, true);
 	} else {
 		CloseObjectsVector* closeVector = (CloseObjectsVector*) building->getCloseObjects();

@@ -16,7 +16,6 @@ import server.zone.objects.tangible.TangibleObject;
 import server.zone.objects.area.ActiveArea;
 import server.zone.objects.installation.factory.FactoryObject;
 include server.zone.objects.scene.variables.DeltaVector;
-include server.zone.packets.object.ObjectControllerMessage;
 include server.zone.objects.manufactureschematic.ingredientslots.IngredientSlot;
 include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
 include server.zone.objects.manufactureschematic.factoryblueprint.FactoryBlueprint;
@@ -35,6 +34,8 @@ class ManufactureSchematic extends IntangibleObject {
 	protected float dataSize;
 	protected int manufactureLimit;
 	protected float complexity;
+
+	@weakReference
 	protected CreatureObject crafter;
 
 	@dereferenced
@@ -254,6 +255,7 @@ class ManufactureSchematic extends IntangibleObject {
 	}
 
 	@read
+	@weakReference
 	public CreatureObject getCrafter() {
 		return crafter;
 	}

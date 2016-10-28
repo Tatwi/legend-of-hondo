@@ -77,6 +77,9 @@ bool ZoneContainerComponent::removeActiveArea(Zone* zone, ActiveArea* activeArea
 
 	ManagedReference<SceneObject*> thisLocker = activeArea;
 
+	if (!activeArea->isInQuadTree())
+		return false;
+
 	Locker zoneLocker(zone);
 
 	QuadTree* regionTree = zone->getRegionTree();
@@ -251,7 +254,9 @@ bool ZoneContainerComponent::removeObject(SceneObject* sceneObject, SceneObject*
 			} catch (...) {
 			}
 		} else {
+#ifdef COV_DEBUG
 			object->info("Null closeobjects vector in ZoneContainerComponent::removeObject", true);
+#endif
 			SortedVector<ManagedReference<QuadTreeEntry*> > closeSceneObjects;
 
 			zone->getInRangeObjects(object->getPositionX(), object->getPositionY(), 512, &closeSceneObjects, false);

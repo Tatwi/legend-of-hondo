@@ -28,8 +28,11 @@ SchematicMap::SchematicMap() : objectManager(NULL) {
 }
 
 SchematicMap::~SchematicMap() {
-	while(groupMap.size() > 0)
-		delete groupMap.get(0);
+	while (groupMap.size() > 0) {
+		DraftSchematicGroup* group = groupMap.get(0);
+		delete group;
+		groupMap.remove(0);
+	}
 }
 
 void SchematicMap::initialize(ZoneServer* server) {

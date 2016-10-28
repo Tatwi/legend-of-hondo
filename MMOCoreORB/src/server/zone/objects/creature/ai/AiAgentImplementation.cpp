@@ -7,7 +7,6 @@
 
 #include <engine/core/ManagedReference.h>
 #include <engine/core/ManagedWeakReference.h>
-#include <engine/util/Singleton.h>
 #include <engine/util/u3d/CloseObjectsVector.h>
 #include <engine/util/u3d/Coordinate.h>
 #include <engine/util/u3d/Quaternion.h>
@@ -37,7 +36,6 @@
 #include "server/zone/managers/creature/CreatureManager.h"
 #include "server/zone/managers/creature/PetManager.h"
 #include "server/zone/managers/planet/PlanetManager.h"
-#include "server/zone/managers/player/PlayerManager.h"
 #include "server/zone/managers/reaction/ReactionManager.h"
 #include "server/zone/objects/cell/CellObject.h"
 #include "server/zone/objects/creature/ai/AiAgent.h"
@@ -1914,7 +1912,9 @@ float AiAgentImplementation::getWorldZ(const Vector3& position) {
 	} else {
 		SortedVector<ManagedReference<QuadTreeEntry*> > closeObjects;
 
+#ifdef COV_DEBUG
 		zone->info("Null closeobjects vector in AiAgentImplementation::getWorldZ", true);
+#endif
 
 		Vector3 worldPosition = getWorldPosition();
 		zone->getInRangeObjects(worldPosition.getX(), worldPosition.getY(), 128, &closeObjects, true);
@@ -1969,7 +1969,9 @@ bool AiAgentImplementation::generatePatrol(int num, float dist) {
 	if (closeobjects != NULL) {
 		closeobjects->safeCopyTo(closeObjects);
 	} else {
+#ifdef COV_DEBUG
 		zone->info("Null closeobjects vector in AiAgentImplementation::generatePatrol", true);
+#endif
 
 		Vector3 worldPosition = getWorldPosition();
 		zone->getInRangeObjects(worldPosition.getX(), worldPosition.getY(), 128, &closeObjects, true);
@@ -2958,7 +2960,9 @@ void AiAgentImplementation::broadcastInterrupt(int64 msg) {
 
 			try {
 				if (closeobjects == NULL) {
+#ifdef COV_DEBUG
 					aiAgent_p->info("Null closeobjects vector in AiAgentImplementation::broadcastInterrupt", true);
+#endif
 					zone->getInRangeObjects(aiAgent_p->getPositionX(), aiAgent_p->getPositionY(), ZoneServer::CLOSEOBJECTRANGE, &closeAiAgents, true);
 				} else {
 					closeAiAgents.removeAll(closeobjects->size(), 10);
@@ -3175,6 +3179,11 @@ bool AiAgentImplementation::isAttackableBy(CreatureObject* object) {
 
 		String targetSocialGroup = ai->getSocialGroup().toLowerCase();
 		if (!targetSocialGroup.isEmpty() && targetSocialGroup != "self" && targetSocialGroup == getSocialGroup().toLowerCase()) {
+			return false;
+		}
+
+		uint32 targetLairTemplateCRC = ai->getLairTemplateCRC();
+		if (targetLairTemplateCRC != 0 && targetLairTemplateCRC == getLairTemplateCRC()) {
 			return false;
 		}
 	}

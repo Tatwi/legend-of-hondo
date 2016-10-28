@@ -32,6 +32,7 @@ SkillManager::SkillManager()
 }
 
 SkillManager::~SkillManager() {
+	delete performanceManager;
 }
 
 int SkillManager::includeFile(lua_State* L) {

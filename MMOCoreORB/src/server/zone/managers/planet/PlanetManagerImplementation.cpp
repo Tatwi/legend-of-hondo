@@ -701,8 +701,17 @@ void PlanetManagerImplementation::initializeTransientMembers() {
 
 
 void PlanetManagerImplementation::finalize() {
-	delete terrainManager;
 	terrainManager = NULL;
+	weatherManager = NULL;
+	planetTravelPointList = NULL;
+	performanceLocations = NULL;
+	zone = NULL;
+	server = NULL;
+
+	if (gcwManager != NULL) {
+		gcwManager->stop();
+		gcwManager = NULL;
+	}
 }
 
 bool PlanetManagerImplementation::isInRangeWithPoi(float x, float y, float range) {

@@ -190,6 +190,10 @@ void CityManagerImplementation::loadCityRegions() {
 	info("Loaded " + String::valueOf(cities.size()) + " player city regions.", true);
 }
 
+void CityManagerImplementation::stop() {
+	cities.removeAll();
+}
+
 CityRegion* CityManagerImplementation::createCity(CreatureObject* mayor, const String& cityName, float x, float y) {
 	ManagedReference<CityRegion*> city = new CityRegion(true);
 	ObjectManager::instance()->persistObject(city, 1, "cityregions");
@@ -831,10 +835,6 @@ void CityManagerImplementation::deductCityMaintenance(CityRegion* city) {
 	int totalPaid = 0;
 
 	Locker _lock(city);
-
-	TemplateManager* templateManager = TemplateManager::instance();
-	if (templateManager == NULL)
-		return;
 
 	// pay city hall maintenanance first
 	ManagedReference<StructureObject*> ch = city->getCityHall();
@@ -1926,10 +1926,6 @@ void CityManagerImplementation::sendMaintenanceReport(CityRegion* city, Creature
 
 	PlayerObject* ghost = creature->getPlayerObject();
 	if (ghost == NULL)
-		return;
-
-	TemplateManager* templateManager = TemplateManager::instance();
-	if (templateManager == NULL)
 		return;
 
 	int totalcost = 0;

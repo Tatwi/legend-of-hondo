@@ -3,7 +3,7 @@ local ObjectManager = require("managers.object.object_manager")
 EmperorsRetreatScreenPlay = ScreenPlay:new {
 	numberOfActs = 1,
 
-	screenplayName = "EmperorsRetreatScreenPlay",
+		screenplayName = "EmperorsRetreatScreenPlay",
 }
 
 registerScreenPlay("EmperorsRetreatScreenPlay", true)
@@ -32,33 +32,91 @@ function EmperorElevatorMenuComponent:fillObjectMenuResponse(pSceneObject, pMenu
 end
 
 function EmperorElevatorMenuComponent:handleObjectMenuSelect(pSceneObject, pPlayer, selectedID)
-	ObjectManager.withCreatureObject(pPlayer, function(creature)
-		if (selectedID ~= 198) or (not creature:hasScreenPlayState(16, "imperial_theme_park")) then
-			creature:sendSystemMessage("@theme_park_imperial/warning:emperor")
-			return 0
-		end
+	if (pPlayer == nil) then
+		return 0
+	end
 
-		local obj = SceneObject(pSceneObject)
+	if (selectedID ~= 198) or (not CreatureObject(pPlayer):hasScreenPlayState(16, "imperial_theme_park")) then
+		CreatureObject(pPlayer):sendSystemMessage("@theme_park_imperial/warning:emperor")
+		return 0
+	end
 
-		if (creature:getParent() ~= obj:getParent()) then
-			return 0
-		end
+	if (CreatureObject(pPlayer):getParent() ~= SceneObject(pSceneObject):getParent()) then
+		return 0
+	end
 
-		local z = obj:getPositionZ() + 20
-		local x = creature:getPositionX()
-		local y = creature:getPositionY()
+	local z = SceneObject(pSceneObject):getPositionZ() + 20
+	local x = CreatureObject(pPlayer):getPositionX()
+	local y = CreatureObject(pPlayer):getPositionY()
 
-		creature:playEffect("clienteffect", "elevator_ascend.cef")
-		creature:teleport(x, z, y, obj:getParentID())
-	end)
+	CreatureObject(pPlayer):playEffect("clienteffect", "elevator_ascend.cef")
+	CreatureObject(pPlayer):teleport(x, z, y, SceneObject(pSceneObject):getParentID())
 
 	return 0
 end
 
 function EmperorsRetreatScreenPlay:setMoodString(pNpc, mood)
-	ObjectManager.withCreatureObject(pNpc, function(npc)
-		npc:setMoodString(mood)
-	end)
+	CreatureObject(pNpc):setMoodString(mood)
+end
+
+function EmperorsRetreatScreenPlay:retreatPatrolDestReached(pMobile)
+	if (pMobile == nil) then
+		return 0
+	end
+
+	local curLoc = readData(SceneObject(pMobile):getObjectID() .. ":currentLoc")
+
+	if (curLoc == 1) then
+		writeData(SceneObject(pMobile):getObjectID() .. ":currentLoc", 2)
+	else
+		writeData(SceneObject(pMobile):getObjectID() .. ":currentLoc", 1)
+	end
+
+	createEvent(getRandomNumber(350,450) * 100, "EmperorsRetreatScreenPlay", "droidPatrol", pMobile, "")
+
+	return 0
+end
+
+function EmperorsRetreatScreenPlay:droidPatrol(pMobile)
+	if (pMobile == nil) then
+		return
+	end
+	local name = readStringData(SceneObject(pMobile):getObjectID() .. ":name")
+	local curLoc = readData(SceneObject(pMobile):getObjectID() .. ":currentLoc")
+	local nextLoc
+
+	if (name == "droid1") then
+		if (curLoc == 1) then
+
+			nextLoc = { 12.25, 0.2, -24.38, 1418874}
+		else
+			nextLoc = { -52.15, 0.2, -23.82, 1418884 }
+		end
+	end
+
+	if (name == "droid2") then
+		if (curLoc == 1) then
+
+			nextLoc = { -8.91, 0.2, -12.67, 1418879}
+		else
+			nextLoc = { 23.83, 0.2, -40.42, 1418875 }
+		end
+	end
+
+	if (name == "droid3") then
+		if (curLoc == 1) then
+
+			nextLoc = { 11.63, .2, -51.12, 1418876}
+		else
+			nextLoc = { -45.79, 0.2, -12.5, 1418879}
+		end
+	end
+
+	AiAgent(pMobile):stopWaiting()
+	AiAgent(pMobile):setWait(0)
+	AiAgent(pMobile):setNextPosition(nextLoc[1], nextLoc[2], nextLoc[3], nextLoc[4])
+	AiAgent(pMobile):executeBehavior()
+
 end
 
 function EmperorsRetreatScreenPlay:spawnMobiles()
@@ -76,8 +134,30 @@ function EmperorsRetreatScreenPlay:spawnMobiles()
 
 	spawnMobile("naboo", "ra7_bug_droid", 120, 4.0, 0.2, -45.7, 4, 1418876)
 
-	spawnMobile("naboo", "mouse_droid", 120, -8.6, 0.2, -14.2, -15, 1418879)
-	spawnMobile("naboo", "mouse_droid", 120, -39.9, 0.2, -12.4, -25, 1418879)
+	pNpc = spawnMobile("naboo", "mouse_droid", 120, -52.15, 0.2, -23.82, -15, 1418884)
+	writeData(SceneObject(pNpc):getObjectID() .. ":currentLoc", 1)
+	writeStringData(SceneObject(pNpc):getObjectID() .. ":name", "droid1")
+	createEvent(getRandomNumber(350,450) * 100, "EmperorsRetreatScreenPlay", "droidPatrol", pNpc, "")
+	createObserver(DESTINATIONREACHED, "EmperorsRetreatScreenPlay", "retreatPatrolDestReached", pNpc)
+	AiAgent(pNpc):setAiTemplate("manualescortwalk")
+	AiAgent(pNpc):setFollowState(4)
+
+	pNpc = spawnMobile("naboo", "mouse_droid", 120, 23.83, 0.2, -40.42, -25, 1418875)
+	writeData(SceneObject(pNpc):getObjectID() .. ":currentLoc", 1)
+	writeStringData(SceneObject(pNpc):getObjectID() .. ":name", "droid2")
+	createEvent(getRandomNumber(350,450) * 100, "EmperorsRetreatScreenPlay", "droidPatrol", pNpc, "")
+	createObserver(DESTINATIONREACHED, "EmperorsRetreatScreenPlay", "retreatPatrolDestReached", pNpc)
+	AiAgent(pNpc):setAiTemplate("manualescortwalk")
+	AiAgent(pNpc):setFollowState(4)
+
+	pNpc = spawnMobile("naboo", "mouse_droid", 120, -45.79, 0.2, -12.5, -25, 1418879)
+	writeData(SceneObject(pNpc):getObjectID() .. ":currentLoc", 1)
+	writeStringData(SceneObject(pNpc):getObjectID() .. ":name", "droid3")
+	createEvent(getRandomNumber(350,450) * 100, "EmperorsRetreatScreenPlay", "droidPatrol", pNpc, "")
+	createObserver(DESTINATIONREACHED, "EmperorsRetreatScreenPlay", "retreatPatrolDestReached", pNpc)
+	AiAgent(pNpc):setAiTemplate("manualescortwalk")
+	AiAgent(pNpc):setFollowState(4)
+
 
 	pNpc = spawnMobile("naboo", "stormtrooper", 120, -0.5, 0.2, -23.6, 76, 1418874)
 	EmperorsRetreatScreenPlay:setMoodString(pNpc, "conversation")
@@ -110,8 +190,10 @@ function EmperorsRetreatScreenPlay:spawnMobiles()
 	spawnMobile("naboo", "stormtrooper", 450, 2367.7, 325, -4095.5, 0, 0)
 
 	--By the emperors retreat
-	spawnMobile("naboo", "at_st", 900, 2452.61, 292, -3961.49, 108, 0)
-	spawnMobile("naboo", "at_st", 900, 2463.18, 292.089, -3929.16, -105, 0)
+	pNpc = spawnMobile("naboo", "at_st", 900, 2452.61, 292, -3961.49, 108, 0)
+	AiAgent(pNpc):setAiTemplate("idlewander")
+	pNpc = spawnMobile("naboo", "at_st", 900, 2463.18, 292.089, -3929.16, -105, 0)
+	AiAgent(pNpc):setAiTemplate("idlewander")
 	spawnMobile("naboo", "dark_trooper", 450, 2433.3, 292, -3968.4, 4, 0)
 	spawnMobile("naboo", "dark_trooper", 450, 2452, 292, -3912.8, -170, 0)
 	spawnMobile("naboo", "dark_trooper", 450, 2434.47, 292, -3932.06, 90, 0)

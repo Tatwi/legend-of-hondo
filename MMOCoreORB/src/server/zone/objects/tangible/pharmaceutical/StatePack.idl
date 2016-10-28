@@ -14,7 +14,6 @@ import server.zone.objects.creature.CreatureObject;
 import server.zone.ZoneServer;
 import server.zone.objects.tangible.pharmaceutical.PharmaceuticalObject;
 include templates.tangible.StatePackTemplate;
-import server.zone.objects.manufactureschematic.ManufactureSchematic;
 include server.zone.objects.manufactureschematic.craftingvalues.CraftingValues;
 include templates.params.creature.CreatureState;
 
@@ -49,10 +48,10 @@ class StatePack extends PharmaceuticalObject {
 		if (!templateData.isStatePackTemplate())
 			return;
 		
-		StatePackTemplate stimPackTemplate = (StatePackTemplate) templateData;
+		StatePackTemplate statePackTemplate = (StatePackTemplate) templateData;
 		
-		state = stimPackTemplate.getState();
-		super.medicineUseRequired = stimPackTemplate.getMedicineUse();
+		state = statePackTemplate.getState();
+		super.medicineUseRequired = statePackTemplate.getMedicineUse();
 	}
 	
 	/**

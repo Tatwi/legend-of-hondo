@@ -15,9 +15,7 @@
 #include "server/zone/Zone.h"
 #include "server/zone/ZoneProcessServer.h"
 #include "templates/manager/TemplateManager.h"
-#include "server/zone/managers/objectcontroller/ObjectController.h"
 #include "templates/SharedObjectTemplate.h"
-#include "server/chat/ChatManager.h"
 #include "engine/db/berkley/BTransaction.h"
 #include "ObjectVersionUpdateManager.h"
 #include "server/ServerCore.h"
@@ -26,6 +24,8 @@
 #include "conf/ConfigManager.h"
 #include "server/zone/objects/tangible/wearables/WearableContainerObject.h"
 #include "server/zone/objects/tangible/deed/vetharvester/VetHarvesterDeed.h"
+#include "engine/orb/db/UpdateModifiedObjectsThread.h"
+#include "engine/orb/db/CommitMasterTransactionThread.h"
 
 using namespace engine::db;
 
@@ -75,12 +75,7 @@ ObjectManager::ObjectManager() : DOBObjectManager() {
 }
 
 ObjectManager::~ObjectManager() {
-	//info("closing databases...", true);
 
-	//ObjectDatabaseManager::instance()->finalize();
-
-	if (updateModifiedObjectsTask->isScheduled())
-		updateModifiedObjectsTask->cancel();
 }
 
 void ObjectManager::registerObjectTypes() {
@@ -1063,9 +1058,36 @@ void ObjectManager::onCommitData() {
 	}
 
 	//Spawn the delete characters task.
-	if (!deleteCharactersTask->isScheduled()) {
+	if (deleteCharactersTask != NULL && !deleteCharactersTask->isScheduled()) {
 		deleteCharactersTask->updateDeletedCharacters();
 		int mins = ConfigManager::instance()->getPurgeDeletedCharacters();
 		deleteCharactersTask->schedule(mins * 60 * 1000);
 	}
+}
+
+void ObjectManager::cancelDeleteCharactersTask() {
+	if (deleteCharactersTask->isScheduled()) {
+		deleteCharactersTask->cancel();
+	}
+
+	deleteCharactersTask = NULL;
+}
+
+void ObjectManager::stopUpdateModifiedObjectsThreads() {
+	for (int i = updateModifiedObjectsThreads.size() - 1; i >= 0; --i) {
+		engine::ORB::UpdateModifiedObjectsThread* thread = updateModifiedObjectsThreads.get(i);
+		thread->stopWork();
+		delete thread;
+	}
+}
+
+void ObjectManager::shutdown() {
+	stopUpdateModifiedObjectsThreads();
+	CommitMasterTransactionThread::instance()->shutdown();
+	databaseManager->closeDatabases();
+	databaseManager->finalizeInstance();
+	databaseManager = NULL;
+	server = NULL;
+	charactersSaved = NULL;
+	templateManager = NULL;
 }

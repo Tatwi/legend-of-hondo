@@ -45,7 +45,6 @@
 #include "server/chat/StringIdChatParameter.h"
 #include "server/chat/PersistentMessage.h"
 #include "server/chat/ChatMessage.h"
-#include "server/zone/managers/objectcontroller/ObjectController.h"
 
 #include "server/chat/room/ChatRoom.h"
 #include "server/chat/room/ChatRoomMap.h"
@@ -68,7 +67,17 @@ ChatManagerImplementation::ChatManagerImplementation(ZoneServer* serv, int inits
 
 }
 
-void ChatManagerImplementation::finalize() {
+void ChatManagerImplementation::stop() {
+	playerManager = NULL;
+	playerMap = NULL;
+	roomMap = NULL;
+	server = NULL;
+	galaxyRoom = NULL;
+	systemRoom = NULL;
+	groupRoom = NULL;
+	guildRoom = NULL;
+	auctionRoom = NULL;
+	gameRooms.removeAll();
 }
 
 void ChatManagerImplementation::loadMailDatabase() {
@@ -785,7 +794,9 @@ void ChatManagerImplementation::handleSocialInternalMessage(CreatureObject* send
 	if (vec != NULL) {
 		vec->safeCopyTo(closeEntryObjects);
 	} else {
+#ifdef COV_DEBUG
 		sender->info("Null closeobjects vector in ChatManager::handleSocialInternalMessage", true);
+#endif
 		zone->getInRangeObjects(sender->getWorldPositionX(), sender->getWorldPositionX(), 128, &closeEntryObjects, true);
 	}
 
@@ -988,7 +999,9 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 	if (closeObjects != NULL) {
 		closeObjects->safeCopyTo(closeEntryObjects);
 	} else {
+#ifdef COV_DEBUG
 		sourceCreature->info("Null closeobjects vector in ChatManager::broadcastChatMessage", true);
+#endif
 		zone->getInRangeObjects(sourceCreature->getWorldPositionX(), sourceCreature->getWorldPositionY(), 128, &closeEntryObjects, true);
 	}
 
@@ -1123,7 +1136,9 @@ void ChatManagerImplementation::broadcastChatMessage(CreatureObject* sourceCreat
 	if (closeObjects != NULL) {
 		closeObjects->safeCopyTo(closeEntryObjects);
 	} else {
+#ifdef COV_DEBUG
 		sourceCreature->info("Null closeobjects vector in ChatManager::broadcastChatMessage(StringId)", true);
+#endif
 		zone->getInRangeObjects(sourceCreature->getWorldPositionX(), sourceCreature->getWorldPositionY(), ZoneServer::CLOSEOBJECTRANGE, &closeEntryObjects, true);
 	}
 
@@ -1288,7 +1303,20 @@ void ChatManagerImplementation::handleChatInstantMessageToCharacter(ChatInstantM
 
 	ManagedReference<CreatureObject*> receiver = getPlayer(fname);
 
-	if (receiver == NULL || !receiver->isOnline()) {
+	uint64 receiverObjectID = server->getPlayerManager()->getObjectID(fname);
+
+	if (receiverObjectID == 0) {
+		StringIdChatParameter noexist;
+		noexist.setStringId("@ui:im_recipient_invalid_prose"); // "There is no person by the name '%TU' in this Galaxy."
+		noexist.setTU(fname);
+		sender->sendSystemMessage(noexist);
+
+		BaseMessage* amsg = new ChatOnSendInstantMessage(sequence, NOAVATAR);
+		sender->sendMessage(amsg);
+
+		return;
+
+	} else if (receiver == NULL || !receiver->isOnline()) {
 		BaseMessage* amsg = new ChatOnSendInstantMessage(sequence, IM_OFFLINE);
 		sender->sendMessage(amsg);
 
@@ -1545,7 +1573,7 @@ void ChatManagerImplementation::sendMail(const String& sendername, const Unicode
 	uint64 currentTime = expireTime.getMiliTime() / 1000;
 
 	if (receiverObjectID == 0) {
-		error("unexistent name for persistent message");
+		error("non-existant name for persistent message");
 		return;
 	}
 
@@ -1703,8 +1731,7 @@ int ChatManagerImplementation::sendMail(const String& sendername, const UnicodeS
 
 		PlayerObject* ghost = receiver->getPlayerObject();
 
-		if (ghost == NULL ||
-				(ghost->isIgnoring(sendername) && !godMode))
+		if (ghost == NULL || (ghost->isIgnoring(sendername) && !godMode))
 			return;
 
 		ObjectManager::instance()->persistObject(mail, 1, "mail");

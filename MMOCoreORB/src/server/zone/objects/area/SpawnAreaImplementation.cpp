@@ -46,9 +46,9 @@ Vector3 SpawnAreaImplementation::getRandomPosition(SceneObject* player) {
 		positionFound = true;
 
 		for (int i = 0; i < noSpawnAreas.size(); ++i) {
-			SpawnArea* noSpawnArea = noSpawnAreas.get(i);
+			ManagedReference<SpawnArea*> noSpawnArea = noSpawnAreas.get(i).get();
 
-			if (noSpawnArea->containsPoint(position.getX(), position.getY())) {
+			if (noSpawnArea != NULL && noSpawnArea->containsPoint(position.getX(), position.getY())) {
 				positionFound = false;
 				break;
 			}
@@ -87,7 +87,9 @@ int SpawnAreaImplementation::notifyObserverEvent(unsigned int eventType, Observa
 
 		locker.release();
 
-		if (sceno->isLairObject()) {
+		Zone* thisZone = getZone();
+
+		if (sceno->isLairObject() && thisZone != NULL) {
 			ManagedReference<ActiveArea*> area = (ServerCore::getZoneServer()->createObject(STRING_HASHCODE("object/active_area.iff"), 0)).castTo<ActiveArea*>();
 
 			Locker locker(area);
@@ -96,7 +98,7 @@ int SpawnAreaImplementation::notifyObserverEvent(unsigned int eventType, Observa
 			area->setNoSpawnArea(true);
 			area->initializePosition(sceno->getPositionX(), sceno->getPositionZ(), sceno->getPositionY());
 
-			zone->transferObject(area, -1, true);
+			thisZone->transferObject(area, -1, true);
 
 			Reference<Task*> task = new RemoveNoSpawnAreaTask(area);
 			task->schedule(300000);

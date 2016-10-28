@@ -21,7 +21,7 @@
 
 VendorDataComponent::VendorDataComponent() : AuctionTerminalDataComponent(), adBarkingMutex() {
 	ownerId = 0;
-	auctionManager = NULL;
+	auctionMan = NULL;
 	initialized = false;
 	vendorSearchEnabled = false;
 	disabled = false;
@@ -148,7 +148,6 @@ void VendorDataComponent::runVendorUpdate() {
 			if (cman != NULL)
 				cman->sendMail(sender, subject, body, owner->getFirstName());
 			VendorManager::instance()->destroyVendor(vendor);
-			vendorCheckTask->cancel();
 			return;
 		}
 
@@ -175,7 +174,6 @@ void VendorDataComponent::runVendorUpdate() {
 			if (cman != NULL)
 				cman->sendMail(sender, subject, body, owner->getFirstName());
 			VendorManager::instance()->destroyVendor(vendor);
-			vendorCheckTask->cancel();
 		}
 
 	} else {
@@ -329,10 +327,9 @@ void VendorDataComponent::handleWithdrawMaintanence(int value) {
 
 void VendorDataComponent::setVendorSearchEnabled(bool enabled) {
 	ManagedReference<SceneObject*> strongParent = parent.get();
-	if (strongParent == NULL || strongParent->getZoneServer() == NULL)
-		return;
+	ManagedReference<AuctionManager*> auctionManager = auctionMan.get();
 
-	if(strongParent == NULL || strongParent->getZone() == NULL)
+	if (auctionManager == NULL || strongParent == NULL || strongParent->getZoneServer() == NULL || strongParent->getZone() == NULL)
 		return;
 
 	vendorSearchEnabled = enabled;
@@ -395,8 +392,13 @@ void VendorDataComponent::scheduleVendorCheckTask(int delay) {
 	if (strongParent == NULL)
 		return;
 
-	if(vendorCheckTask == NULL)
+	if (vendorCheckTask == NULL)
 		vendorCheckTask = new UpdateVendorTask(strongParent);
 
 	vendorCheckTask->schedule(1000 * 60 * delay);
+}
+
+void VendorDataComponent::cancelVendorCheckTask() {
+	if (vendorCheckTask != NULL)
+		vendorCheckTask->cancel();
 }

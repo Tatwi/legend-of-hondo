@@ -20,7 +20,6 @@ import server.zone.objects.scene.SceneObject;
 import server.zone.objects.area.ActiveArea;
 import server.zone.managers.planet.PlanetManager;
 import server.zone.managers.creature.CreatureManager;
-import server.zone.managers.objectcontroller.ObjectController;
 import server.zone.managers.gcw.GCWManager;
 import system.util.VectorMap;
 import system.util.SortedVector;
@@ -77,6 +76,7 @@ class Zone extends SceneObject {
 	protected AtomicInteger spawnedAiAgents;
 
 	private transient boolean managersStarted;
+	private transient boolean zoneCleared;
 
 	public native Zone(ZoneProcessServer processor, final string zoneName);
 	public native void initializeTransientMembers();
@@ -133,6 +133,8 @@ class Zone extends SceneObject {
 
 	public native void stopManagers();
 
+	public native void clearZone();
+
 	@dirty
 	@mock
 	public native float getHeight(float x, float y);
@@ -179,6 +181,10 @@ class Zone extends SceneObject {
 
 	public boolean hasManagersStarted() {
 		return managersStarted;
+	}
+
+	public boolean isZoneCleared() {
+		return zoneCleared;
 	}
 
 	public int getSpawnedAiAgents() {

@@ -41,6 +41,8 @@ public:
 int main(int argc, char* argv[]) {
 	setbuf(stdout, 0);
 
+	static int ret = 0;
+
 	try {
 		SortedVector<String> arguments;
 		for (int i = 1; i < argc; ++i) {
@@ -67,7 +69,7 @@ int main(int argc, char* argv[]) {
 
 			testing::InitGoogleTest(&argc, argv);
 
-			return RUN_ALL_TESTS();
+			ret = RUN_ALL_TESTS();
 		} else {
 			bool truncateData = arguments.contains("clean");
 
@@ -81,6 +83,8 @@ int main(int argc, char* argv[]) {
 	} catch (...) {
 		System::out << "unreported exception caught main()\n";
 	}
+
+	pthread_exit(&ret);
 
 	return 0;
 }

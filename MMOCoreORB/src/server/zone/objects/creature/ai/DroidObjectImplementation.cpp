@@ -8,7 +8,6 @@
 #include "server/zone/packets/object/StartNpcConversation.h"
 #include "server/zone/packets/object/StopNpcConversation.h"
 #include "server/zone/objects/creature/conversation/ConversationScreen.h"
-#include "server/zone/managers/collision/CollisionManager.h"
 #include "server/zone/managers/components/ComponentManager.h"
 #include "templates/customization/AssetCustomizationManagerTemplate.h"
 #include "server/zone/objects/tangible/tool/CraftingTool.h"
@@ -30,7 +29,7 @@ void DroidObjectImplementation::initializeTransientMembers() {
 
 void DroidObjectImplementation::fillAttributeList(AttributeListMessage* msg, CreatureObject* object) {
 	AiAgentImplementation::fillAttributeList(msg, object);
-	
+
 	ManagedReference<ControlDevice*> device = getControlDevice().get();
 
 	if (device != NULL && device->isASubChildOf(object)) {
@@ -154,8 +153,10 @@ int DroidObjectImplementation::rechargeFromBattery(CreatureObject* player) {
 		return 0;
 	}
 
-	// Reset power to max
+	// Reset power to max and heal droid's BF
 	power = MAX_POWER;
+	int droidsbf = getShockWounds();
+	addShockWounds(-droidsbf, true, false);
 
 	// Consume battery
 	Locker locker(batteryTano);
@@ -168,8 +169,10 @@ int DroidObjectImplementation::rechargeFromBattery(CreatureObject* player) {
 }
 
 void DroidObjectImplementation::rechargeFromDroid() {
-	// Reset power to max
+	// Reset power to max and heal that droid's BF too
 	power = MAX_POWER;
+	int droidsbf = getShockWounds();
+	addShockWounds(-droidsbf, true, false);
 
 	showFlyText("npc_reaction/flytext","recharged", 0, 153, 0);  // "*Recharged*"
 	doAnimation("power_up");
@@ -263,7 +266,7 @@ CraftingStation* DroidObjectImplementation::getCraftingStation(int type) {
 
 				if (craftingStation != NULL) {
 					// case here to check each type
-					if (craftingModule->validCraftingType(type) || (type == CraftingTool::JEDI && craftingModule->isWeaponDroidGeneric()) || (type == CraftingTool::GENERIC && craftingModule->isWeaponDroidGeneric())) {
+					if (craftingModule->validCraftingType(type) || (type == CraftingTool::JEDI && craftingModule->isWeaponDroidGeneric())) {
 						return craftingStation;
 					}
 				}

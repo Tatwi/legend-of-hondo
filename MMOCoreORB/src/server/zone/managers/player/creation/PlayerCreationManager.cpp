@@ -60,6 +60,7 @@ PlayerCreationManager::PlayerCreationManager() :
 }
 
 PlayerCreationManager::~PlayerCreationManager() {
+
 }
 
 void PlayerCreationManager::loadRacialCreationData() {

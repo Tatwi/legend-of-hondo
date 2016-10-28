@@ -9,7 +9,6 @@
 #define CITYDECORATIONTASK_H_
 
 #include "engine/engine.h"
-#include "server/chat/ChatManager.h"
 #include "server/zone/objects/region/CityRegion.h"
 #include "server/zone/managers/planet/PlanetManager.h"
 #include "server/zone/objects/scene/SceneObject.h"
@@ -81,6 +80,15 @@ public:
 
 		if (zone == NULL || obj->getObjectTemplate() == NULL)
 			return;
+
+		ManagedReference<PlanetManager*> planetManager = zone->getPlanetManager();
+		// We don't want players to exploit-block entrances or exits to POI areas & buildings
+		if (!planetManager->isBuildingPermittedAt(obj->getPositionX(), obj->getPositionY(), mayor)) {
+			StringIdChatParameter msg;
+			msg.setStringId("@player_structure:not_permitted"); //"Building is not permitted here."
+			mayor->sendSystemMessage(msg);
+			return;
+		}
 
 		Reference<SceneObject*> objTooClose = zone->getPlanetManager()->findObjectTooCloseToDecoration(mayor->getPositionX(), mayor->getPositionY(), obj->getObjectTemplate()->getNoBuildRadius());
 

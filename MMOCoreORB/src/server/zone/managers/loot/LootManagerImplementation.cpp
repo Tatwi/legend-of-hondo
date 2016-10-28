@@ -12,7 +12,6 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/creature/ai/AiAgent.h"
 #include "server/zone/managers/crafting/CraftingManager.h"
-#include "templates/manager/TemplateManager.h"
 #include "templates/LootItemTemplate.h"
 #include "templates/LootGroupTemplate.h"
 #include "server/zone/ZoneServer.h"
@@ -20,12 +19,9 @@
 #include "LootGroupMap.h"
 
 void LootManagerImplementation::initialize() {
-	lua = new Lua();
-	lua->init();
-
 	info("Loading configuration.");
 
-	if(!loadConfigData()) {
+	if (!loadConfigData()) {
 
 		loadDefaultConfig();
 
@@ -53,13 +49,21 @@ void LootManagerImplementation::initialize() {
 	info("Initialized.", true);
 }
 
-bool LootManagerImplementation::loadConfigFile() {
-	return lua->runFile("scripts/managers/loot_manager.lua");
+void LootManagerImplementation::stop() {
+	lootGroupMap = NULL;
+	craftingManager = NULL;
+	objectManager = NULL;
+	zoneServer = NULL;
 }
 
 bool LootManagerImplementation::loadConfigData() {
-	if (!loadConfigFile())
+	Lua* lua = new Lua();
+	lua->init();
+
+	if (!lua->runFile("scripts/managers/loot_manager.lua")) {
+		delete lua;
 		return false;
+	}
 
 	yellowChance = lua->getGlobalFloat("yellowChance");
 	yellowModifier = lua->getGlobalFloat("yellowModifier");
@@ -155,6 +159,8 @@ bool LootManagerImplementation::loadConfigData() {
 
 	modsTable = lua->getGlobalObject("lootableHeavyWeaponStatMods");
 	loadLootableMods( &modsTable, &lootableHeavyWeaponMods );
+
+	delete lua;
 
 	return true;
 }
@@ -445,6 +451,8 @@ TangibleObject* LootManagerImplementation::createLootObject(LootItemTemplate* te
 	//add some condition damage where appropriate
 	if (!maxCondition)
 		addConditionDamage(prototype, craftingValues);
+
+	delete craftingValues;
 
 	return prototype;
 }

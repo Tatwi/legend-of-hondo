@@ -4,10 +4,12 @@ import engine.lua.LuaObject;
 import engine.core.ManagedReference;
 import server.zone.objects.intangible.IntangibleObject;
 import engine.service.proto.BaseMessage;
+include server.zone.packets.scene.AttributeListMessage;
 import server.zone.Zone;
 include templates.SharedObjectTemplate;
 include system.lang.String;
 
+@lua
 class WaypointObject extends IntangibleObject {
 	protected unsigned int cellID; //?
 
@@ -18,6 +20,8 @@ class WaypointObject extends IntangibleObject {
 
 	protected byte color;
 	protected byte active;
+	
+	protected string questDetails;
 
 	protected int specialTypeID;
 
@@ -48,6 +52,10 @@ class WaypointObject extends IntangibleObject {
 
 	@local
 	public native void insertToMessage(BaseMessage msg);
+	
+	@local
+	@dirty
+	public native void fillAttributeList(AttributeListMessage msg, CreatureObject object);
 
 	@preLocked
 	public void setCellID(unsigned int id) {
@@ -110,5 +118,10 @@ class WaypointObject extends IntangibleObject {
 	@preLocked
 	public void setDetailedDescription(final string desc) {
 		detailedDescription = desc;
+	}
+	
+	@preLocked
+	public void setQuestDetails(final string detail) {
+		questDetails = detail;
 	}
 }

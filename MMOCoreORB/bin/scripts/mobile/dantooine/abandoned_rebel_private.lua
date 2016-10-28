@@ -27,7 +27,12 @@ abandoned_rebel_private = Creature:new {
 	optionsBitmask = AIENABLED,
 	diet = HERBIVORE,
 
-	templates = {"object/mobile/dressed_rebel_trooper_bith_m_01.iff"},
+	templates = {"object/mobile/dressed_rebel_trooper_bith_m_01.iff",
+		"object/mobile/dressed_rebel_trooper_twk_male_01.iff",
+		"object/mobile/dressed_rebel_trooper_twk_female_01.iff",
+		"object/mobile/dressed_rebel_trooper_human_female_01.iff",
+		"object/mobile/dressed_rebel_trooper_human_male_01.iff",
+		"object/mobile/dressed_rebel_trooper_sullustan_male_01.iff"},
 	lootGroups = {
 		{
 			groups = {

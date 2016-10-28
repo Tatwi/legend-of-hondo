@@ -55,6 +55,13 @@ public:
 			return;
 		}
 
+		if (zoneServer->isServerShuttingDown()) {
+			ErrorMessage* errMsg = new ErrorMessage("Login Error", "Server is shutting down", 0);
+			client->sendMessage(errMsg);
+
+			return;
+		}
+
 		if(!client->hasCharacter(characterID, zoneServer->getGalaxyID())) {
 			ErrorMessage* errMsg = new ErrorMessage("Login Error", "You are unable to login with this character\n\nIf you feel this is an error please close your client, and try again.", 0x0);
 			client->sendMessage(errMsg);
@@ -62,8 +69,6 @@ public:
 			//client->error("invalid character id " + String::valueOf(characterID) + " in account: " + String::valueOf(client->getAccountID()));
 			return;
 		}
-
-		//ObjectManager* objectManager = zoneServer->getObjectManager();
 
 		//Logger::console.info("selected char id: 0x" + String::hexvalueOf((int64)characterID), true);
 

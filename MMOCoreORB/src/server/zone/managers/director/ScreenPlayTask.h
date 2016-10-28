@@ -11,6 +11,8 @@
 #include "engine/engine.h"
 #include "DirectorManager.h"
 #include "server/zone/managers/director/PersistentEvent.h"
+#include "server/ServerCore.h"
+#include "server/zone/ZoneServer.h"
 
 #include "server/zone/objects/scene/SceneObject.h"
 
@@ -33,8 +35,11 @@ public:
 	void run() {
 		ZoneServer* zoneServer = ServerCore::getZoneServer();
 
-		if (zoneServer != NULL && zoneServer->isServerLoading()) {
-			schedule(1000);
+		if (zoneServer == NULL || zoneServer->isServerShuttingDown())
+			return;
+
+		if (zoneServer->isServerLoading()) {
+			schedule(10000);
 
 			return;
 		}

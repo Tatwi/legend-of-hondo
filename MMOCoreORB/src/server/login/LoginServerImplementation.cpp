@@ -83,11 +83,19 @@ void LoginServerImplementation::start(int p, int mconn) {
 }
 
 void LoginServerImplementation::stop() {
+	shutdown();
+
 	datagramService->stop();
+	datagramService = NULL;
 }
 
 void LoginServerImplementation::shutdown() {
 	stopManagers();
+	loginHandler = NULL;
+	phandler = NULL;
+	processor = NULL;
+	enumClusterMessage = NULL;
+	clusterStatusMessage = NULL;
 
 	printInfo();
 
@@ -96,6 +104,7 @@ void LoginServerImplementation::shutdown() {
 
 void LoginServerImplementation::stopManagers() {
 	accountManager = NULL;
+	configManager = NULL;
 
 	info("managers stopped", true);
 }

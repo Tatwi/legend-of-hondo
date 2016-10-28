@@ -17,7 +17,6 @@
 
 #include "server/zone/managers/object/ObjectManager.h"
 #include "server/zone/managers/stringid/StringIdManager.h"
-#include "server/zone/managers/objectcontroller/ObjectController.h"
 #include "server/zone/managers/player/PlayerManager.h"
 #include "server/zone/managers/radial/RadialManager.h"
 #include "server/zone/managers/resource/ResourceManager.h"
@@ -174,7 +173,7 @@ void ZoneServerImplementation::initialize() {
 	lootManager->deploy("LootManager");
 	lootManager->initialize();
 
-	resourceManager = new ResourceManager(_this.getReferenceUnsafeStaticCast(), processor, objectManager);
+	resourceManager = new ResourceManager(_this.getReferenceUnsafeStaticCast(), processor);
 	resourceManager->deploy("ResourceManager");
 
 	cityManager = new CityManager(_this.getReferenceUnsafeStaticCast());
@@ -290,17 +289,23 @@ void ZoneServerImplementation::start(int p, int mconn) {
 
 void ZoneServerImplementation::stop() {
 	datagramService->stop();
-	//datagramService->setHandler(NULL);
+
+	shutdown();
 }
 
 void ZoneServerImplementation::timedShutdown(int minutes) {
 	Reference<Task*> task = new ShutdownTask(_this.getReferenceUnsafeStaticCast(), minutes);
-	task->schedule(60 * 1000);
 
-	String str = "Server will shutdown in " + String::valueOf(minutes) + " minutes";
-	Logger::console.info(str, true);
+	if (minutes <= 0) {
+		task->execute();
+	} else {
+		task->schedule(60 * 1000);
 
-	getChatManager()->broadcastGalaxy(NULL, str);
+		String str = "Server will shutdown in " + String::valueOf(minutes) + " minutes";
+		Logger::console.info(str, true);
+
+		getChatManager()->broadcastGalaxy(NULL, str);
+	}
 }
 
 void ZoneServerImplementation::shutdown() {
@@ -310,7 +315,7 @@ void ZoneServerImplementation::shutdown() {
 
 	info("shutting down zones", true);
 
-	for (int i = 0; i < 45; ++i) {
+	for (int i = 0; i < zones->size(); ++i) {
 		ManagedReference<Zone*> zone = zones->get(i);
 
 		if (zone != NULL) {
@@ -325,28 +330,97 @@ void ZoneServerImplementation::shutdown() {
 
 	printInfo();
 
+	datagramService = NULL;
+
 	info("shut down complete", true);
 }
 
 void ZoneServerImplementation::stopManagers() {
-	info("stopping managers..");
+	info("stopping managers..", true);
+
+	missionManager = NULL;
+	radialManager = NULL;
+	auctionManager = NULL;
+	petManager = NULL;
+	reactionManager = NULL;
+	creatureTemplateManager = NULL;
+	dnaManager = NULL;
+	stringIdManager = NULL;
+	zoneHandler = NULL;
+	configManager = NULL;
+	phandler = NULL;
+
+	if (guildManager != NULL) {
+		guildManager->stop();
+		guildManager = NULL;
+	}
+
+	if (cityManager != NULL) {
+		cityManager->stop();
+		cityManager = NULL;
+	}
+
+	if (chatManager != NULL) {
+		chatManager->stop();
+		chatManager = NULL;
+	}
 
 	if (resourceManager != NULL) {
 		resourceManager->stop();
 		resourceManager = NULL;
 	}
 
-	playerManager = NULL;
-	chatManager = NULL;
-	radialManager = NULL;
-	craftingManager = NULL;
-	lootManager = NULL;
-	auctionManager = NULL;
-	missionManager = NULL;
-	guildManager = NULL;
-	cityManager = NULL;
+	if (craftingManager != NULL) {
+		craftingManager->stop();
+		craftingManager = NULL;
+	}
+
+	if (lootManager != NULL) {
+		lootManager->stop();
+		lootManager = NULL;
+	}
+
+	if (playerManager != NULL) {
+		playerManager->finalize();
+		playerManager = NULL;
+	}
+
+	if (processor != NULL) {
+		processor->stop();
+		processor = NULL;
+	}
+
+	if (objectManager != NULL) {
+		objectManager->shutdown();
+		objectManager = NULL;
+	}
 
 	info("managers stopped", true);
+}
+
+void ZoneServerImplementation::clearZones() {
+	info("clearing all zones..", true);
+
+	for (int i = 0; i < zones->size(); ++i) {
+		ManagedReference<Zone*> zone = zones->get(i);
+
+		if (zone != NULL) {
+			EXECUTE_TASK_1(zone, {
+					zone_p->clearZone();
+			});
+		}
+	}
+
+	for (int i = 0; i < zones->size(); ++i) {
+		Zone* zone = zones->get(i);
+
+		if (zone != NULL) {
+			while (!zone->isZoneCleared())
+				Thread::sleep(500);
+		}
+	}
+
+	info("all zones clear", true);
 }
 
 ZoneClientSession* ZoneServerImplementation::createConnection(Socket* sock, SocketAddress& addr) {
@@ -420,6 +494,9 @@ bool ZoneServerImplementation::handleError(ZoneClientSession* client, Exception&
 
 Reference<SceneObject*> ZoneServerImplementation::getObject(uint64 oid, bool doLock) {
 	Reference<SceneObject*> obj = NULL;
+
+	if (isServerShuttingDown())
+		return obj;
 
 	try {
 		//lock(doLock); ObjectManager has its own mutex
@@ -586,7 +663,9 @@ void ZoneServerImplementation::printInfo() {
 	}
 
 //	msg << dec << totalCreatures << " random creatures spawned" << endl;
-	msg << dec << playerManager->getOnlineZoneClientMap()->getDistinctIps() << " total distinct ips connected";
+
+	if (playerManager != NULL)
+		msg << dec << playerManager->getOnlineZoneClientMap()->getDistinctIps() << " total distinct ips connected";
 #endif
 
 	unlock();
@@ -696,6 +775,16 @@ void ZoneServerImplementation::setServerStateOnline() {
 
 	StringBuffer msg;
 	msg << dec << "server unlocked";
+	info(msg, true);
+}
+
+void ZoneServerImplementation::setServerStateShuttingDown() {
+	Locker locker(_this.getReferenceUnsafeStaticCast());
+
+	serverState = SHUTTINGDOWN;
+
+	StringBuffer msg;
+	msg << dec << "server shutting down";
 	info(msg, true);
 }
 

@@ -8,7 +8,6 @@
 #include "VendorManager.h"
 #include "server/zone/managers/vendor/sui/DestroyVendorSuiCallback.h"
 #include "server/zone/objects/player/PlayerObject.h"
-#include "server/zone/managers/objectcontroller/ObjectController.h"
 #include "server/zone/objects/auction/AuctionItem.h"
 #include "server/zone/objects/player/sui/inputbox/SuiInputBox.h"
 #include "server/zone/managers/vendor/sui/RenameVendorSuiCallback.h"
@@ -246,24 +245,25 @@ void VendorManager::promptRenameVendorTo(CreatureObject* player, TangibleObject*
 
 void VendorManager::destroyVendor(TangibleObject* vendor) {
 	DataObjectComponentReference* data = vendor->getDataObjectComponent();
-	if(data == NULL || data->get() == NULL || !data->get()->isVendorData()) {
+	if (data == NULL || data->get() == NULL || !data->get()->isVendorData()) {
 		error("Vendor has no data component");
 		return;
 	}
 
 	VendorDataComponent* vendorData = cast<VendorDataComponent*>(data->get());
-	if(vendorData == NULL) {
+	if (vendorData == NULL) {
 		error("Vendor has wrong data component");
 		return;
 	}
 
 	ManagedReference<AuctionManager*> auctionManager = server->getZoneServer()->getAuctionManager();
-	if(auctionManager == NULL) {
+	if (auctionManager == NULL) {
 		error("null auctionManager when deleting vendor");
 		return;
 	}
+
 	ManagedReference<AuctionsMap*> auctionsMap = auctionManager->getAuctionMap();
-	if(auctionsMap == NULL) {
+	if (auctionsMap == NULL) {
 		error("null auctionsMap");
 		return;
 	}
@@ -273,6 +273,8 @@ void VendorManager::destroyVendor(TangibleObject* vendor) {
 	}
 
 	Locker locker(vendor);
+
+	vendorData->cancelVendorCheckTask();
 
 	vendor->destroyObjectFromWorld(true);
 	vendor->destroyObjectFromDatabase(true);

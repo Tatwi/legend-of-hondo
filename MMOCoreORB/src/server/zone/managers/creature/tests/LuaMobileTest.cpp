@@ -43,6 +43,10 @@ public:
 	}
 
 	~LuaMobileTest() {
+		lootGroupMap = NULL;
+		templateManager = NULL;
+		delete commandConfigManager;
+		delete list;
 	}
 
 	void SetUp() {

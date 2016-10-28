@@ -32,6 +32,10 @@ public:
 		professionMods.setNoDuplicateInsertPlan();
 	}
 
+	~ProfessionDefaultsInfo() {
+
+	}
+
 	void readObject(IffStream* iffStream) {
 		iffStream->openForm('PRFI');
 

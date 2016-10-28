@@ -74,10 +74,17 @@ function VillageJediManagerTownship:switchToNextPhase()
 	VillageJediManagerTownship:spawnMobiles(currentPhase, false)
 	VillageJediManagerTownship:spawnSceneObjects(currentPhase, false)
 
+	if (currentPhase == 2) then
+		VillageCommunityCrafting:createAttributeValueTables()
+		VillageCommunityCrafting:createProjectStatsTables()
+	end
+
 	Logger:log("Switching village phase to " .. currentPhase, LT_INFO)
 
 	-- Schedule another persistent event.
-	if (not hasServerEvent("VillagePhaseChange")) then
+	if (hasServerEvent("VillagePhaseChange")) then
+		rescheduleServerEvent("VillagePhaseChange", VILLAGE_PHASE_CHANGE_TIME)
+	else
 		createServerEvent(VILLAGE_PHASE_CHANGE_TIME, "VillageJediManagerTownship", "switchToNextPhase", "VillagePhaseChange")
 	end
 end
@@ -199,11 +206,13 @@ function VillageJediManagerTownship:handlePhaseChangeActiveQuests(phaseID, curre
 		local pPlayer = getSceneObject(playerID)
 
 		if (pPlayer ~= nil) then
-			ObjectManager.withCreaturePlayerObject(pPlayer, function(playerObject)
-				if (playerObject:isOnline()) then
+			local pGhost = CreatureObject(pPlayer):getPlayerObject()
+
+			if (pGhost ~= nil) then
+				if (PlayerObject(pGhost):isOnline()) then
 					self:doOnlinePhaseChangeFails(pPlayer, currentPhase)
 				end
-			end)
+			end
 		end
 	end
 
@@ -376,6 +385,10 @@ function VillageJediManagerTownship:getObjOwner(pObj)
 	end
 
 	return nil
+end
+
+function VillageJediManagerTownship.initQtQcPhase2(pNpc)
+	SceneObject(pNpc):setContainerComponent("QtQcContainerComponent")
 end
 
 registerScreenPlay("VillageJediManagerTownship", true)

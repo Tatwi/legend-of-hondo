@@ -331,8 +331,6 @@ void SharedTangibleObjectTemplate::readObject(IffStream* iffStream) {
 void SharedTangibleObjectTemplate::readObject(LuaObject* templateData) {
 	SharedObjectTemplate::readObject(templateData);
 
-	TemplateManager* templateManager = TemplateManager::instance();
-
 	lua_State* L = templateData->getLuaState();
 
 	if (!templateData->isValidTable())

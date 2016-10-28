@@ -10,7 +10,6 @@
 #include "server/zone/managers/space/SpaceManager.h"
 #include "server/zone/managers/creature/CreatureManager.h"
 #include "server/zone/managers/components/ComponentManager.h"
-#include "server/zone/managers/objectcontroller/ObjectController.h"
 #include "server/zone/packets/player/GetMapLocationsResponseMessage.h"
 
 #include "server/zone/objects/cell/CellObject.h"
@@ -43,6 +42,7 @@ ZoneImplementation::ZoneImplementation(ZoneProcessServer* serv, const String& na
 	mapLocations = new MapLocationTable();
 
 	managersStarted = false;
+	zoneCleared = false;
 
 	//galacticTime = new Time();
 
@@ -94,22 +94,50 @@ void ZoneImplementation::startManagers() {
 }
 
 void ZoneImplementation::stopManagers() {
-	//if (zoneID > 45) //TODO: Change back to 9 sometimes. We use Zone 10 (Space Corellia) as a "prison" for the CSRs sending bad players there
-	//	return;
+	info("Shutting down.. ", true);
 
-	/*if (creatureManager != NULL) {
+	if (creatureManager != NULL) {
 		creatureManager->stop();
-
-		creatureManager->finalize();
 		creatureManager = NULL;
 	}
 
 	if (planetManager != NULL) {
-		planetManager->stop();
-
 		planetManager->finalize();
 		planetManager = NULL;
-	}*/
+	}
+
+	processor = NULL;
+	server = NULL;
+	mapLocations = NULL;
+	objectMap = NULL;
+	quadTree = NULL;
+	regionTree = NULL;
+}
+
+void ZoneImplementation::clearZone() {
+	Locker zonelocker(_this.getReferenceUnsafeStaticCast());
+
+	info("clearing zone", true);
+
+	creatureManager->unloadSpawnAreas();
+
+	HashTable<uint64, ManagedReference<SceneObject*> > tbl;
+	tbl.copyFrom(objectMap->getMap());
+
+	HashTableIterator<uint64, ManagedReference<SceneObject*> > iterator = tbl.iterator();
+
+	while (iterator.hasNext()) {
+		ManagedReference<SceneObject*> sceno = iterator.getNextValue();
+
+		if (sceno != NULL) {
+			Locker locker(sceno);
+			sceno->destroyObjectFromWorld(false);
+		}
+	}
+
+	zoneCleared = true;
+
+	info("zone clear", true);
 }
 
 float ZoneImplementation::getHeight(float x, float y) {

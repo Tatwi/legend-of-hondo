@@ -112,6 +112,16 @@ namespace zone {
 
 		void onCommitData();
 
+		void cancelDeleteCharactersTask();
+
+		void stopUpdateModifiedObjectsThreads();
+
+		void shutdown();
+
+		bool isObjectUpdateInProcess() {
+			return objectUpdateInProcess;
+		}
+
 		ObjectDatabase* loadTable(const String& database, uint64 objectID = 0);
 
 		void updateObjectVersion();

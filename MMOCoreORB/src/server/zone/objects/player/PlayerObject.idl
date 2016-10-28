@@ -8,7 +8,6 @@ import engine.lua.LuaObject;
 import engine.service.proto.BaseMessage;
 import engine.service.proto.BasePacket;
 import engine.util.u3d.Vector3;
-import server.zone.managers.objectcontroller.ObjectController;
 import server.zone.objects.building.BuildingObject;
 import server.zone.objects.creature.commands.QueueCommand;
 import server.zone.objects.creature.CreatureObject;
@@ -35,7 +34,6 @@ import system.util.SynchronizedSortedVector;
 include server.login.account.GalaxyAccountInfo;
 include server.zone.objects.creature.variables.Skill;
 include server.zone.objects.draftschematic.DraftSchematic;
-include server.zone.objects.manufactureschematic.ManufactureSchematic;
 include server.zone.objects.player.badges.Badge;
 include server.zone.objects.player.badges.Badges;
 include server.zone.objects.player.events.BountyHunterTefRemovalTaskMap;
@@ -531,6 +529,10 @@ class PlayerObject extends IntangibleObject {
 
 	public boolean hasWaypoint(unsigned long objectID) {
 		return waypointList.contains(objectID);
+	}
+
+	public WaypointObject getWaypointAt(float x, float y, string planet) {
+		return waypointList.getWaypointAt(x, y, planet);
 	}
 
 	@dirty
@@ -1632,7 +1634,7 @@ class PlayerObject extends IntangibleObject {
 
 	//Used when character is deleted
 	private native void removeAllFriends();
-	private native void deleteAllPersistentMessages();
+	public native void deleteAllPersistentMessages();
 	private native void deleteAllWaypoints();
 
 	@read

@@ -5,7 +5,6 @@
 #include "WebServer.h"
 #include "server/zone/objects/player/PlayerObject.h"
 #include "server/zone/objects/creature/CreatureObject.h"
-#include "server/zone/managers/player/PlayerManager.h"
 #include "servlets/login/LoginServlet.h"
 #include "servlets/logs/LogsServlet.h"
 #include "servlets/main/MainServlet.h"
@@ -46,7 +45,6 @@ WebServer::~WebServer() {
 	while(activeSessions.size() > 0) {
 		delete activeSessions.remove(0).getValue();
 	}
-
 }
 
 void WebServer::start(ConfigManager* conf) {

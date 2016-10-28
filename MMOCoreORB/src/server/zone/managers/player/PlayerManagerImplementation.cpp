@@ -300,13 +300,17 @@ void PlayerManagerImplementation::loadPermissionLevels() {
 		error("Couldn't load permission levels.");
 		error(e.getMessage());
 	}
-
-
 }
 
 void PlayerManagerImplementation::finalize() {
-	delete nameMap;
 	nameMap = NULL;
+
+	permissionLevelList->removeAll();
+	permissionLevelList = NULL;
+
+	jukeboxSongs.removeAll();
+
+	questInfo.removeAll();
 }
 
 void PlayerManagerImplementation::loadNameMap() {
@@ -3142,12 +3146,12 @@ CraftingStation* PlayerManagerImplementation::getNearbyCraftingStation(CreatureO
 
 	//Locker locker(zone);
 
-	SortedVector < QuadTreeEntry* > *closeObjects = new SortedVector<QuadTreeEntry*>(100, 50);
 	CloseObjectsVector* vec = (CloseObjectsVector*) player->getCloseObjects();
-	vec->safeCopyTo(*closeObjects);
+	SortedVector<QuadTreeEntry*> closeObjects(vec->size(), 10);
+	vec->safeCopyTo(closeObjects);
 
-	for (int i = 0; i < closeObjects->size(); ++i) {
-		SceneObject* scno = static_cast<SceneObject*> (closeObjects->get(i));
+	for (int i = 0; i < closeObjects.size(); ++i) {
+		SceneObject* scno = static_cast<SceneObject*> (closeObjects.get(i));
 		if (scno->isCraftingStation() && (fabs(scno->getPositionZ() - player->getPositionZ()) < 7.0f) && player->isInRange(scno, 7.0f)) {
 
 			station = server->getObject(scno->getObjectID()).castTo<CraftingStation*>();
@@ -4575,6 +4579,36 @@ int PlayerManagerImplementation::getOnlineCharCount(unsigned int accountId) {
 	return 0;
 }
  */
+
+void PlayerManagerImplementation::disconnectAllPlayers() {
+	Locker locker(&onlineMapMutex);
+
+	HashTableIterator<uint32, Vector<Reference<ZoneClientSession*> > > iter = onlineZoneClientMap.iterator();
+
+	while (iter.hasNext()) {
+		Vector<Reference<ZoneClientSession*> > clients = iter.next();
+
+		for (int i = 0; i < clients.size(); i++) {
+			ZoneClientSession* session = clients.get(i);
+
+			if (session != NULL) {
+				CreatureObject* player = session->getPlayer();
+
+				if (player != NULL) {
+					PlayerObject* ghost = player->getPlayerObject();
+
+					if (ghost != NULL) {
+						Locker plocker(player);
+						ghost->setLinkDead(true);
+						ghost->disconnect(true, true);
+					}
+				}
+			}
+		}
+	}
+
+	info("All players disconnected", true);
+}
 
 bool PlayerManagerImplementation::shouldRescheduleCorpseDestruction(CreatureObject* player, CreatureObject* ai) {
 

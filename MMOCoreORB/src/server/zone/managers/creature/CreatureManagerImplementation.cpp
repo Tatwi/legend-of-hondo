@@ -21,7 +21,6 @@
 #include "server/zone/managers/player/PlayerManager.h"
 #include "server/zone/managers/planet/PlanetManager.h"
 #include "server/zone/managers/loot/LootManager.h"
-#include "server/zone/managers/name/NameManager.h"
 #include "server/zone/managers/crafting/labratories/DroidMechanics.h"
 #include "server/zone/objects/creature/ai/Creature.h"
 #include "server/zone/objects/creature/CreatureObject.h"
@@ -53,6 +52,11 @@ void CreatureManagerImplementation::setCreatureTemplateManager() {
 	creatureTemplateManager = CreatureTemplateManager::instance();
 	CreatureState::instance()->loadStateData();
 	CreaturePosture::instance()->loadMovementData();
+}
+
+void CreatureManagerImplementation::stop() {
+	creatureTemplateManager = NULL;
+	dnaManager = NULL;
 }
 
 CreatureObject* CreatureManagerImplementation::spawnCreature(uint32 templateCRC, float x, float z, float y, uint64 parentID) {
@@ -569,6 +573,10 @@ bool CreatureManagerImplementation::createCreatureChildrenObjects(CreatureObject
 
 void CreatureManagerImplementation::loadSpawnAreas() {
 	spawnAreaMap.loadMap(zone);
+}
+
+void CreatureManagerImplementation::unloadSpawnAreas() {
+	spawnAreaMap.unloadMap();
 }
 
 int CreatureManagerImplementation::notifyDestruction(TangibleObject* destructor, AiAgent* destructedObject, int condition, bool isCombatAction) {

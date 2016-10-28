@@ -6,6 +6,7 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/region/CityRegion.h"
 #include "server/zone/objects/area/ActiveArea.h"
+#include "server/zone/objects/structure/StructureObject.h"
 #include "templates/tangible/EventPerkDeedTemplate.h"
 #include "server/zone/packets/object/ObjectMenuResponse.h"
 #include "server/zone/managers/planet/PlanetManager.h"
@@ -127,7 +128,9 @@ int EventPerkDeedImplementation::handleObjectMenuSelect(CreatureObject* player, 
 		CloseObjectsVector* vec = (CloseObjectsVector*) player->getCloseObjects();
 
 		if (vec == NULL) {
+#ifdef COV_DEBUG
 			error("Player has NULL closeObjectsVector in EventPerkDeedImplementation::handleObjectMenuSelect");
+#endif
 			return 1;
 		}
 
