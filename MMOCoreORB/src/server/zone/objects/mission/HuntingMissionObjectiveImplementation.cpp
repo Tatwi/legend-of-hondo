@@ -20,6 +20,12 @@
 #include "server/zone/objects/mission/MissionObject.h"
 #include "server/zone/objects/mission/MissionObserver.h"
 #include "server/zone/objects/creature/ai/CreatureTemplate.h"
+#include "server/zone/managers/player/PlayerManager.h"
+
+#include "server/zone/packets/DeltaMessage.h"
+#include "server/zone/packets/mission/MissionObjectMessage3.h"
+#include "server/zone/packets/mission/MissionObjectDeltaMessage3.h"
+
 
 void HuntingMissionObjectiveImplementation::activate() {
 	MissionObjectiveImplementation::activate();
@@ -59,6 +65,19 @@ void HuntingMissionObjectiveImplementation::abort() {
 void HuntingMissionObjectiveImplementation::complete() {
 
 	MissionObjectiveImplementation::complete();
+	
+	//Award Wilderness Survival XP.
+	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<CreatureObject*> owner = getPlayerOwner();
+	
+	float diversityBonus = 0.0f; // Bonus for having more Scout/Ranger branches/SEAs
+	int trappingSkill = owner->getSkillMod("trapping");
+	
+	if (trappingSkill > 0)
+		diversityBonus= 2000.0f * (float)(MIN(125, trappingSkill) / 100); 
+	
+	int xp = mission->getRewardCredits() / 3 + (float)diversityBonus;
+	owner->getZoneServer()->getPlayerManager()->awardExperience(owner, "camp", xp, true, 1);
 }
 
 int HuntingMissionObjectiveImplementation::notifyObserverEvent(MissionObserver* observer, uint32 eventType, Observable* observable, ManagedObject* arg1, int64 arg2) {
@@ -97,6 +116,9 @@ int HuntingMissionObjectiveImplementation::notifyObserverEvent(MissionObserver* 
 			message.setTO(mission->getTargetName());
 
 			getPlayerOwner().get()->sendSystemMessage(message);
+			
+			// Change mission description in datapad for easy tracking of progress.
+			mission->updateHuntingMissionDescription(" To complete this mission you must eliminate " + String::valueOf(targetsKilled) + " more creatures.");
 		}
 	}
 
