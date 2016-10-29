@@ -113,6 +113,11 @@ namespace creature {
 		int enhanceCharacter(lua_State* L);
 		int setWounds(lua_State* L);
 		int setShockWounds(lua_State* L);
+		int buffSingleStat(lua_State* L);
+		int removeBuffs(lua_State* L);
+		int emptyStomach(lua_State* L);
+		int getActivePetsSize(lua_State* L);
+		int getActivePet(lua_State* L);
 	private:
 		// The pointer to the 'real object' defined in object.cc
 		CreatureObject* realObject;
