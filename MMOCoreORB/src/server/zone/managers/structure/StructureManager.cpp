@@ -979,11 +979,14 @@ void StructureManager::reportStructureStatus(CreatureObject* creature,
 					status->addMenuItem(gcwMan->getVulnerableStatus(building, creature));
 			}
 		}
-
+		
+		//Number of Items in Building: 10/500
 		status->addMenuItem(
 				"@player_structure:items_in_building_prompt "
-						+ String::valueOf(
-								building->getCurrentNumberOfPlayerItems())); //Number of Items in Building:
+				+ String::valueOf(building->getCurrentNumberOfPlayerItems())
+				+ "/"
+				+ String::valueOf(building->getMaximumNumberOfPlayerItems())
+		); 
 	}
 
 	ghost->addSuiBox(status);
