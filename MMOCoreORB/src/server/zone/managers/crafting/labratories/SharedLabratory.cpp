@@ -208,3 +208,81 @@ int SharedLabratory::calculateAssemblySuccess(CreatureObject* player,DraftSchema
 	return CraftingManager::BARELYSUCCESSFUL;
 }
 
+// Legend of Hondo - aveage value of OQ/DR and amount of resources used in final combine
+float SharedLabratory::getJunkValue(ManufactureSchematic* manufactureSchematic) {
+	float junkValue = 1.0f;
+	int resQuant = 0;
+	int statOQ = 0;
+	int statDR = 0;
+	int subComps = 0;
+
+	for (int i = 0; i < manufactureSchematic->getSlotCount(); ++i) {
+
+		Reference<IngredientSlot* > ingredientslot = manufactureSchematic->getSlot(i);
+		Reference<DraftSlot* > draftslot = manufactureSchematic->getDraftSchematic()->getDraftSlot(i);
+
+		/// If resource slot, continue
+		if(!ingredientslot->isResourceSlot()){
+			if(ingredientslot->isComponentSlot() && ingredientslot->isFull())
+				subComps++; // Count component slot if it is being used.
+				
+			continue;
+		}
+		ResourceSlot* resSlot = cast<ResourceSlot*>(ingredientslot.get());
+
+		if(resSlot == NULL)
+			continue;
+
+		ManagedReference<ResourceSpawn* > spawn = resSlot->getCurrentSpawn();
+
+		if (spawn == NULL) {
+			error("Spawn object is null when running getJunkValue");
+			return 0.0f;
+		}
+
+		resQuant += draftslot->getQuantity();
+		statOQ = spawn->getValueOf(8);
+		statDR = spawn->getValueOf(2); 
+
+		if (junkValue == 1 && statOQ != 0) {
+			junkValue = (statOQ + statDR) / 2;
+		} else if (junkValue > 1 && statOQ != 0){
+			junkValue = (junkValue + statOQ + statDR) / 3;
+		}
+	}
+	
+	//Logger::console.info("real resQuant: " + String::valueOf(resQuant), true);
+	//Logger::console.info("average of DR and OQ: " + String::valueOf(junkValue), true);
+	
+	// On low resource items with subs, make the final product worth more than selling the subs seperately
+	if (subComps > 0 && resQuant < 100)
+		resQuant = resQuant / 2 + 50;
+	
+	// Factor sub components as best as possible and reduce resource quality impact for Architect and Shipwright
+	if (subComps == 1 && resQuant > 449){
+		resQuant = resQuant + (resQuant / 2 ); // Shipwright (Mk I part in Mk V final is over valued, but whatevs...)
+		junkValue = junkValue + (1000 - junkValue) / 2;
+	} else if (subComps > 1 && resQuant > 2500){
+		resQuant = resQuant + (resQuant * (subComps + 3));  // Architect, large
+		junkValue = junkValue + (1000 - junkValue) / 2;
+	} else if (subComps > 1 && resQuant > 499){
+		resQuant = resQuant + (resQuant * subComps);  // Architect, small
+		junkValue = junkValue + (1000 - junkValue) / 2;
+	} else if (subComps > 0){
+		resQuant = resQuant + (resQuant / 3 * subComps); // Everyone else
+	}
+	
+	// Cap resource quanity and thus max price
+	if (resQuant > 29900){
+		resQuant = 29900 + System::random(100);
+	}
+		
+	if (junkValue != 0)
+		junkValue = resQuant * (junkValue / 1000);
+		
+	//Logger::console.info("subComps: " + String::valueOf(subComps), true);
+	//Logger::console.info("final resQuant: " + String::valueOf(resQuant), true);
+	//Logger::console.info("junkValue: " + String::valueOf(junkValue), true);
+
+	return junkValue;
+}

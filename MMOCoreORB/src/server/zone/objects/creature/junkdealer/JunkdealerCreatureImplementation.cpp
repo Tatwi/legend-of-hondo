@@ -762,7 +762,6 @@ void JunkdealerCreatureImplementation::createSellJunkLootSelection(CreatureObjec
 bool JunkdealerCreatureImplementation::canInventoryItemBeSoldAsJunk(TangibleObject* lootItem,int dealerType){
 	return( (lootItem->getJunkDealerNeeded() & dealerType) == lootItem->getJunkDealerNeeded() || (lootItem->getJunkDealerNeeded() & dealerType) == dealerType )
 			&& lootItem->getJunkDealerNeeded() > 0
-			&& lootItem->getCraftersName().isEmpty() == true
 			&& lootItem->isBroken()==false
 			&& lootItem->isSliced() == false
 			&& lootItem->isNoTrade() == false
