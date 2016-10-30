@@ -28,7 +28,7 @@ crackdown_stormtrooper_rifleman = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.05,
 
-	templates = {"object/mobile/dressed_stormtrooper_rifleman_m.iff"},
+	templates = {"object/mobile/dressed_stormtrooper_black_green.iff"},
 	lootGroups = {
 		{
 			groups = {

@@ -28,7 +28,7 @@ stormtrooper_colonel = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.05,
 
-	templates = {"object/mobile/dressed_stormtrooper_groupleader_m.iff"},
+	templates = {"object/mobile/dressed_stormtrooper_commander_black_gold.iff"},
 	lootGroups = {
 		{
 			groups = {

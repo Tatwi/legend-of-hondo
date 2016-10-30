@@ -27,7 +27,7 @@ stormtrooper_sniper = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.05,
 
-	templates = {"object/mobile/dressed_stormtrooper_sniper_m.iff"},
+	templates = {"object/mobile/dressed_stormtrooper_black_red.iff"},
 	lootGroups = {
 		{
 			groups = {

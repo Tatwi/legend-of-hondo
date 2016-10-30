@@ -21,3 +21,8 @@ A simple example of a stand-alone quest that can be used as a template for other
 *Detailed Description: doc/features/add-buff-terminals.md*  
 *Last Patched On: N/A*  
 To provide stat buffs and health services to the player that they would normally get through interacting with other players. 
+
+####Stormtooper Corp.
+*Detailed Description: doc/features/mod-stormtroopercorp.md*  
+*Last Patched On: N/A*  
+Improved the color palette and appearance of the Storm Troopers, Scout Troopers, and Dark Troopers.

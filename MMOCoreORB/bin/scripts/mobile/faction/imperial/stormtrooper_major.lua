@@ -28,7 +28,7 @@ stormtrooper_major = Creature:new {
 	diet = HERBIVORE,
 	scale = 1.05,
 
-	templates = {"object/mobile/dressed_imperial_major_m.iff"},
+	templates = {"object/mobile/dressed_stormtrooper_squad_leader_white_white.iff"},
 	lootGroups = {
 		{
 			groups = {
