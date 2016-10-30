@@ -120,11 +120,11 @@ tatooine = {
 
 	averageWeatherDuration = 3600, -- In seconds
 
-	weatherStability = 70, -- Range 0 - 100, Higher = Less weather changes, Overall better weather
+	weatherStability = 88, -- Range 0 - 100, Higher = Less weather changes, Overall better weather
 
-	hasDamagingSandstorms = 0,
+	hasDamagingSandstorms = 1,
 
-	sandstormDamage = 70, -- 40 = Annoying, 100 = deadly
+	sandstormDamage = 50, -- 40 = Annoying, 100 = deadly
 }
 
 
@@ -173,11 +173,11 @@ lok = {
 
 	averageWeatherDuration = 3600, -- In seconds
 
-	weatherStability = 60, -- Range 0 - 100, Higher = Less weather changes, Overall better weather
+	weatherStability = 85, -- Range 0 - 100, Higher = Less weather changes, Overall better weather
 
-	hasDamagingSandstorms = 0,
+	hasDamagingSandstorms = 1,
 
-	sandstormDamage = 50, -- 30 = Annoying, 50 = deadly
+	sandstormDamage = 20, -- 30 = Annoying, 50 = deadly
 }
 
 -----------------
