@@ -167,3 +167,23 @@ Lua Files
 TRE Files  
 - What they were used for
 
+C++ files changes are listed above
+
+bin/scripts/screenplays/hondo/bazaarbot/BazaarBot.lua
+- Core logic for the system
+
+bin/scripts/screenplays/hondo/bazaarbot/table_armor.lua
+bin/scripts/screenplays/hondo/bazaarbot/table_clothing.lua
+bin/scripts/screenplays/hondo/bazaarbot/table_food.lua
+bin/scripts/screenplays/hondo/bazaarbot/table_furniture.lua
+bin/scripts/screenplays/hondo/bazaarbot/table_item_artisan.lua
+bin/scripts/screenplays/hondo/bazaarbot/table_medicine.lua
+bin/scripts/screenplays/hondo/bazaarbot/table_structures.lua
+bin/scripts/screenplays/hondo/bazaarbot/table_weapons.lua
+- Crafted item configuration files
+
+bin/scripts/screenplays/hondo/bazaarbot/table_loot.lua
+- Loot configuration
+
+bin/scripts/screenplays/hondo/bazaarbot/table_resources.lua
+- Resource configuration

@@ -26,3 +26,19 @@ To provide stat buffs and health services to the player that they would normally
 *Detailed Description: doc/features/mod-stormtroopercorp.md*  
 *Last Patched On: N/A*  
 Improved the color palette and appearance of the Storm Troopers, Scout Troopers, and Dark Troopers.
+
+####BazaarBot
+*Detailed Description: doc/features/mod-bazaarbot.md*  
+*Last Patched On: N/A*  
+A system that automatically sells useful items on the Bazaar to supplement player activity.
+
+####House Capacity Display
+Changed it show it shows the total number the building can hold as well, like so: 10/250
+
+####Default Mission Improvements
+*Detailed Description: doc/features/mod-huntingmissions.md*  
+*Last Patched On: N/A*  
+A set of improvements to the UI and experience gain Hunting and Destroy missions.
+
+####Wilderness Survival XP
+Wilderness Survival XP for milking, searching lairs, foraging, medical foraging, and harvesting shellfish.
