@@ -15,19 +15,11 @@ An unsorted list of things I will most likely do in the future. Things I have al
 - New NPC Merchant System
 - Scout Journal Exploration System
 - Business Management System
-- Increase starting credits
-- 3x Global XP rate.
-- Group XP Bonus to 0%, so people don't feel obligated to dual log clients to max XP gain.
-- Datapad Increases: 5 Pets (CAN be increase with SEAs and skills), 5 Droids, 5 Vehicles.
-- Disable Anti-Decay Kits and Crate of Free Resources vet rewards
-- Enable Stored Pets and Taming Bonus SEAs
 - Make the Armor Attachment list match Clothing Attachment list, so both can have all the same stats
 - Novice Artisan, Brawler, Marksman, Medic, and Scout cost 1 Skill Point
 - Entertainer, Dancer, Image Designer, Musician, and Politian do not require skill points
 - Each box of Medic only requires 1 skill point
 - New players can only start in Mos Entha
-- Remove the "blue frogs"
-- Disable Entertainer buffs, because the process sucked and is useless in a single player environment
 - Increase the min/max values on Stim-A/B/C
 - Increase the min values on Stim-D/E. These remain the most potent
 - Remove crafted regen buffs (constitution/stamina, to throttle in combat regen)
@@ -35,6 +27,7 @@ An unsorted list of things I will most likely do in the future. Things I have al
 - No attacks, except for DoTs, attack Action or Mind
 - Stimpacks only heal Health
 - Action automatically regenerates faster than normal. Mind does not.
+- Action and mind regen faster when sitting while not in combat
 - Min creature resource drops increase
 - Add some mission terminals to camps
 - Hondo Classic "Weapons, Armor, and Components" Feature
@@ -45,7 +38,6 @@ An unsorted list of things I will most likely do in the future. Things I have al
 - Creatures have a chance to drop loot like NPCs
 - Increase the drop rate of SEAs on all mobs
 - Image design functionality moved to a terminal
-- Migrate stats from anywhere
 - Call your other characters as NPC "pets"
 - Locate all trainers in Mos Espa
 - Roleplay based alternate travel system

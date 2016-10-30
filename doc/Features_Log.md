@@ -46,4 +46,8 @@ Wilderness Survival XP for milking, searching lairs, foraging, medical foraging,
 ####Junk Dealers Buy Crafted Items
 *Detailed Description: doc/features/mod-junkdealersbuycrafteditems.md*  
 *Last Patched On: N/A* 
-Allow generic Junk Dealers to buy any player crafted item. T
+Allow generic Junk Dealers to buy any player crafted item.
+
+####Basic Server Settings
+*Detailed Description: doc/features/mod-basicserversettings.md* 
+A set of small changes to various aspects of game play that reflect my personal preferences.

@@ -1008,12 +1008,15 @@ void ResourceSpawner::sendSampleResults(CreatureObject* player, const float dens
 		xpcap = 50;
 	}
 
+	bool richSample = false;
+
 	if (richSampleLocation != NULL) {
 
 		if (player->getDistanceTo(richSampleLocation) < 10) {
 
 			player->sendSystemMessage("@survey:node_recovery");
 			unitsExtracted *= 5;
+			richSample = true;
 
 		} else {
 
@@ -1033,13 +1036,7 @@ void ResourceSpawner::sendSampleResults(CreatureObject* player, const float dens
 		player->sendSystemMessage(message);
 
 		return;
-	}
-
-	// Send message to player about unit extraction
-	StringIdChatParameter message("survey", "sample_located");
-	message.setTO(resname);
-	message.setDI(unitsExtracted);
-	player->sendSystemMessage(message);
+	}	
 
 	// We need the spawn object to track extraction
 	ManagedReference<ResourceSpawn*> resourceSpawn = resourceMap->get(resname.toLowerCase());
@@ -1054,8 +1051,19 @@ void ResourceSpawner::sendSampleResults(CreatureObject* player, const float dens
 
 	if (playerManager != NULL)
 		playerManager->awardExperience(player, "resource_harvesting_inorganic", xp, true);
+		
+	// Legend of Hondo capped at 1 unit to deter AFK play
+	if (!richSample)
+		unitsExtracted = 1;
 
 	addResourceToPlayerInventory(player, resourceSpawn, unitsExtracted);
+	
+	// Send message to player about unit extraction
+	StringIdChatParameter message("survey", "sample_located");
+	message.setTO(resname);
+	message.setDI(unitsExtracted);
+	player->sendSystemMessage(message);
+	
 	player->notifyObservers(ObserverEventType::SAMPLE, resourceSpawn, density * 100);
 
 	if (resourceSpawn->isType("radioactive")) {

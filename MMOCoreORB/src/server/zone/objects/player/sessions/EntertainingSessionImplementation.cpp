@@ -524,12 +524,14 @@ bool EntertainingSessionImplementation::canHealBattleFatigue() {
 }
 
 bool EntertainingSessionImplementation::canGiveEntertainBuff() {
-	ManagedReference<CreatureObject*> entertainer = this->entertainer.get();
+	return false;
+/*	ManagedReference<CreatureObject*> entertainer = this->entertainer.get();
 
 	if(entertainer->getSkillMod("private_buff_mind") > 0)
 		return true;
 	else
 		return false;
+*/
 }
 
 // TODO: can this be simplified by doing the building check in the ticker?

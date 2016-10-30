@@ -370,7 +370,7 @@ void SurveySessionImplementation::rescheduleSample() {
 		sampleTask = new SampleTask(surveyer.get(), activeSurveyTool.get());
 
 	if(surveyer.get()->getPendingTask("sample") == NULL)
-		surveyer.get()->addPendingTask("sample", sampleTask, 25000);
+		surveyer.get()->addPendingTask("sample", sampleTask, 90000);
 }
 
 void SurveySessionImplementation::rescheduleSampleResults(ResourceSpawner* resourceSpawner, float density, const String& resname) {
