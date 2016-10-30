@@ -38,6 +38,7 @@ public:
 	virtual bool allowFactoryRun(ManufactureSchematic* manufactureSchematic);
 	virtual int getCreationCount(ManufactureSchematic* manufactureSchematic) = 0;
 	virtual int calculateAssemblySuccess(CreatureObject* player,DraftSchematic* draftSchematic, float effectiveness);
+	virtual float getJunkValue(ManufactureSchematic* manufactureSchematic);
 protected:
 	ManagedReference<ZoneServer*> zoneServer;
 	float calculateExperimentationValueModifier(int experimentationResult, int pointsAttempted);

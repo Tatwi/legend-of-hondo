@@ -42,3 +42,8 @@ A set of improvements to the UI and experience gain Hunting and Destroy missions
 
 ####Wilderness Survival XP
 Wilderness Survival XP for milking, searching lairs, foraging, medical foraging, and harvesting shellfish.
+
+####Junk Dealers Buy Crafted Items
+*Detailed Description: doc/features/mod-junkdealersbuycrafteditems.md*  
+*Last Patched On: N/A* 
+Allow generic Junk Dealers to buy any player crafted item. T

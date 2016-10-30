@@ -41,7 +41,7 @@ An unsorted list of things I will most likely do in the future. Things I have al
 - Loot while crafting
 - Practice Mode XP boost increase
 - Bio-Engineer XP gain adjustments
-- Junk Dealers will buy crafted items and more loot items
+- Junk Dealers will buy more loot items
 - Creatures have a chance to drop loot like NPCs
 - Increase the drop rate of SEAs on all mobs
 - Image design functionality moved to a terminal
@@ -52,3 +52,4 @@ An unsorted list of things I will most likely do in the future. Things I have al
 - Alternate Bazaar/Vendor search UI
 - Active townspeople AI, so cities feel more alive
 - New quests and stories
+- New screenplay based crafting missions that are interesting and pay well

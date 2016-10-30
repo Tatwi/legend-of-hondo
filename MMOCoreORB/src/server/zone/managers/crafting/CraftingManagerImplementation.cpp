@@ -233,3 +233,24 @@ void CraftingManagerImplementation::setInitialCraftingValues(TangibleObject* pro
 	SharedLabratory* lab = labs.get(labratory);
 	lab->setInitialCraftingValues(prototype,manufactureSchematic,assemblySuccess);
 }
+
+int CraftingManagerImplementation::calculateFinalJunkValue(CreatureObject* player, ManufactureSchematic* manufactureSchematic) {
+	SharedLabratory* lab = labs.get(manufactureSchematic->getLabratory());
+	// Get the junk value based on quantity used and OQ/DR
+	float junkValue = lab->getJunkValue(manufactureSchematic);
+
+	// Calculate luck based on experimentation skill
+	String expSkill = manufactureSchematic->getDraftSchematic()->getExperimentationSkill();
+	float playerSkill = float(player->getSkillMod(expSkill)) / 800.0f + 1.0f;
+	if (playerSkill > 120)
+		playerSkill = 120.0f;
+	float luck = (float(System::random(49)) + 1.0f)/ 1000.0f + 1.0f; 
+
+	float finalValue = junkValue * playerSkill * luck;
+
+	//Logger::console.info("playerSkill: " + String::valueOf(playerSkill), true);
+	//Logger::console.info("luck: " + String::valueOf(luck), true);
+	//Logger::console.info("finalValue: " + String::valueOf(finalValue), true);
+	
+	return int(finalValue);
+}
