@@ -1856,6 +1856,9 @@ int CombatManager::applyDamage(TangibleObject* attacker, WeaponObject* weapon, C
 		healthDamage = getArmorReduction(attacker, weapon, defender, damage * data.getHealthDamageMultiplier(), hitLocation, data) * damageMultiplier;
 		healthDamage -= MIN(healthDamage, foodMitigation * data.getHealthDamageMultiplier());
 		
+		// Increase damage based on Health wounds
+		healthDamage *= (defender->getWounds(CreatureAttribute::HEALTH) / defender->getBaseHAM(CreatureAttribute::HEALTH)) + 1;
+		
 		defender->inflictDamage(attacker, CreatureAttribute::HEALTH, (int)healthDamage, true, xpType, true, true);
 	}
 	

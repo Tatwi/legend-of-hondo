@@ -86,6 +86,7 @@ The following changes are designed to open up all of the content in the game to 
 - The hit location determines which piece of armor is used to calculate the damage reduction.
 - Wound chances to HAM are rolled independently depending on which pool was hit.
 - Wounds should occur more often and thus play a larger roll in combat.
+- Having Health wounds increases damage recieved (Linear progresssion ending in double damage to a 100% wounded target).
 
 ####Quick Heal Command
 - Made it a more clearly defined "oh crap" button.
@@ -126,7 +127,7 @@ src/server/zone/managers/combat/CombatManager.cpp
 src/server/zone/managers/combat/CombatManager.h
 - Damage applied only to Health.
 - Weapon HAM cost changes.
-- Combat Boons.
+- Having Health wounds increases damage recieved
 
 src/server/zone/objects/creature/ai/AiAgent.idl
 - Hard limit NPC/Creature max HAM.
@@ -174,6 +175,7 @@ bin/scripts/object/tangible/medicine/crafted/medpack_enhance_health_d.lua
 src/server/zone/objects/player/sui/callbacks/InsuranceMenuSuiCallback.h
 - Increased insurance cost
 
-
-
+src/server/zone/objects/creature/commands/RequestSetStatMigrationDataCommand.h
+- Can no longer migrate stats in combat
+- Can no longer migrate stats while buffed
 
