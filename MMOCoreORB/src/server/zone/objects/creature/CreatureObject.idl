@@ -56,6 +56,13 @@ class CreatureObject extends TangibleObject {
 
 	@dereferenced
 	protected DeltaVector<int> baseHAM;
+	
+	/*
+	 * Legend of Hondo 
+	 * Where HAM encumberance values are stored using the common CreatureAttribute::MIND format
+	 */
+	@dereferenced
+	protected DeltaVector<int> hondoHAMEnc;
 
 	protected byte posture;
 	protected byte locomotion;
@@ -555,9 +562,9 @@ class CreatureObject extends TangibleObject {
 	 * @param value the new value
 	 * @param notifyClient if set true the client will be updated with the changes
 	 */
-	public native void setEncumbrance(int type, int value, boolean notifyClient = true);
+	public native void setEncumbrance(int type, int value, boolean notifyClient = false);
 
-	public native void addEncumbrance(int type, int value, boolean notifyClient = true);
+	public native void addEncumbrance(int type, int value, boolean notifyClient = false);
 
 	/**
 	 * Updates the weapon to the specified object
@@ -2155,5 +2162,30 @@ class CreatureObject extends TangibleObject {
 
 	@preLocked
 	public abstract void reloadTemplate() {
+	}
+	
+	/*
+	 * Legend of Hondo
+	 * Sets the encumberance value.
+	 */
+	public void setHondoHAMEnc(int idx, int value) {
+		hondoHAMEnc.set(idx, value);
+	}
+	
+	/*
+	 * Legend of Hondo
+	 * Gets the encumberance value.
+	 */
+	@dirty
+	public int getHondoHAMEnc(int idx) {
+		return hondoHAMEnc.get(idx);
+	}
+	
+	/*
+	 * Legend of Hondo
+	 * Adds to the encumberance value.
+	 */
+	public void addHondoHAMEnc(int idx, int value) {
+		hondoHAMEnc.set(idx, getHondoHAMEnc(idx) + value);
 	}
 }

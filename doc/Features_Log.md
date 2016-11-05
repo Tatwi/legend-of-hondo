@@ -51,3 +51,8 @@ Allow generic Junk Dealers to buy any player crafted item.
 ####Basic Server Settings
 *Detailed Description: doc/features/mod-basicserversettings.md* 
 A set of small changes to various aspects of game play that reflect my personal preferences.
+
+####Life and Death Changes
+*Detailed Description: doc/features/mod-lifeanddeathchanges.md*  
+*Last Patched On: N/A*  
+I suppose this is my version of a "Combat Upgrade". Many changes to the way stats, armor, and healing works.

@@ -16,6 +16,9 @@
 #include "server/zone/packets/object/CombatAction.h"
 #include "server/zone/managers/collision/CollisionManager.h"
 
+#include "server/zone/objects/player/sessions/crafting/events/CreateObjectTask.h"
+#include "server/zone/objects/player/sessions/crafting/events/UpdateToolCountdownTask.h"
+
 class HealDamageCommand : public QueueCommand {
 	float range;
 	float mindCost;
@@ -25,7 +28,59 @@ public:
 		: QueueCommand(name, server) {
 
 		range = 5;
-		mindCost = 50;
+		mindCost = 1000;
+	}
+	
+	void displayCoolDown(CreatureObject* creature, int delay, String targetItem) const {
+		SceneObject* inventory = creature->getSlottedObject("inventory");
+
+		if (inventory == NULL)
+			return;
+			
+		ManagedReference<SceneObject*> obj = NULL;
+		bool toolFound = false;
+		
+		for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
+			obj = inventory->getContainerObject(i);
+			
+			if (obj != NULL && obj->getObjectName()->getFullPath().contains(targetItem)) {
+				toolFound = true;
+				break;
+			}
+		}
+		
+		if (toolFound) {
+			ManagedReference<CraftingTool*> craftingTool = obj.castTo<CraftingTool*>();
+			
+			int timer2 = 1;
+
+			Reference<UpdateToolCountdownTask*> updateToolCountdownTask;
+			Reference<CreateObjectTask*> createObjectTask = new CreateObjectTask(creature, craftingTool, true);
+
+			ManagedReference<ZoneServer*> server = creature->getZoneServer();
+
+			if (server != NULL) {
+
+				Locker locker(craftingTool);
+				craftingTool->setBusy();
+
+				while (delay > 0) {
+					updateToolCountdownTask = new UpdateToolCountdownTask(creature, craftingTool, delay);
+					updateToolCountdownTask->schedule(timer2);
+					delay -= 1;
+					timer2 += 1000;
+				}
+
+				if (delay < 0) {
+					timer2 += (delay * 1000);
+					delay = 0;
+				}
+
+				updateToolCountdownTask = new UpdateToolCountdownTask(creature, craftingTool, delay);
+				updateToolCountdownTask->schedule(timer2);
+				createObjectTask->schedule(timer2);
+			}
+		}
 	}
 
 	void deactivateInjuryTreatment(CreatureObject* creature, bool isRangedStim) const {
@@ -50,10 +105,22 @@ public:
 
 		//Force the delay to be at least 4 seconds.
 		delay = (delay < 4) ? 4 : delay;
+		
+		// LoH Player Mind Enc.
+		if (creature->isPlayerCreature()){
+			int mindEncumb = creature->getHondoHAMEnc(CreatureAttribute::MIND);
+			
+			if (mindEncumb < 0)
+				mindEncumb = 0;
+
+			delay = delay * (((float)mindEncumb / CombatManager::MINDENC) + 1.f);
+		}
 
 		StringIdChatParameter message("healing_response", "healing_response_58"); //You are now ready to heal more damage.
 		Reference<InjuryTreatmentTask*> task = new InjuryTreatmentTask(creature, message, "injuryTreatment");
 		creature->addPendingTask("injuryTreatment", task, delay * 1000);
+		
+		displayCoolDown(creature, delay, "food_tool");
 	}
 
 	void doAnimations(CreatureObject* creature, CreatureObject* creatureTarget) const {
@@ -95,24 +162,51 @@ public:
 
 		for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
 			SceneObject* item = inventory->getContainerObject(i);
+			
+			// LoH Look in MedBags
+			if (item->isContainerObject() && item->getObjectName()->getFullPath().contains("medbag")) {
+				for (int j = 0; j < item->getContainerObjectsSize(); j++) {
+					SceneObject* bagItem = item->getContainerObject(j);
+					
+					if (!bagItem->isPharmaceuticalObject())
+					continue;
+					
+					PharmaceuticalObject* pharma = cast<PharmaceuticalObject*>(bagItem);
 
-			if (!item->isPharmaceuticalObject())
-				continue;
+					if (melee && pharma->isStimPack() && !pharma->isRangedStimPack() && !pharma->isPetStimPack() && !pharma->isDroidRepairKit()) {
+						StimPack* stimPack = cast<StimPack*>(pharma);
 
-			PharmaceuticalObject* pharma = cast<PharmaceuticalObject*>(item);
+						if (stimPack->getMedicineUseRequired() <= medicineUse)
+							return stimPack;
+					}
 
-			if (melee && pharma->isStimPack() && !pharma->isRangedStimPack() && !pharma->isPetStimPack() && !pharma->isDroidRepairKit()) {
-				StimPack* stimPack = cast<StimPack*>(pharma);
+					if (pharma->isRangedStimPack()) {
+						RangedStimPack* stimPack = cast<RangedStimPack*>(pharma);
 
-				if (stimPack->getMedicineUseRequired() <= medicineUse)
-					return stimPack;
-			}
+						if (stimPack->getMedicineUseRequired() <= combatMedicineUse && stimPack->getRange(creature))
+							return stimPack;
+					}
+				}
+			} else {
 
-			if (pharma->isRangedStimPack()) {
-				RangedStimPack* stimPack = cast<RangedStimPack*>(pharma);
+				if (!item->isPharmaceuticalObject())
+					continue;
 
-				if (stimPack->getMedicineUseRequired() <= combatMedicineUse && stimPack->getRange(creature))
-					return stimPack;
+				PharmaceuticalObject* pharma = cast<PharmaceuticalObject*>(item);
+
+				if (melee && pharma->isStimPack() && !pharma->isRangedStimPack() && !pharma->isPetStimPack() && !pharma->isDroidRepairKit()) {
+					StimPack* stimPack = cast<StimPack*>(pharma);
+
+					if (stimPack->getMedicineUseRequired() <= medicineUse)
+						return stimPack;
+				}
+
+				if (pharma->isRangedStimPack()) {
+					RangedStimPack* stimPack = cast<RangedStimPack*>(pharma);
+
+					if (stimPack->getMedicineUseRequired() <= combatMedicineUse && stimPack->getRange(creature))
+						return stimPack;
+				}
 			}
 		}
 
@@ -273,11 +367,14 @@ public:
 			}
 
 			if (atts.contains(CreatureAttribute::ACTION)) {
+				// LoH Limit to just value shown on stim.
+				uint32 actionPower = rangeStim->getEffectiveness();
+				
 				if (notifyObservers) {
-					actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, stimPower);
+					actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, actionPower);
 					notifyObservers = false;
 				} else {
-					actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, stimPower, true, false);
+					actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, actionPower, true, false);
 				}
 			}
 
@@ -296,8 +393,7 @@ public:
 
 			sendHealMessage(creature, targetCreature, healthHealed, actionHealed, mindHealed);
 
-			if (targetCreature != creature && !targetCreature->isPet())
-				awardXp(creature, "medical", (healthHealed + actionHealed)); //No experience for healing yourself or pets.
+			awardXp(creature, "medical", (healthHealed + actionHealed));
 
 			checkForTef(creature, targetCreature);
 		}
@@ -409,14 +505,29 @@ public:
 		if (pharmaceuticalObjectID == 0) {
 			stimPack = findStimPack(creature);
 		} else {
+
 			SceneObject* inventory = creature->getSlottedObject("inventory");
 
 			if (inventory != NULL) {
 				stimPack = inventory->getContainerObject(pharmaceuticalObjectID).castTo<StimPack*>();
-			}
+			} 
+			
+			if (stimPack == NULL)
+				stimPack = findStimPack(creature);
 		}
-
-		int mindCostNew = creature->calculateCostAdjustment(CreatureAttribute::FOCUS, mindCost);
+		
+		if (stimPack == NULL) {
+			creature->sendSystemMessage("@healing_response:healing_response_60"); //No valid medicine found.
+			return GENERALERROR;
+		}
+		
+		// LoH Increase Mind Cost
+		float hondoMindCost = mindCost + stimPack->getEffectiveness() + creature->getHAM(CreatureAttribute::WILLPOWER); 
+		hondoMindCost /= System::random(5) + 7;
+		
+		// LoH Limited reduction, approx 3% - 15%
+		hondoMindCost = hondoMindCost / (MIN(1000, creature->getHAM(CreatureAttribute::FOCUS)) / 6500.f + 1);
+		int mindCostNew = (int)hondoMindCost; 
 
 		if (!canPerformSkill(creature, targetCreature, stimPack, mindCostNew))
 			return GENERALERROR;
@@ -439,19 +550,33 @@ public:
 		Vector<byte> atts = stimPack->getAttributes();
 		int healthHealed = 0, actionHealed = 0, mindHealed = 0;
 		bool notifyObservers = true;
+		
+		float finalHealValue = (float)stimPower;
 
+		// LoH Player Health Enc.
+		if (creature->isPlayerCreature()){
+			int healthEncumb = creature->getHondoHAMEnc(CreatureAttribute::HEALTH);
+			
+			if (healthEncumb < 0)
+				healthEncumb = 0;
+
+			finalHealValue = finalHealValue / (((float)healthEncumb / CombatManager::HEALTHENC) + 1.f);
+		}
 
 		if (atts.contains(CreatureAttribute::HEALTH)) {
-			healthHealed = targetCreature->healDamage(creature, CreatureAttribute::HEALTH, stimPower);
+			healthHealed = targetCreature->healDamage(creature, CreatureAttribute::HEALTH, (int)finalHealValue);
 			notifyObservers = false;
 		}
 
 		if (atts.contains(CreatureAttribute::ACTION)) {
+			// LoH Limit to just value shown on stim.
+			uint32 actionPower = stimPack->getEffectiveness();
+			
 			if (notifyObservers) {
-				actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, stimPower);
+				actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, actionPower);
 				notifyObservers = false;
 			} else {
-				actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, stimPower, true, false);
+				actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, actionPower, true, false);
 			}
 		}
 
@@ -475,8 +600,7 @@ public:
 		Locker locker(stimPack);
 		stimPack->decreaseUseCount();
 
-		if (targetCreature != creature && !targetCreature->isPet())
-			awardXp(creature, "medical", (healthHealed + actionHealed)); //No experience for healing yourself.
+		awardXp(creature, "medical", (healthHealed + actionHealed)); 
 
 		if (targetCreature != creature)
 			clocker.release();

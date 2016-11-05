@@ -17,16 +17,80 @@ public:
 	HealPetCommand(const String& name, ZoneProcessServer* server)
 		: QueueCommand(name, server) {
 
-		range = 5;
-		mindCost = 50;
+		range = 20;
+		mindCost = 250;
+	}
+	
+	void displayCoolDown(CreatureObject* creature, int delay, String targetItem) const {
+		SceneObject* inventory = creature->getSlottedObject("inventory");
+
+		if (inventory == NULL)
+			return;
+			
+		ManagedReference<SceneObject*> obj = NULL;
+		bool toolFound = false;
+		
+		for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
+			obj = inventory->getContainerObject(i);
+			
+			if (obj != NULL && obj->getObjectName()->getFullPath().contains(targetItem)) {
+				toolFound = true;
+				break;
+			}
+		}
+		
+		if (toolFound) {
+			ManagedReference<CraftingTool*> craftingTool = obj.castTo<CraftingTool*>();
+			
+			int timer2 = 1;
+
+			Reference<UpdateToolCountdownTask*> updateToolCountdownTask;
+			Reference<CreateObjectTask*> createObjectTask = new CreateObjectTask(creature, craftingTool, true);
+
+			ManagedReference<ZoneServer*> server = creature->getZoneServer();
+
+			if (server != NULL) {
+
+				Locker locker(craftingTool);
+				craftingTool->setBusy();
+
+				while (delay > 0) {
+					updateToolCountdownTask = new UpdateToolCountdownTask(creature, craftingTool, delay);
+					updateToolCountdownTask->schedule(timer2);
+					delay -= 1;
+					timer2 += 1000;
+				}
+
+				if (delay < 0) {
+					timer2 += (delay * 1000);
+					delay = 0;
+				}
+
+				updateToolCountdownTask = new UpdateToolCountdownTask(creature, craftingTool, delay);
+				updateToolCountdownTask->schedule(timer2);
+				createObjectTask->schedule(timer2);
+			}
+		}
 	}
 
 	void deactivateInjuryTreatment(CreatureObject* creature) const {
-		int delay = 20;
+		int delay = 7 - creature->getSkillMod("keep_creature");
+		
+		// LoH Player Mind Enc.
+		if (creature->isPlayerCreature()){
+			int mindEncumb = creature->getHondoHAMEnc(CreatureAttribute::MIND);
+			
+			if (mindEncumb < 0)
+				mindEncumb = 0;
+
+			delay = delay * (((float)mindEncumb / CombatManager::MINDENC) + 1.f);
+		}
 
 		StringIdChatParameter message("healing_response", "healing_response_58"); //You are now ready to heal more damage.
 		Reference<InjuryTreatmentTask*> task = new InjuryTreatmentTask(creature, message, "injuryTreatment");
 		creature->addPendingTask("injuryTreatment", task, delay * 1000);
+		
+		displayCoolDown(creature, delay, "food_tool");
 	}
 
 	void doAnimations(CreatureObject* creature, CreatureObject* pet) const {
@@ -37,11 +101,30 @@ public:
 
 	StimPack* findStimPack(CreatureObject* creature) const {
 		SceneObject* inventory = creature->getSlottedObject("inventory");
+		
+		if (inventory == NULL)
+			return NULL;
 
-		if (inventory != NULL) {
-			for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
-				SceneObject* item = inventory->getContainerObject(i);
+		for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
+			SceneObject* item = inventory->getContainerObject(i);
+			
+			// LoH Look in MedBags
+			if (item->isContainerObject() && item->getObjectName()->getFullPath().contains("medbag")) {
+				for (int j = 0; j < item->getContainerObjectsSize(); j++) {
+					SceneObject* bagItem = item->getContainerObject(j);
+					
+					if (!bagItem->isPharmaceuticalObject())
+					continue;
+					
+					PharmaceuticalObject* pharma = cast<PharmaceuticalObject*>(bagItem);
 
+					if (pharma->isPetStimPack()) {
+						StimPack* stimPack = cast<StimPack*>(pharma);
+
+						return stimPack;
+					}
+				}
+			} else {
 				if (!item->isPharmaceuticalObject())
 					continue;
 
@@ -178,14 +261,26 @@ public:
 			if (inventory != NULL) {
 				stimPack = inventory->getContainerObject(objectID).castTo<StimPack*>();
 			}
+			
+			if (stimPack == NULL)
+				stimPack = findStimPack(creature);
 		}
 
-		int mindCostNew = creature->calculateCostAdjustment(CreatureAttribute::FOCUS, mindCost);
+		// LoH Increase Mind Cost
+		float hondoMindCost = mindCost + creature->getHAM(CreatureAttribute::WILLPOWER); 
+		hondoMindCost /= System::random(5) + 9;
+		
+		// LoH Limited reduction, approx 3% - 15%
+		hondoMindCost = hondoMindCost / (MIN(1000, creature->getHAM(CreatureAttribute::FOCUS)) / 6500.f + 1);
+		int mindCostNew = (int)hondoMindCost; 
 
 		if (!canPerformSkill(creature, pet, stimPack, mindCostNew))
 			return GENERALERROR;
 
+		// LoH bonus power based on Creature Handler skill
+		int chBonus = (creature->getSkillMod("tame_aggro") + creature->getSkillMod("tame_non_aggro") + creature->getSkillMod("tame_level")) * creature->getSkillMod("keep_creature");
 		uint32 stimPower = stimPack->calculatePower(creature, pet);
+		stimPower += chBonus; // + 630 max
 
 		Vector<byte> atts = stimPack->getAttributes();
 		int healthHealed = 0, actionHealed = 0, mindHealed = 0;
