@@ -1224,7 +1224,6 @@ float CombatManager::calculateDamage(CreatureObject* attacker, WeaponObject* wea
 		float mod = attacker->isAiAgent() ? cast<AiAgent*>(attacker)->getSpecialDamageMult() : 1.f;
 		damage = data.getMinDamage() * mod;
 		diff = (data.getMaxDamage() * mod) - damage;
-
 	} else {
 		float minDamage = weapon->getMinDamage(), maxDamage = weapon->getMaxDamage();
 
@@ -1239,7 +1238,7 @@ float CombatManager::calculateDamage(CreatureObject* attacker, WeaponObject* wea
 
 	if (diff > 0)
 		damage += System::random(diff);
-
+		
 	damage = applyDamageModifiers(attacker, weapon, damage, data);
 
 	if (attacker->isPlayerCreature())
@@ -1641,32 +1640,26 @@ bool CombatManager::applySpecialAttackCost(CreatureObject* attacker, WeaponObjec
 			}
 		}
 	}
-
+	
+	// Get base HAM costs * special modifier
 	float health = weapon->getHealthAttackCost() * data.getHealthCostMultiplier();
 	float action = weapon->getActionAttackCost() * data.getActionCostMultiplier();
 	float mind = weapon->getMindAttackCost() * data.getMindCostMultiplier();
+	
+	// Calculate Action Cost
+	float actionCost = health + action + mind;
+	
+	float negateCosts = (3 + attacker->getHAM(CreatureAttribute::STRENGTH) + attacker->getHAM(CreatureAttribute::QUICKNESS) + attacker->getHAM(CreatureAttribute::FOCUS)) / 3;
+	negateCosts = (negateCosts / 5000.f) * actionCost;
+	
+	actionCost = MAX(25, actionCost - negateCosts); // Ensure there is some cost per shot
 
-	health = attacker->calculateCostAdjustment(CreatureAttribute::STRENGTH, health);
-	action = attacker->calculateCostAdjustment(CreatureAttribute::QUICKNESS, action);
-	mind = attacker->calculateCostAdjustment(CreatureAttribute::FOCUS, mind);
-
-	if (attacker->getHAM(CreatureAttribute::HEALTH) <= health)
+	if (attacker->getHAM(CreatureAttribute::ACTION) <= actionCost)
 		return false;
-
-	if (attacker->getHAM(CreatureAttribute::ACTION) <= action)
-		return false;
-
-	if (attacker->getHAM(CreatureAttribute::MIND) <= mind)
-		return false;
-
-	if (health > 0)
-		attacker->inflictDamage(attacker, CreatureAttribute::HEALTH, health, true, true, true);
-
-	if (action > 0)
-		attacker->inflictDamage(attacker, CreatureAttribute::ACTION, action, true, true, true);
-
-	if (mind > 0)
-		attacker->inflictDamage(attacker, CreatureAttribute::MIND, mind, true, true, true);
+	
+	// LoH Apply the cost only to the Action pool
+	if (actionCost > 0)
+		attacker->inflictDamage(attacker, CreatureAttribute::ACTION, actionCost, true, true, true);
 
 	return true;
 }
@@ -1843,14 +1836,9 @@ int CombatManager::applyDamage(TangibleObject* attacker, WeaponObject* weapon, C
 	bool healthDamaged = (!!(poolsToDamage & HEALTH) && data.getHealthDamageMultiplier() > 0.0f);
 	bool actionDamaged = (!!(poolsToDamage & ACTION) && data.getActionDamageMultiplier() > 0.0f);
 	bool mindDamaged   = (!!(poolsToDamage & MIND)   && data.getMindDamageMultiplier()   > 0.0f);
-
+	
 	int numberOfPoolsDamaged = (healthDamaged ? 1 : 0) + (actionDamaged ? 1 : 0) + (mindDamaged ? 1 : 0);
 	Vector<int> poolsToWound;
-
-	int numSpillOverPools = 3 - numberOfPoolsDamaged;
-
-	float spillMultPerPool = (0.1f * numSpillOverPools) / MAX(numberOfPoolsDamaged, 1);
-	int totalSpillOver = 0; // Accumulate our total spill damage
 
 	// from screenshots, it appears that food mitigation and armor mitigation were independently calculated
 	// and then added together.
@@ -1858,74 +1846,40 @@ int CombatManager::applyDamage(TangibleObject* attacker, WeaponObject* weapon, C
 	int foodMitigation = 0;
 	if (foodBonus > 0)
 		foodMitigation = (int)(damage * foodBonus / 100.f);
-
-	if (healthDamaged) {
-		static uint8 bodyLocations[] = {HIT_BODY, HIT_BODY, HIT_LARM, HIT_RARM};
-		hitLocation = bodyLocations[System::random(3)];
+		
+	// LoH Damage Model: Health only, no "spill-over", only one wound pool per attack.
+	
+	if (healthDamaged || actionDamaged || mindDamaged) {
+		static uint8 bodyLocations[] = {HIT_HEAD, HIT_BODY, HIT_BODY, HIT_LARM, HIT_RARM, HIT_LLEG, HIT_RLEG};
+		hitLocation = bodyLocations[System::random(6)];
 
 		healthDamage = getArmorReduction(attacker, weapon, defender, damage * data.getHealthDamageMultiplier(), hitLocation, data) * damageMultiplier;
 		healthDamage -= MIN(healthDamage, foodMitigation * data.getHealthDamageMultiplier());
-
-		int spilledDamage = (int)(healthDamage*spillMultPerPool); // Cut our damage by the spill percentage
-		healthDamage -= spilledDamage; // subtract spill damage from total damage
-		totalSpillOver += spilledDamage;  // accumulate spill damage
-
+		
 		defender->inflictDamage(attacker, CreatureAttribute::HEALTH, (int)healthDamage, true, xpType, true, true);
-
-		poolsToWound.add(CreatureAttribute::HEALTH);
 	}
+	
+	defender->notifyObservers(ObserverEventType::DAMAGERECEIVED, attacker, (int)healthDamage);
 
-	if (actionDamaged) {
-		static uint8 legLocations[] = {HIT_LLEG, HIT_RLEG};
-		hitLocation = legLocations[System::random(1)];
-
-		actionDamage = getArmorReduction(attacker, weapon, defender, damage * data.getActionDamageMultiplier(), hitLocation, data) * damageMultiplier;
-		actionDamage -= MIN(actionDamage, foodMitigation * data.getActionDamageMultiplier());
-
-		int spilledDamage = (int)(actionDamage*spillMultPerPool);
-		actionDamage -= spilledDamage;
-		totalSpillOver += spilledDamage;
-
-		defender->inflictDamage(attacker, CreatureAttribute::ACTION, (int)actionDamage, true, xpType, true, true);
-
-		poolsToWound.add(CreatureAttribute::ACTION);
+	// Wound Chances
+	int primaryWounds = System::random((int)ratio) + 2;
+	
+	if (healthDamaged && System::random(100) < ratio) {
+		defender->addWounds(CreatureAttribute::HEALTH, primaryWounds, true);
+		defender->addWounds(CreatureAttribute::STRENGTH, 1, true); 
+		defender->addWounds(CreatureAttribute::CONSTITUTION, 1, true);
 	}
-
-	if (mindDamaged) {
-		hitLocation = HIT_HEAD;
-		mindDamage = getArmorReduction(attacker, weapon, defender, damage * data.getMindDamageMultiplier(), hitLocation, data) * damageMultiplier;
-		mindDamage -= MIN(mindDamage, foodMitigation * data.getMindDamageMultiplier());
-
-		int spilledDamage = (int)(mindDamage*spillMultPerPool);
-		mindDamage -= spilledDamage;
-		totalSpillOver += spilledDamage;
-
-		defender->inflictDamage(attacker, CreatureAttribute::MIND, (int)mindDamage, true, xpType, true, true);
-
-		poolsToWound.add(CreatureAttribute::MIND);
+		
+	if (actionDamaged && System::random(100) < ratio){
+		defender->addWounds(CreatureAttribute::ACTION, primaryWounds, true);
+		defender->addWounds(CreatureAttribute::QUICKNESS, 1, true); 
+		defender->addWounds(CreatureAttribute::STAMINA, 1, true);
 	}
-
-	if (numSpillOverPools > 0) {
-		int spillDamagePerPool = (int)(totalSpillOver / numSpillOverPools); // Split the spill over damage between the pools damaged
-
-		int spillOverRemainder = (totalSpillOver % numSpillOverPools) + spillDamagePerPool;
-
-		if ((poolsToDamage ^ 0x7) & HEALTH)
-			defender->inflictDamage(attacker, CreatureAttribute::HEALTH, (numSpillOverPools-- > 1 ? spillDamagePerPool : spillOverRemainder), true, xpType, true, true);
-		if ((poolsToDamage ^ 0x7) & ACTION)
-			defender->inflictDamage(attacker, CreatureAttribute::ACTION, (numSpillOverPools-- > 1 ? spillDamagePerPool : spillOverRemainder), true, xpType, true, true);
-		if ((poolsToDamage ^ 0x7) & MIND)
-			defender->inflictDamage(attacker, CreatureAttribute::MIND, (numSpillOverPools-- > 1 ? spillDamagePerPool : spillOverRemainder), true, xpType, true, true);
-	}
-
-	int totalDamage =  (int) (healthDamage + actionDamage + mindDamage);
-	defender->notifyObservers(ObserverEventType::DAMAGERECEIVED, attacker, totalDamage);
-
-	if (poolsToWound.size() > 0 && System::random(100) < ratio) {
-		int poolToWound = poolsToWound.get(System::random(poolsToWound.size() - 1));
-		defender->addWounds(poolToWound,     1, true);
-		defender->addWounds(poolToWound + 1, 1, true);
-		defender->addWounds(poolToWound + 2, 1, true);
+		
+	if (mindDamaged && System::random(100) < ratio){
+		defender->addWounds(CreatureAttribute::MIND, primaryWounds, true);
+		defender->addWounds(CreatureAttribute::FOCUS, 1, true); 
+		defender->addWounds(CreatureAttribute::WILLPOWER, 1, true);
 	}
 
 	if(attacker->isPlayerCreature())
@@ -1935,8 +1889,9 @@ int CombatManager::applyDamage(TangibleObject* attacker, WeaponObject* weapon, C
 	if (foodMitigation > 0)
 		sendMitigationCombatSpam(defender, weapon, foodMitigation, FOOD);
 
-	return totalDamage;
+	return (int)healthDamage;
 }
+
 
 int CombatManager::applyDamage(CreatureObject* attacker, WeaponObject* weapon, TangibleObject* defender, int poolsToDamage, const CreatureAttackData& data) {
 	if (poolsToDamage == 0)

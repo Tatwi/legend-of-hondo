@@ -644,6 +644,11 @@ int PlayerManagerImplementation::notifyDestruction(TangibleObject* destructor, T
 		return 1;
 
 	CreatureObject* playerCreature = cast<CreatureObject*>( destructedObject);
+	
+	int playerHealth = playerCreature->getHAM(CreatureAttribute::HEALTH);
+
+	if (playerHealth > 0) // Incap only when health is gone
+		return 1;
 
 	if ((playerCreature->isIncapacitated() && !(playerCreature->isFeigningDeath())) || playerCreature->isDead())
 		return 1;
@@ -887,7 +892,7 @@ void PlayerManagerImplementation::sendActivateCloneRequest(CreatureObject* playe
 	player->sendMessage(cloneMenu->generateMessage());
 }
 
-void PlayerManagerImplementation::sendPlayerToCloner(CreatureObject* player, uint64 clonerID, int typeofdeath) {
+void PlayerManagerImplementation::sendPlayerToCloner(CreatureObject* player, uint64 clonerID, int typeofdeath) {		
 	ManagedReference<SceneObject*> cloner = server->getObject(clonerID);
 
 	if (cloner == NULL) {
@@ -950,6 +955,11 @@ void PlayerManagerImplementation::sendPlayerToCloner(CreatureObject* player, uin
 		player->addWounds(CreatureAttribute::ACTION, 100, true, false);
 		player->addWounds(CreatureAttribute::MIND, 100, true, false);
 		player->addShockWounds(100, true);
+	} else { // LoH always do some wounds and bf
+		player->addWounds(CreatureAttribute::HEALTH, 50, true, false);
+		player->addWounds(CreatureAttribute::ACTION, 50, true, false);
+		player->addWounds(CreatureAttribute::MIND, 50, true, false);
+		player->addShockWounds(50, true);
 	}
 
 	if (ghost->getFactionStatus() != FactionStatus::ONLEAVE && cbot->getFaction() == 0)

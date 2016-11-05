@@ -8,10 +8,10 @@ TarkinBuffTerminal = ScreenPlay:new {
 	buffPetSecondaryStats = 0, -- 0 = No, 1 = Yes. Will also buff the pet's secondary stats.
 	buffs = {
 		-- Legend: {name, price, duration in hours, health, strength, constitution, action, quickness, stamina, mind, focus, willpower},
-		{"Starter Buff", 0, 2, 500, 250, 250, 500, 250, 250, 500, 250, 250}, -- Free!
-		{"Basic Buff", 5000, 2, 800, 500, 250, 800, 500, 250, 800, 500, 250},
-		{"Advanced Buff", 10000, 3, 1000, 600, 250, 1000, 600, 250, 1000, 600, 250},
-		{"Uber Buff", 25000, 4, 1500, 750, 250, 1500, 750, 250, 1500, 750, 250},
+		{"Starter Buff", 0, 4, 1000, 100, 50, 200, 100, 50, 200, 100, 50}, -- Free!
+		{"Basic Buff", 5000, 3, 1500, 300, 150, 500, 300, 150, 500, 300, 150},
+		{"Advanced Buff", 15000, 2, 2200, 600, 250, 1000, 600, 250, 1000, 600, 250},
+		{"Uber Buff", 25000, 1, 3000, 750, 250, 800, 750, 250, 800, 750, 250},
 	},
 	termModel = "object/tangible/terminal/terminal_light_enclave_voting.iff",
 	termName = "Medical Services Terminal",

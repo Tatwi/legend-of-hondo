@@ -16,6 +16,9 @@
 #include "server/zone/packets/object/CombatAction.h"
 #include "server/zone/managers/collision/CollisionManager.h"
 
+#include "server/zone/objects/player/sessions/crafting/events/CreateObjectTask.h"
+#include "server/zone/objects/player/sessions/crafting/events/UpdateToolCountdownTask.h"
+
 class HealDamageCommand : public QueueCommand {
 	float range;
 	float mindCost;
@@ -26,6 +29,59 @@ public:
 
 		range = 5;
 		mindCost = 50;
+	}
+	
+	void displayCoolDown(CreatureObject* creature, int delay, String targetItem) const {
+		// LoH testing cool down timer
+		SceneObject* inventory = creature->getSlottedObject("inventory");
+
+		if (inventory == NULL)
+			return;
+			
+		ManagedReference<SceneObject*> obj = NULL;
+		bool toolFound = false;
+		
+		for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
+			obj = inventory->getContainerObject(i);
+			
+			if (obj != NULL && obj->getObjectName()->getFullPath().contains(targetItem)) {
+				toolFound = true;
+				break;
+			}
+		}
+		
+		if (toolFound) {
+			ManagedReference<CraftingTool*> craftingTool = obj.castTo<CraftingTool*>();
+			
+			int timer2 = 1;
+
+			Reference<UpdateToolCountdownTask*> updateToolCountdownTask;
+			Reference<CreateObjectTask*> createObjectTask = new CreateObjectTask(creature, craftingTool, true);
+
+			ManagedReference<ZoneServer*> server = creature->getZoneServer();
+
+			if (server != NULL) {
+
+				Locker locker(craftingTool);
+				craftingTool->setBusy();
+
+				while (delay > 0) {
+					updateToolCountdownTask = new UpdateToolCountdownTask(creature, craftingTool, delay);
+					updateToolCountdownTask->schedule(timer2);
+					delay -= 1;
+					timer2 += 1000;
+				}
+
+				if (delay < 0) {
+					timer2 += (delay * 1000);
+					delay = 0;
+				}
+
+				updateToolCountdownTask = new UpdateToolCountdownTask(creature, craftingTool, delay);
+				updateToolCountdownTask->schedule(timer2);
+				createObjectTask->schedule(timer2);
+			}
+		}
 	}
 
 	void deactivateInjuryTreatment(CreatureObject* creature, bool isRangedStim) const {
@@ -54,6 +110,8 @@ public:
 		StringIdChatParameter message("healing_response", "healing_response_58"); //You are now ready to heal more damage.
 		Reference<InjuryTreatmentTask*> task = new InjuryTreatmentTask(creature, message, "injuryTreatment");
 		creature->addPendingTask("injuryTreatment", task, delay * 1000);
+		
+		displayCoolDown(creature, delay, "food_tool");
 	}
 
 	void doAnimations(CreatureObject* creature, CreatureObject* creatureTarget) const {
@@ -273,11 +331,14 @@ public:
 			}
 
 			if (atts.contains(CreatureAttribute::ACTION)) {
+				// LoH Limit to just value shown on stim.
+				uint32 actionPower = rangeStim->getEffectiveness();
+				
 				if (notifyObservers) {
-					actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, stimPower);
+					actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, actionPower);
 					notifyObservers = false;
 				} else {
-					actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, stimPower, true, false);
+					actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, actionPower, true, false);
 				}
 			}
 
@@ -296,8 +357,7 @@ public:
 
 			sendHealMessage(creature, targetCreature, healthHealed, actionHealed, mindHealed);
 
-			if (targetCreature != creature && !targetCreature->isPet())
-				awardXp(creature, "medical", (healthHealed + actionHealed)); //No experience for healing yourself or pets.
+			awardXp(creature, "medical", (healthHealed + actionHealed));
 
 			checkForTef(creature, targetCreature);
 		}
@@ -415,8 +475,23 @@ public:
 				stimPack = inventory->getContainerObject(pharmaceuticalObjectID).castTo<StimPack*>();
 			}
 		}
-
-		int mindCostNew = creature->calculateCostAdjustment(CreatureAttribute::FOCUS, mindCost);
+		
+		if (stimPack == NULL) {
+			creature->sendSystemMessage("@healing_response:healing_response_60"); //No valid medicine found.
+			return GENERALERROR;
+		}
+		
+		// LoH Increase Mind Cost based on the stim used and the player level
+		int playerLevel = server->getPlayerManager()->calculatePlayerLevel(creature);
+		int hondoMindCost = mindCost + playerLevel; 
+		
+		if (stimPack->isRangedStimPack()){
+			hondoMindCost += (cast<RangedStimPack*>(stimPack.get()))->getMedicineUseRequired();
+		} else {
+			hondoMindCost += stimPack->getMedicineUseRequired();
+		}
+		
+		int mindCostNew = creature->calculateCostAdjustment(CreatureAttribute::FOCUS, hondoMindCost);
 
 		if (!canPerformSkill(creature, targetCreature, stimPack, mindCostNew))
 			return GENERALERROR;
@@ -447,11 +522,14 @@ public:
 		}
 
 		if (atts.contains(CreatureAttribute::ACTION)) {
+			// LoH Limit to just value shown on stim.
+			uint32 actionPower = stimPack->getEffectiveness();
+			
 			if (notifyObservers) {
-				actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, stimPower);
+				actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, actionPower);
 				notifyObservers = false;
 			} else {
-				actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, stimPower, true, false);
+				actionHealed = targetCreature->healDamage(creature, CreatureAttribute::ACTION, actionPower, true, false);
 			}
 		}
 
@@ -475,8 +553,7 @@ public:
 		Locker locker(stimPack);
 		stimPack->decreaseUseCount();
 
-		if (targetCreature != creature && !targetCreature->isPet())
-			awardXp(creature, "medical", (healthHealed + actionHealed)); //No experience for healing yourself.
+		awardXp(creature, "medical", (healthHealed + actionHealed)); 
 
 		if (targetCreature != creature)
 			clocker.release();
