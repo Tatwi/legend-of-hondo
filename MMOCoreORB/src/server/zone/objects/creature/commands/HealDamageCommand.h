@@ -106,6 +106,16 @@ public:
 
 		//Force the delay to be at least 4 seconds.
 		delay = (delay < 4) ? 4 : delay;
+		
+		// LoH Player Mind Enc.
+		if (creature->isPlayerCreature()){
+			int mindEncumb = creature->getHondoHAMEnc(CreatureAttribute::MIND);
+			
+			if (mindEncumb < 0)
+				mindEncumb = 0;
+
+			delay = delay * (((float)mindEncumb / CombatManager::MINDENC) + 1.f);
+		}
 
 		StringIdChatParameter message("healing_response", "healing_response_58"); //You are now ready to heal more damage.
 		Reference<InjuryTreatmentTask*> task = new InjuryTreatmentTask(creature, message, "injuryTreatment");
@@ -514,10 +524,21 @@ public:
 		Vector<byte> atts = stimPack->getAttributes();
 		int healthHealed = 0, actionHealed = 0, mindHealed = 0;
 		bool notifyObservers = true;
+		
+		float finalHealValue = (float)stimPower;
 
+		// LoH Player Health Enc.
+		if (creature->isPlayerCreature()){
+			int healthEncumb = creature->getHondoHAMEnc(CreatureAttribute::HEALTH);
+			
+			if (healthEncumb < 0)
+				healthEncumb = 0;
+
+			finalHealValue = finalHealValue / (((float)healthEncumb / CombatManager::HEALTHENC) + 1.f);
+		}
 
 		if (atts.contains(CreatureAttribute::HEALTH)) {
-			healthHealed = targetCreature->healDamage(creature, CreatureAttribute::HEALTH, stimPower);
+			healthHealed = targetCreature->healDamage(creature, CreatureAttribute::HEALTH, (int)finalHealValue);
 			notifyObservers = false;
 		}
 

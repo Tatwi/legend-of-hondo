@@ -13,7 +13,7 @@ The following changes are designed to open up all of the content in the game to 
 - Health/Action/Mind each have their own unique purposes.
 - Buffed player Health pool sizes so they can take larger hits without being "insta-gibbed".
 - Player stats don't regeneate at such a high rate that the player effectively becomes invincible.
-- Jedi isn't being used here, so I made mobs that could only be killed by them more plausible to be defeated by the other professions; I am quite sure the harest content will be extremely challenging, perhaps even impossible.
+- The Jedi professions aren't being used in Legend of Hondo, so I haven't made any changes with them in mind. However, I made mobs that could only be killed by them more plausible to be defeated by the other professions; I am quite sure the harest content will still be extremely challenging, perhaps even impossible.
 
 ####NPC/Creature Changes
 - High level NPCs/Creatures have less Health (80,000 Max).
@@ -88,6 +88,16 @@ The following changes are designed to open up all of the content in the game to 
 - Wounds should occur more often and thus play a larger roll in combat.
 - Having Health wounds increases damage recieved (Linear progresssion ending in double damage to a 100% wounded target).
 
+####Armor Encumberance
+- Rather than being applied to secondary stats, HAM encumberance is applied to the following combat activities.
+- HEALTH: Applied to max healing value. *Heal = Post Bonus Heal Value / ((Health Enc / 1800) + 1)*
+- ACTION: Applied to attack speed. *Speed = Post Bonus Attack Speed x ((Action Enc / 1000) + 1)*
+- MIND:  Applied to healing speed. *Speed = Post Bonus Healing Speed x ((Mind Enc / 1200) + 1)*
+- The character sheet no longer shows the values, but you can check then by using the */hondo aboutMe* command.
+- Enc values tracked differently in the server code, so they won't interfere with stat modifiers and HAM. The values are stored in an array called hondoHAMEnc which is associated with the CreatureObject version of the player. It's defined in CreatureObject.idl, as are 3 helper functions.
+- The array has 9 positions, on for each stat, but only uses 0,2,8 for HEALTH, ACTION, MIND as it's easily readable in the programming.
+- Encumberance factor constants are set in CombatManager.h
+
 ####Quick Heal Command
 - Made it a more clearly defined "oh crap" button.
 - Decreased base Mind cost to 500.
@@ -98,9 +108,10 @@ The following changes are designed to open up all of the content in the game to 
 - These remain the same (so no XP for self or player heals).
 
 ####Stimpacks
-- Health healing is unchanged.
+- Health healing is limited by Health Encumberance (shown as Strength/Stamina on the character sheet).
 - Action healing, just the value shown on the Stimpack, no Medic/Doctor bonuses.
 - Mind cost based on Focus, Stim "Medicine Use" requirement, and player level.
+- Healing speed is limited by Mind Encumberance (shown as Focus/Willpower on the character sheet).
 - Increased the min/max values on Stim-A.
 - Increase the min values on Stim-B/C/D/E.
 - Stim-B/C/D/E require higher medicine use skill. Min values: 20/30/40/50.
@@ -116,6 +127,13 @@ At a later time I will ...
 ####Food, Drink, and Forgaged Food
 - These remain the same.
 
+####Files
+These are the files that were added or updated in this feature.
+
+C++ Files  
+Lua Files  
+TRE Files  
+- What they were used for
 
 src/server/zone/objects/creature/CreatureObjectImplementation.cpp
 - Increase stat regen when sitting.
@@ -128,26 +146,32 @@ src/server/zone/managers/combat/CombatManager.h
 - Damage applied only to Health.
 - Weapon HAM cost changes.
 - Having Health wounds increases damage recieved
+- LoH Action encumberance design
 
 src/server/zone/objects/creature/ai/AiAgent.idl
 - Hard limit NPC/Creature max HAM.
 - Hard limit NPC/Creature armor resist values.
 
-tre_required/datatables/skill/skills.iff
-- Professions and Skill Point changes
-
-tre_required/datatables/creation/attribute_limits.iff
-- Normalized all species
-
-tre_required/datatables/creation/racial_mods.iff
-- Each species has 500 points of mods uniquely distributed over the attributes
-
 src/server/zone/objects/creature/commands/HealDamageCommand.h
 - Changed cost and limited Action healing effectiveness
+- Handy cooldown count down feature
+- LoH Health and Mind encumberance design
 
 src/server/zone/managers/player/PlayerManagerImplementation.cpp
 - Don't incap/kill the player when they run out of Action or Mind
-- Wounds and battle fatigue on all deaths.
+- Wounds and battle fatigue on all deaths
+- Changes to applying armor encumberance
+
+src/server/zone/objects/player/sui/callbacks/InsuranceMenuSuiCallback.h
+- Increased insurance cost
+
+src/server/zone/objects/creature/commands/RequestSetStatMigrationDataCommand.h
+- Can no longer migrate stats in combat
+- Can no longer migrate stats while buffed
+
+src/server/zone/objects/creature/commands/hondoCommand.h
+- Add information about encumberances
+- Fixed mission "to lower case" conversion for some commands
 
 bin/scripts/object/tangible/medicine/crafted/crafted_stimpack_sm_s1_a.lua
 bin/scripts/object/tangible/medicine/crafted/crafted_stimpack_sm_s1_b.lua
@@ -172,10 +196,11 @@ bin/scripts/object/tangible/medicine/crafted/medpack_enhance_health_c.lua
 bin/scripts/object/tangible/medicine/crafted/medpack_enhance_health_d.lua
 - Buffed min and max values
 
-src/server/zone/objects/player/sui/callbacks/InsuranceMenuSuiCallback.h
-- Increased insurance cost
+tre_required/datatables/skill/skills.iff
+- Professions and Skill Point changes
 
-src/server/zone/objects/creature/commands/RequestSetStatMigrationDataCommand.h
-- Can no longer migrate stats in combat
-- Can no longer migrate stats while buffed
+tre_required/datatables/creation/attribute_limits.iff
+- Normalized all species
 
+tre_required/datatables/creation/racial_mods.iff
+- Each species has 500 points of mods uniquely distributed over the attributes

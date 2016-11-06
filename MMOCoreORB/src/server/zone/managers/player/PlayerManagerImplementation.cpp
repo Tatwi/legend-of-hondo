@@ -1260,6 +1260,9 @@ void PlayerManagerImplementation::disseminateExperience(TangibleObject* destruct
 
 
 bool PlayerManagerImplementation::checkEncumbrancies(CreatureObject* player, ArmorObject* armor) {
+	// LoH Enc. applied to heal speed, attack speed, and max heal value
+	return true;
+/*
 	int strength = player->getHAM(CreatureAttribute::STRENGTH);
 	int constitution = player->getHAM(CreatureAttribute::CONSTITUTION);
 	int quickness = player->getHAM(CreatureAttribute::QUICKNESS);
@@ -1331,17 +1334,119 @@ bool PlayerManagerImplementation::checkEncumbrancies(CreatureObject* player, Arm
 	}
 	else
 		return true;
+*/
 }
 
 
 void PlayerManagerImplementation::applyEncumbrancies(CreatureObject* player, ArmorObject* armor) {
+	// LoH Enc. applied to heal speed, attack speed, and max heal value. Values stored in array hondoHAMEnc (CreatureObject.idl).
+
 	int healthEncumb = MAX(0, armor->getHealthEncumbrance());
 	int actionEncumb = MAX(0, armor->getActionEncumbrance());
 	int mindEncumb = MAX(0, armor->getMindEncumbrance());
 
-	player->addEncumbrance(CreatureEncumbrance::HEALTH, healthEncumb, true);
-	player->addEncumbrance(CreatureEncumbrance::ACTION, actionEncumb, true);
-	player->addEncumbrance(CreatureEncumbrance::MIND, mindEncumb, true);
+	player->addHondoHAMEnc(CreatureAttribute::HEALTH, healthEncumb);
+	player->addHondoHAMEnc(CreatureAttribute::ACTION, actionEncumb);
+	player->addHondoHAMEnc(CreatureAttribute::MIND, mindEncumb);
+	
+	// Check for incorrect totals and correct them
+	int totalHealthEnc = 0;
+	int totalActionEnc = 0;
+	int totalMindEnc = 0;
+	
+	// Add up the quiped values
+	
+	ManagedReference<SceneObject*> hat = player->getSlottedObject("hat");
+	if (hat != NULL && hat->isArmorObject()){
+		ArmorObject* hatArmor = hat.castTo<ArmorObject*>();
+		totalHealthEnc += hatArmor->getHealthEncumbrance();
+		totalActionEnc += hatArmor->getActionEncumbrance();
+		totalMindEnc += hatArmor->getMindEncumbrance();
+	}
+	
+	ManagedReference<SceneObject*> bicepR = player->getSlottedObject("bicep_r");
+	if (bicepR != NULL && bicepR->isArmorObject()){
+		ArmorObject* bicepRArmor = bicepR.castTo<ArmorObject*>();
+		totalHealthEnc += bicepRArmor->getHealthEncumbrance();
+		totalActionEnc += bicepRArmor->getActionEncumbrance();
+		totalMindEnc += bicepRArmor->getMindEncumbrance();
+	}
+	
+	ManagedReference<SceneObject*> bicepL = player->getSlottedObject("bicep_l");
+	if (bicepL != NULL && bicepL->isArmorObject()){
+		ArmorObject* bicepLArmor = bicepL.castTo<ArmorObject*>();
+		totalHealthEnc += bicepLArmor->getHealthEncumbrance();
+		totalActionEnc += bicepLArmor->getActionEncumbrance();
+		totalMindEnc += bicepLArmor->getMindEncumbrance();
+	}
+	
+	ManagedReference<SceneObject*> bracerR = player->getSlottedObject("bracer_upper_r");
+	if (bracerR != NULL && bracerR->isArmorObject()){
+		ArmorObject* bracerRArmor = bracerR.castTo<ArmorObject*>();
+		totalHealthEnc += bracerRArmor->getHealthEncumbrance();
+		totalActionEnc += bracerRArmor->getActionEncumbrance();
+		totalMindEnc += bracerRArmor->getMindEncumbrance();
+	}
+	
+	ManagedReference<SceneObject*> bracerL = player->getSlottedObject("bracer_upper_l");
+	if (bracerL != NULL && bracerL->isArmorObject()){
+		ArmorObject* bracerLArmor = bracerL.castTo<ArmorObject*>();
+		totalHealthEnc += bracerLArmor->getHealthEncumbrance();
+		totalActionEnc += bracerLArmor->getActionEncumbrance();
+		totalMindEnc += bracerLArmor->getMindEncumbrance();
+	}
+	
+	ManagedReference<SceneObject*> gloves = player->getSlottedObject("gloves");
+	if (gloves != NULL && gloves->isArmorObject()){
+		ArmorObject* glovesArmor = gloves.castTo<ArmorObject*>();
+		totalHealthEnc += glovesArmor->getHealthEncumbrance();
+		totalActionEnc += glovesArmor->getActionEncumbrance();
+		totalMindEnc += glovesArmor->getMindEncumbrance();
+	}
+	
+	ManagedReference<SceneObject*> chest = player->getSlottedObject("chest2");
+	if (chest != NULL && chest->isArmorObject()){
+		ArmorObject* chestArmor = chest.castTo<ArmorObject*>();
+		totalHealthEnc += chestArmor->getHealthEncumbrance();
+		totalActionEnc += chestArmor->getActionEncumbrance();
+		totalMindEnc += chestArmor->getMindEncumbrance();
+	}
+	
+	ManagedReference<SceneObject*> shoes = player->getSlottedObject("shoes");
+	if (shoes != NULL && shoes->isArmorObject()){
+		ArmorObject* shoesArmor = shoes.castTo<ArmorObject*>();
+		totalHealthEnc += shoesArmor->getHealthEncumbrance();
+		totalActionEnc += shoesArmor->getActionEncumbrance();
+		totalMindEnc += shoesArmor->getMindEncumbrance();
+	}
+	
+	ManagedReference<SceneObject*> pants = player->getSlottedObject("pants1");
+	if (pants != NULL && pants->isArmorObject()){
+		ArmorObject* pantsArmor = pants.castTo<ArmorObject*>();
+		totalHealthEnc += pantsArmor->getHealthEncumbrance();
+		totalActionEnc += pantsArmor->getActionEncumbrance();
+		totalMindEnc += pantsArmor->getMindEncumbrance();
+	}
+	
+	// Compare equiped values to stored values
+
+	if (totalHealthEnc != player->getHondoHAMEnc(CreatureAttribute::HEALTH)) {
+		player->setHondoHAMEnc(CreatureAttribute::HEALTH, totalHealthEnc);
+		player->sendSystemMessage("Error: Stored Health Encumberance value didn't match equiped value. Issue resolved.");
+	}
+
+	if (totalActionEnc != player->getHondoHAMEnc(CreatureAttribute::ACTION)) {
+		player->setHondoHAMEnc(CreatureAttribute::ACTION, totalActionEnc);
+		player->sendSystemMessage("Error: Stored Action Encumberance value didn't match equiped value. Issue resolved.");
+	}
+	
+	if (totalMindEnc != player->getHondoHAMEnc(CreatureAttribute::MIND)) {
+		player->setHondoHAMEnc(CreatureAttribute::MIND, totalMindEnc);
+		player->sendSystemMessage("Error: Stored Mind Encumberance value didn't match equiped value. Issue resolved.");
+	}
+	
+	return;
+/*	
 
 	player->inflictDamage(player, CreatureAttribute::STRENGTH, healthEncumb, true);
 	player->addMaxHAM(CreatureAttribute::STRENGTH, -healthEncumb, true);
@@ -1360,17 +1465,22 @@ void PlayerManagerImplementation::applyEncumbrancies(CreatureObject* player, Arm
 
 	player->inflictDamage(player, CreatureAttribute::WILLPOWER, mindEncumb, true);
 	player->addMaxHAM(CreatureAttribute::WILLPOWER, -mindEncumb, true);
+*/
 }
 
 void PlayerManagerImplementation::removeEncumbrancies(CreatureObject* player, ArmorObject* armor) {
+	// LoH Enc. applied to heal speed, attack speed, and max heal value
+	
 	int healthEncumb = MAX(0, armor->getHealthEncumbrance());
 	int actionEncumb = MAX(0, armor->getActionEncumbrance());
 	int mindEncumb = MAX(0, armor->getMindEncumbrance());
 
-	player->addEncumbrance(CreatureEncumbrance::HEALTH, -healthEncumb, true);
-	player->addEncumbrance(CreatureEncumbrance::ACTION, -actionEncumb, true);
-	player->addEncumbrance(CreatureEncumbrance::MIND, -mindEncumb, true);
+	player->addHondoHAMEnc(CreatureAttribute::HEALTH, -healthEncumb);
+	player->addHondoHAMEnc(CreatureAttribute::ACTION, -actionEncumb);
+	player->addHondoHAMEnc(CreatureAttribute::MIND, -mindEncumb);
 
+	return;
+/*
 	player->addMaxHAM(CreatureAttribute::STRENGTH, healthEncumb, true);
 	player->healDamage(player, CreatureAttribute::STRENGTH, healthEncumb, true);
 
@@ -1388,6 +1498,7 @@ void PlayerManagerImplementation::removeEncumbrancies(CreatureObject* player, Ar
 
 	player->addMaxHAM(CreatureAttribute::WILLPOWER, mindEncumb, true);
 	player->healDamage(player, CreatureAttribute::WILLPOWER, mindEncumb, true);
+*/
 }
 
 void PlayerManagerImplementation::awardBadge(PlayerObject* ghost, uint32 badgeId) {

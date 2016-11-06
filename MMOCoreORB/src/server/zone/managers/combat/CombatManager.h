@@ -57,9 +57,12 @@ public:
 	const static int FORCEARMOR = 0x5;
 	const static int ARMOR = 0x6;
 	const static int FOOD = 0x7;
-
-
-
+	
+	// LoH Encumberance factors
+	const static int HEALTHENC = 1800; // SmallerNewValue = oldValue / ((HealthEncValue / ACTIONENC) + 1)
+	const static int ACTIONENC = 1000; // BiggerNewValue = oldValue * ((ActionEncValue / ACTIONENC) + 1)
+	const static int MINDENC = 1200; // BiggerNewValue = oldValue * ((MindEncValue / MINDENC) + 1)
+	
 	Vector<uint32> defaultMeleeAttacks;
 	Vector<uint32> defaultRangedAttacks;
 

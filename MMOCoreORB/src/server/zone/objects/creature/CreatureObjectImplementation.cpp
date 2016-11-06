@@ -209,6 +209,10 @@ void CreatureObjectImplementation::loadTemplateData(
 
 	for (int i = 0; i < base.size(); ++i)
 		baseHAM.add(base.get(i));
+		
+	// LoH Where HAM encumberance values are stored using the common CreatureAttribute::MIND format
+	for (int i = 0; i < base.size(); ++i)
+		hondoHAMEnc.add(base.get(i));
 
 	wounds.removeAll();
 	for (int i = 0; i < 9; ++i) {
