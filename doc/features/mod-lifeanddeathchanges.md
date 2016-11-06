@@ -200,7 +200,13 @@ tre_required/datatables/skill/skills.iff
 - Professions and Skill Point changes
 
 tre_required/datatables/creation/attribute_limits.iff
-- Normalized all species
+- Adjusted min/max values for LoH combat model
+- Applied species min/max limits
 
 tre_required/datatables/creation/racial_mods.iff
-- Each species has 500 points of mods uniquely distributed over the attributes
+- Each species has 500 points of mods uniquely distributed over the attributes, however I applied the limits to the min and max possible values in the attribute_limits.iff, so that they are always treated as hard limits
+- Zero'd out all values in this table
+
+tre_required/datatables/creation/profession_mods.iff
+- Normalized all profression stat changes, because they can reset at any time anyway.
+
