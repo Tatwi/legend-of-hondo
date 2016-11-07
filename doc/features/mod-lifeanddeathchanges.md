@@ -110,13 +110,33 @@ The following changes are designed to open up all of the content in the game to 
 ####Stimpacks
 - Health healing is limited by Health Encumberance (shown as Strength/Stamina on the character sheet).
 - Action healing, just the value shown on the Stimpack, no Medic/Doctor bonuses.
-- Mind cost based on Focus, Stim "Medicine Use" requirement, and player level.
+- Mind costs have been increased for using stimpacks, statepacks, and pet healing.
 - Healing speed is limited by Mind Encumberance (shown as Focus/Willpower on the character sheet).
 - Increased the min/max values on Stim-A.
 - Increase the min values on Stim-B/C/D/E.
 - Stim-B/C/D/E require higher medicine use skill. Min values: 20/30/40/50.
 - Ranged and area stims remain the same (though they have been moved into the Doctor profession).
-- A cooldown will be placed on the first Food and Chemical Crafting Tool found in your inventory, so you can put it on your toolbar to keep track of your healing cooldown.
+
+####Pet Stimpacks
+- Made some minor improvements to make these more useful given the LoH damage model.
+- Cooldown reduced to be similar to normal stims.
+- Cool down is reduced by 3 seconds based on Creature Handler level.
+- Stim power is given a large bonus based on Creature Handler level.
+- Increased the range from 5m to 20m.
+
+####Medicine Bag
+- Enabled using healing supplies from the Medical Bag (a 20 slot bag that DOES count toward inventory space, the same as a satchel).
+- Supports direct clicking as well as placing the supply on the toolbar.
+- Support for the following commands: Heal Damage, Heal State, Heal Pet, Heal Enhance, and Heal Wound.
+- Add as starter item for all characters.
+- Rule: Will not remove items from factory crates.
+- Rule: Does not work when the Med Bag is stuffed into your backpack.
+- Rule: Items in your backpack can't be used directly, but they will trigger a search of your Med Bag for an item of the same type.
+
+####Healing Cooldowns
+- Rather than try to make a new UI element, I used an existing system to display cooldowns for healing abilities.
+- A cooldown will be placed on the first Food and Chemical Crafting Tool found in the player's inventory. The player can put it on his toolbar to keep track of the healing cooldown.
+- Support for the following commands: Heal Damage, Heal State, Heal Pet, Heal Enhance, and Heal Wound.
 
 ####Crafted Armor
 At a later time I will ...
@@ -140,6 +160,7 @@ src/server/zone/objects/creature/CreatureObjectImplementation.cpp
 - Mind and Battle Fatigue healing.
 - Limit Health regen while in combat.
 - Damge: Health never goes below 0, all other stats never go below 1.
+- Handy cooldown count down feature
 
 src/server/zone/managers/combat/CombatManager.cpp
 src/server/zone/managers/combat/CombatManager.h
@@ -153,9 +174,14 @@ src/server/zone/objects/creature/ai/AiAgent.idl
 - Hard limit NPC/Creature armor resist values.
 
 src/server/zone/objects/creature/commands/HealDamageCommand.h
+src/server/zone/objects/creature/commands/HeaPetCommand.h
+src/server/zone/objects/creature/commands/HealStateCommand.h
+src/server/zone/objects/creature/commands/HealEnhanceCommand.h
+src/server/zone/objects/creature/commands/HealWoundCommand.h
 - Changed cost and limited Action healing effectiveness
 - Handy cooldown count down feature
 - LoH Health and Mind encumberance design
+- Medicine Bag functionality
 
 src/server/zone/managers/player/PlayerManagerImplementation.cpp
 - Don't incap/kill the player when they run out of Action or Mind
@@ -195,6 +221,13 @@ bin/scripts/object/tangible/medicine/crafted/medpack_enhance_health_b.lua
 bin/scripts/object/tangible/medicine/crafted/medpack_enhance_health_c.lua
 bin/scripts/object/tangible/medicine/crafted/medpack_enhance_health_d.lua
 - Buffed min and max values
+
+bin/scripts/managers/loot_manager.lua
+bin/scripts/managers/skill_mod_manager.lua
+- Disabled the mod for how many pets a player can have out at once, because I just discovered that's what the skill "keep_creature" means.
+
+bin/scripts/managers/player_creation_manager.lua
+- Medicine Bag as a starter item
 
 tre_required/datatables/skill/skills.iff
 - Professions and Skill Point changes

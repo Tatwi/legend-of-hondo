@@ -25,12 +25,64 @@ public:
 	HealStateCommand(const String& name, ZoneProcessServer* server)
 		: QueueCommand(name, server) {
 
-		mindCost = 20;
+		mindCost = 500;
 		range = 6;
 		healableStates.add(CreatureState::STUNNED);
 		healableStates.add(CreatureState::DIZZY);
 		healableStates.add(CreatureState::BLINDED);
 		healableStates.add(CreatureState::INTIMIDATED);
+	}
+	
+	void displayCoolDown(CreatureObject* creature, int delay, String targetItem) const {
+		SceneObject* inventory = creature->getSlottedObject("inventory");
+
+		if (inventory == NULL)
+			return;
+			
+		ManagedReference<SceneObject*> obj = NULL;
+		bool toolFound = false;
+		
+		for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
+			obj = inventory->getContainerObject(i);
+			
+			if (obj != NULL && obj->getObjectName()->getFullPath().contains(targetItem)) {
+				toolFound = true;
+				break;
+			}
+		}
+		
+		if (toolFound) {
+			ManagedReference<CraftingTool*> craftingTool = obj.castTo<CraftingTool*>();
+			
+			int timer2 = 1;
+
+			Reference<UpdateToolCountdownTask*> updateToolCountdownTask;
+			Reference<CreateObjectTask*> createObjectTask = new CreateObjectTask(creature, craftingTool, true);
+
+			ManagedReference<ZoneServer*> server = creature->getZoneServer();
+
+			if (server != NULL) {
+
+				Locker locker(craftingTool);
+				craftingTool->setBusy();
+
+				while (delay > 0) {
+					updateToolCountdownTask = new UpdateToolCountdownTask(creature, craftingTool, delay);
+					updateToolCountdownTask->schedule(timer2);
+					delay -= 1;
+					timer2 += 1000;
+				}
+
+				if (delay < 0) {
+					timer2 += (delay * 1000);
+					delay = 0;
+				}
+
+				updateToolCountdownTask = new UpdateToolCountdownTask(creature, craftingTool, delay);
+				updateToolCountdownTask->schedule(timer2);
+				createObjectTask->schedule(timer2);
+			}
+		}
 	}
 
 	void deactivateStateTreatment(CreatureObject* creature) const {
@@ -49,10 +101,22 @@ public:
 
 		//Force the delay to be at least 4 seconds.
 		delay = (delay < 4) ? 4 : delay;
+		
+		// LoH Player Mind Enc.
+		if (creature->isPlayerCreature()){
+			int mindEncumb = creature->getHondoHAMEnc(CreatureAttribute::MIND);
+			
+			if (mindEncumb < 0)
+				mindEncumb = 0;
+
+			delay = delay * (((float)mindEncumb / CombatManager::MINDENC) + 1.f);
+		}
 
 		StringIdChatParameter message("healing_response", "healing_response_58"); //You are now ready to heal more damage.
 		Reference<InjuryTreatmentTask*> task = new InjuryTreatmentTask(creature, message, "stateTreatment");
 		creature->addPendingTask("stateTreatment", task, delay * 1000);
+		
+		displayCoolDown(creature, delay, "food_tool");
 	}
 
 	void awardXp(CreatureObject* creature, String type, int power) const {
@@ -130,12 +194,32 @@ public:
 	StatePack* findStatePack(CreatureObject* creature, uint64 state) const {
 		SceneObject* inventory = creature->getSlottedObject("inventory");
 
+		if (inventory == NULL)
+			return NULL;
+			
 		int medicineUse = creature->getSkillMod("healing_ability");
 
-		if (inventory != NULL) {
-			for (int i = 0; i < inventory->getContainerObjectsSize(); i++) {
-				SceneObject* object = inventory->getContainerObject(i);
+		for (int i = 0; i < inventory->getContainerObjectsSize(); i++) {
+			SceneObject* object = inventory->getContainerObject(i);
+			
+			// LoH Look in MedBags
+			if (object->isContainerObject() && object->getObjectName()->getFullPath().contains("medbag")) {
+				for (int j = 0; j < object->getContainerObjectsSize(); j++) {
+					SceneObject* bagItem = object->getContainerObject(j);
+					
+					if (!bagItem->isPharmaceuticalObject())
+					continue;
+					
+					PharmaceuticalObject* pharma = cast<PharmaceuticalObject*>(bagItem);
 
+					if (pharma->isStatePack()) {
+						StatePack* statePack = cast<StatePack*>(pharma);
+
+						if (statePack->getMedicineUseRequired() <= medicineUse && statePack->getState() == state)
+						return statePack;
+					}
+				}
+			} else {
 				if (!object->isPharmaceuticalObject())
 					continue;
 
@@ -147,9 +231,9 @@ public:
 					if (statePack->getMedicineUseRequired() <= medicineUse && statePack->getState() == state)
 						return statePack;
 				}
-			}
-		}
-
+			} 
+		} 
+		
 		return NULL;
 	}
 
@@ -247,7 +331,13 @@ public:
 			}
 		}
 
-		int mindCostNew = creature->calculateCostAdjustment(CreatureAttribute::FOCUS, mindCost);
+		// LoH Increase Mind Cost
+		float hondoMindCost = mindCost + creature->getHAM(CreatureAttribute::WILLPOWER); 
+		hondoMindCost /= System::random(5) + 7;
+		
+		// LoH Limited reduction, approx 3% - 15%
+		hondoMindCost = hondoMindCost / (MIN(1000, creature->getHAM(CreatureAttribute::FOCUS)) / 6500.f + 1);
+		int mindCostNew = (int)hondoMindCost; 
 
 		if (!canPerformSkill(creature, creatureTarget, statePack, mindCostNew))
 			return GENERALERROR;

@@ -28,11 +28,10 @@ public:
 		: QueueCommand(name, server) {
 
 		range = 5;
-		mindCost = 50;
+		mindCost = 1000;
 	}
 	
 	void displayCoolDown(CreatureObject* creature, int delay, String targetItem) const {
-		// LoH testing cool down timer
 		SceneObject* inventory = creature->getSlottedObject("inventory");
 
 		if (inventory == NULL)
@@ -163,24 +162,51 @@ public:
 
 		for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
 			SceneObject* item = inventory->getContainerObject(i);
+			
+			// LoH Look in MedBags
+			if (item->isContainerObject() && item->getObjectName()->getFullPath().contains("medbag")) {
+				for (int j = 0; j < item->getContainerObjectsSize(); j++) {
+					SceneObject* bagItem = item->getContainerObject(j);
+					
+					if (!bagItem->isPharmaceuticalObject())
+					continue;
+					
+					PharmaceuticalObject* pharma = cast<PharmaceuticalObject*>(bagItem);
 
-			if (!item->isPharmaceuticalObject())
-				continue;
+					if (melee && pharma->isStimPack() && !pharma->isRangedStimPack() && !pharma->isPetStimPack() && !pharma->isDroidRepairKit()) {
+						StimPack* stimPack = cast<StimPack*>(pharma);
 
-			PharmaceuticalObject* pharma = cast<PharmaceuticalObject*>(item);
+						if (stimPack->getMedicineUseRequired() <= medicineUse)
+							return stimPack;
+					}
 
-			if (melee && pharma->isStimPack() && !pharma->isRangedStimPack() && !pharma->isPetStimPack() && !pharma->isDroidRepairKit()) {
-				StimPack* stimPack = cast<StimPack*>(pharma);
+					if (pharma->isRangedStimPack()) {
+						RangedStimPack* stimPack = cast<RangedStimPack*>(pharma);
 
-				if (stimPack->getMedicineUseRequired() <= medicineUse)
-					return stimPack;
-			}
+						if (stimPack->getMedicineUseRequired() <= combatMedicineUse && stimPack->getRange(creature))
+							return stimPack;
+					}
+				}
+			} else {
 
-			if (pharma->isRangedStimPack()) {
-				RangedStimPack* stimPack = cast<RangedStimPack*>(pharma);
+				if (!item->isPharmaceuticalObject())
+					continue;
 
-				if (stimPack->getMedicineUseRequired() <= combatMedicineUse && stimPack->getRange(creature))
-					return stimPack;
+				PharmaceuticalObject* pharma = cast<PharmaceuticalObject*>(item);
+
+				if (melee && pharma->isStimPack() && !pharma->isRangedStimPack() && !pharma->isPetStimPack() && !pharma->isDroidRepairKit()) {
+					StimPack* stimPack = cast<StimPack*>(pharma);
+
+					if (stimPack->getMedicineUseRequired() <= medicineUse)
+						return stimPack;
+				}
+
+				if (pharma->isRangedStimPack()) {
+					RangedStimPack* stimPack = cast<RangedStimPack*>(pharma);
+
+					if (stimPack->getMedicineUseRequired() <= combatMedicineUse && stimPack->getRange(creature))
+						return stimPack;
+				}
 			}
 		}
 
@@ -479,11 +505,15 @@ public:
 		if (pharmaceuticalObjectID == 0) {
 			stimPack = findStimPack(creature);
 		} else {
+
 			SceneObject* inventory = creature->getSlottedObject("inventory");
 
 			if (inventory != NULL) {
 				stimPack = inventory->getContainerObject(pharmaceuticalObjectID).castTo<StimPack*>();
-			}
+			} 
+			
+			if (stimPack == NULL)
+				stimPack = findStimPack(creature);
 		}
 		
 		if (stimPack == NULL) {
@@ -491,17 +521,13 @@ public:
 			return GENERALERROR;
 		}
 		
-		// LoH Increase Mind Cost based on the stim used and the player level
-		int playerLevel = server->getPlayerManager()->calculatePlayerLevel(creature);
-		int hondoMindCost = mindCost + playerLevel; 
+		// LoH Increase Mind Cost
+		float hondoMindCost = mindCost + stimPack->getEffectiveness() + creature->getHAM(CreatureAttribute::WILLPOWER); 
+		hondoMindCost /= System::random(5) + 7;
 		
-		if (stimPack->isRangedStimPack()){
-			hondoMindCost += (cast<RangedStimPack*>(stimPack.get()))->getMedicineUseRequired();
-		} else {
-			hondoMindCost += stimPack->getMedicineUseRequired();
-		}
-		
-		int mindCostNew = creature->calculateCostAdjustment(CreatureAttribute::FOCUS, hondoMindCost);
+		// LoH Limited reduction, approx 3% - 15%
+		hondoMindCost = hondoMindCost / (MIN(1000, creature->getHAM(CreatureAttribute::FOCUS)) / 6500.f + 1);
+		int mindCostNew = (int)hondoMindCost; 
 
 		if (!canPerformSkill(creature, targetCreature, stimPack, mindCostNew))
 			return GENERALERROR;
