@@ -141,10 +141,11 @@ The following changes are designed to open up all of the content in the game to 
 ####Player Armor
 - Removed the "mini-suit" concept; The player must wear armor on all available slots, with the following exceptions.
 - Ubese: Left/Right Biceps not possible/needed.
-- Mabari (Zam): Left/Right Biceps optional, will hit chest if missing. Left/Right Bracers required if not wearing Mabari gloves.
+- Mabari (Zam): Left/Right Biceps optional, will hit chest if missing. Left/Right Bracers optional if not wearing Mabari gloves, will hit gloves instead.
 - Wookiees: Chest, Legs, and Bracers = full suit.
 - Trandoshans: All pieces except boots and gloves required.
 - All other suits are simply incomplete and can be completed by using pieces from other suits.
+- The combat log tells the player when they are hit in a location that was missing an armor piece.
 
 ####Food, Drink, and Forgaged Food
 - These remain the same.

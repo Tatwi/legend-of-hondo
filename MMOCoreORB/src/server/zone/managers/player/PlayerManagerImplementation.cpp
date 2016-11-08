@@ -1432,17 +1432,17 @@ void PlayerManagerImplementation::applyEncumbrancies(CreatureObject* player, Arm
 
 	if (totalHealthEnc != player->getHondoHAMEnc(CreatureAttribute::HEALTH)) {
 		player->setHondoHAMEnc(CreatureAttribute::HEALTH, totalHealthEnc);
-		player->sendSystemMessage("Error: Stored Health Encumberance value didn't match equiped value. Issue resolved.");
+		//player->sendSystemMessage("Error: Stored Health Encumberance value didn't match equiped value. Issue resolved.");
 	}
 
 	if (totalActionEnc != player->getHondoHAMEnc(CreatureAttribute::ACTION)) {
 		player->setHondoHAMEnc(CreatureAttribute::ACTION, totalActionEnc);
-		player->sendSystemMessage("Error: Stored Action Encumberance value didn't match equiped value. Issue resolved.");
+		//player->sendSystemMessage("Error: Stored Action Encumberance value didn't match equiped value. Issue resolved.");
 	}
 	
 	if (totalMindEnc != player->getHondoHAMEnc(CreatureAttribute::MIND)) {
 		player->setHondoHAMEnc(CreatureAttribute::MIND, totalMindEnc);
-		player->sendSystemMessage("Error: Stored Mind Encumberance value didn't match equiped value. Issue resolved.");
+		//player->sendSystemMessage("Error: Stored Mind Encumberance value didn't match equiped value. Issue resolved.");
 	}
 	
 	return;

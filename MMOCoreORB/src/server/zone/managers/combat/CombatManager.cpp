@@ -981,8 +981,6 @@ ArmorObject* CombatManager::getArmorObject(CreatureObject* defender, uint8 hitLo
 	String armorName = "";
 	String tempName = "";
 	
-	Logger::console.info("STEP 1: Input hitLocation was " + String::valueOf(hitLocation), true);
-	
 	switch(hitLocation) {
 		case HIT_BODY:
 			armorName = "chest2";
@@ -1019,8 +1017,6 @@ ArmorObject* CombatManager::getArmorObject(CreatureObject* defender, uint8 hitLo
 			break;
 	}
 	
-	Logger::console.info("STEP 2: Converted hitLocation this word: " + armorName, true);
-	
 	// Try to get item at hit location
 	ManagedReference<SceneObject*> object = defender->getSlottedObject(armorName);
 	
@@ -1031,7 +1027,7 @@ ArmorObject* CombatManager::getArmorObject(CreatureObject* defender, uint8 hitLo
 		return armor;
 	}
 	
-	// Wookiee?
+	// If item was NULL, is player a Wookiee?
 	if (defender->getSpecies() == CreatureObject::WOOKIE){
 		if (armorName.contains("bicep")) // Chest covers this on its own
 			armorName = "chest2";
@@ -1051,8 +1047,7 @@ ArmorObject* CombatManager::getArmorObject(CreatureObject* defender, uint8 hitLo
 		// If item is armor, use it!
 		if (wookObject != NULL && wookObject->isArmorObject())
 			armor = wookObject.castTo<ArmorObject*>();
-		
-		Logger::console.info("STEP 4: Wookiee found. Converted hitLocation this word: " + armorName, true);
+
 		return armor; // will return NULL if no armor object was found	
 	}
 	
@@ -1090,11 +1085,17 @@ ArmorObject* CombatManager::getArmorObject(CreatureObject* defender, uint8 hitLo
 	
 	if (finalObject != NULL && finalObject->isArmorObject())
 		armor = finalObject.castTo<ArmorObject*>();
-	
+		
 	if (armor == NULL) {
-		Logger::console.info("Step 5: NO ARMOR FOUND at location hit: " + armorName, true);
-	} else {
-		Logger::console.info("Step 6: Armor successfully directed to location: " + armorName, true);
+		armorName = armorName.replaceFirst("1", "");
+		armorName = armorName.replaceFirst("2", "");
+		armorName = armorName.replaceFirst("_upper_r", " right");
+		armorName = armorName.replaceFirst("_upper_l", " left");
+		armorName = armorName.replaceFirst("bicep_r", "bicep right");
+		armorName = armorName.replaceFirst("bicep_l", "bicep left");
+		armorName = armorName.replaceFirst("hat", "head");
+		armorName = armorName.replaceFirst("shoes", "feet");
+		defender->sendCustomCombatSpam("You were injured when the enemy hit you in an unarmored location: " + armorName, MISS); // MISS is text color
 	}
 		
 	return armor; // will return NULL if no armor object was found	
