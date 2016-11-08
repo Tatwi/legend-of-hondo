@@ -4,9 +4,9 @@ I suppose this is my version of a "Combat Upgrade". I'm sure some folks will hat
 
 The combat model in Legend of Hondo is inspired by the Wrath of the Lich King era of World of Warcraft while playing an Elemental Shaman. The Shaman had Health and Mana and in its Elemental form, it was primarily a damage dealing class, but it also decent healing abilities. All the Shaman's abilities required Mana, while he had limited ways to recover the Mana once it was used. As a result, it was interesting to play an Elemental Shaman, because the Shaman could take on some very challenging content provided that he used his abilities effectively.
 
-Combat in SWG was quite different, particularly how running out of the alternate stats, Action and Mind, caused the player to lose the encounter. Also, the use of abilities was ill defined, due to the ability cost being spread over all three of the player's main stats (Health/Action/Mind). Add the issue of Mind healing vs. Health and Action healing, the totally outrageous Doctor/Enterainer buffs people would use to steamroll content, and the sad reality that wearing half a suit of armor was numerically better than wearing a whole suit, what you're left with was (in my opinion) a combat model that just didn't work. Amongst other issues, this design caused any profession that could do Mind damage to literally be the best ones ones to play in every situation. And that's not even considering how unbalanced the Jedi professions made everything (I'm not using Jedi in LoH).
+Combat in SWG was quite different, particularly how running out of the alternate stats, Action and Mind, caused the player to lose the encounter. Also, the use of abilities was ill defined, due to the ability cost being spread over all three of the player's main stats (Health/Action/Mind). Add the issue of Mind healing vs. Health and Action healing, the totally outrageous Doctor/Enterainer buffs people would use to steamroll content, and the sad reality that wearing half a suit of armor was numerically better than wearing a whole suit, what you're left with was (in my opinion) a combat model that just didn't work. Amongst other issues, this design caused any profession that could do Mind damage to literally be the best ones to play in every situation. And that's not even considering how unbalanced the Jedi professions made everything (I'm not using Jedi in LoH).
 
-The following changes are designed to open up all of the content in the game to a solo player (who will most likely require creature or NPC pets for some content), while also taking cues from the Shaman to make combat more coherent and enjoyable.
+The following changes are designed to open up all of the content in the game to a solo player (who will most likely require creature or NPC pets for some content), while also taking cues from the Shaman to make combat more coherent and enjoyable. I've made some quality of life improvements to various aspects of the game related to combat.
 
 ####Major Points
 - All all professions can easily use at least 444x Medic, so that the player never feels he has to run a second client to automate a healer.
@@ -158,6 +158,7 @@ Lua Files
 TRE Files  
 - What they were used for
 
+src/server/zone/objects/creature/CreatureObject.idl
 src/server/zone/objects/creature/CreatureObjectImplementation.cpp
 - Increase stat regen when sitting.
 - Mind and Battle Fatigue healing.
@@ -186,6 +187,9 @@ src/server/zone/objects/creature/commands/HealWoundCommand.h
 - Handy cooldown count down feature
 - LoH Health and Mind encumberance design
 - Medicine Bag functionality
+
+src/server/zone/objects/creature/commands/QuickHealCommand.h
+- Refined its purpose
 
 src/server/zone/managers/player/PlayerManagerImplementation.cpp
 - Don't incap/kill the player when they run out of Action or Mind
@@ -233,6 +237,10 @@ bin/scripts/managers/skill_mod_manager.lua
 bin/scripts/managers/player_creation_manager.lua
 - Medicine Bag as a starter item
 
+bin/scripts/screenplays/hondo/buff_terminals.lua
+- Buff value adjustments
+- Added another terminal
+
 tre_required/datatables/skill/skills.iff
 - Professions and Skill Point changes
 
@@ -246,4 +254,3 @@ tre_required/datatables/creation/racial_mods.iff
 
 tre_required/datatables/creation/profession_mods.iff
 - Normalized all profression stat changes, because they can reset at any time anyway.
-
