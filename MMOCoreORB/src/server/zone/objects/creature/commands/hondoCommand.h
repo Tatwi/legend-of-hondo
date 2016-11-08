@@ -44,6 +44,8 @@ public:
 
 			if(args.hasMoreTokens()){
 				args.getStringToken(command);
+				
+				command = command.toLowerCase();
 
 				if(command == "admin") {
 					if (adminLevelCheck != 15){
@@ -437,7 +439,42 @@ public:
 
 		body << "Player Name: " << creature->getFirstName() << endl;
 		body << "Unused Lots: " << String::valueOf(lotsRemaining) << endl << endl;
-		body << "Structures:";
+		
+		body << "Encumberances:" << endl;
+		body << "Wearing armor has a negative impact on some of your abilities. Health encumbarance reduces your Health-Stat healing ability, Action encumberance increases the time between your attacks, and Mind encumberance increases the time between using Stimpacks." << endl;
+		
+		String resistKind = "Health: ";
+		String thatValueIs = " (Amazing)";
+		int hondoEnc = creature->getHondoHAMEnc(CreatureAttribute::HEALTH);;
+		
+		for (int i = 0; i < 3; i++){
+			if (i == 1){
+				hondoEnc = creature->getHondoHAMEnc(CreatureAttribute::ACTION);
+				resistKind = "Action: ";
+			} else if (i == 2){
+				hondoEnc = creature->getHondoHAMEnc(CreatureAttribute::MIND);
+				resistKind = "Mind: ";
+			}
+			
+			if (hondoEnc == 0) {
+				thatValueIs = "";
+			} else if (hondoEnc > 1500) {
+				thatValueIs = " (Awful)";
+			} else if (hondoEnc > 1100) {
+				thatValueIs = " (Bad)";
+			} else if (hondoEnc > 800) {
+				thatValueIs = " (OK)";
+			} else if (hondoEnc > 400) {
+				thatValueIs = " (Good)";
+			} else if (hondoEnc > 250) {
+				thatValueIs = " (Great)";
+			} // 1 to 250 = Amazing 
+			
+			body << resistKind << hondoEnc << thatValueIs << endl;
+		}
+		body << " - - - - - - - " << endl << endl;
+		
+		body << "Structures:" << endl;
 
 		for (int i = 0; i < ghost->getTotalOwnedStructureCount(); i++) {
 			ManagedReference<StructureObject*> structure = creature->getZoneServer()->getObject(ghost->getOwnedStructure(i)).castTo<StructureObject*>();

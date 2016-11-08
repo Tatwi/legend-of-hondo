@@ -8,16 +8,17 @@ TarkinBuffTerminal = ScreenPlay:new {
 	buffPetSecondaryStats = 0, -- 0 = No, 1 = Yes. Will also buff the pet's secondary stats.
 	buffs = {
 		-- Legend: {name, price, duration in hours, health, strength, constitution, action, quickness, stamina, mind, focus, willpower},
-		{"Starter Buff", 0, 2, 500, 250, 250, 500, 250, 250, 500, 250, 250}, -- Free!
-		{"Basic Buff", 5000, 2, 800, 500, 250, 800, 500, 250, 800, 500, 250},
-		{"Advanced Buff", 10000, 3, 1000, 600, 250, 1000, 600, 250, 1000, 600, 250},
-		{"Uber Buff", 25000, 4, 1500, 750, 250, 1500, 750, 250, 1500, 750, 250},
+		{"Starter Buff", 0, 4, 500, 100, 50, 200, 100, 50, 200, 100, 50, requiredSkills = {}, requiredSkillNames = ""}, -- Free!
+		{"Basic Buff", 5000, 3, 800, 300, 150, 500, 300, 150, 350, 200, 100, requiredSkills = {}, requiredSkillNames = ""},
+		{"Advanced Buff", 15000, 2, 1100, 500, 250, 800, 500, 250, 500, 250, 150, requiredSkills = {"", ""}, requiredSkillNames = ""},
+		{"Uber Buff", 25000, 1, 1500, 750, 250, 800, 750, 250, 800, 350, 200, requiredSkills = {"", ""}, requiredSkillNames = ""},
 	},
 	termModel = "object/tangible/terminal/terminal_light_enclave_voting.iff",
 	termName = "Medical Services Terminal",
 	terminals = {
 		{planetName = "tatooine", x = -32.7499, z = 0.258537, y = 3.52207, ow = 0.729551, oy = 0.683926, cellID = 9995780}, -- Mos Espa Hospital
 		{planetName = "tatooine", x = 7.73135, z = 0.26, y = -1.69846, ow = 0.353085, oy = 0.935591, cellID = 9995699}, -- Mos Espa Hospital
+		{planetName = "tatooine", x = -2932.59, z = 5.0, y = 2117.02, ow = 0.899624, oy = 0.436665, cellID = 0}, -- Mos Espa starting area 
 	}
 }
 

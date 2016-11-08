@@ -56,7 +56,7 @@ object_tangible_medicine_crafted_medpack_enhance_stamina_b = object_tangible_med
 	experimentalGroupTitles = {"null", "null", "exp_effectiveness", "exp_charges", "exp_effectiveness", "expEaseOfUse", "null"},
 	experimentalSubGroupTitles = {"null", "null", "power", "charges", "duration", "skillmodmin", "hitpoints"},
 	experimentalMin = {0, 0, 20, 5, 1200, 70, 100},
-	experimentalMax = {0, 0, 200, 15, 7200, 55, 150},
+	experimentalMax = {0, 0, 100, 15, 7200, 55, 150},
 	experimentalPrecision = {0, 0, 0, 0, 0, 0, 0},
 	experimentalCombineType = {0, 0, 1, 1, 1, 1, 4},
 }

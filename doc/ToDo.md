@@ -4,21 +4,7 @@ An organized overview of my development priorities. Things I have already finish
 ####Fundamental
 
 **Small Things:**  
-- Healing one's self or pets grants Medic XP
-- Death and incapacitation only come from loss of Health
-- No attacks, except for DoTs, attack Action or Mind
-- Stimpacks only heal Health
-- Action automatically regenerates faster than normal. Mind does not.
-- Action and mind regen faster when sitting while not in combat
-- Increase the min/max values on Stim-A/B/C
-- Increase the min values on Stim-D/E. These remain the most potent
-
-- Remove crafted regen buffs (constitution/stamina, to throttle in combat regen)
 - Removal of housing deeds and harvester deeds greater than the personal versions
-
-- Novice Artisan, Brawler, Marksman, Medic, and Scout cost 1 Skill Point
-- Each box of Medic only requires 1 skill point
-- Entertainer, Dancer, Image Designer, Musician, and Politian do not require skill points
 
 **Big Things:**
 - Custom Hondo Housing System based Mos Entha
@@ -38,7 +24,6 @@ An organized overview of my development priorities. Things I have already finish
 - Locate all trainers in Mos Espa
 - Min creature resource drops increase
 - Add some mission terminals to camps
-- Merge Combat Medic into Medic/Doctor
 
 **Big Things:**
 - Junk Dealers will buy more loot items

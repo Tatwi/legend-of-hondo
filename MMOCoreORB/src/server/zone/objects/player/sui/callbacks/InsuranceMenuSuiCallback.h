@@ -39,7 +39,7 @@ public:
 		int bank = player->getBankCredits();
 		int cash = player->getCashCredits();
 
-		int cost = 100;
+		int cost = 1000;
 
 		ManagedReference<SceneObject*> term = listBox->getUsingObject();
 

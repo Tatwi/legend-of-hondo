@@ -26,6 +26,58 @@ public:
 		mindCost = 50;
 		range = 6;
 	}
+	
+	void displayCoolDown(CreatureObject* creature, int delay, String targetItem) const {
+		SceneObject* inventory = creature->getSlottedObject("inventory");
+
+		if (inventory == NULL)
+			return;
+			
+		ManagedReference<SceneObject*> obj = NULL;
+		bool toolFound = false;
+		
+		for (int i = 0; i < inventory->getContainerObjectsSize(); ++i) {
+			obj = inventory->getContainerObject(i);
+			
+			if (obj != NULL && obj->getObjectName()->getFullPath().contains(targetItem)) {
+				toolFound = true;
+				break;
+			}
+		}
+		
+		if (toolFound) {
+			ManagedReference<CraftingTool*> craftingTool = obj.castTo<CraftingTool*>();
+			
+			int timer2 = 1;
+
+			Reference<UpdateToolCountdownTask*> updateToolCountdownTask;
+			Reference<CreateObjectTask*> createObjectTask = new CreateObjectTask(creature, craftingTool, true);
+
+			ManagedReference<ZoneServer*> server = creature->getZoneServer();
+
+			if (server != NULL) {
+
+				Locker locker(craftingTool);
+				craftingTool->setBusy();
+
+				while (delay > 0) {
+					updateToolCountdownTask = new UpdateToolCountdownTask(creature, craftingTool, delay);
+					updateToolCountdownTask->schedule(timer2);
+					delay -= 1;
+					timer2 += 1000;
+				}
+
+				if (delay < 0) {
+					timer2 += (delay * 1000);
+					delay = 0;
+				}
+
+				updateToolCountdownTask = new UpdateToolCountdownTask(creature, craftingTool, delay);
+				updateToolCountdownTask->schedule(timer2);
+				createObjectTask->schedule(timer2);
+			}
+		}
+	}
 
 	void deactivateWoundTreatment(CreatureObject* creature) const {
 		float modSkill = (float)creature->getSkillMod("healing_wound_speed");
@@ -48,6 +100,8 @@ public:
 		StringIdChatParameter message("healing_response", "healing_response_59");
 		Reference<InjuryTreatmentTask*> task = new InjuryTreatmentTask(creature, message, "woundTreatment");
 		creature->addPendingTask("woundTreatment", task, delay * 1000);
+		
+		displayCoolDown(creature, delay, "food_tool");
 	}
 
 	void doAnimations(CreatureObject* creature, CreatureObject* creatureTarget) const {
@@ -195,13 +249,33 @@ public:
 
 	WoundPack* findWoundPack(CreatureObject* creature, uint8 attribute) const {
 		SceneObject* inventory = creature->getSlottedObject("inventory");
+		
+		if (inventory == NULL)
+			return NULL;
 
 		int medicineUse = creature->getSkillMod("healing_ability");
 
-		if (inventory != NULL) {
-			for (int i = 0; i < inventory->getContainerObjectsSize(); i++) {
-				SceneObject* object = inventory->getContainerObject(i);
+		for (int i = 0; i < inventory->getContainerObjectsSize(); i++) {
+			SceneObject* object = inventory->getContainerObject(i);
+			
+			// LoH Look in MedBags
+			if (object->isContainerObject() && object->getObjectName()->getFullPath().contains("medbag")) {
+				for (int j = 0; j < object->getContainerObjectsSize(); j++) {
+					SceneObject* bagItem = object->getContainerObject(j);
+					
+					if (!bagItem->isPharmaceuticalObject())
+					continue;
+					
+					PharmaceuticalObject* pharma = cast<PharmaceuticalObject*>(bagItem);
 
+					if (pharma->isWoundPack()) {
+						WoundPack* woundPack = cast<WoundPack*>(pharma);
+
+						if (woundPack->getMedicineUseRequired() <= medicineUse && woundPack->getAttribute() == attribute)
+							return woundPack;
+					}
+				}
+			} else {
 				if (!object->isPharmaceuticalObject())
 					continue;
 
@@ -215,7 +289,6 @@ public:
 				}
 			}
 		}
-
 		return NULL;
 	}
 
@@ -266,6 +339,9 @@ public:
 			if (inventory != NULL) {
 				woundPack = inventory->getContainerObject(objectId).castTo<WoundPack*>();
 			}
+			
+			if (woundPack == NULL)
+				woundPack = findWoundPack(creature, attribute);
 
 			if (woundPack == NULL) {
 				creature->sendSystemMessage("@healing_response:healing_response_66"); // That item does not heal wounds.
