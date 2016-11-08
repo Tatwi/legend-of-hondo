@@ -138,11 +138,13 @@ The following changes are designed to open up all of the content in the game to 
 - A cooldown will be placed on the first Food and Chemical Crafting Tool found in the player's inventory. The player can put it on his toolbar to keep track of the healing cooldown.
 - Support for the following commands: Heal Damage, Heal State, Heal Pet, Heal Enhance, and Heal Wound.
 
-####Crafted Armor
-At a later time I will ...
-- Make it so that the player isn't forced to wear a "mini suit" to avoid the extra encumberance caused by wearing a whole suit of armor; Wearing the whole suit will be just as good as wearing the "mini-suit", for types that have bracers/biceps/gloves/boots.
-- I'll also limit the player resistance to 80%.
-- More armor types and looted parts will be genuinely useful.
+####Player Armor
+- Removed the "mini-suit" concept; The player must wear armor on all available slots, with the following exceptions.
+- Ubese: Left/Right Biceps not possible/needed.
+- Mabari (Zam): Left/Right Biceps optional, will hit chest if missing. Left/Right Bracers required if not wearing Mabari gloves.
+- Wookiees: Chest, Legs, and Bracers = full suit.
+- Trandoshans: All pieces except boots and gloves required.
+- All other suits are simply incomplete and can be completed by using pieces from other suits.
 
 ####Food, Drink, and Forgaged Food
 - These remain the same.
@@ -168,6 +170,7 @@ src/server/zone/managers/combat/CombatManager.h
 - Weapon HAM cost changes.
 - Having Health wounds increases damage recieved
 - LoH Action encumberance design
+- Armor hit location changes
 
 src/server/zone/objects/creature/ai/AiAgent.idl
 - Hard limit NPC/Creature max HAM.

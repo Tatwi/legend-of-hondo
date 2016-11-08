@@ -47,7 +47,7 @@ public:
 	const static int RANDOM = 8;
 
 	// hitLocations
-	enum HitLocations { HIT_NONE, HIT_BODY, HIT_LARM, HIT_RARM, HIT_LLEG, HIT_RLEG, HIT_HEAD };
+	enum HitLocations { HIT_NONE, HIT_BODY, HIT_LARM, HIT_RARM, HIT_LLEG, HIT_RLEG, HIT_HEAD, HIT_HAND };
 
 	//Mitigation types
 	const static int PSG = 0x1;

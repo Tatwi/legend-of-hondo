@@ -962,7 +962,7 @@ int CombatManager::getArmorObjectReduction(ArmorObject* armor, int damageType) {
 
 	return MAX(0, (int)resist);
 }
-
+/*
 ArmorObject* CombatManager::getArmorObject(CreatureObject* defender, uint8 hitLocation) {
 
 	Vector<ManagedReference<ArmorObject*> > armor = defender->getWearablesDeltaVector()->getArmorAtHitLocation(hitLocation);
@@ -971,6 +971,133 @@ ArmorObject* CombatManager::getArmorObject(CreatureObject* defender, uint8 hitLo
 		return NULL;
 
 	return armor.get(System::random(armor.size()-1));
+}
+*/
+
+// LoH Armor hit simplification and removal of the "mini-suit" thing.
+// If armor is still NULL by the end of the function, you should be wearing a piece in that slot. 
+ArmorObject* CombatManager::getArmorObject(CreatureObject* defender, uint8 hitLocation) {
+	ArmorObject* armor = NULL;
+	String armorName = "";
+	String tempName = "";
+	
+	Logger::console.info("STEP 1: Input hitLocation was " + String::valueOf(hitLocation), true);
+	
+	switch(hitLocation) {
+		case HIT_BODY:
+			armorName = "chest2";
+			break;
+		case HIT_LARM: 
+		{
+			if (System::random(100) > 49) {
+				armorName = "bracer_upper_l";
+			} else {
+				armorName = "bicep_l";
+			}
+			break;
+		}
+		case HIT_RARM:
+		{
+			if (System::random(100) > 49) {
+				armorName = "bracer_upper_r";
+			} else {
+				armorName = "bicep_r";
+			}
+			break;
+		}
+		case HIT_LLEG:
+			armorName = "pants1";
+			break;
+		case HIT_RLEG: 
+			armorName = "shoes";
+			break;
+		case HIT_HEAD:
+			armorName = "hat";
+			break;
+		case HIT_HAND:
+			armorName = "gloves";
+			break;
+	}
+	
+	Logger::console.info("STEP 2: Converted hitLocation this word: " + armorName, true);
+	
+	// Try to get item at hit location
+	ManagedReference<SceneObject*> object = defender->getSlottedObject(armorName);
+	
+	// If item is armor, use it!
+	if (object != NULL && object->isArmorObject()){
+		armor = object.castTo<ArmorObject*>();
+		Logger::console.info("STEP 3: Armor found and used!", true);
+		return armor;
+	}
+	
+	// Wookiee?
+	if (defender->getSpecies() == CreatureObject::WOOKIE){
+		if (armorName.contains("bicep")) // Chest covers this on its own
+			armorName = "chest2";
+		
+		if (armorName.contains("gloves"))
+			armorName = "bicep_r";
+			
+		if (armorName.contains("hat"))
+			armorName = "chest2";
+		
+		if (armorName.contains("shoes"))
+			armorName = "pants1";
+		
+		// Try to get item at hit location
+		ManagedReference<SceneObject*> wookObject = defender->getSlottedObject(armorName);
+		
+		// If item is armor, use it!
+		if (wookObject != NULL && wookObject->isArmorObject())
+			armor = wookObject.castTo<ArmorObject*>();
+		
+		Logger::console.info("STEP 4: Wookiee found. Converted hitLocation this word: " + armorName, true);
+		return armor; // will return NULL if no armor object was found	
+	}
+	
+	// If item was NULL, see if it is a special case
+	if (object == NULL) {
+		// Biceps, Ubese forced off, Zam optional
+		if (armorName.contains("bicep")) {
+			ManagedReference<SceneObject*> noBicepChest = defender->getSlottedObject("chest2");
+			
+			if (noBicepChest != NULL)
+				tempName = noBicepChest->getObjectName()->getFullPath();
+			
+			if (tempName.contains("ubese") || tempName.contains("zam")) // Ubese chest covers this on its own, but Zam does not
+				armorName = "chest2";	
+		}
+		
+		// Bracers, Zam gloves means no bracers
+		if (armorName.contains("bracer")) {
+			ManagedReference<SceneObject*> maybeZam = defender->getSlottedObject("chest2");
+			
+			if (maybeZam != NULL)
+				tempName = maybeZam->getObjectName()->getFullPath();
+			
+			if (tempName.contains("zam"))
+				armorName = "gloves";
+		}
+		
+		// Boots, Trandoshan don't wear boots or gloves
+		if (defender->getSpecies() == CreatureObject::TRANDOSHAN && (armorName == "shoes" || armorName == "gloves"))
+			armorName = "pants1";
+	}
+	
+	// One last try at finding the armor piece after the special cases have been checked
+	ManagedReference<SceneObject*> finalObject = defender->getSlottedObject(armorName);
+	
+	if (finalObject != NULL && finalObject->isArmorObject())
+		armor = finalObject.castTo<ArmorObject*>();
+	
+	if (armor == NULL) {
+		Logger::console.info("Step 5: NO ARMOR FOUND at location hit: " + armorName, true);
+	} else {
+		Logger::console.info("Step 6: Armor successfully directed to location: " + armorName, true);
+	}
+		
+	return armor; // will return NULL if no armor object was found	
 }
 
 ArmorObject* CombatManager::getPSGArmor(CreatureObject* defender) {
@@ -1863,8 +1990,8 @@ int CombatManager::applyDamage(TangibleObject* attacker, WeaponObject* weapon, C
 	// LoH Damage Model: Health only, no "spill-over", only one wound pool per attack.
 	
 	if (healthDamaged || actionDamaged || mindDamaged) {
-		static uint8 bodyLocations[] = {HIT_HEAD, HIT_BODY, HIT_BODY, HIT_LARM, HIT_RARM, HIT_LLEG, HIT_RLEG};
-		hitLocation = bodyLocations[System::random(6)];
+		static uint8 bodyLocations[] = {HIT_HEAD, HIT_BODY, HIT_BODY, HIT_LARM, HIT_RARM, HIT_LLEG, HIT_RLEG, HIT_HAND};
+		hitLocation = bodyLocations[System::random(7)];
 
 		healthDamage = getArmorReduction(attacker, weapon, defender, damage * data.getHealthDamageMultiplier(), hitLocation, data) * damageMultiplier;
 		healthDamage -= MIN(healthDamage, foodMitigation * data.getHealthDamageMultiplier());
