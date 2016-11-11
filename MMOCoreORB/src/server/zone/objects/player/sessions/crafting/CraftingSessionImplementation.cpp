@@ -1203,15 +1203,17 @@ void CraftingSessionImplementation::createPrototype(int clientCounter, bool crea
 		String xpType = manufactureSchematic->getDraftSchematic()->getXpType();
 		int xp = manufactureSchematic->getDraftSchematic()->getXpAmount();
 
+		int delay = MIN(10 + System::random(10), manufactureSchematic->getComplexity()); // LoH reduced timer
+
 		if (createItem) {
 
-			startCreationTasks(manufactureSchematic->getComplexity() * 2, false);
+			startCreationTasks(delay, false);
 
 		} else {
 
 			// This is for practicing
-			startCreationTasks(manufactureSchematic->getComplexity() * 2, true);
-			xp = round(xp * 1.05f);
+			startCreationTasks(delay, true);
+			xp = round(xp * 2.5f); // LoH 250% XP bonus!
 		}
 
 		Reference<PlayerManager*> playerManager = crafter->getZoneServer()->getPlayerManager();
@@ -1255,8 +1257,8 @@ void CraftingSessionImplementation::startCreationTasks(int timer, bool practice)
 			updateToolCountdownTask = new UpdateToolCountdownTask(crafter,
 					craftingTool, timer);
 			updateToolCountdownTask->schedule(timer2);
-			timer -= 5;
-			timer2 += 5000;
+			timer -= 1;
+			timer2 += 1000; // LoH update every 1 second
 		}
 
 		if (timer < 0) {

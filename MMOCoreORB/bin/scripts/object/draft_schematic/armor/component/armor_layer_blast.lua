@@ -62,12 +62,12 @@ object_draft_schematic_armor_component_armor_layer_blast = object_draft_schemati
    customizationStringNames = {},
    customizationDefaults = {},
 
-   ingredientTemplateNames = {"craft_armor_ingredients_n", "craft_armor_ingredients_n", "craft_armor_ingredients_n", "craft_armor_ingredients_n"},
-   ingredientTitleNames = {"armor_layer_frame", "defensive_layer_microlattice", "shockwave_repulsion_compound", "blast_harmonics_absorbtion_medium"},
-   ingredientSlotType = {0, 0, 0, 0},
-   resourceTypes = {"metal_ferrous", "petrochem_inert_polymer", "gemstone_armophous", "ore_intrusive"},
-   resourceQuantities = {25, 10, 8, 3},
-   contribution = {100, 100, 100, 100},
+   ingredientTemplateNames = {"craft_armor_ingredients_n", "craft_armor_ingredients_n", "craft_armor_ingredients_n"},
+   ingredientTitleNames = {"armor_segment_zam", "segment_mounting_tabs", "segment_enhancement"},
+   ingredientSlotType = {0, 0, 3},
+   resourceTypes = {"steel", "ore_intrusive", "object/tangible/component/armor/shared_base_armor_segment_enhancement.iff"},
+   resourceQuantities = {35, 35, 1},
+   contribution = {100, 100, 100},
 
 
    targetTemplate = "object/tangible/component/armor/armor_layer_blast.iff",

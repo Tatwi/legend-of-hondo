@@ -428,7 +428,7 @@ bool FactoryObjectImplementation::startFactory() {
 			return false;
 	}
 
-	timer = ((int)schematic->getComplexity()) * 8;
+	timer = 5 + System::random(15); // LoH Reduced run time
 
 	if(!populateSchematicBlueprint(schematic))
 		return false;

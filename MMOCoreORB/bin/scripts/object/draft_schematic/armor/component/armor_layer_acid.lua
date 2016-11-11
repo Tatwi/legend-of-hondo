@@ -63,10 +63,10 @@ object_draft_schematic_armor_component_armor_layer_acid = object_draft_schematic
    customizationDefaults = {},
 
    ingredientTemplateNames = {"craft_armor_ingredients_n", "craft_armor_ingredients_n", "craft_armor_ingredients_n"},
-   ingredientTitleNames = {"armor_layer_frame", "defensive_layer_microlattice", "chemical_neutralization_medium"},
-   ingredientSlotType = {0, 0, 0},
-   resourceTypes = {"metal_nonferrous", "gemstone_crystalline", "gas_reactive_skevon"},
-   resourceQuantities = {20, 10, 14},
+   ingredientTitleNames = {"armor_segment_zam", "segment_mounting_tabs", "segment_enhancement"},
+   ingredientSlotType = {0, 0, 3},
+   resourceTypes = {"copper", "gas_reactive_skevon", "object/tangible/component/armor/shared_base_armor_segment_enhancement.iff"},
+   resourceQuantities = {35, 35, 1},
    contribution = {100, 100, 100},
 
 
