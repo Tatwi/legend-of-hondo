@@ -27,7 +27,14 @@ tatooine_mynock = Creature:new {
 
 	templates = {"object/mobile/mynock.iff"},
 	controlDeviceTemplate = "object/intangible/pet/mynock_hue.iff",
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_insects", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {

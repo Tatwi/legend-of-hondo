@@ -26,7 +26,14 @@ rock_beetle = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/rock_beetle.iff"},
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_insects", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {"creature_spit_small_yellow"},
 	conversationTemplate = "",
 	attacks = {

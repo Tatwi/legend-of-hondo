@@ -28,7 +28,14 @@ rockmite = Creature:new {
 	templates = {"object/mobile/rock_mite.iff"},
 	controlDeviceTemplate = "object/intangible/pet/rock_mite_hue.iff",
 	scale = 0.6,
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_insects", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {

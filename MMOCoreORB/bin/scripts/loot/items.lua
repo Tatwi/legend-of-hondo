@@ -202,6 +202,10 @@ includeFile("items/creature/sharnaff_plating_segment.lua")
 includeFile("items/creature/voritor_lizard_hide_segment.lua")
 includeFile("items/creature/voritor_lizard_scales.lua")
 includeFile("items/creature/woolamander_harrower_bone_fragments.lua")
+includeFile("items/creature/dune_lizard_scales.lua")
+includeFile("items/creature/tiny_scales.lua")
+includeFile("items/creature/tiny_bone_chip.lua")
+includeFile("items/creature/tiny_carapace.lua")
 
 -- death_watch_bunker sub-folder
 includeFile("items/death_watch_bunker/alum_gel_packet.lua")

@@ -43,6 +43,7 @@
 
 object_tangible_wearables_armor_marauder_armor_marauder_s02_chest_plate_quest = object_tangible_wearables_armor_marauder_shared_armor_marauder_s02_chest_plate_quest:new {
 	templateType = ARMOROBJECT,
+	objectMenuComponent = "ArmorObjectMenuComponent",
 
 	playerRaces = { "object/creature/player/bothan_male.iff",
 				"object/creature/player/bothan_female.iff",
@@ -91,9 +92,9 @@ object_tangible_wearables_armor_marauder_armor_marauder_s02_chest_plate_quest = 
 	vulnerability = ELECTRICITY + ACID + STUN + LIGHTSABER,
 
 	-- These are default Blue Frog stats
-	healthEncumbrance = 1,
-	actionEncumbrance = 1,
-	mindEncumbrance = 1,
+	healthEncumbrance = 115,
+	actionEncumbrance = 31,
+	mindEncumbrance = 26,
 
 	-- LIGHT, MEDIUM, HEAVY
 	rating = LIGHT,

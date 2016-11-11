@@ -143,6 +143,27 @@ int ContainerImplementation::canAddObject(SceneObject* object, int containmentTy
 		return TransferErrorCode::INVALIDTYPE;
 	}
 
+	// LoH Prevent nested crafting hoppers
+	if (object->isCraftingStation()) {
+		if (gameObjectType == SceneObjectType::CRAFTINGSTATION || gameObjectType == SceneObjectType::WEARABLECONTAINER || gameObjectType == SceneObjectType::FURNITURE){
+			errorDescription = "@container_error_message:container12"; // This item is too bulky to fit inside this container.
+			return TransferErrorCode::CANTNESTOBJECT;
+		}
+		
+		ManagedReference<SceneObject*> playerParent = getParentRecursively(SceneObjectType::PLAYERCREATURE);
+		SceneObject* thisParent = getParent().get();
+		
+		if (playerParent == NULL && !thisParent->isCellObject()) {
+			errorDescription = "@container_error_message:container07"; // You cannot put that kind of item in that kind of container.
+			return TransferErrorCode::INVALIDTYPE;
+		}
+		
+		if (playerParent != NULL && object->getParentRecursively(SceneObjectType::PLAYERCREATURE) == playerParent) {
+			errorDescription = "@container_error_message:container07"; // You cannot put that kind of item in that kind of container.
+			return TransferErrorCode::INVALIDTYPE;
+		}
+	}
+	
 	if (containmentType == -1) {
 		if ((gameObjectType == SceneObjectType::WEARABLECONTAINER && object->getGameObjectType() == SceneObjectType::WEARABLECONTAINER)) {
 			errorDescription = "@container_error_message:container12"; // This item is too bulky to fit inside this container.

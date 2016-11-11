@@ -26,7 +26,14 @@ gorg = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/gorg.iff"},
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_animals", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {

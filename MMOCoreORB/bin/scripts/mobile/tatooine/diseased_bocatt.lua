@@ -27,7 +27,14 @@ diseased_bocatt = Creature:new {
 
 	templates = {"object/mobile/bocatt.iff"},
 	scale = 0.8,
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_lizards", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {

@@ -11,6 +11,14 @@
 #include "server/zone/objects/scene/components/ObjectMenuComponent.h"
 #include "server/zone/packets/object/ObjectMenuResponse.h"
 
+#include "server/zone/objects/building/BuildingObject.h"
+#include "server/zone/objects/player/sui/colorbox/SuiColorBox.h"
+#include "server/zone/objects/player/sui/SuiCallback.h"
+#include "server/zone/objects/player/sui/callbacks/ColorArmorSuiCallback.h"
+#include "server/zone/Zone.h"
+#include "server/zone/ZoneServer.h"
+#include "templates/customization/AssetCustomizationManagerTemplate.h"
+
 void WearableObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, ObjectMenuResponse* menuResponse, CreatureObject* player) const {
 
 	if(!sceneObject->isTangibleObject())
@@ -22,6 +30,25 @@ void WearableObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObjec
 
 	if(tano->getConditionDamage() > 0 && tano->canRepair(player)) {
 		menuResponse->addRadialMenuItem(70, 3, "@sui:repair"); // Slice
+	}
+	
+	String appearanceFilename = sceneObject->getObjectTemplate()->getAppearanceFilename();
+	VectorMap<String, Reference<CustomizationVariable*> > variables;
+	AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variables, false);
+	
+	String varkey = variables.elementAt(0).getKey();
+	
+	if (varkey.contains("color")) {
+		menuResponse->addRadialMenuItem(81, 3, "Change Colors");
+		
+		for(int i = 0; i< variables.size(); ++i){
+			varkey = variables.elementAt(i).getKey();
+			
+			if (varkey.contains("color")) {
+				String optionName = "Color " + String::valueOf(i + 1);
+				menuResponse->addRadialMenuItemToRadialID(81, (82 + i), 3, optionName); // sub-menu
+			}
+		}
 	}
 
 	TangibleObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player);
@@ -44,6 +71,56 @@ int WearableObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 		tano->repair(player);
 
 		return 1;
+	}
+	
+		if (selectedID > 81) {
+		
+		ManagedReference<SceneObject*> parent = sceneObject->getParent().get();
+	
+		if (parent == NULL)
+			return 0;
+	
+		if (parent->isPlayerCreature()) {
+			player->sendSystemMessage("@armor_rehue:equipped");
+			return 0;
+		}	
+
+		if (parent->isCellObject()) {
+			ManagedReference<SceneObject*> obj = parent->getParent().get();
+
+			if (obj != NULL && obj->isBuildingObject()) {
+				ManagedReference<BuildingObject*> buio = cast<BuildingObject*>(obj.get());
+
+				if (!buio->isOnAdminList(player))
+					return 0;
+			}
+		}
+		else
+		{
+			if (!sceneObject->isASubChildOf(player))
+				return 0;
+		}
+
+		ZoneServer* server = player->getZoneServer();
+
+		if (server != NULL) {
+			// The color index.
+			String appearanceFilename = sceneObject->getObjectTemplate()->getAppearanceFilename();
+
+			VectorMap<String, Reference<CustomizationVariable*> > variables;
+			AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variables, false);
+
+			// The Sui Box.
+			ManagedReference<SuiColorBox*> cbox = new SuiColorBox(player, SuiWindowType::COLOR_ARMOR);
+			cbox->setCallback(new ColorArmorSuiCallback(server));
+			cbox->setColorPalette(variables.elementAt(selectedID - 82).getKey()); // 0, 1, 2, 3...
+			cbox->setUsingObject(sceneObject);
+
+			// Add to player.
+			ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
+			ghost->addSuiBox(cbox);
+			player->sendMessage(cbox->generateMessage());
+		}
 	}
 
 	return TangibleObjectMenuComponent::handleObjectMenuSelect(sceneObject, player, selectedID);

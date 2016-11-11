@@ -272,4 +272,7 @@ class ArmorObject extends WearableObject {
 	public void setHitLocation(unsigned byte h) {
 		hitLocation = h;
 	}
+	
+	@dirty
+	public native float getResist(int type);
 }

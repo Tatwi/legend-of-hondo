@@ -63,10 +63,10 @@ object_draft_schematic_armor_component_armor_layer_kinetic = object_draft_schema
    customizationDefaults = {},
 
    ingredientTemplateNames = {"craft_armor_ingredients_n", "craft_armor_ingredients_n", "craft_armor_ingredients_n"},
-   ingredientTitleNames = {"armor_layer_shock_casing", "ablative_damage_absorbtion_medium", "shockwave_repulsion_compound"},
-   ingredientSlotType = {0, 0, 0},
-   resourceTypes = {"metal", "petrochem_inert_polymer", "gemstone_armophous"},
-   resourceQuantities = {20, 8, 8},
+   ingredientTitleNames = {"armor_segment_zam", "segment_mounting_tabs", "segment_enhancement"},
+   ingredientSlotType = {0, 0, 3},
+   resourceTypes = {"steel", "hide", "object/tangible/component/armor/shared_base_armor_segment_enhancement.iff"},
+   resourceQuantities = {35, 35, 1},
    contribution = {100, 100, 100},
 
 

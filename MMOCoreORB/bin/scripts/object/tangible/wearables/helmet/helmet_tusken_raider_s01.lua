@@ -50,9 +50,33 @@ object_tangible_wearables_helmet_helmet_tusken_raider_s01 = object_tangible_wear
 				"object/mobile/vendor/human_male.iff",
 				"object/mobile/vendor/zabrak_female.iff",
 				"object/mobile/vendor/zabrak_male.iff" },
-				gameObjectType = 16777226,
-				clientGameObjectType = 16777226
-				
+
+	templateType = ARMOROBJECT,
+	objectMenuComponent = "ArmorObjectMenuComponent",
+	
+	vulnerability = BLAST + ELECTRICITY + HEAT + COLD + ACID + LIGHTSABER,
+
+	specialResists = STUN,
+
+	-- These are default Blue Frog stats
+	healthEncumbrance = 80,
+	actionEncumbrance = 80,
+	mindEncumbrance = 225,
+
+	maxCondition = 30000,
+
+	-- LIGHT, MEDIUM, HEAVY
+	rating = LIGHT,
+
+	kinetic = 35,
+	energy = 35,
+	electricity = 0,
+	stun = 15,
+	blast = 0,
+	heat = 15,
+	cold = 0,
+	acid = 0,
+	lightSaber = 0,			
 }
 
 ObjectTemplates:addTemplate(object_tangible_wearables_helmet_helmet_tusken_raider_s01, "object/tangible/wearables/helmet/helmet_tusken_raider_s01.iff")

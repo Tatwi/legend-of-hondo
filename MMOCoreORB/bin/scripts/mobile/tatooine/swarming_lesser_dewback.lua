@@ -27,7 +27,14 @@ swarming_lesser_dewback = Creature:new {
 
 	templates = {"object/mobile/swarming_lesser_dewback.iff"},
 	scale = 0.9,
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_animals", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {

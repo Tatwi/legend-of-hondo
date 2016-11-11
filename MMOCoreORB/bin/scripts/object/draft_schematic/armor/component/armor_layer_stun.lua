@@ -63,10 +63,10 @@ object_draft_schematic_armor_component_armor_layer_stun = object_draft_schematic
    customizationDefaults = {},
 
    ingredientTemplateNames = {"craft_armor_ingredients_n", "craft_armor_ingredients_n", "craft_armor_ingredients_n"},
-   ingredientTitleNames = {"armor_layer_frame", "multi_frequency_shock_absorbtion_media", "multi_frequency_shock_absorbtion_media_2"},
-   ingredientSlotType = {0, 0, 0},
-   resourceTypes = {"metal_ferrous", "crystalline_vertex", "ore_siliclastic_crism"},
-   resourceQuantities = {25, 10, 12},
+   ingredientTitleNames = {"armor_segment_zam", "segment_mounting_tabs", "segment_enhancement"},
+   ingredientSlotType = {0, 0, 3},
+   resourceTypes = {"iron", "ore_siliclastic_crism", "object/tangible/component/armor/shared_base_armor_segment_enhancement.iff"},
+   resourceQuantities = {35, 35, 1},
    contribution = {100, 100, 100},
 
 

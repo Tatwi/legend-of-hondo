@@ -634,10 +634,12 @@ void SlicingSessionImplementation::handleArmorSlice() {
 
 	switch (sliceType) {
 	case 0:
-		handleSliceEffectiveness(percent);
+		//handleSliceEffectiveness(percent);
+		handleHondoSliceArmor(true); // Best
 		break;
 	case 1:
-		handleSliceEncumbrance(percent);
+		//handleSliceEncumbrance(percent);
+		handleHondoSliceArmor(false); // Worst
 		break;
 	}
 }
@@ -682,6 +684,156 @@ void SlicingSessionImplementation::handleSliceEffectiveness(uint8 percent) {
 	params.setStringId("@slicing/slicing:eff_mod");
 
 	player->sendSystemMessage(params);
+}
+
+// LoH Slicing armor always turns a vulnerability into a special resist (of equal value to an existing resist on the item).
+void SlicingSessionImplementation::handleHondoSliceArmor(bool best) {
+	ManagedReference<CreatureObject*> player = this->player.get();
+	ManagedReference<TangibleObject*> tangibleObject = this->tangibleObject.get();
+
+	if (tangibleObject == NULL || player == NULL || !tangibleObject->isArmorObject())
+		return;
+
+	ArmorObject* armor = cast<ArmorObject*>( tangibleObject.get());
+
+	Locker locker(armor);
+	
+	// Get all values (and thus vulnerabilities)
+	float resistValues[] = {armor->getKinetic(), armor->getEnergy(), armor->getBlast(), armor->getStun(), armor->getHeat(), armor->getCold(), armor->getAcid(), armor->getElectricity(), armor->getLightSaber()};
+	float bestResist = resistValues[0];
+	float worstResist = resistValues[0];
+	float selectedValue = 0.f;
+	bool hasVuln = false;
+	
+	// Find the best and worst values
+	for (int i = 0; i <= 8; ++i) {
+		if (resistValues[i] == 0) {
+			hasVuln = true;
+			continue;
+		}
+		
+		if (resistValues[i] > bestResist)
+			bestResist = resistValues[i];
+		
+		if (resistValues[i] < worstResist)
+			worstResist = resistValues[i];
+	}
+	
+	// If the armor doesn't have any vulnerabilities, then there's nothing to change. 
+	if (!hasVuln) {
+		armor->setSliced(true);
+		player->sendSystemMessage("Your efforts to slice the armor were successful, however they didn't seem to make the piece any better than it already was...");
+		return;
+	}
+	
+	selectedValue = worstResist;
+	
+	StringBuffer msg; 
+	msg << "You successfully made the armor piece resistent to ";
+	
+	if (best)
+		selectedValue = bestResist; // Determined in previous slicing step
+	
+	// 4. Pick a random vulnerability to change into a resist
+	bool pickedVuln = false;
+	int vuln = 0;
+	int rng = System::random(8);
+	
+	while (!pickedVuln) {
+		if (resistValues[rng] == 0) {
+			vuln = rng;
+			pickedVuln = true;
+		}
+		
+		rng = System::random(8);
+	}
+	
+	// Set the chosen stat as a resist (Can never be KINETIC or ENERGY, because all LoH armor has kinetic and energy)
+	switch (vuln) {
+	case 2:
+		armor->setBlast(selectedValue);
+		msg << "BLAST damage, ";
+		player->sendSystemMessage("BLAST " + String::valueOf(selectedValue));
+		break;
+	case 3:
+		armor->setStun(selectedValue);
+		msg << "STUN damage, ";
+		player->sendSystemMessage("STUN " + String::valueOf(selectedValue));
+		break;
+	case 4:
+		armor->setHeat(selectedValue);
+		msg << "HEAT damage, ";
+		player->sendSystemMessage("HEAT " + String::valueOf(selectedValue));
+		break;
+	case 5:
+		armor->setCold(selectedValue);
+		msg << "COLD damage, ";
+		player->sendSystemMessage("COLD " + String::valueOf(selectedValue));
+		break;
+	case 6:
+		armor->setAcid(selectedValue);
+		msg << "ACID damage, ";
+		player->sendSystemMessage("ACID " + String::valueOf(selectedValue));
+		break;
+	case 7:
+		armor->setElectricity(selectedValue);
+		msg << "ELECTRICITY damage, ";
+		player->sendSystemMessage("ELECTRICITY " + String::valueOf(selectedValue));
+		break;
+	case 8:
+		armor->setLightSaber(selectedValue);
+		msg << "LIGHTSABER damage, ";
+		player->sendSystemMessage("LIGHTSABER " + String::valueOf(selectedValue));
+		break;
+	}
+	
+	if (selectedValue != worstResist){
+		msg << "because you're just that awesome!"; // Picked the best possible value.
+	} else if (bestResist != worstResist){
+		msg << "but you sorta feel like you could have done a better job... Oh, well. ";
+	
+		rng = System::random(9);
+		
+		// Add a nerdy reference to lighten the mood after picking the worst available value...
+		switch (rng) {
+		case 0:
+			msg << "You never worry about the odds!";
+			break;
+		case 1:
+			msg << "It's not like you have the power of a fully operational battle station at your disposal, right?";
+			break;
+		case 2:
+			msg << "Some terrifying space monkeys maybe got loose? Just... just go with that.";
+			break;
+		case 3:
+			msg << "Search your feelings. You know that only Imperial Stormtroopers are so precise.";
+			break;
+		case 4:
+			msg << "You used to bulls-eye womp rats in your T-16 back home. You'll always have that to fall back on.";
+			break;
+		case 5:
+			msg << "Give yourself to the Dark Side. It's the only way you can...";
+			break;
+		case 6:
+			msg << "The circle is now complete. Though you may have lost the bleeps, the sweeps, and the creeps.";
+			break;
+		case 7:
+			msg << "God willing, we'll all meet again in Spaceballs 2: The Search for More Money.";
+			break;
+		case 8:
+			msg << "Aren't you a little short for a Stormtrooper?";
+			break;
+		case 9:
+			msg << "There's no power in the 'verse that can stop you from being cheerful!";
+			break;
+		}
+	} else {
+		msg << "because you're a Smuggler, not an interior decorator."; // All resists were the same value, so you couldn't "fail".
+	}
+	
+	player->sendSystemMessage(msg.toString());
+	
+	armor->setSliced(true);
 }
 
 void SlicingSessionImplementation::handleContainerSlice() {

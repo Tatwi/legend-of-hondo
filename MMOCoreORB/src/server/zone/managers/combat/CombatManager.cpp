@@ -1023,7 +1023,7 @@ ArmorObject* CombatManager::getArmorObject(CreatureObject* defender, uint8 hitLo
 	// If item is armor, use it!
 	if (object != NULL && object->isArmorObject()){
 		armor = object.castTo<ArmorObject*>();
-		Logger::console.info("STEP 3: Armor found and used!", true);
+
 		return armor;
 	}
 	
@@ -1952,6 +1952,50 @@ int CombatManager::calculatePoolsToDamage(int poolsToDamage) {
 	return poolsToDamage;
 }
 
+void CombatManager::sendDamageTypeCombatSpam(CreatureObject* defender, WeaponObject* weapon) {
+	int damageType = weapon->getDamageType();
+	StringBuffer dmgtxt;
+	
+	dmgtxt << "You were hit with ";
+	
+	switch (damageType) {
+	case SharedWeaponObjectTemplate::KINETIC:
+		dmgtxt << "Kinetic";
+		break;
+	case SharedWeaponObjectTemplate::ENERGY:
+		dmgtxt << "Energy";
+		break;
+	case SharedWeaponObjectTemplate::ELECTRICITY:
+		dmgtxt << "Electricity";
+		break;
+	case SharedWeaponObjectTemplate::STUN:
+		dmgtxt << "Stun";
+		break;
+	case SharedWeaponObjectTemplate::BLAST:
+		dmgtxt << "Blast";
+		break;
+	case SharedWeaponObjectTemplate::HEAT:
+		dmgtxt << "Heat";
+		break;
+	case SharedWeaponObjectTemplate::COLD:
+		dmgtxt << "Cold";
+		break;
+	case SharedWeaponObjectTemplate::ACID:
+		dmgtxt << "Acid";
+		break;
+	case SharedWeaponObjectTemplate::LIGHTSABER:
+		dmgtxt << "Lightsaber";
+		break;
+	default:
+		dmgtxt << "Unknown";
+		break;
+	}
+	
+	dmgtxt << " damage.";
+	
+	defender->sendCustomCombatSpam(dmgtxt.toString(), 10); // 10 is red text color
+}
+
 int CombatManager::applyDamage(TangibleObject* attacker, WeaponObject* weapon, CreatureObject* defender, int damage, float damageMultiplier, int poolsToDamage, uint8& hitLocation, const CreatureAttackData& data) {
 	if (poolsToDamage == 0 || damageMultiplier == 0)
 		return 0;
@@ -1987,6 +2031,10 @@ int CombatManager::applyDamage(TangibleObject* attacker, WeaponObject* weapon, C
 	int foodMitigation = 0;
 	if (foodBonus > 0)
 		foodMitigation = (int)(damage * foodBonus / 100.f);
+	
+	// LoH Tell player the damage type they were hit with
+	if(defender->isPlayerCreature())
+		sendDamageTypeCombatSpam(defender, weapon);
 		
 	// LoH Damage Model: Health only, no "spill-over", only one wound pool per attack.
 	

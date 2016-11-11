@@ -51,11 +51,11 @@ object_draft_schematic_clothing_component_clothing_synthetic_cloth = object_draf
    complexity = 15, 
    size = 2, 
 
-   xpType = "crafting_clothing_general", 
+   xpType = "crafting_general", 
    xp = 45, 
 
-   assemblySkill = "clothing_assembly", 
-   experimentingSkill = "clothing_experimentation", 
+   assemblySkill = "general_assembly", 
+   experimentingSkill = "general_experimentation", 
    customizationSkill = "clothing_customization", 
 
    customizationOptions = {},

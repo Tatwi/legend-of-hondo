@@ -27,7 +27,14 @@ death_kreetle = Creature:new {
 
 	templates = {"object/mobile/kreetle.iff"},
 	scale = 2,
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_insects", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {

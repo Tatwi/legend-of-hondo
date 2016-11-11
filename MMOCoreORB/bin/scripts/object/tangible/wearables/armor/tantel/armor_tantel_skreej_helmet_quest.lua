@@ -78,26 +78,31 @@ object_tangible_wearables_armor_tantel_armor_tantel_skreej_helmet_quest = object
 				"object/mobile/vendor/zabrak_female.iff",
 				"object/mobile/vendor/zabrak_male.iff" },
 	
-	-- Damage types in WeaponObject
-	vulnerability = LIGHTSABER,
+	objectMenuComponent = "ArmorObjectMenuComponent",
+	
+	vulnerability = BLAST + STUN + COLD + ELECTRICITY + ACID + LIGHTSABER,
+
+	specialResists = HEAT,
 
 	-- These are default Blue Frog stats
-	healthEncumbrance = 1,
-	actionEncumbrance = 1,
-	mindEncumbrance = 1,
+	healthEncumbrance = 45,
+	actionEncumbrance = 45,
+	mindEncumbrance = 175,
+
+	maxCondition = 30000,
 
 	-- LIGHT, MEDIUM, HEAVY
 	rating = LIGHT,
 
-	kinetic = 15,
-	energy = 15,
-	electricity = 15,
-	stun = 15,
-	blast = 15,
-	heat = 15,
-	cold = 15,
-	acid = 15,
-	lightSaber = 0
+	kinetic = 20,
+	energy = 20,
+	electricity = 0,
+	stun = 0,
+	blast = 0,
+	heat = 25,
+	cold = 0,
+	acid = 0,
+	lightSaber = 0,
 }
 
 ObjectTemplates:addTemplate(object_tangible_wearables_armor_tantel_armor_tantel_skreej_helmet_quest, "object/tangible/wearables/armor/tantel/armor_tantel_skreej_helmet_quest.iff")

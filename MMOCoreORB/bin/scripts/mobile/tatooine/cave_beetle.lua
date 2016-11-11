@@ -28,7 +28,14 @@ cave_beetle = Creature:new {
 	templates = {"object/mobile/rock_beetle.iff"},
 	controlDeviceTemplate = "object/intangible/pet/rock_mite_hue.iff",
 	scale = 1.1,
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_insects", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {"creature_spit_small_yellow"},
 	conversationTemplate = "",
 	attacks = {

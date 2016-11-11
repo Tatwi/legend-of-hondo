@@ -63,10 +63,10 @@ object_draft_schematic_armor_component_armor_layer_electrical = object_draft_sch
    customizationDefaults = {},
 
    ingredientTemplateNames = {"craft_armor_ingredients_n", "craft_armor_ingredients_n", "craft_armor_ingredients_n"},
-   ingredientTitleNames = {"armor_layer_frame", "primary_insulator_micro_layer", "secondary_insulator_microsheath"},
-   ingredientSlotType = {0, 0, 0},
-   resourceTypes = {"copper", "petrochem_inert_polymer", "ore_siliclastic"},
-   resourceQuantities = {25, 10, 12},
+   ingredientTitleNames = {"armor_segment_zam", "segment_mounting_tabs", "segment_enhancement"},
+   ingredientSlotType = {0, 0, 3},
+   resourceTypes = {"iron", "ore_siliclastic", "object/tangible/component/armor/shared_base_armor_segment_enhancement.iff"},
+   resourceQuantities = {35, 35, 1},
    contribution = {100, 100, 100},
 
 
