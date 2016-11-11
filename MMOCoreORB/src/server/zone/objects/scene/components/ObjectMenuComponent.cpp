@@ -47,8 +47,7 @@ void ObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Objec
 	if (sceneObject->isPlayerCreature() || sceneObject->isPet())
 		return;
 
-	menuResponse->addRadialMenuItem(10, 3, "@ui_radial:item_pickup"); //Pick up
-
+/* LoH Disabled due to the 8 root node limit for the radial menu. Making space for more useful things.
 	menuResponse->addRadialMenuItem(54, 1, "@ui_radial:item_move"); //Move
 	menuResponse->addRadialMenuItem(51, 1, "@ui_radial:item_rotate"); //Rotate
 
@@ -59,7 +58,7 @@ void ObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Objec
 
 	menuResponse->addRadialMenuItemToRadialID(51, 52, 3, "@ui_radial:item_rotate_left"); //Rotate Left
 	menuResponse->addRadialMenuItemToRadialID(51, 53, 3, "@ui_radial:item_rotate_right"); //Rotate Right
-
+*/
 	if (adminLevelCheck == 15 && playersParent == NULL) {
 		if (parent != NULL){
 			menuResponse->addRadialMenuItem(73, 3, "Admin Drop Outside");
@@ -67,6 +66,12 @@ void ObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, Objec
 			menuResponse->addRadialMenuItem(72, 3, "Admin Pickup Outside");
 		}
 	}
+	
+	// Don't show normal "Pickup" in player inventory or outside to Admin characters
+	if (parent == NULL || !parent->isCellObject())
+		return;
+		
+	menuResponse->addRadialMenuItem(10, 3, "@ui_radial:item_pickup"); //Pick up
 }
 
 

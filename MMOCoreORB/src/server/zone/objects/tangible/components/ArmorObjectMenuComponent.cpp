@@ -3,7 +3,7 @@
  *
  *  Created on: 2/4/2013
  *      Author: bluree
- *		Credits: TA & Valk
+ *		Credits: TA & Valk & Kinshi (recolor)
  */
 
 #include "server/zone/objects/creature/CreatureObject.h"
@@ -42,15 +42,17 @@ void ArmorObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, 
 			return;
 	}
 
-	String text = "Color Change";
+	String text = "Change Color";
+	String text2 = "Color 2";
 	menuResponse->addRadialMenuItem(81, 3, text);
+	menuResponse->addRadialMenuItemToRadialID(81, 82, 3, text2); // sub-menu
 	
     WearableObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player); 	
 }
 
 int ArmorObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
 
-	if (selectedID == 81) {
+	if (selectedID == 81 || selectedID == 82) {
 		
 		ManagedReference<SceneObject*> parent = sceneObject->getParent().get();
 	
@@ -84,13 +86,20 @@ int ArmorObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, C
 
 		// The color index.
 		String appearanceFilename = sceneObject->getObjectTemplate()->getAppearanceFilename();
+
 		VectorMap<String, Reference<CustomizationVariable*> > variables;
 		AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variables, false);
 
 		// The Sui Box.
 		ManagedReference<SuiColorBox*> cbox = new SuiColorBox(player, SuiWindowType::COLOR_ARMOR);
 		cbox->setCallback(new ColorArmorSuiCallback(server));
-		cbox->setColorPalette(variables.elementAt(1).getKey()); // First one seems to be the frame of it? Skip to 2nd.
+		
+		if (selectedID == 81) {
+			cbox->setColorPalette(variables.elementAt(1).getKey()); // Accent
+		} else if (selectedID == 82) {
+			cbox->setColorPalette(variables.elementAt(0).getKey()); // Frame
+		}
+		
 		cbox->setUsingObject(sceneObject);
 
 		// Add to player.
