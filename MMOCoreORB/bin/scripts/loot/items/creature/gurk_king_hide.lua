@@ -8,7 +8,8 @@ gurk_king_hide = {
 	craftingValues = {
 		{"armor_special_type",0,0,0,0},
 		{"armor_special_effectiveness",0,0,0,0},
-		{"useCount",1,10,0},
+		{"armor_integrity",1000,5000,0},
+		{"useCount",1,2,0},
 	},
 	customizationStringNames = {},
 	customizationValues = {}

@@ -5,8 +5,9 @@ kimogila_common = {
 	minimumLevel = 0,
 	maximumLevel = 0,
 	lootItems = {
-		{itemTemplate = "voritor_lizard_scales", weight = 5000000},
-		{itemTemplate = "kimogila_scales", weight = 5000000}
+		{itemTemplate = "voritor_lizard_scales", weight = 2500000},
+		{itemTemplate = "kimogila_scales", weight = 7000000},
+		{itemTemplate = "giant_dune_kimogila_scale", weight = 500000}
 	}
 }
 

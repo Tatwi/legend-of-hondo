@@ -6,9 +6,10 @@ giant_dune_kimogila_scale = {
 	customObjectName = "",
 	directObjectTemplate = "object/tangible/component/armor/scale_giant_dune_kimogila.iff",
 	craftingValues = {
-		{"useCount",1,10,0},
 		{"armor_special_type",0,0,0,0},
 		{"armor_special_effectiveness",0,0,0,0},
+		{"armor_integrity",5000,10000,0},
+		{"useCount",1,2,0},
 	},
 	customizationStringNames = {},
 	customizationValues = {}

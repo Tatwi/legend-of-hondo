@@ -42,11 +42,6 @@
 
 
 object_tangible_wearables_armor_composite_armor_composite_gloves = object_tangible_wearables_armor_composite_shared_armor_composite_gloves:new {
-
-	templateType = ARMOROBJECT,
-
-	objectMenuComponent = "ArmorObjectMenuComponent",
-
 	playerRaces = { "object/creature/player/bothan_male.iff",
 				"object/creature/player/bothan_female.iff",
 				"object/creature/player/human_male.iff",
@@ -57,6 +52,8 @@ object_tangible_wearables_armor_composite_armor_composite_gloves = object_tangib
 				"object/creature/player/rodian_female.iff",
 				"object/creature/player/sullustan_male.iff",
 				"object/creature/player/sullustan_female.iff",
+				"object/creature/player/trandoshan_male.iff",
+				"object/creature/player/trandoshan_female.iff",
 				"object/creature/player/twilek_male.iff",
 				"object/creature/player/twilek_female.iff",
 				"object/creature/player/zabrak_male.iff",
@@ -80,35 +77,39 @@ object_tangible_wearables_armor_composite_armor_composite_gloves = object_tangib
 				"object/mobile/vendor/rodian_male.iff",
 				"object/mobile/vendor/sullustan_female.iff",
 				"object/mobile/vendor/sullustan_male.iff",
+				"object/mobile/vendor/trandoshan_female.iff",
+				"object/mobile/vendor/trandoshan_male.iff",
 				"object/mobile/vendor/twilek_female.iff",
 				"object/mobile/vendor/twilek_male.iff",
 				"object/mobile/vendor/weequay_male.iff",
 				"object/mobile/vendor/zabrak_female.iff",
 				"object/mobile/vendor/zabrak_male.iff" },
 
-	-- Damage types in WeaponObject
-	vulnerability = STUN + LIGHTSABER,
+	templateType = ARMOROBJECT,
+	objectMenuComponent = "ArmorObjectMenuComponent",
+	
+	vulnerability = BLAST + STUN + HEAT + COLD + ACID + LIGHTSABER,
 
 	specialResists = ELECTRICITY,
 
 	-- These are default Blue Frog stats
-	healthEncumbrance = 80,
-	actionEncumbrance = 80,
-	mindEncumbrance = 80,
+	healthEncumbrance = 30,
+	actionEncumbrance = 30,
+	mindEncumbrance = 30,
 
 	maxCondition = 30000,
 
 	-- LIGHT, MEDIUM, HEAVY
 	rating = LIGHT,
 
-	kinetic = 65,
-	energy = 65,
-	electricity = 80,
-	stun = 25,
-	blast = 65,
-	heat = 65,
-	cold = 65,
-	acid = 65,
+	kinetic = 50,
+	energy = 50,
+	electricity = 65,
+	stun = 0,
+	blast = 0,
+	heat = 0,
+	cold = 0,
+	acid = 0,
 	lightSaber = 0,
 
 	numberExperimentalProperties = {1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 2, 1},
@@ -116,8 +117,8 @@ object_tangible_wearables_armor_composite_armor_composite_gloves = object_tangib
 	experimentalWeights = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	experimentalGroupTitles = {"null", "null", "null", "exp_durability", "exp_quality", "exp_resistance", "exp_durability", "exp_durability", "exp_durability", "null", "null", "exp_resistance", "null"},
 	experimentalSubGroupTitles = {"null", "null", "sockets", "hit_points", "armor_effectiveness", "armor_integrity", "armor_health_encumbrance", "armor_action_encumbrance", "armor_mind_encumbrance", "armor_rating", "armor_special_type", "armor_special_effectiveness", "armor_special_integrity"},
-	experimentalMin = {0, 0, 0, 1000, 1, 30000, 25, 22, 25, 1, 0, 0, 0},
-	experimentalMax = {0, 0, 0, 1000, 40, 50000, 15, 13, 15, 1, 0, 0, 0},
+	experimentalMin = {0, 0, 0, 1000, 1, 30000, 30, 30, 30, 1, 0, 0, 0},
+	experimentalMax = {0, 0, 0, 1000, 40, 50000, 10, 10, 10, 1, 0, 0, 0},
 	experimentalPrecision = {0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0},
 	experimentalCombineType = {0, 0, 4, 1, 1, 1, 1, 1, 1, 4, 4, 4, 1},
 }
