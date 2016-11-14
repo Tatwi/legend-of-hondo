@@ -126,6 +126,6 @@ class SlicingSession extends Facade {
 
 	private native void handleContainerSlice();
 
-
+	private native void handleHondoSliceArmor(boolean best);
 
 }
