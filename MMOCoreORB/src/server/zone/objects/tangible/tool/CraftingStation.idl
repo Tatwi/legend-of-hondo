@@ -93,4 +93,11 @@ class CraftingStation extends ToolTangibleObject {
 	public void setEffectiveness(float newValue) {
 		effectiveness = newValue;
 	}
+	
+	public float getEffectiveness() {
+		return effectiveness;
+	}
+	
+	@dirty
+	public native void upgradeArmorPiece(CreatureObject player);
 }

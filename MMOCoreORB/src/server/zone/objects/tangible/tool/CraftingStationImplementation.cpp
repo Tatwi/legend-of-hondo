@@ -16,6 +16,9 @@
 #include "server/zone/objects/area/ActiveArea.h"
 #include "server/zone/objects/building/BuildingObject.h"
 #include "server/zone/packets/scene/AttributeListMessage.h"
+#include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
+#include "server/zone/managers/crafting/labratories/SharedLabratory.h"
+#include "server/zone/objects/player/sessions/SlicingSession.h"
 
 void CraftingStationImplementation::loadTemplateData(SharedObjectTemplate* templateData) {
 	TangibleObjectImplementation::loadTemplateData(templateData);
@@ -29,26 +32,71 @@ void CraftingStationImplementation::loadTemplateData(SharedObjectTemplate* templ
 void CraftingStationImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {
 	TangibleObjectImplementation::fillObjectMenuResponse(menuResponse, player);
 
-	/*ManagedReference<BuildingObject*> building = cast<BuildingObject*>(getRootParent());
+	ManagedReference<BuildingObject*> building = cast<BuildingObject*>(player->getParentRecursively(SceneObjectType::BUILDING).get().get());
 
 	if(building != NULL && !isASubChildOf(player)) {
 		if(building->isOnAdminList(player) && getSlottedObject("ingredient_hopper") != NULL) {
 			menuResponse->addRadialMenuItem(68, 3, "@ui_radial:craft_hopper_input"); //Open
+			
+			// LoH Loot/NPC Armor Upgrade
+			if (getStationType() == CraftingTool::CLOTHING) {
+				menuResponse->addRadialMenuItem(69, 3, "Upgrade Armor");
+				menuResponse->addRadialMenuItemToRadialID(69, 70, 3, "Instructions"); // sub-menu
+			}
 		}
-	}*/
+	}
 }
 
 int CraftingStationImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
+	ManagedReference<BuildingObject*> building = cast<BuildingObject*>(player->getParentRecursively(SceneObjectType::BUILDING).get().get());
+	
+	if(building == NULL || !building->isOnAdminList(player) || isASubChildOf(player)) // Outside / player not allowed / in player inventory
+		return TangibleObjectImplementation::handleObjectMenuSelect(player, selectedID);
+	
+	if (selectedID == 68 && getSlottedObject("ingredient_hopper") != NULL) { // Open input hopper
+			sendInputHopper(player);
+	}
+	
+	if (selectedID == 69) { // Upgrade armor procedure
+		upgradeArmorPiece(player);
+	}
+	
+	if (selectedID == 70) { // Armor upgrade instructions
+		ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
 
-	/*if (selectedID == 68 && getSlottedObject("ingredient_hopper") != NULL) { // use object
+		if (ghost == NULL)
+			return TangibleObjectImplementation::handleObjectMenuSelect(player, selectedID);
+		
+		ManagedReference<SuiMessageBox*> box = new SuiMessageBox(player, SuiWindowType::NONE);
+		box->setPromptTitle("About Upgrading Armor");
+		
+		StringBuffer msg;
+		
+		msg << "The armor upgrade process allows you to improve armor pieces that you have looted from enemies or purchased from Merchants." << endl << endl;
+		msg << "Requirements:" << endl;
+		msg << "- - - - - - - - -" << endl;
+		msg << "1 Armor Piece (non-player crafted)" << endl;
+		msg << "1 Armor Upgrade Kit" << endl;
+		msg << "1 Universal Armor Segment or 1 Advanced Universal Armor Segment" << endl << endl;
+		msg << "Steps:" << endl;
+		msg << "- - - - - - - - -" << endl;
+		msg << "1. Open the crafting station Input Hopper and place the required items inside, ensuring they are the only items in the hopper." << endl << endl;
+		msg << "2. Select the Upgrade Armor option on the crafting station." << endl << endl;
+		msg << "Tips:" << endl;
+		msg << "- - - - - - - - -" << endl;
+		msg << "- Armor Resist values shown on the segment are added to those on the armor piece. Any Resist types that the armor does not already have will be added as Special Resists." << endl << endl;
+		msg << "- Armor Encumberance values shown on the segment are added to those on the armor piece." << endl << endl;
+		msg << "- Armor Integrity value shown on the segment is added to the condition on the armor piece." << endl << endl;
+		msg << "- The final quality of the armor piece is effected by the Armor Effectiveness value shown on the segment, the Functionality Rating of the Clothing Crafting Station, and the Tool Effectiveness of the Armor Upgrade Kit." << endl << endl;
+		msg << "- Max resist value is 80%, while Encumberance and Condition do not have a max values." << endl << endl;
+		msg << "- Looted and Merchant armor do not have sockets for Skill Enhancing Attachments. The upgrade process might add up to 3 sockets." << endl << endl;
+		msg << "- An armor piece can only be upgraded once." << endl << endl;
+		
+		box->setPromptText(msg.toString());
 
-		ManagedReference<BuildingObject*> building = cast<BuildingObject*>(getRootParent());
-
-		if(building != NULL && !isASubChildOf(player)) {
-			if(building->isOnAdminList(player))
-				sendInputHopper(player);
-		}
-	}*/
+		ghost->addSuiBox(box);
+		player->sendMessage(box->generateMessage());
+	}
 
 	return TangibleObjectImplementation::handleObjectMenuSelect(player, selectedID);
 }
@@ -61,7 +109,7 @@ void CraftingStationImplementation::fillAttributeList(AttributeListMessage* alm,
 
 void CraftingStationImplementation::sendInputHopper(CreatureObject* player) {
 
-	/*ManagedReference<SceneObject*> inputHopper = getSlottedObject("ingredient_hopper");
+	ManagedReference<SceneObject*> inputHopper = getSlottedObject("ingredient_hopper");
 
 	if(inputHopper == NULL) {
 		return;
@@ -71,13 +119,12 @@ void CraftingStationImplementation::sendInputHopper(CreatureObject* player) {
 	inputHopper->closeContainerTo(player, true);
 
 	inputHopper->sendWithoutContainerObjectsTo(player);
-	inputHopper->openContainerTo(player);*/
+	inputHopper->openContainerTo(player);
 }
 
 SceneObject* CraftingStationImplementation::findCraftingTool(CreatureObject* player) {
 
-	ManagedReference<SceneObject*> inventory = player->getSlottedObject(
-			"inventory");
+	ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 	Locker inventoryLocker(inventory);
 	SceneObject* craftingTool = NULL;
 
@@ -117,12 +164,199 @@ void CraftingStationImplementation::updateCraftingValues(CraftingValues* values,
 
 	effectiveness = values->getCurrentValue("usemodifier");
 
-	/*if(firstUpdate && values->hasSlotFilled("storage_compartment")) {
+	if(firstUpdate && values->hasSlotFilled("storage_compartment")) {
 		String ingredientHopperName = "object/tangible/hopper/crafting_station_hopper/crafting_station_ingredient_hopper_structure_small.iff";
 		ManagedReference<SceneObject*> ingredientHopper = server->getZoneServer()->createObject(ingredientHopperName.hashCode(), 1);
 
 		transferObject(ingredientHopper, 4, true);
-	}*/
+	}
 
-	//craftingValues->toString();
+	values->toString();
+}
+
+// LoH Upgrade a single piece of non-player crafted armor.
+void CraftingStationImplementation::upgradeArmorPiece(CreatureObject* player) {
+	// Get crafting station hopper
+	ManagedReference<SceneObject*> inputHopper = getSlottedObject("ingredient_hopper");
+
+	if(inputHopper == NULL) {
+		player->sendSystemMessage("Hmm... this crafting station's input hopper is busted!");
+		return;
+	}
+	
+	// Bail if more than 3 items are in the hopper
+	if (inputHopper->getContainerObjectsSize() > 3) {
+		player->sendSystemMessage("Error: There are too many ingredients in the input hopper. Requirements: 1 Armor Piece, 1 Armor Segment, 1 Armor Upgrade Kit.");
+		return;
+	}
+	
+	// Get ingredients
+	ManagedReference<ArmorObject*> armor = NULL;
+	ManagedReference<SceneObject*> kit = NULL;
+	ManagedReference<SceneObject*> segment = NULL;
+	
+	for (int i = 0; i < inputHopper->getContainerObjectsSize(); i++) {
+		ManagedReference<SceneObject*> obj = inputHopper->getContainerObject(i).get();
+		
+		if (obj != NULL){
+			if (obj->isArmorObject()) {
+				armor = obj.castTo<ArmorObject*>();
+				
+				if (armor->getCraftersName() != "") {
+					player->sendSystemMessage("Error: Unable to upgrade crafted armor or armor that has already been upgraded.");
+					return;
+				}
+			} else if (obj->getObjectTemplate()->getFullTemplateString().contains("slicing_armor_upgrade_kit")) {
+				kit = obj;
+			} else if (obj->getObjectTemplate()->getFullTemplateString().contains("armor_segment_composite")) {
+				segment = obj;
+			}
+		}
+	}
+	
+	// Bail if missing/wrong ingredient
+	if (armor == NULL){
+		player->sendSystemMessage("Error: Missing or invalid armor piece.");
+		return;
+	}
+	
+	if (kit == NULL){
+		player->sendSystemMessage("Error: Missing or invalid Armor Upgrade Kit.");
+		return;
+	}
+	
+	if (segment == NULL){
+		player->sendSystemMessage("Error: Missing or invalid Armor Segment.");
+		return;
+	}
+
+	ManagedReference<TangibleObject*> segTano = segment.castTo<TangibleObject*>();
+	ManagedReference<Component*> segComp = segTano.castTo<Component*>();
+	
+	SlicingTool* kitAsSlicingTool = cast<SlicingTool*>(kit.get());
+	
+	// Quality Bonus (Armor Effectiveness + Armor Upgrade Kit + Crafting Station)
+	float qualityBonus = segComp->getAttributeValue("armor_effectiveness") + kitAsSlicingTool->getEffectiveness() + effectiveness;
+	
+	if (qualityBonus < 0.0f)
+		qualityBonus = 0.0f;
+	
+	if (qualityBonus > 100.0f)
+		qualityBonus = 100.0f;
+		
+	qualityBonus = 10.f * (qualityBonus / 100.0f);
+	
+	// Apply Resist changes
+	Locker locker(armor);
+	
+	float baseValue = 0.f; // Because "Special Resists" need the original value added back, while "Base Resists" don't...
+	
+	// KINETIC = 1, ENERGY = 2, BLAST = 4, STUN = 8, LIGHTSABER = 16, HEAT = 32, COLD = 64, ACID = 128, ELECTRICITY = 256
+	
+	if (segComp->getAttributeValue("kineticeffectiveness") > 0) {
+		if (armor->isSpecial(1))
+			baseValue = armor->getKinetic();
+			
+		armor->setKinetic(segComp->getAttributeValue("kineticeffectiveness") + qualityBonus + baseValue);
+		baseValue = 0.f;
+	}
+		
+	if (segComp->getAttributeValue("energyeffectiveness") > 0) {
+		if (armor->isSpecial(2))
+			baseValue = armor->getEnergy();
+			
+		armor->setEnergy(segComp->getAttributeValue("energyeffectiveness") + qualityBonus + baseValue);
+		baseValue = 0.f;
+	}
+	
+	if (segComp->getAttributeValue("blasteffectiveness") > 0) {
+		if (armor->isSpecial(4))
+			baseValue = armor->getBlast();
+			
+		armor->setBlast(segComp->getAttributeValue("blasteffectiveness") + qualityBonus + baseValue);
+		baseValue = 0.f;
+	}
+		
+	if (segComp->getAttributeValue("stuneffectiveness") > 0) {
+		if (armor->isSpecial(8))
+			baseValue = armor->getStun();
+			
+		armor->setStun(segComp->getAttributeValue("stuneffectiveness") + qualityBonus + baseValue);
+		baseValue = 0.f;
+	}
+		
+	if (segComp->getAttributeValue("heateffectiveness") > 0) {
+		if (armor->isSpecial(32))
+			baseValue = armor->getHeat();
+			
+		armor->setHeat(segComp->getAttributeValue("heateffectiveness") + qualityBonus + baseValue);
+		baseValue = 0.f;
+	}
+	
+	if (segComp->getAttributeValue("coldeffectiveness") > 0) {
+		if (armor->isSpecial(64))
+			baseValue = armor->getCold();
+			
+		armor->setCold(segComp->getAttributeValue("coldeffectiveness") + qualityBonus + baseValue);
+		baseValue = 0.f;
+	}
+		
+	if (segComp->getAttributeValue("acideffectiveness") > 0) {
+		if (armor->isSpecial(128))
+			baseValue = armor->getAcid();
+			
+		armor->setAcid(segComp->getAttributeValue("acideffectiveness") + qualityBonus + baseValue);
+		baseValue = 0.f;
+	}
+	
+	if (segComp->getAttributeValue("electricaleffectiveness") > 0) {
+		if (armor->isSpecial(256))
+			baseValue = armor->getElectricity();
+			
+		armor->setElectricity(segComp->getAttributeValue("electricaleffectiveness") + qualityBonus + baseValue);
+		baseValue = 0.f;
+	}
+	
+	if (segComp->getAttributeValue("restraineffectiveness") > 0) {
+		if (armor->isSpecial(16))
+			baseValue = armor->getLightSaber();
+			
+		armor->setLightSaber(segComp->getAttributeValue("restraineffectiveness") + qualityBonus + baseValue);
+		baseValue = 0.f;
+	}
+		
+	// Apply Encumberance changes
+	armor->setHealthEncumbrance(armor->getHealthEncumbrance() + (int)segComp->getAttributeValue("armor_health_encumbrance"));
+	armor->setActionEncumbrance(armor->getActionEncumbrance() + (int)segComp->getAttributeValue("armor_action_encumbrance"));
+	armor->setMindEncumbrance(armor->getMindEncumbrance() + (int)segComp->getAttributeValue("armor_mind_encumbrance"));
+	
+	// Apply Condition changes
+	armor->setMaxCondition(armor->getMaxCondition() + (int)segComp->getAttributeValue("armor_integrity") + (int)(qualityBonus * 125), true);
+	
+	// Set crafter name as player name
+	ManagedReference<TangibleObject*> object = armor.castTo<TangibleObject*>();
+	String name = player->getFirstName() + " (Upgrade)";
+	object->setCraftersName(name);
+	
+	// Add sockets based on crafting station quality
+	ManagedReference<WearableObject*> wearObj = armor.castTo<WearableObject*>();
+	
+	if (effectiveness > 40 && System::random(100) > 50) {
+		wearObj->setMaxSockets(3);
+	} else if (effectiveness > 28 && System::random(100) > 50) {
+		wearObj->setMaxSockets(2);
+	} else if (effectiveness > 20) {
+		wearObj->setMaxSockets(1);
+	}
+	
+	// Delete segement and armor upgrade kit
+	Locker slocker(segment);
+	segment->destroyObjectFromWorld(true);
+	segment->destroyObjectFromDatabase(true);
+	
+	Locker klocker(kit);
+	kit->destroyObjectFromWorld(true);
+	kit->destroyObjectFromDatabase(true);
+			
+	player->sendSystemMessage("Armor upgrade process complete!");
 }
