@@ -3,22 +3,26 @@ local ObjectManager = require("managers.object.object_manager")
 risArmorQuest = ScreenPlay:new {
 
 		questSchematics = {
-			quest1 = { template = "object/draft_schematic/armor/armor_segment_ris.iff", displayName = "@craft_clothing_ingredients_n:armor_segment_ris" },
-			quest3 = { template = "object/draft_schematic/armor/component/armor_layer_ris.iff", displayName = "@craft_clothing_ingredients_n:armor_layer_ris" },
+			--quest1 = { template = "object/draft_schematic/armor/armor_segment_ris.iff", displayName = "@craft_clothing_ingredients_n:armor_segment_ris" },
+			--quest3 = { template = "object/draft_schematic/armor/component/armor_layer_ris.iff", displayName = "@craft_clothing_ingredients_n:armor_layer_ris" },
+			quest1 = { template = "object/draft_schematic/clothing/clothing_armor_ris_bicep_l.iff", displayName = "@wearables_name:armor_ris_bicep_l" },
+			quest3 = { template = "object/draft_schematic/clothing/clothing_armor_ris_bicep_r.iff", displayName = "@wearables_name:armor_ris_bicep_r" },
 			quest5 = { template = "object/draft_schematic/clothing/clothing_armor_ris_boots.iff", displayName = "@wearables_name:armor_ris_boots" }
 		},
 
 
 		questItems = {
-			quest2 = { template = "object/tangible/component/armor/armor_segment_ris.iff", displayName = "@craft_clothing_ingredients_n:armor_segment_ris" },
-			quest4 = { template = "object/tangible/component/armor/armor_layer_ris.iff", displayName = "@craft_clothing_ingredients_n:armor_layer_ris" },
+			--quest2 = { template = "object/tangible/component/armor/armor_segment_ris.iff", displayName = "@craft_clothing_ingredients_n:armor_segment_ris" },
+			--quest4 = { template = "object/tangible/component/armor/armor_layer_ris.iff", displayName = "@craft_clothing_ingredients_n:armor_layer_ris" },
+			quest2 = { template = "object/tangible/wearables/armor/ris/armor_ris_bicep_l.iff", displayName = "@wearables_name:armor_ris_bicep_l" },
+			quest4 = { template = "object/tangible/wearables/armor/ris/armor_ris_bicep_r.iff", displayName = "@wearables_name:armor_ris_bicep_r" },
 			quest6 = { template = "object/tangible/wearables/armor/ris/armor_ris_boots.iff", displayName = "@wearables_name:armor_ris_boots" }
 		},
 
 
 		finalRewardSchematics = {
-			{ template = "object/draft_schematic/clothing/clothing_armor_ris_bicep_l.iff", displayName = "@wearables_name:armor_ris_bicep_l" },
-			{ template = "object/draft_schematic/clothing/clothing_armor_ris_bicep_r.iff", displayName = "@wearables_name:armor_ris_bicep_r" },
+			--{ template = "object/draft_schematic/clothing/clothing_armor_ris_bicep_l.iff", displayName = "@wearables_name:armor_ris_bicep_l" },
+			--{ template = "object/draft_schematic/clothing/clothing_armor_ris_bicep_r.iff", displayName = "@wearables_name:armor_ris_bicep_r" },
 			{ template = "object/draft_schematic/clothing/clothing_armor_ris_bracer_l.iff", displayName = "@wearables_name:armor_ris_bracer_l" },
 			{ template = "object/draft_schematic/clothing/clothing_armor_ris_bracer_r.iff", displayName = "@wearables_name:armor_ris_bracer_r" },
 			{ template = "object/draft_schematic/clothing/clothing_armor_ris_chest_plate.iff", displayName = "@wearables_name:armor_ris_chest_plate" },
