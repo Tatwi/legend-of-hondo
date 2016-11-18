@@ -33,8 +33,9 @@ void CraftingStationImplementation::fillObjectMenuResponse(ObjectMenuResponse* m
 	TangibleObjectImplementation::fillObjectMenuResponse(menuResponse, player);
 
 	ManagedReference<BuildingObject*> building = cast<BuildingObject*>(player->getParentRecursively(SceneObjectType::BUILDING).get().get());
+	ManagedReference<CellObject*> cell = cast<CellObject*>(this->getParent().get().get());
 
-	if(building != NULL && !isASubChildOf(player)) {
+	if(building != NULL && cell != NULL && !isASubChildOf(player)) {
 		if(building->isOnAdminList(player) && getSlottedObject("ingredient_hopper") != NULL) {
 			menuResponse->addRadialMenuItem(68, 3, "@ui_radial:craft_hopper_input"); //Open
 			
