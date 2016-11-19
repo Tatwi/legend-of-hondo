@@ -41,18 +41,33 @@ void ArmorObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObject, 
 		if (!sceneObject->isASubChildOf(player))
 			return;
 	}
+	
+	String appearanceFilename = sceneObject->getObjectTemplate()->getAppearanceFilename();
+	VectorMap<String, Reference<CustomizationVariable*> > variables;
+	AssetCustomizationManagerTemplate::instance()->getCustomizationVariables(appearanceFilename.hashCode(), variables, false);
+	
+	int extraColors = 0;
+	
+	for(int i = 0; i< variables.size(); ++i){
+		String varkey = variables.elementAt(i).getKey();
+		//player->sendSystemMessage("Variable Key " + String::valueOf(i) + ": " + varkey); // debug
+		
+		if (varkey.contains("color"))
+			extraColors++;
+	}
 
-	String text = "Change Color";
-	String text2 = "Color 2";
-	menuResponse->addRadialMenuItem(81, 3, text);
-	menuResponse->addRadialMenuItemToRadialID(81, 82, 3, text2); // sub-menu
+	menuResponse->addRadialMenuItem(81, 3, "Change Color");
+	if (extraColors > 1)
+		menuResponse->addRadialMenuItemToRadialID(81, 82, 3, "Color 2"); // sub-menu
+	if (extraColors == 3)
+		menuResponse->addRadialMenuItemToRadialID(81, 83, 3, "Color 3"); // sub-menu
 	
     WearableObjectMenuComponent::fillObjectMenuResponse(sceneObject, menuResponse, player); 	
 }
 
 int ArmorObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, CreatureObject* player, byte selectedID) const {
 
-	if (selectedID == 81 || selectedID == 82) {
+	if (selectedID == 81 || selectedID == 82 || selectedID == 83) {
 		
 		ManagedReference<SceneObject*> parent = sceneObject->getParent().get();
 	
@@ -94,12 +109,15 @@ int ArmorObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject, C
 		ManagedReference<SuiColorBox*> cbox = new SuiColorBox(player, SuiWindowType::COLOR_ARMOR);
 		cbox->setCallback(new ColorArmorSuiCallback(server));
 		
-		if (selectedID == 81) {
-			cbox->setColorPalette(variables.elementAt(1).getKey()); // Accent
-		} else if (selectedID == 82) {
-			cbox->setColorPalette(variables.elementAt(0).getKey()); // Frame
-		}
-		
+		if (selectedID == 81)
+			cbox->setColorPalette(variables.elementAt(0).getKey());
+
+		if (selectedID == 82)
+			cbox->setColorPalette(variables.elementAt(1).getKey());
+
+		if (selectedID == 83)
+			cbox->setColorPalette(variables.elementAt(2).getKey());
+
 		cbox->setUsingObject(sceneObject);
 
 		// Add to player.
