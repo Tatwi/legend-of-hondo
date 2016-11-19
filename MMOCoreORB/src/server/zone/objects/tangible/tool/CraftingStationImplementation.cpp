@@ -250,82 +250,35 @@ void CraftingStationImplementation::upgradeArmorPiece(CreatureObject* player) {
 	// Apply Resist changes
 	Locker locker(armor);
 	
-	float baseValue = 0.f; // Because "Special Resists" need the original value added back, while "Base Resists" don't...
-	
 	// KINETIC = 1, ENERGY = 2, BLAST = 4, STUN = 8, LIGHTSABER = 16, HEAT = 32, COLD = 64, ACID = 128, ELECTRICITY = 256
 	
-	if (segComp->getAttributeValue("kineticeffectiveness") > 0) {
-		if (armor->isSpecial(1))
-			baseValue = armor->getKinetic();
-			
-		armor->setKinetic(segComp->getAttributeValue("kineticeffectiveness") + qualityBonus + baseValue);
-		baseValue = 0.f;
-	}
+	if (segComp->getAttributeValue("kineticeffectiveness") > 0) 
+		armor->setKinetic(segComp->getAttributeValue("kineticeffectiveness") + qualityBonus + armor->getResist(1));
 		
-	if (segComp->getAttributeValue("energyeffectiveness") > 0) {
-		if (armor->isSpecial(2))
-			baseValue = armor->getEnergy();
-			
-		armor->setEnergy(segComp->getAttributeValue("energyeffectiveness") + qualityBonus + baseValue);
-		baseValue = 0.f;
-	}
-	
-	if (segComp->getAttributeValue("blasteffectiveness") > 0) {
-		if (armor->isSpecial(4))
-			baseValue = armor->getBlast();
-			
-		armor->setBlast(segComp->getAttributeValue("blasteffectiveness") + qualityBonus + baseValue);
-		baseValue = 0.f;
-	}
-		
-	if (segComp->getAttributeValue("stuneffectiveness") > 0) {
-		if (armor->isSpecial(8))
-			baseValue = armor->getStun();
-			
-		armor->setStun(segComp->getAttributeValue("stuneffectiveness") + qualityBonus + baseValue);
-		baseValue = 0.f;
-	}
-		
-	if (segComp->getAttributeValue("heateffectiveness") > 0) {
-		if (armor->isSpecial(32))
-			baseValue = armor->getHeat();
-			
-		armor->setHeat(segComp->getAttributeValue("heateffectiveness") + qualityBonus + baseValue);
-		baseValue = 0.f;
-	}
-	
-	if (segComp->getAttributeValue("coldeffectiveness") > 0) {
-		if (armor->isSpecial(64))
-			baseValue = armor->getCold();
-			
-		armor->setCold(segComp->getAttributeValue("coldeffectiveness") + qualityBonus + baseValue);
-		baseValue = 0.f;
-	}
-		
-	if (segComp->getAttributeValue("acideffectiveness") > 0) {
-		if (armor->isSpecial(128))
-			baseValue = armor->getAcid();
-			
-		armor->setAcid(segComp->getAttributeValue("acideffectiveness") + qualityBonus + baseValue);
-		baseValue = 0.f;
-	}
-	
-	if (segComp->getAttributeValue("electricaleffectiveness") > 0) {
-		if (armor->isSpecial(256))
-			baseValue = armor->getElectricity();
-			
-		armor->setElectricity(segComp->getAttributeValue("electricaleffectiveness") + qualityBonus + baseValue);
-		baseValue = 0.f;
-	}
-	
-	if (segComp->getAttributeValue("restraineffectiveness") > 0) {
-		if (armor->isSpecial(16))
-			baseValue = armor->getLightSaber();
-			
-		armor->setLightSaber(segComp->getAttributeValue("restraineffectiveness") + qualityBonus + baseValue);
-		baseValue = 0.f;
-	}
-		
+	if (segComp->getAttributeValue("energyeffectiveness") > 0)
+		armor->setEnergy(segComp->getAttributeValue("energyeffectiveness") + qualityBonus + armor->getResist(2));
+
+	if (segComp->getAttributeValue("blasteffectiveness") > 0)
+		armor->setBlast(segComp->getAttributeValue("blasteffectiveness") + qualityBonus + armor->getResist(4));
+
+	if (segComp->getAttributeValue("stuneffectiveness") > 0)	
+		armor->setStun(segComp->getAttributeValue("stuneffectiveness") + qualityBonus + armor->getResist(8));
+
+	if (segComp->getAttributeValue("heateffectiveness") > 0)	
+		armor->setHeat(segComp->getAttributeValue("heateffectiveness") + qualityBonus + armor->getResist(32));
+
+	if (segComp->getAttributeValue("coldeffectiveness") > 0)	
+		armor->setCold(segComp->getAttributeValue("coldeffectiveness") + qualityBonus + armor->getResist(64));
+
+	if (segComp->getAttributeValue("acideffectiveness") > 0)
+		armor->setAcid(segComp->getAttributeValue("acideffectiveness") + qualityBonus + armor->getResist(128));
+
+	if (segComp->getAttributeValue("electricaleffectiveness") > 0)
+		armor->setElectricity(segComp->getAttributeValue("electricaleffectiveness") + qualityBonus + armor->getResist(256));
+
+	if (segComp->getAttributeValue("restraineffectiveness") > 0)
+		armor->setLightSaber(segComp->getAttributeValue("restraineffectiveness") + qualityBonus + armor->getResist(16));
+
 	// Apply Encumberance changes
 	armor->setHealthEncumbrance(armor->getHealthEncumbrance() + (int)segComp->getAttributeValue("armor_health_encumbrance"));
 	armor->setActionEncumbrance(armor->getActionEncumbrance() + (int)segComp->getAttributeValue("armor_action_encumbrance"));

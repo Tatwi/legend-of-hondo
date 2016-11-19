@@ -484,3 +484,38 @@ void ArmorObjectImplementation::setProtectionValue(int type, float value) {
 	if (type & SharedWeaponObjectTemplate::ELECTRICITY)
 		setElectricity(value);
 }
+
+float ArmorObjectImplementation::getResist(int type) {
+
+	switch(type) {
+	case SharedWeaponObjectTemplate::KINETIC:
+		return kinetic;
+		break;
+	case SharedWeaponObjectTemplate::ENERGY:
+		return energy;
+		break;
+	case SharedWeaponObjectTemplate::ELECTRICITY:
+		return electricity;
+		break;
+	case SharedWeaponObjectTemplate::STUN:
+		return stun;
+		break;
+	case SharedWeaponObjectTemplate::BLAST:
+		return blast;
+		break;
+	case SharedWeaponObjectTemplate::HEAT:
+		return heat;
+		break;
+	case SharedWeaponObjectTemplate::COLD:
+		return cold;
+		break;
+	case SharedWeaponObjectTemplate::ACID:
+		return acid;
+		break;
+	case SharedWeaponObjectTemplate::LIGHTSABER:
+		return lightSaber;
+		break;
+	default:
+		return 0.f;
+	}
+}
