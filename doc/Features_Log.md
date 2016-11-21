@@ -56,3 +56,8 @@ A set of small changes to various aspects of game play that reflect my personal 
 *Detailed Description: doc/features/mod-lifeanddeathchanges.md*  
 *Last Patched On: N/A*  
 I suppose this is my version of a "Combat Upgrade". Many changes to the way stats, armor, and healing works.
+
+####Armor Upgrade
+*Detailed Description: doc/features/mod-armorUpgrade.md*  
+*Last Patched On: N/A*  
+A multi-pronged approach to making all armor types genuinely useful and as enjoyable as possible.
