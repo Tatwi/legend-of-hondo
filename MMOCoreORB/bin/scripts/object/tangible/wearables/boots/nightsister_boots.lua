@@ -59,6 +59,33 @@ object_tangible_wearables_boots_nightsister_boots = object_tangible_wearables_bo
 				"object/mobile/vendor/trandoshan_female.iff",
 				"object/mobile/vendor/twilek_female.iff",
 				"object/mobile/vendor/zabrak_female.iff" },
+	
+	templateType = ARMOROBJECT,
+	objectMenuComponent = "ArmorObjectMenuComponent",
+	
+	vulnerability = BLAST + ELECTRICITY + HEAT + COLD + ACID + LIGHTSABER,
+
+	specialResists = STUN,
+
+	-- These are default Blue Frog stats
+	healthEncumbrance = 80,
+	actionEncumbrance = 150,
+	mindEncumbrance = 80,
+
+	maxCondition = 30000,
+
+	-- LIGHT, MEDIUM, HEAVY
+	rating = LIGHT,
+
+	kinetic = 50,
+	energy = 50,
+	electricity = 0,
+	stun = 50,
+	blast = 20,
+	heat = 10,
+	cold = 10,
+	acid = 0,
+	lightSaber = 0,
 }
 
 ObjectTemplates:addTemplate(object_tangible_wearables_boots_nightsister_boots, "object/tangible/wearables/boots/nightsister_boots.iff")

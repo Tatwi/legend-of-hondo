@@ -50,6 +50,33 @@ object_tangible_wearables_hat_singing_mountain_clan_hat_s02 = object_tangible_we
 				"object/mobile/vendor/human_female.iff",
 				"object/mobile/vendor/sullustan_female.iff",
 				"object/mobile/vendor/zabrak_female.iff" },
+				
+	templateType = ARMOROBJECT,
+	objectMenuComponent = "ArmorObjectMenuComponent",
+	
+	vulnerability = BLAST + ELECTRICITY + HEAT + COLD + ACID + LIGHTSABER,
+
+	specialResists = STUN,
+
+	-- These are default Blue Frog stats
+	healthEncumbrance = 80,
+	actionEncumbrance = 80,
+	mindEncumbrance = 350,
+
+	maxCondition = 30000,
+
+	-- LIGHT, MEDIUM, HEAVY
+	rating = LIGHT,
+
+	kinetic = 50,
+	energy = 50,
+	electricity = 0,
+	stun = 50,
+	blast = 20,
+	heat = 10,
+	cold = 10,
+	acid = 0,
+	lightSaber = 0,
 }
 
 ObjectTemplates:addTemplate(object_tangible_wearables_hat_singing_mountain_clan_hat_s02, "object/tangible/wearables/hat/singing_mountain_clan_hat_s02.iff")
