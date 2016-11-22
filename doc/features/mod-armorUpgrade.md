@@ -10,6 +10,7 @@ A multi-pronged approach to making all armor types genuinely useful and as enjoy
 - Converted several cool helmets to have armor stats so they can be useful while looking cool.
 - Many nifty quest items have armor stats, so they can be useful while looking all nifty and junk.
 - All armor (and clothing) can be recolored using the radial menu (all possible areas).
+- Armor and clothing color palette improvements.
 
 ####Uninversal Armor Segments
 - The main segment for all crafted armor types.
@@ -134,6 +135,11 @@ Krayt Dragon Scale
 ####Armor Slicing
 - No longer increase armor stats or decrease encumberance values. 
 - Now turns vulnerability into a special resist, matching either the best or worst existing resist value on the item.
+
+####Color Palettes
+- Almost all wearable items use the same palette (excluding weapons, backpacks, and some items that SOE made using inconsistent palette choices).
+- Added a variety of non-drab color options.
+- Portions of items that used to only have two white color options now also have the other colors as well.
 
 ####Files
 These are the files that were added or updated in this patch.
@@ -459,8 +465,6 @@ bin/scripts/object/draft_schematic/clothing/component/clothing_reinforced_fiber_
 bin/scripts/object/draft_schematic/clothing/component/clothing_synthetic_cloth.lua
 - Moved these to Artisan.
 
-
-
 bin/scripts/object/tangible/wearables/boots/nightsister_boots.lua
 bin/scripts/object/tangible/wearables/boots/singing_mountain_clan_boots.lua
 bin/scripts/object/tangible/wearables/dress/nightsister_dress.lua
@@ -518,6 +522,10 @@ src/server/zone/objects/tangible/wearables/ArmorObject.idl
 src/server/zone/objects/tangible/wearables/ArmorObjectImplementation.cpp
 - Added a function to get the base value of armor stats for use in the upgrade process.
 
+src/server/zone/managers/combat/CombatManager.cpp
+src/server/zone/managers/combat/CombatManager.h
+- Added combat spam to indicate what damage type the player was hit with (Because knowing is half the battle! #GIJoe).
+
 tre_required/datatables/crafting/schematic_group.iff
 - Removed segment schematics and moved a few schematics around. 
 
@@ -557,3 +565,14 @@ tre_required/string/en/craft_clothing_ingredients_n.stf
 
 tre_required/string/en/quest_armorsmith.stf
 - Updated the RIS quest dialoge to reflect the removal of the RIS layer and segment.
+
+tre_required/palette/white.pal
+tre_required/palette/wr_chitin_armor.pal
+tre_required/palette/wr_chitin_visor.pal
+tre_required/palette/wr_cloth_general.pal
+tre_required/palette/wr_earthtones.pal
+tre_required/palette/wr_leather.pal
+tre_required/palette/wr_metal.pal
+tre_required/palette/wr_ris_armor.pal
+- Normalized all the clothing/armor color palettes.
+
