@@ -553,6 +553,10 @@ bin/scripts/object/tangible/wearables/shirt/singing_mountain_clan_shirt_s03.lua
 bin/scripts/screenplays/tasks/dantooine/ris_armor_quest.lua
 - Replaced the RIS layer and segement parts of the quest with the biceps.
 
+bin/scripts/object/draft_schematic/slicing/slicing_armor_upgrade_kit.lua
+bin/scripts/object/tangible/slicing/slicing_armor_upgrade_kit.lua
+- Made it more difficult and interesting to craft, now that the quality matters.
+
 src/server/zone/objects/installation/factory/FactoryObjectImplementation.cpp
 - Reduced factory run time.
 
