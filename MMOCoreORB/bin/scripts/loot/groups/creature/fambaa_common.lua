@@ -6,8 +6,9 @@ fambaa_common = {
 	maximumLevel = 0,
 	lootItems = {
 		{itemTemplate = "fambaa_plates", weight = 6000000},
-		{itemTemplate = "sharnaff_plating", weight = 2000000},
-		{itemTemplate = "brackaset_plates", weight = 2000000}
+		{itemTemplate = "fambaa_hide_segment", weight = 2000000},
+		{itemTemplate = "sharnaff_plating", weight = 1000000},
+		{itemTemplate = "brackaset_plates", weight = 1000000},
 	}
 }
 

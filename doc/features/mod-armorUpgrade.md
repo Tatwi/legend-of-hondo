@@ -6,6 +6,7 @@ A multi-pronged approach to making all armor types genuinely useful and as enjoy
 - All crafted armor types can have the same stats, more or less.
 - One segment type is used by all armor (along with an optional upgraded version).
 - Looted armor, reward armor, and aromr purchased from an NPC Merchant can be upgraded using a crafted segment, an Armor Upgrade Kit, and a crafting station.
+- All armor can have its Armor Rating upgraded from Light to Medium or Heavy.
 - Slicing takes one vulnerability and makes it into a special resist, rather than changing Encumberance or Resistance values.
 - Converted several cool helmets to have armor stats so they can be useful while looking cool.
 - Many nifty quest items have armor stats, so they can be useful while looking all nifty and junk.
@@ -49,9 +50,14 @@ A multi-pronged approach to making all armor types genuinely useful and as enjoy
 ####Looted Parts
 - Rebalanced and themed the parts so they each add something interestng when mixed/matched in layers and the final item. Loot pieces are required to make the best armor possible.
 - Smaller values, due to being able to use loot parts in layers as well as the segment.
-- Looted segments removed, as segement crafting is too important to be skipped.
-- Nightsister Layer remains as an alternate Electricity Layer (a good one is better than what can be crafted).
+- Looted segments have been repurposed, as segement crafting is too important to be skipped. They are now intentionally non-stackable, single item drops and are used in the Armor Rating upgrade process.
 - Encumberance values in Legend of Hondo are treated differently, which allows for each loot part to have a downside of Enc. without making the part/armor useless (high Enc. can be overcome with skillful play).
+
+Dune Lizard Scales
+- Bonus: Acid/Encumberance
+- Hinderance: Health/Action/Mind Enc.
+- Source: Dune Lizards, Dragonet
+- Enc can be negative, which is a bonus.
 
 Fambaa Hide
 - Bonus: Blast/Heat/Effectiveness
@@ -95,12 +101,6 @@ Nightsister Shard
 - Source: Nightsisters
 - Enc is always negative, which is a bonus.
 
-Nightsister Layer
-- Bonus: Integrity/Electrical/Encumberance
-- Hinderance: Mind Enc.
-- Source: Nightsisters
-- Enc can be negative, which is a bonus.
-
 Krayt Dragon Scale
 - Bonus: Integrity/Acid/Stun/Effectiveness
 - Hinderance: Health/Action/Mind Enc.
@@ -110,13 +110,55 @@ Krayt Dragon Scale
 - This is a system I made to make all the armor styles useful, without having to make a huge client/server update to add new draft schematics to the game. 
 - Crafting Stations made with 5 Droid Storage Modules have a 100 item input hopper that can store items.
 - The Clothing and Armor Crafting Station has a new function called "Upgrade Armor".
-- Requires 1 piece of armor, 1 Universal Armor Segment, and 1 Armor Upgrade Kit.
-- Does not work with player crafted armor, but works with all other armor.
-- The stats from the segement get added to the armor item.
-- Crafting station and upgrade kit quality play a large roll in the quality of the final item (Good quality ones can add a bonus on top of the segment values).
-- High quality crafting stations grant the chance to add up to 3 sockets. 
-- An armor piece can only be upgraded once.
-- To get the best possible stats, the upgrade process requires a piece of loot with resist stats around 45% or better, a Master Armorsmith to create the segment (with looted items and good resources), a Master Droid Engineer and Master Artisan to make good parts for the crafting station, and a Master Architect to make the crafting station itself.
+- Upgrading armor is broken down into two different processes:
+
+1. Quality: You improve the resistance and condition values.
+2. Rating: You upgrade the armor rating from Light to Medium or Heavy.
+		
+The armor Quality upgrade process allows you to improve armor pieces that you have looted from enemies or purchased from Merchants. The Rating process, however, will function with any piece of armor.
+		
+*Quality Upgrade Requirements:*  
+1 Armor Piece (non-player crafted)  
+1 Armor Upgrade Kit  
+1 Universal Armor Segment or 1 Advanced Universal Armor Segment  
+				
+Quality Tips:  
+- Armor Resist values shown on the segment are added to those on the armor piece. Any Resist types that the armor does not already have will be added as Special Resists.
+- Armor Encumberance values shown on the segment are added to those on the armor piece.
+- Armor Integrity value shown on the segment is added to the condition on the armor piece.
+- The final quality of the armor piece is effected by the Armor Effectiveness value shown on the segment, the Functionality Rating of the Clothing Crafting Station, and the Tool Effectiveness of the Armor Upgrade Kit.
+- Max resist value is 80%, while Encumberance and Condition do not have a max values.
+- Looted and Merchant armor do not have sockets for Skill Enhancing Attachments. The upgrade process might add up to 3 sockets.
+- An armor piece can only be Quality upgraded once.
+			
+*Rating Upgrade Requirements:*  
+1 Armor Piece  
+1 Armor Upgrade Kit  
+X number of identical of loot items  
+		
+Light to Medium:  
+- Armor piece must have at least 65% Kinetic Resistance
+- 500 Damage caused to the armor
+- Need 10: brackaset plating segment, donkuwah bone armor segment, fambaa hide segment, kliknik chitin armor segment, sharnaff plating segment, voritor lizard hide segment
+		
+Medium to Heavy:  
+- Armor piece must have at least 70% Kinetic Resistance
+- 750 Damage caused to the armor
+- Need 10: nightsister layer, rancor padded armor segment, woolamander harrower bone fragments
+		
+Any to Heavy:  
+- Armor piece must have at least 75% Kinetic Resistance
+- 1500 Damage caused to the armor
+- Need 2: acklay hide, kimogila bone segment, kliknik reinforced chitin armor segment, krayt composite segment, peko albatross feather
+		
+Rating Tips:  
+- Can be done more than once, but only until the armor is rated as Heavy.
+- Failure consumes loot items and the armor upgrade kit, does not increase the armor rating, and causes 200 damage to the armor.
+- Failure can be completely avoided by using a high quality Amor Upgrade Kit and Crafting Station.
+- Increasing the Armor Rating allows the player to directly counter weapons with Armor Piercing ability, which are often found on very strong enemies. Generally speaking, for both players and non-players the system works like so,
+- If Armor Rating is lower than Armor Piercing, you take more damage.
+- If Armor Rating is the same as Armor Piercing, you take normal damage.
+- If Armor Rating is higher than Armor Piercing, you take less damage.
 
 ####Skill Trees and Schematics
 - Moved Armormsith to Domestics line of Artisan with Tailor.
@@ -149,27 +191,44 @@ Lua Files
 TRE Files  
 - What they were used for 
 
+bin/scripts/loot/groups.lua
+bin/scripts/loot/items.lua
+bin/scripts/loot/groups/creature/dune_lizard_common.lua
+bin/scripts/mobile/tatooine/dragonet.lua
+bin/scripts/mobile/tatooine/dune_lizard.lua
+- Added dune lizard segment enhancement lootgroup/item.
+
 bin/scripts/loot/groups/creature/brackaset_common.lua
 bin/scripts/loot/groups/creature/fambaa_common.lua
 bin/scripts/loot/groups/creature/kimogila_common.lua
+bin/scripts/loot/groups/creature/kliknik_common.lua
 bin/scripts/loot/groups/creature/krayt_dragon_common.lua
 bin/scripts/loot/groups/creature/krayt_dragon_common2.lua
 bin/scripts/loot/groups/creature/rancor_common.lua
 bin/scripts/loot/groups/creature/sharnaff_common.lua
 bin/scripts/loot/groups/creature/voritor_lizard_common.lua
-bin/scripts/loot/items/creature/brackaset_plates.lua
-bin/scripts/loot/items/creature/fambaa_plates.lua
+- Removed/Added parts per new design.
+
+bin/scripts/loot/items/creature/brackaset_plating_segment.lua
+bin/scripts/loot/items/creature/dune_lizard_scales.lua
+bin/scripts/loot/items/creature/fambaa_hide_segment.lua
 bin/scripts/loot/items/creature/giant_dune_kimogila_scale.lua
 bin/scripts/loot/items/creature/gurk_king_hide.lua
-bin/scripts/loot/items/creature/kimogila_scales.lua
-bin/scripts/loot/items/creature/krayt_dragon_scales.lua
-bin/scripts/loot/items/creature/rancor_hides.lua
-bin/scripts/loot/items/creature/sharnaff_plating.lua
-bin/scripts/loot/items/creature/voritor_lizard_scales.lua
+bin/scripts/loot/items/creature/kimogila_bone_segment.lua
+bin/scripts/loot/items/creature/kliknik_chitin_armor_segment.lua
+bin/scripts/loot/items/creature/krayt_composite_segment.lua
+bin/scripts/loot/items/creature/peko_albatross_feather.lua
+bin/scripts/loot/items/creature/rancor_padded_armor_segment.lua
+bin/scripts/loot/items/creature/sharnaff_plating_segment.lua
+bin/scripts/loot/items/creature/voritor_lizard_hide_segment.lua
+bin/scripts/loot/items/creature/woolamander_harrower_bone_fragments.lua
+bin/scripts/loot/items/geonosian_lab/acklay_hide.lua
+bin/scripts/loot/items/geonosian_lab/kliknik_reinforced_chitin_armor_segment.lua
+bin/scripts/loot/items/npc/donkuwah_bone_armor_segment.lua
 bin/scripts/loot/items/npc/janta_hides.lua
 bin/scripts/loot/items/npc/nightsister_layer.lua
 bin/scripts/loot/items/npc/nightsister_shards.lua
-- Disabled segments, changed values in other components
+- Removed crafting values from segments, changed values in other components.
 
 bin/scripts/object/draft_schematic/armor/armor_segment_composite.lua
 bin/scripts/object/draft_schematic/armor/armor_segment_composite_advanced.lua
@@ -576,3 +635,23 @@ tre_required/palette/wr_metal.pal
 tre_required/palette/wr_ris_armor.pal
 - Normalized all the clothing/armor color palettes.
 
+tre_required/object/tangible/component/armor/shared_armor_segment_bone_donkuwah.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_bone_kimogila.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_bone_voritor_lizard.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_chitin_brackaset.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_chitin_kliknick.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_chitin_kliknick_adv.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_chitin_sharnaff.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_composite_krayt.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_padded_acklay.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_padded_dune_lizard.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_padded_fambaa.iff
+tre_required/object/tangible/component/armor/shared_armor_segment_padded_rancor.iff
+- Removed crafting and adjusted names/descriptions.
+
+tre_required/string/en/craft_armor_ingredients_d.stf
+tre_required/string/en/craft_armor_ingredients_n.stf
+- Altered names and desciptions.
+
+tre_required/string/en/crafting.stf
+- Added detailed instructions for the armor upgrade process.

@@ -5,7 +5,7 @@ voritor_lizard_common = {
 	minimumLevel = 0,
 	maximumLevel = 0,
 	lootItems = {
-		{itemTemplate = "attachment_armor", weight = 5000000},
+		{itemTemplate = "voritor_lizard_hide_segment", weight = 5000000},
 		{itemTemplate = "voritor_lizard_scales", weight = 5000000}
 	}
 }
