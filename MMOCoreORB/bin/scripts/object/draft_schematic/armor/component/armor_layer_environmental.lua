@@ -42,7 +42,40 @@
 
 
 object_draft_schematic_armor_component_armor_layer_environmental = object_draft_schematic_armor_component_shared_armor_layer_environmental:new {
+	-- Legend of Hondo: Used as Simple Armor Layer for low level armor. Granted at Artisan x1xx
+	-- Kintic / Energy / Low Encumberance
+	
+   templateType = DRAFTSCHEMATIC,
 
+   customObjectName = "Evironmental Protection Armor Layer",
+
+   craftingToolTab = 2, -- (See DraftSchematicObjectTemplate.h)
+   complexity = 15, 
+   size = 3, 
+
+   xpType = "crafting_clothing_armor", 
+   xp = 35, 
+
+   assemblySkill = "armor_assembly", 
+   experimentingSkill = "armor_experimentation", 
+   customizationSkill = "armor_customization", 
+
+   customizationOptions = {},
+   customizationStringNames = {},
+   customizationDefaults = {},
+
+   ingredientTemplateNames = {"craft_armor_ingredients_n", "craft_armor_ingredients_n", "craft_armor_ingredients_n"},
+   ingredientTitleNames = {"armor_segment_zam", "segment_mounting_tabs", "segment_enhancement"},
+   ingredientSlotType = {0, 0, 3},
+   resourceTypes = {"metal", "bone", "object/tangible/component/armor/shared_base_armor_segment_enhancement.iff"},
+   resourceQuantities = {25, 25, 1},
+   contribution = {100, 100, 100},
+
+
+   targetTemplate = "object/tangible/component/armor/armor_layer_environmental.iff",
+
+   additionalTemplates = {
+             }
 }
 
 ObjectTemplates:addTemplate(object_draft_schematic_armor_component_armor_layer_environmental, "object/draft_schematic/armor/component/armor_layer_environmental.iff")

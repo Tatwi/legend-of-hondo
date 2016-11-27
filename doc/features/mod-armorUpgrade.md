@@ -32,8 +32,9 @@ A multi-pronged approach to making all armor types genuinely useful and as enjoy
 
 ####Armor Layers
 - Each of the cafted layer types can also have a looted Segment Enhancement. 
-- Using layers with looted parts is fundimental to building the best possible armor.
-- Using layers always adds encumberance, but it is possible to reduce the encumberance with looted parts.
+- Using layers with looted parts is fundamental to building the best possible armor.
+- Using layers usually adds encumberance, but it is possible to reduce the encumberance with looted parts.
+- Added an Environmental Protection Layer for use while leveling. It main purposes is to make armor with low encumberance, at the cost of overall protection. It has a small amount of Kinetic and Energy resistance (3% Max) and up to 1% Armor Effectiveness. Designed to be used with "Tiny" looted armor segment enhancerments that also further reduce encumberance (but that's all they do). 
 
 ####Armor Pieces
 - Only require one segement per piece, so each segment can be unique.
@@ -557,6 +558,11 @@ bin/scripts/object/draft_schematic/slicing/slicing_armor_upgrade_kit.lua
 bin/scripts/object/tangible/slicing/slicing_armor_upgrade_kit.lua
 - Made it more difficult and interesting to craft, now that the quality matters.
 
+bin/scripts/managers/crafting/schematics.lua
+bin/scripts/object/draft_schematic/armor/component/armor_layer_environmental.lua
+bin/scripts/object/tangible/component/armor/armor_layer_environmental.lua
+- Put this unused layer to use as a basic armor layer to use while leveling.
+
 src/server/zone/objects/installation/factory/FactoryObjectImplementation.cpp
 - Reduced factory run time.
 
@@ -659,3 +665,7 @@ tre_required/string/en/craft_armor_ingredients_n.stf
 
 tre_required/string/en/crafting.stf
 - Added detailed instructions for the armor upgrade process.
+
+tre_required/object/draft_schematic/armor/component/shared_armor_layer_environmental.iff
+tre_required/object/tangible/component/armor/shared_armor_layer_environmental.iff
+- Put this unused layer to use as a basic armor layer to use while leveling.

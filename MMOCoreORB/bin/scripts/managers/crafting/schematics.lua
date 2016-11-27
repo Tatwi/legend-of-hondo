@@ -165,6 +165,7 @@ schematics = {
 	{path="object/draft_schematic/armor/component/armor_layer_heat.iff"},
 	{path="object/draft_schematic/armor/component/armor_layer_cold.iff"},
 	{path="object/draft_schematic/armor/component/armor_layer_electrical.iff"},
+	{path="object/draft_schematic/armor/component/armor_layer_environmental.iff"},
 	{path="object/draft_schematic/armor/component/armor_layer_acid.iff"},
 	{path="object/draft_schematic/armor/component/armor_layer_stun.iff"},
 	{path="object/draft_schematic/armor/component/deflector_shield_generator_particle.iff"},
