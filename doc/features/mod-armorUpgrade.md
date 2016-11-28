@@ -38,7 +38,7 @@ A multi-pronged approach to making all armor types genuinely useful and as enjoy
 
 ####Armor Pieces
 - Only require one segement per piece, so each segment can be unique.
-- Biceps and bracers have low encumberance, because they aren't optional when it's possible to wear them. That said, Layers and Segement Enhancements will add ecumberance that can't really be experimented away, due to the way the crafting system works. Keeping the encumberance low is a matter of using Nightsister Shards or low encumberance Janta Hide Segement Enhancements or Nightsister (Electricity) Layers.
+- Biceps and bracers have low encumberance, because they aren't optional when it's possible to wear them.
 
 ####Crafted Armor Styles
 - For the most part, all styles of armor can be used to equal effect, so you can wear the kind that you like (rather than the only kind with good stats).
@@ -53,6 +53,24 @@ A multi-pronged approach to making all armor types genuinely useful and as enjoy
 - Smaller values, due to being able to use loot parts in layers as well as the segment.
 - Looted segments have been repurposed, as segement crafting is too important to be skipped. They are now intentionally non-stackable, single item drops and are used in the Armor Rating upgrade process.
 - Encumberance values in Legend of Hondo are treated differently, which allows for each loot part to have a downside of Enc. without making the part/armor useless (high Enc. can be overcome with skillful play).
+
+Tiny Scales
+- Bonus: Action/Health Enc.
+- Hinderance: None
+- Source: Low level lizards (Tatooine Only)
+- Enc is always negative, which is a bonus.
+
+Tiny Carapace
+- Bonus: Health/Mind Enc.
+- Hinderance: None
+- Source: Low level insects (Tatooine Only)
+- Enc is always negative, which is a bonus.
+
+Tiny Bone Chips
+- Bonus: Mind/Action Enc.
+- Hinderance: None
+- Source: Low level animals (Tatooine Only)
+- Enc is always negative, which is a bonus.
 
 Dune Lizard Scales
 - Bonus: Acid/Encumberance
@@ -559,9 +577,77 @@ bin/scripts/object/tangible/slicing/slicing_armor_upgrade_kit.lua
 - Made it more difficult and interesting to craft, now that the quality matters.
 
 bin/scripts/managers/crafting/schematics.lua
+- Added new armor layer, disabled unused schematics
+
 bin/scripts/object/draft_schematic/armor/component/armor_layer_environmental.lua
 bin/scripts/object/tangible/component/armor/armor_layer_environmental.lua
 - Put this unused layer to use as a basic armor layer to use while leveling.
+
+bin/scripts/loot/groups/creature/low_level_animals.lua
+bin/scripts/loot/groups/creature/low_level_insects.lua
+bin/scripts/loot/groups/creature/low_level_lizards.lua
+bin/scripts/loot/items/creature/tiny_bone_chip.lua
+bin/scripts/loot/items/creature/tiny_scales.lua
+- 3 new armor segment enhancements.
+
+bin/scripts/mobile/tatooine/bantha.lua
+bin/scripts/mobile/tatooine/bantha_e3.lua
+bin/scripts/mobile/tatooine/blight_boar.lua
+bin/scripts/mobile/tatooine/bocatt.lua
+bin/scripts/mobile/tatooine/bull_bantha.lua
+bin/scripts/mobile/tatooine/cave_beetle.lua
+bin/scripts/mobile/tatooine/cu_pa.lua
+bin/scripts/mobile/tatooine/death_kreetle.lua
+bin/scripts/mobile/tatooine/desert_eopie.lua
+bin/scripts/mobile/tatooine/desert_squill.lua
+bin/scripts/mobile/tatooine/dewback.lua
+bin/scripts/mobile/tatooine/diseased_bocatt.lua
+bin/scripts/mobile/tatooine/domestic_eopie.lua
+bin/scripts/mobile/tatooine/drooling_nuna.lua
+bin/scripts/mobile/tatooine/dune_bantha.lua
+bin/scripts/mobile/tatooine/dune_beetle.lua
+bin/scripts/mobile/tatooine/dwarf_bantha.lua
+bin/scripts/mobile/tatooine/dwarf_eopie.lua
+bin/scripts/mobile/tatooine/dwarf_nuna.lua
+bin/scripts/mobile/tatooine/eopie.lua
+bin/scripts/mobile/tatooine/feral_bantha.lua
+bin/scripts/mobile/tatooine/giant_worrt.lua
+bin/scripts/mobile/tatooine/gorg.lua
+bin/scripts/mobile/tatooine/gorg_glutton.lua
+bin/scripts/mobile/tatooine/great_squill.lua
+bin/scripts/mobile/tatooine/jundland_eopie.lua
+bin/scripts/mobile/tatooine/kreetle.lua
+bin/scripts/mobile/tatooine/kreetle_swarmling.lua
+bin/scripts/mobile/tatooine/lesser_bocatt.lua
+bin/scripts/mobile/tatooine/lesser_desert_womp_rat.lua
+bin/scripts/mobile/tatooine/lesser_dewback.lua
+bin/scripts/mobile/tatooine/mound_mite.lua
+bin/scripts/mobile/tatooine/mountain_dewback.lua
+bin/scripts/mobile/tatooine/mutant_womp_rat.lua
+bin/scripts/mobile/tatooine/rill.lua
+bin/scripts/mobile/tatooine/rock_beetle.lua
+bin/scripts/mobile/tatooine/rockmite.lua
+bin/scripts/mobile/tatooine/rogue_bantha.lua
+bin/scripts/mobile/tatooine/ronto.lua
+bin/scripts/mobile/tatooine/sand_beetle.lua
+bin/scripts/mobile/tatooine/scyk.lua
+bin/scripts/mobile/tatooine/sevorrt.lua
+bin/scripts/mobile/tatooine/slum_rat.lua
+bin/scripts/mobile/tatooine/squill.lua
+bin/scripts/mobile/tatooine/sunstained_dune_lizard.lua
+bin/scripts/mobile/tatooine/swarming_lesser_dewback.lua
+bin/scripts/mobile/tatooine/tatooine_mynock.lua
+bin/scripts/mobile/tatooine/tempest_rill.lua
+bin/scripts/mobile/tatooine/volatile_scyk.lua
+bin/scripts/mobile/tatooine/wasteland_cu_pa.lua
+bin/scripts/mobile/tatooine/womp_rat.lua
+bin/scripts/mobile/tatooine/worrt.lua
+bin/scripts/mobile/tatooine/worrt_gutbuster.lua
+bin/scripts/mobile/tatooine/zucca_boar.lua
+- Added loot groups for low level armor segment enhancements.
+
+bin/scripts/object/tangible/component/armor/armor_segment_enhancement_dragonet.lua
+- Base item for the low level armor segment enhancements.
 
 src/server/zone/objects/installation/factory/FactoryObjectImplementation.cpp
 - Reduced factory run time.

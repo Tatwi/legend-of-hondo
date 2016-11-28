@@ -66,6 +66,9 @@ includeFile("groups/creature/rancor_common.lua")
 includeFile("groups/creature/sharnaff_common.lua")
 includeFile("groups/creature/voritor_lizard_common.lua")
 includeFile("groups/creature/dune_lizard_common.lua")
+includeFile("groups/creature/low_level_lizards.lua")
+includeFile("groups/creature/low_level_insects.lua")
+includeFile("groups/creature/low_level_animals.lua")
 
 -- death_watch_bunker sub-folder
 includeFile("groups/death_watch_bunker/death_watch_bunker_art.lua")

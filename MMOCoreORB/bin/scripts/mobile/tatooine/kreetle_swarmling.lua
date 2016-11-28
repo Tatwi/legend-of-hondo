@@ -26,7 +26,14 @@ kreetle_swarmling = Creature:new {
 	diet = CARNIVORE,
 
 	templates = {"object/mobile/kreetle.iff"},
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_insects", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {

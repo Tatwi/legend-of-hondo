@@ -28,7 +28,14 @@ rogue_bantha = Creature:new {
 
 	templates = {"object/mobile/bantha.iff"},
 	scale = 1.1,
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_animals", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {

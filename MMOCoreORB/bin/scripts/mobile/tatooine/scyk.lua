@@ -28,7 +28,14 @@ scyk = Creature:new {
 	templates = {"object/mobile/scyk.iff"},
 	controlDeviceTemplate = "object/intangible/pet/dune_lizard_hue.iff",
 	scale = 0.8,
-	lootGroups = {},
+	lootGroups = {
+		{
+			groups = {
+				{group = "low_level_lizards", chance = 10000000}
+			},
+			lootChance = 1440000
+		}
+	},
 	weapons = {},
 	conversationTemplate = "",
 	attacks = {

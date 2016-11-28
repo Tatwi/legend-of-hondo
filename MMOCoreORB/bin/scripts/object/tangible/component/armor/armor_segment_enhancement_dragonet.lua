@@ -42,7 +42,7 @@
 
 
 object_tangible_component_armor_armor_segment_enhancement_dragonet = object_tangible_component_armor_shared_armor_segment_enhancement_dragonet:new {
-
+	-- Legend of Hondo: Put this to use as the base item from the 3 "Tiny" segement enhancements
 }
 
 ObjectTemplates:addTemplate(object_tangible_component_armor_armor_segment_enhancement_dragonet, "object/tangible/component/armor/armor_segment_enhancement_dragonet.iff")
