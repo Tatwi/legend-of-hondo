@@ -94,28 +94,62 @@ void LightsaberCrystalComponentImplementation::fillAttributeList(AttributeListMe
 	}
 }
 
+// LoH Unless broken, allow a M. Fencer/Pikeman/Swordsman to tune
 void LightsaberCrystalComponentImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuResponse, CreatureObject* player) {
-	if (ownerID == 0 && player->hasSkill("force_title_jedi_rank_01") && hasPlayerAsParent(player)) {
-		String text = "@jedi_spam:tune_crystal";
-		menuResponse->addRadialMenuItem(128, 3, text);
+	if (ownerID == 0 && hasPlayerAsParent(player)) {
+		if ((getMaxCondition() - getConditionDamage()) > 0){
+			if (player->hasSkill("combat_1hsword_master") || player->hasSkill("combat_2hsword_master") || player->hasSkill("combat_polearm_master")){
+				String text = "@jedi_spam:tune_crystal";
+				menuResponse->addRadialMenuItem(128, 3, text);
+			}
+		}
 	}
 
 	ComponentImplementation::fillObjectMenuResponse(menuResponse, player);
 }
 
 int LightsaberCrystalComponentImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
-	if (selectedID == 128 && player->hasSkill("force_title_jedi_rank_01") && hasPlayerAsParent(player)) {
-		if(ownerID == 0) {
-			ManagedReference<SuiMessageBox*> suiMessageBox = new SuiMessageBox(player, SuiWindowType::TUNE_CRYSTAL);
+	if (selectedID == 128 && hasPlayerAsParent(player)) {
+		if (player->hasSkill("combat_1hsword_master") || player->hasSkill("combat_2hsword_master") || player->hasSkill("combat_polearm_master")){
+			if(ownerID == 0) {
+				ManagedReference<SuiMessageBox*> suiMessageBox = new SuiMessageBox(player, SuiWindowType::TUNE_CRYSTAL);
 
-			suiMessageBox->setPromptTitle("@jedi_spam:confirm_tune_title");
-			suiMessageBox->setPromptText("@jedi_spam:confirm_tune_prompt");
-			suiMessageBox->setCancelButton(true, "Cancel");
-			suiMessageBox->setUsingObject(_this.getReferenceUnsafeStaticCast());
-			suiMessageBox->setCallback(new LightsaberCrystalTuneSuiCallback(player->getZoneServer()));
+				suiMessageBox->setPromptTitle("@jedi_spam:confirm_tune_title");
+				
+				// LoH Allow Master Fencer, Pikeman, and Swordsman to play around with poor quality Gen1 Lightsabers
+				int humor = System::random(4);
+				
+				StringBuffer msg; 
+				msg << "This little gem looks like it might be one of those... Force crystals? I bet if I ";
+				
+				switch (humor) {
+				case 1:
+					msg << "poke it with my knife *OUCH!* ... hit with my hilt... yup, ";
+					break;
+				case 2:
+					msg << "squeeze it super *GRUNT* tight... in my... *UHG* armpit... ahh, ";
+					break;
+				case 3:
+					msg << "shove it into the guts of this droid battery and mix it with some... hmm... grape juice? Yeah,";
+					break;
+				case 4:
+					msg << "stare at it really, really hard until it notices me";
+					break;
+				default: // humor = 0
+					msg << "roll it into a ball of dung, polish it to a mirror finish, dry it solid, then crack it open with a hammer";
+					break;
+				}
+				
+				msg << " that'll probably tune it just right!";
+				
+				suiMessageBox->setPromptText(msg.toString()); // default = "@jedi_spam:confirm_tune_prompt"
+				suiMessageBox->setCancelButton(true, "Cancel");
+				suiMessageBox->setUsingObject(_this.getReferenceUnsafeStaticCast());
+				suiMessageBox->setCallback(new LightsaberCrystalTuneSuiCallback(player->getZoneServer()));
 
-			player->getPlayerObject()->addSuiBox(suiMessageBox);
-			player->sendMessage(suiMessageBox->generateMessage());
+				player->getPlayerObject()->addSuiBox(suiMessageBox);
+				player->sendMessage(suiMessageBox->generateMessage());
+			}
 		}
 	}
 
@@ -148,24 +182,33 @@ bool LightsaberCrystalComponentImplementation::hasPlayerAsParent(CreatureObject*
 }
 
 void LightsaberCrystalComponentImplementation::tuneCrystal(CreatureObject* player) {
-	if(!player->hasSkill("force_title_jedi_rank_01") || !hasPlayerAsParent(player)) {
+	if(!hasPlayerAsParent(player))
 		return;
-	}
+	
+	if (player->hasSkill("combat_1hsword_master") || player->hasSkill("combat_2hsword_master") || player->hasSkill("combat_polearm_master")){
+		// LoH Random chance for Force-noob player to break it
+		if (System::random(100) > 65){
+			TangibleObjectImplementation::inflictDamage(player, 0, 50000.0f, true, true); // LoH player, kinetic damage, 50000 damage, destroy it
+			
+			player->sendSystemMessage("You broke it. Ah well, it was probably useless anyway.");
+			return;
+		}
+		
+		if (ownerID == 0){
+			setOwnerID(player->getObjectID());
 
-	if (ownerID == 0){
-		setOwnerID(player->getObjectID());
+			// Color code is lime green.
+			String tuneName;
+			if (getCustomObjectName().toString().contains("(Exceptional)"))
+				tuneName = "\\#00FF00" + postTuneName + " (Exceptional) (tuned)";
+			else if (getCustomObjectName().toString().contains("(Legendary)"))
+				tuneName = "\\#00FF00" + postTuneName + " (Legendary) (tuned)";
+			else
+				tuneName = "\\#00FF00" + postTuneName + " (tuned)";
 
-		// Color code is lime green.
-		String tuneName;
-		if (getCustomObjectName().toString().contains("(Exceptional)"))
-			tuneName = "\\#00FF00" + postTuneName + " (Exceptional) (tuned)";
-		else if (getCustomObjectName().toString().contains("(Legendary)"))
-			tuneName = "\\#00FF00" + postTuneName + " (Legendary) (tuned)";
-		else
-			tuneName = "\\#00FF00" + postTuneName + " (tuned)";
-
-		setCustomObjectName(tuneName, true);
-		player->sendSystemMessage("@jedi_spam:crystal_tune_success");
+			setCustomObjectName(tuneName, true);
+			player->sendSystemMessage("Looks like that did the trick. Good Job!"); // default = @jedi_spam:crystal_tune_success
+		}
 	}
 }
 
