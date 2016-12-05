@@ -13,10 +13,10 @@ professions = {
 	"combat_brawler",
 	"combat_marksman",
 	"crafting_artisan",
-	"jedi",
+	--"jedi",
 	"outdoors_scout",
 	"science_medic",
-	"social_entertainer"
+	--"social_entertainer"
 }
 
 marksmanPistol = "object/weapon/ranged/pistol/pistol_cdef.iff"
@@ -53,10 +53,10 @@ professionSpecificItems = {
 	combat_brawler = { brawlerOneHander, brawlerTwoHander, brawlerPolearm },
 	combat_marksman = { marksmanPistol, marksmanCarbine, marksmanRifle },
 	crafting_artisan = { genericTool, mineralTool, chemicalTool },
-	jedi = { },
+	--jedi = { },
 	outdoors_scout = { genericTool },
 	science_medic = { foodTool },
-	social_entertainer = { slitherhorn }
+	--social_entertainer = { slitherhorn }
 }
 
 commonStartingItems = { marojMelon, survivalKnife, x31Speeder, medicalBag }
