@@ -85,6 +85,25 @@ public:
 		}
 
 		if (transferType == 4) {
+			// LoH Only equip if certified for this armor
+			if (objectToTransfer->isArmorObject()) {
+				ManagedReference<ArmorObject*> armor = objectToTransfer.castTo<ArmorObject*>();
+				int armorRating = armor->getRating();
+				
+				ManagedReference<PlayerObject*> ghost = creature->getPlayerObject();
+				
+				if (armorRating == 1 && !ghost->hasAbility("cert_armor_light")){
+					creature->sendSystemMessage("You are not certified to wear Light Armor.");
+					return GENERALERROR;
+				} else if (armorRating == 2 && !ghost->hasAbility("cert_armor_medium")){
+					creature->sendSystemMessage("You are not certified to wear Medium Armor.");
+					return GENERALERROR;
+				} else if (armorRating == 3 && !ghost->hasAbility("cert_armor_heavy")){
+					creature->sendSystemMessage("You are not certified to wear Heavy Armor.");
+					return GENERALERROR;
+				}
+			}
+					
 			ManagedReference<SceneObject*> parent = objectToTransfer->getParent();
 
 			if (parent == NULL) {
