@@ -51,12 +51,12 @@ object_draft_schematic_chemistry_medpack_cure_poison_a = object_draft_schematic_
    complexity = 15, 
    size = 3, 
 
-   xpType = "crafting_medicine_general", 
+	xpType = "crafting_bio_engineer_creature",
    xp = 50, 
 
-   assemblySkill = "medicine_assembly", 
-   experimentingSkill = "medicine_experimentation", 
-   customizationSkill = "medicine_customization", 
+	assemblySkill = "bio_engineer_assembly",
+	experimentingSkill = "bio_engineer_experimentation",
+	customizationSkill = "bio_customization",
 
    customizationOptions = {},
    customizationStringNames = {},

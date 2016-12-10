@@ -51,12 +51,12 @@ object_draft_schematic_spices_spice_muon_gold = object_draft_schematic_spices_sh
    complexity = 13, 
    size = 1, 
 
-   xpType = "crafting_spice", 
+	xpType = "crafting_bio_engineer_creature",
    xp = 240, 
 
-   assemblySkill = "spice_assembly", 
-   experimentingSkill = "spice_experimentation", 
-   customizationSkill = "spice_customization", 
+	assemblySkill = "bio_engineer_assembly",
+	experimentingSkill = "bio_engineer_experimentation",
+	customizationSkill = "bio_customization",
 
    customizationOptions = {},
    customizationStringNames = {},

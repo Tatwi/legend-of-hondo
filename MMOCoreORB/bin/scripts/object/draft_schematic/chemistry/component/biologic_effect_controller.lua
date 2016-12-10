@@ -51,12 +51,12 @@ object_draft_schematic_chemistry_component_biologic_effect_controller = object_d
    complexity = 10, 
    size = 2, 
 
-   xpType = "crafting_medicine_general", 
+	xpType = "crafting_bio_engineer_creature",
    xp = 35, 
 
-   assemblySkill = "medicine_assembly", 
-   experimentingSkill = "medicine_experimentation", 
-   customizationSkill = "medicine_customization", 
+	assemblySkill = "bio_engineer_assembly",
+	experimentingSkill = "bio_engineer_experimentation",
+	customizationSkill = "bio_customization",
 
    customizationOptions = {},
    customizationStringNames = {},

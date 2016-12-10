@@ -51,12 +51,12 @@ object_draft_schematic_chemistry_component_release_mechanism_duration_advanced =
    complexity = 17, 
    size = 4, 
 
-   xpType = "crafting_medicine_general", 
+	xpType = "crafting_bio_engineer_creature",
    xp = 65, 
 
-   assemblySkill = "medicine_assembly", 
-   experimentingSkill = "medicine_experimentation", 
-   customizationSkill = "medicine_customization", 
+	assemblySkill = "bio_engineer_assembly",
+	experimentingSkill = "bio_engineer_experimentation",
+	customizationSkill = "bio_customization",
 
    customizationOptions = {},
    customizationStringNames = {},
