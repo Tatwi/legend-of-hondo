@@ -51,12 +51,12 @@ object_draft_schematic_chemistry_medpack_wound_strength_e = object_draft_schemat
    complexity = 40, 
    size = 3, 
 
-   xpType = "crafting_medicine_general", 
+	xpType = "crafting_bio_engineer_creature",
    xp = 100, 
 
-   assemblySkill = "medicine_assembly", 
-   experimentingSkill = "medicine_experimentation", 
-   customizationSkill = "medicine_customization", 
+	assemblySkill = "bio_engineer_assembly",
+	experimentingSkill = "bio_engineer_experimentation",
+	customizationSkill = "bio_customization",
 
    customizationOptions = {},
    customizationStringNames = {},

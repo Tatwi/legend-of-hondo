@@ -7,8 +7,8 @@
 		OnShow='-particle.visible=visible'
 		PackSize='1,1'
 		particle.visible='true'
-		ScrollExtent='800,450'
-		Size='800,450'
+		ScrollExtent='1600,900'
+		Size='1600,900'
 		VisualEditLock='true'
 	>
 		<Data
@@ -22,9 +22,9 @@
 			Name='jedi'
 			PackLocation='nfn,nfn'
 			PackSize='a,a'
-			ScrollExtent='800,450'
-			Size='800,450'
-			SourceRect='0,251,800,450'
+			ScrollExtent='1600,900'
+			Size='1600,900'
+			SourceRect='0,251,1600,900'
 			SourceResource='ui_background_jedi'
 			Visible='false'
 		/>
@@ -33,9 +33,9 @@
 			Name='station'
 			PackLocation='nfn,nfn'
 			PackSize='a,a'
-			ScrollExtent='800,450'
-			Size='800,450'
-			SourceRect='0,0,800,450'
+			ScrollExtent='1600,900'
+			Size='1600,900'
+			SourceRect='0,0,1600,900'
 			SourceResource='ui_background_arrow'
 		/>
 		<DataSource
@@ -51,8 +51,8 @@
 			Name='bg'
 			PackLocation='nfn,nfn'
 			PackSize='a,a'
-			ScrollExtent='800,450'
-			Size='800,450'
+			ScrollExtent='1600,900'
+			Size='1600,900'
 			Visible='false'
 		>
 			<Image
