@@ -1,7 +1,6 @@
 trainer_1hsword = Creature:new {
 	objectName = "@mob/creature_names:trainer_1hsword",
-	randomNameType = NAME_GENERIC,
-	randomNameTag = true,
+	customName = "Rodo Pottecai",
 	socialGroup = "",
 	faction = "",
 	level = 100,
@@ -27,13 +26,9 @@ trainer_1hsword = Creature:new {
 	optionsBitmask = INVULNERABLE + CONVERSABLE,
 	diet = HERBIVORE,
 
-	templates = {
-		"object/mobile/dressed_1handsword_trainer_01.iff",
-		"object/mobile/dressed_1handsword_trainer_02.iff",
-		"object/mobile/dressed_1handsword_trainer_03.iff"
-	},
+	templates = {"object/mobile/dressed_1handsword_trainer_01.iff"},
 	lootGroups = {},
-	weapons = {},
+	weapons = {"luke_skywalker_weapons"},
 	conversationTemplate = "trainer_1hsword_convotemplate",
 	attacks = {}
 }

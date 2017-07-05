@@ -26,13 +26,9 @@ trainer_2hsword = Creature:new {
 	optionsBitmask = INVULNERABLE + CONVERSABLE,
 	diet = HERBIVORE,
 
-	templates = {
-		"object/mobile/dressed_2handsword_trainer_01.iff",
-		"object/mobile/dressed_2handsword_trainer_02.iff",
-		"object/mobile/dressed_2handsword_trainer_03.iff"
-	},
+	templates = {"object/mobile/dressed_2handsword_trainer_03.iff"},
 	lootGroups = {},
-	weapons = {},
+	weapons = {"mordran_weapons"},
 	conversationTemplate = "trainer_2hsword_convotemplate",
 	attacks = {}
 }

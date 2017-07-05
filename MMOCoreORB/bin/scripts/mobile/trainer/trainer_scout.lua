@@ -26,11 +26,7 @@ trainer_scout = Creature:new {
 	optionsBitmask = INVULNERABLE + CONVERSABLE,
 	diet = HERBIVORE,
 
-	templates = {
-		"object/mobile/dressed_scout_trainer_01.iff",
-		"object/mobile/dressed_scout_trainer_02.iff",
-		"object/mobile/dressed_scout_trainer_03.iff"
-	},
+	templates = {"object/mobile/space_privateer_tier1_tatooine.iff"},
 	lootGroups = {},
 	weapons = {},
 	conversationTemplate = "trainer_scout_convotemplate",

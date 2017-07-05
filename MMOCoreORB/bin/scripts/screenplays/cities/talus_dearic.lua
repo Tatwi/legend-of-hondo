@@ -110,7 +110,7 @@ function TalusDearicScreenPlay:spawnMobiles()
 	spawnMobile("talus", "rebel_recruiter",60,-26,0,0,90,3175399)
 	spawnMobile("talus", "rebel_recruiter",60,17,3,-36,0,6255475)
 	--trainers
-	spawnMobile("talus", "trainer_1hsword",1,549,6,-2865,180,0)
+--[[	spawnMobile("talus", "trainer_1hsword",1,549,6,-2865,180,0)
 	spawnMobile("talus", "trainer_2hsword",1,552,6,-2865,180,0)
 	spawnMobile("talus", "trainer_architect",1,11,1,-14,0,3175561)
 	spawnMobile("talus", "trainer_armorsmith",1,-15,1,0,90,3175560)
@@ -144,7 +144,7 @@ function TalusDearicScreenPlay:spawnMobiles()
 	spawnMobile("talus", "trainer_unarmed",1,-31,0,10,90,3175401)
 	spawnMobile("talus", "trainer_weaponsmith",1,0,1,-14,0,3175562)
 	spawnMobile("talus", "trainer_weaponsmith",1,519,6,-2913.5,180,0)
-
+--]]
 	--Anything dashed out will need to be added here and removed from spawn manager once the spawnMobiles command is extended.
 	--More Outside Misc
 	spawnMobile("talus", "businessman",60,168.921,6,-2923.67,107.531,0)
@@ -267,8 +267,8 @@ function TalusDearicScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "conversation")
 	pNpc = spawnMobile("talus", "chassis_dealer",60,-56.7086,0.974563,8.24108,43.5461,3175366)
 	self:setMoodString(pNpc, "neutral")
-	pNpc = spawnMobile("talus", "trainer_shipwright",60,0.1,0.6,73.0,0,3175353)
-	self:setMoodString(pNpc, "neutral")
+	--pNpc = spawnMobile("talus", "trainer_shipwright",60,0.1,0.6,73.0,0,3175353)
+	--self:setMoodString(pNpc, "neutral")
 
 	--Cantina
 	spawnMobile("talus", "bartender",60,7.8,-0.9,-1.4,119,3175391)

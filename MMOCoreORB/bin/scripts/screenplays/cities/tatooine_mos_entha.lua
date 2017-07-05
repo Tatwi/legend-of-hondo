@@ -127,8 +127,8 @@ function TatooineMosEnthaScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "conversation")
 	pNpc = spawnMobile(self.planet, "commoner_fat",300,-54.237,2.63942,38.7938,135.003,4005528)
 	self:setMoodString(pNpc, "conversation")
-	pNpc = spawnMobile(self.planet, "trainer_shipwright",60,1.0,0.6,66.7,48,4005520)
-	self:setMoodString(pNpc, "conversation")
+	--pNpc = spawnMobile(self.planet, "trainer_shipwright",60,1.0,0.6,66.7,48,4005520)
+	--self:setMoodString(pNpc, "conversation")
 
 	--Hotel
 	pNpc = spawnMobile(self.planet, "businessman",60,-23.2,1.6,10.3,-61,1233977)
@@ -238,9 +238,9 @@ function TatooineMosEnthaScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "sad")
 
 	--Guild Hall 1377 3011
-	spawnMobile(self.planet, "trainer_brawler",0,-11,1.1,-14,0,1153566)
-	spawnMobile(self.planet, "trainer_marksman",0,0,0,-13,0,1153565)
-	spawnMobile(self.planet, "trainer_scout",0,-13,1.1,4.8,180,1153563)
+	--spawnMobile(self.planet, "trainer_brawler",0,-11,1.1,-14,0,1153566)
+	--spawnMobile(self.planet, "trainer_marksman",0,0,0,-13,0,1153565)
+	--spawnMobile(self.planet, "trainer_scout",0,-13,1.1,4.8,180,1153563)
 	spawnMobile(self.planet, "brawler",300,-14.01,1.13306,-8.53,120.004,1153566)
 	spawnMobile(self.planet, "businessman",60,3.32,1.13306,-8.49,228.007,1153565)
 
@@ -252,7 +252,7 @@ function TatooineMosEnthaScreenPlay:spawnMobiles()
 	--Guild Hall 1560 3046
 	spawnMobile(self.planet, "contractor",60,-3.69,1.13306,-6,11.0003,1153489)
 	spawnMobile(self.planet, "artisan",60,3.29,1.13306,-9.58,249.007,1153493)
-	spawnMobile(self.planet, "trainer_artisan",0,-0.0475945,1.13306,-14.1102,0,1153493)
+	--spawnMobile(self.planet, "trainer_artisan",0,-0.0475945,1.13306,-14.1102,0,1153493)
 
 	--Guild Hall imperial 1435 3367
 
@@ -307,7 +307,7 @@ function TatooineMosEnthaScreenPlay:spawnMobiles()
 
 	--Med Center
 	spawnMobile(self.planet, "surgical_droid_21b",60,-25.52,0.26,-3.48,142.122,1153586)
-	spawnMobile(self.planet, "trainer_combatmedic",0,-16.4794,0.26,9.71928,162,1153586)
+--[[	spawnMobile(self.planet, "trainer_combatmedic",0,-16.4794,0.26,9.71928,162,1153586)
 	spawnMobile(self.planet, "trainer_doctor",0,-24.6019,0.26,-3.96049,212,1153586)
 	spawnMobile(self.planet, "trainer_medic",0,-17.0194,0.26,-1.8269,149,1153586)
 	spawnMobile(self.planet, "trainer_combatmedic",0,28,0.26,6.3,227,1153582)
@@ -320,7 +320,7 @@ function TatooineMosEnthaScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_droidengineer",0,-11.2719,1.13306,-13.4562,0,1154185)
 	spawnMobile(self.planet, "trainer_merchant",0,12,1.13306,6,180,1154181)
 	spawnMobile(self.planet, "trainer_weaponsmith",0,-3.1,1.1,-8.4,95,1154184)
-
+--]]
 	--Guild Hall/Theater
 	pNpc = spawnMobile(self.planet, "farmer_rancher",60,25.1612,2.6,17.6257,180.006,1153601)
 	self:setMoodString(pNpc, "conversation")
@@ -336,9 +336,9 @@ function TatooineMosEnthaScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "theater_manager",60,21.99,2.12804,64.05,4.00007,1153603)
 	pNpc = spawnMobile(self.planet, "thivauwrai_aphereef",60,3.25667,2.12878,72.8841,180.009,1153603)
 	self:setMoodString(pNpc, "conversation")
-	spawnMobile(self.planet, "trainer_dancer",0,17.812,2.12873,53.8433,1,1153603)
-	spawnMobile(self.planet, "trainer_entertainer",0,29.9638,2.12878,73.0406,88,1153603)
-	spawnMobile(self.planet, "trainer_imagedesigner",0,-21.3524,2.12878,74.1456,164,1153604)
+	--spawnMobile(self.planet, "trainer_dancer",0,17.812,2.12873,53.8433,1,1153603)
+	--spawnMobile(self.planet, "trainer_entertainer",0,29.9638,2.12878,73.0406,88,1153603)
+	--spawnMobile(self.planet, "trainer_imagedesigner",0,-21.3524,2.12878,74.1456,164,1153604)
 
 	--Outside
 	pNpc = spawnMobile(self.planet, "agriculturalist",60,1356.66,7,3413.13,0,0)
@@ -429,7 +429,7 @@ function TatooineMosEnthaScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "conversation")
 	pNpc = spawnMobile(self.planet, "smuggler",300,1356.66,7,3414.43,180.005,0)
 	self:setMoodString(pNpc, "conversation")
-	spawnMobile(self.planet, "trainer_armorsmith",0,1247,4,3248,16,0)
+--[[	spawnMobile(self.planet, "trainer_armorsmith",0,1247,4,3248,16,0)
 	spawnMobile(self.planet, "trainer_artisan",0,1276.55,7,3153.11,160,0)
 	spawnMobile(self.planet, "trainer_artisan",0,1324,7,3141,250,0)
 	spawnMobile(self.planet, "trainer_artisan",0,1335,7,3487,140,0)
@@ -448,6 +448,7 @@ function TatooineMosEnthaScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_scout",0,1303,7,3199,180,0)
 	spawnMobile(self.planet, "trainer_weaponsmith",0,1210,7.4,3273,170,0)
 	spawnMobile(self.planet, "trainer_weaponsmith",0,1394,7,3447,95,0)
+--]]
 	spawnMobile(self.planet, "valarian_thug",300,1618.4,11,3283.9,150,0)
 	spawnMobile(self.planet, "valarian_thug",300,1618.1,11,3278.5,32,0)
 	spawnMobile(self.planet, "valarian_thug",300,1620.8,11,3282,-99,0)

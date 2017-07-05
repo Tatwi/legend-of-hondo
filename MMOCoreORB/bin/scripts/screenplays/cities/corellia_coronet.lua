@@ -126,8 +126,8 @@ function CorelliaCoronetScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "conversation")
 	pNpc = spawnMobile(self.planet, "mercenary",300,-62.7673,2.63942,41.7604,179.995,1855683)
 	self:setMoodString(pNpc, "conversation")
-	pNpc = spawnMobile(self.planet, "trainer_shipwright",60,-0.1,0.6,67.1,-179,1855675)
-	self:setMoodString(pNpc, "neutral")
+	--pNpc = spawnMobile(self.planet, "trainer_shipwright",60,-0.1,0.6,67.1,-179,1855675)
+	--self:setMoodString(pNpc, "neutral")
 
 	--Guild Hall -275 -4700
 	pNpc = spawnMobile(self.planet, "sullustan_male",300,-9.42234,1.75,-18.7259,180.005,1855484)
@@ -183,20 +183,20 @@ function CorelliaCoronetScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "rebel_recruiter",60,-28.3633,-0.894984,0.335875,171.796,8105504)
 
 	--Guild Hall -243 -4389
-	spawnMobile(self.planet, "trainer_brawler",0,-11,1.13306,-14,0,1855508)
-	spawnMobile(self.planet, "trainer_marksman",0,0,1.13306,-14,0,1855507)
-	spawnMobile(self.planet, "trainer_scout",0,-12,1.13306,5.5,180,1855505)
+	--spawnMobile(self.planet, "trainer_brawler",0,-11,1.13306,-14,0,1855508)
+	--spawnMobile(self.planet, "trainer_marksman",0,0,1.13306,-14,0,1855507)
+	--spawnMobile(self.planet, "trainer_scout",0,-12,1.13306,5.5,180,1855505)
 	--{"junk_dealer",0,-14.5,1.1,2.5,88,1855505, "", "",JUNKWEAPONS,JUNKCONVARMS},
 
 	--Guild Hall -177 -4390
-	spawnMobile(self.planet, "trainer_artisan",0,0,1.13306,-14,0,1855517)
+	--spawnMobile(self.planet, "trainer_artisan",0,0,1.13306,-14,0,1855517)
 
 	--Med Center
 	spawnMobile(self.planet, "surgical_droid_21b",60,-25.52,0.26,-3.48,357.849,1855535)
-	spawnMobile(self.planet, "trainer_combatmedic",0,26.676,0.26,5.41823,85,1855531)
-	spawnMobile(self.planet, "trainer_doctor",0,-25.2731,0.26,-5,13,1855535)
-	spawnMobile(self.planet, "trainer_medic",0,-17.7359,0.26,-0.58142,137,1855535)
-	spawnMobile(self.planet, "trainer_medic",0,14.2688,0.26,4.66124,159,1855531)
+	--spawnMobile(self.planet, "trainer_combatmedic",0,26.676,0.26,5.41823,85,1855531)
+	--spawnMobile(self.planet, "trainer_doctor",0,-25.2731,0.26,-5,13,1855535)
+	--spawnMobile(self.planet, "trainer_medic",0,-17.7359,0.26,-0.58142,137,1855535)
+	--spawnMobile(self.planet, "trainer_medic",0,14.2688,0.26,4.66124,159,1855531)
 	--3rd floor
 	pNpc = spawnMobile(self.planet, "corellia_times_investigator",60,21.5803,14.26,-8.84205,360.011,1855541)
 	self:setMoodString(pNpc, "conversation")
@@ -204,11 +204,11 @@ function CorelliaCoronetScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "conversation")
 
 	--Guild Hall 24 -4400
-	spawnMobile(self.planet, "trainer_architect",0,11,1.13306,-14,0,1855526)
-	spawnMobile(self.planet, "trainer_armorsmith",0,-12,1.1,5,180,1855525)
-	spawnMobile(self.planet, "trainer_droidengineer",0,-11,1.13306,-14,0,1855528)
-	spawnMobile(self.planet, "trainer_merchant",0,12.1,1.1,5.8,177,1855524)
-	spawnMobile(self.planet, "trainer_weaponsmith",0,-2.5,1.13306,-8.4,91,1855527)
+	--spawnMobile(self.planet, "trainer_architect",0,11,1.13306,-14,0,1855526)
+	--spawnMobile(self.planet, "trainer_armorsmith",0,-12,1.1,5,180,1855525)
+	--spawnMobile(self.planet, "trainer_droidengineer",0,-11,1.13306,-14,0,1855528)
+	--spawnMobile(self.planet, "trainer_merchant",0,12.1,1.1,5.8,177,1855524)
+	--spawnMobile(self.planet, "trainer_weaponsmith",0,-2.5,1.13306,-8.4,91,1855527)
 
 	--Capitol
 	pNpc = spawnMobile(self.planet, "noble",60,5.22842,0.3,2.91677,0,1855463)
@@ -281,12 +281,12 @@ function CorelliaCoronetScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "conversation")
 	pNpc = spawnMobile(self.planet, "contractor",60,26.5189,2.12858,73.0319,180.005,2365399)
 	self:setMoodString(pNpc, "conversation")
-	spawnMobile(self.planet, "trainer_dancer",0,18.5885,2.12869,53.9366,0,2365399)
-	spawnMobile(self.planet, "trainer_musician",0,21.7,2.1,75.9,180,2365399)
+	--spawnMobile(self.planet, "trainer_dancer",0,18.5885,2.12869,53.9366,0,2365399)
+	--spawnMobile(self.planet, "trainer_musician",0,21.7,2.1,75.9,180,2365399)
 	spawnMobile(self.planet, "theater_manager",0,21.8947,2.12814,63.5,0,2365399)
 	pNpc = spawnMobile(self.planet, "farmer_rancher",60,-20.3488,2.12878,65.9854,180.006,2365400)
 	self:setMoodString(pNpc, "conversation")
-	spawnMobile(self.planet, "trainer_imagedesigner",0,-21.4483,2.12878,74.4461,185,2365400)
+	--spawnMobile(self.planet, "trainer_imagedesigner",0,-21.4483,2.12878,74.4461,185,2365400)
 
 	--Outside Misc
 	spawnMobile(self.planet, "businessman",60,-306.34,28,-4620.82,67.4368,0)
@@ -443,7 +443,7 @@ function CorelliaCoronetScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "tarth_jaxx",60,-137.464,28,-4718.83,342.825,0)
 
 	--Trainers Outside
-	spawnMobile(self.planet, "trainer_architect",0,-161,28,-4698,-95,0)
+--[[spawnMobile(self.planet, "trainer_architect",0,-161,28,-4698,-95,0)
 	spawnMobile(self.planet, "trainer_artisan",0,-187,28,-4700,92,0)
 	spawnMobile(self.planet, "trainer_bioengineer",0,-424.092,28,-4651.85,94,0)
 	spawnMobile(self.planet, "trainer_brawler",0,-164,30.9,-4754,88,0)
@@ -459,7 +459,7 @@ function CorelliaCoronetScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_politician",0,-218,28,-4500,0,0)
 	spawnMobile(self.planet, "trainer_ranger",0,-505,28,-4633,180,0)
 	spawnMobile(self.planet, "trainer_scout",0,-169.45,28,-4712.58,134,0)
-
+]]--
 	-- Chassis dealer.
 	spawnMobile(self.planet, "chassis_dealer", 0, 0.1, 0.6, 72.9, -4, 1855672)
 end

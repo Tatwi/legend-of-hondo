@@ -1,6 +1,6 @@
-trainer_carbine = Creature:new {
-	objectName = "@mob/creature_names:trainer_carbine",
-	randomNameType = NAME_GENERIC,
+trainer_commando_imperial = Creature:new {
+	objectName = "@mob/creature_names:trainer_commando",
+	randomNameType = NAME_STORMTROOPER,
 	randomNameTag = true,
 	faction = "",
 	level = 100,
@@ -26,14 +26,10 @@ trainer_carbine = Creature:new {
 	optionsBitmask = INVULNERABLE + CONVERSABLE,
 	diet = HERBIVORE,
 
-	templates = {
-		"object/mobile/dressed_carbine_trainer_01.iff",
-		"object/mobile/dressed_carbine_trainer_02.iff",
-		"object/mobile/dressed_carbine_trainer_03.iff"
-	},
+	templates = {"object/mobile/dressed_stormtrooper_squad_leader_white_gold.iff"},
 	lootGroups = {},
-	weapons = {"st_assault_weapons"},
-	conversationTemplate = "trainer_carbine_convotemplate",
+	weapons = {"imperial_weapons_heavy"},
+	conversationTemplate = "trainer_commando_convotemplate",
 	attacks = {}
 }
-CreatureTemplates:addCreatureTemplate(trainer_carbine,"trainer_carbine")
+CreatureTemplates:addCreatureTemplate(trainer_commando_imperial,"trainer_commando_imperial")

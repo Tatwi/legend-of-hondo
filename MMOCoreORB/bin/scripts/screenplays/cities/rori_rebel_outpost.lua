@@ -98,7 +98,7 @@ function RoriRebelOutpostScreenPlay:spawnMobiles()
 	--misc
 	spawnMobile("rori", "rebel_recruiter", 0, 3683, 96, -6460, -101, 0)
 	--trainer
-	spawnMobile("rori", "trainer_architect", 60, 3677, 96, -6418, 90, 0)
+--[[	spawnMobile("rori", "trainer_architect", 60, 3677, 96, -6418, 90, 0)
 	spawnMobile("rori", "trainer_armorsmith", 60, 3676, 96, -6432, 90, 0)
 	spawnMobile("rori", "trainer_carbine", 60, 3627, 104, -6433, 90, 0)
 	spawnMobile("rori", "trainer_chef", 60, 3681, 96, -6426, 180, 0)
@@ -106,4 +106,5 @@ function RoriRebelOutpostScreenPlay:spawnMobiles()
 	spawnMobile("rori", "trainer_marksman", 60, 3684.5, 104, -6488.5, 260, 0)
 	spawnMobile("rori", "trainer_rifleman", 60, 3649, 104, -6491.5, 315, 0)
 	spawnMobile("rori", "trainer_weaponsmith", 60, 3681, 96, -6420, 0, 0)
+--]]
 end

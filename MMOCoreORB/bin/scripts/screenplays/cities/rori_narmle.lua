@@ -26,8 +26,8 @@ function RoriNarmleScreenPlay:spawnMobiles()
 	--starport added
 	local pNpc = spawnMobile("rori", "commoner_fat",60,-31.3,1.6,66.1,-98,4635442)
 	self:setMoodString(pNpc, "npc_sitting_table_eating")
-	pNpc = spawnMobile("rori", "trainer_shipwright",60,6.2,0.6,67.0,-138,4635437)
-	self:setMoodString(pNpc, "conversation")
+	--pNpc = spawnMobile("rori", "trainer_shipwright",60,6.2,0.6,67.0,-138,4635437)
+	--self:setMoodString(pNpc, "conversation")
 	pNpc = spawnMobile("rori", "chassis_dealer",60,4.1,0.6,66.2,69,4635437)
 	self:setMoodString(pNpc, "conversation")
 
@@ -215,7 +215,7 @@ function RoriNarmleScreenPlay:spawnMobiles()
 	spawnMobile("rori", "informant_npc_lvl_1", 1, -5331, 80, -2233, 180, 0)
 
 	--trainers
-	spawnMobile("rori", "trainer_1hsword", 1, -5219, 80.6094, -2164, 0, 0)
+--[[	spawnMobile("rori", "trainer_1hsword", 1, -5219, 80.6094, -2164, 0, 0)
 	spawnMobile("rori", "trainer_2hsword", 1, -5214, 80.4173, -2167, 0, 0)
 	spawnMobile("rori", "trainer_architect", 1, -5120, 80, -2443, 0, 0)
 	spawnMobile("rori", "trainer_architect", 1, 11, 1.1, -14.5, 0, 4635413)
@@ -255,4 +255,5 @@ function RoriNarmleScreenPlay:spawnMobiles()
 	spawnMobile("rori", "trainer_dancer", 0, 18.0876, 2.12874, 53.6634, 1, 4635403)
 	spawnMobile("rori", "theater_manager", 0, 21.5522, 2.12797, 63.5137, 0, 4635403)
 	spawnMobile("rori", "trainer_musician", 0, 21.8, 2.1, 76.4, 180, 4635403)
+--]]
 end

@@ -77,16 +77,16 @@ function NabooKerenScreenPlay:spawnMobiles()
 	pNpc = spawnMobile(self.planet, "chassis_dealer",60,5.5,0.6,67.4,-2,2125382)
 	self:setMoodString(pNpc, "neutral")
 	--relocated sw trainer from previously bugged exterior spot
-	pNpc = spawnMobile(self.planet, "trainer_shipwright",60,-0.5,0.6,67.2,180,2125382)
-	self:setMoodString(pNpc, "neutral")
+	--pNpc = spawnMobile(self.planet, "trainer_shipwright",60,-0.5,0.6,67.2,180,2125382)
+	--self:setMoodString(pNpc, "neutral")
 
 	--cantina
 	pNpc = spawnMobile(self.planet, "bartender",60,3.6,-0.9,-2.5,163,5)
 	self:setMoodString(pNpc, "conversation")
 	--Guild Hall 1720 2613
-	spawnMobile(self.planet, "trainer_artisan",0,0.0976721,1.13306,-13.6995,0,1396874)
+	--spawnMobile(self.planet, "trainer_artisan",0,0.0976721,1.13306,-13.6995,0,1396874)
 	--Guild Hall/Theater
-	spawnMobile(self.planet, "trainer_dancer",0,18.188,2.12871,53.8705,2,4045383)
+--[[	spawnMobile(self.planet, "trainer_dancer",0,18.188,2.12871,53.8705,2,4045383)
 	spawnMobile(self.planet, "trainer_entertainer",0,29.6396,2.12878,74.0291,270,4045383)
 	spawnMobile(self.planet, "trainer_musician",0,21.7,2.1,76.2,180,4045383)
 	spawnMobile(self.planet, "theater_manager",0,21.7887,2.12809,63.5017,3,4045383)
@@ -109,7 +109,7 @@ function NabooKerenScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_doctor",0,-25.9,0.3,-3.2,173,1661370)
 	spawnMobile(self.planet, "trainer_medic",0,14.1386,0.26,3.567,128,1661366)
 	spawnMobile(self.planet, "trainer_medic",0,-16.956,0.26,1.559,24,1661370)
-
+--]]
 	--Outside
 	spawnMobile(self.planet, "informant_npc_lvl_1",0,2030,12,2591,0,0)
 	spawnMobile(self.planet, "informant_npc_lvl_1",0,1959,12,2577,0,0)
@@ -121,7 +121,7 @@ function NabooKerenScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "informant_npc_lvl_1",0,1347,13,2671,0,0)
 	spawnMobile(self.planet, "informant_npc_lvl_2",0,1279,13,2858,330,0)
 	--{"junk_dealer",0,1371.6,13,2705.3,177,0, "", "",JUNKGENERIC,JUNKCONVGENERIC},
-	spawnMobile(self.planet, "trainer_architect",0,1533,25,2744,-93,0)
+--[[	spawnMobile(self.planet, "trainer_architect",0,1533,25,2744,-93,0)
 	spawnMobile(self.planet, "trainer_armorsmith",0,1890,12,2767,180,0)
 	spawnMobile(self.planet, "trainer_artisan",0,1522,25,2781,180,0)
 	spawnMobile(self.planet, "trainer_artisan",0,2003.71,12,2484.06,243,0)
@@ -153,7 +153,7 @@ function NabooKerenScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_smuggler",0,1846,12,2772,31,0)
 	spawnMobile(self.planet, "trainer_weaponsmith",0,1905,12,2767,180,0)
 	spawnMobile(self.planet, "trainer_bountyhunter",0,2087,30,2575,180,0)
-
+--]]
 	--newb grind starter spawns
 	spawnMobile(self.planet, "gungan_hermit", 300, getRandomNumber(10) + 1360, 13.3, getRandomNumber(10) + 2941, getRandomNumber(360), 0)
 	spawnMobile(self.planet, "gungan_hermit", 300, getRandomNumber(10) + 1360, 13.3, getRandomNumber(10) + 2941, getRandomNumber(360), 0)

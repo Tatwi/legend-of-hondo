@@ -32,7 +32,7 @@ trainer_pistol = Creature:new {
 		"object/mobile/dressed_pistol_trainer_03.iff"
 	},
 	lootGroups = {},
-	weapons = {},
+	weapons = {"imperial_weapons_light"},
 	conversationTemplate = "trainer_pistol_convotemplate",
 	attacks = {}
 }
