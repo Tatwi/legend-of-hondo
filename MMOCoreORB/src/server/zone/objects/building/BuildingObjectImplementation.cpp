@@ -817,20 +817,18 @@ void BuildingObjectImplementation::onExit(CreatureObject* player, uint64 parenti
 
 uint32 BuildingObjectImplementation::getMaximumNumberOfPlayerItems() {
 	SharedStructureObjectTemplate* ssot = dynamic_cast<SharedStructureObjectTemplate*> (templateObject.get());
-	if (isCivicStructure() )
-		return 250;
-
+	
+	// If the template can't be found, set 998 storage limit
 	if (ssot == NULL)
-		return 0;
-	//This sets the item limit for City Halls and Cloning Centers to 250 like they were during live, instead of 400 like they are now from the line below.
-
+		return 998;
+		
 	uint8 lots = ssot->getLotSize();
 
-	//Buildings that don't cost lots have MAXPLAYERITEMS storage space.
-	if (lots == 0)
-		return MAXPLAYERITEMS;
+	// If the lua template exists, but it doesn't have lotSize = #, set 999 storage limit
+	if (lots < 1)
+		return 999;
 
-	return MIN(MAXPLAYERITEMS, lots * 100);
+	return lots * 200;
 }
 
 int BuildingObjectImplementation::notifyObjectInsertedToChild(SceneObject* object, SceneObject* child, SceneObject* oldParent) {
