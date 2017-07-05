@@ -12,4 +12,8 @@ tatooine_locations = {
 		layout = "singleMedium",
 		center = {x = -2880.43, z = 5, y = 2273.65, angle = 163, ow = 0.146823, oy = 0.989163},
 	},
+	{ -- Site 2: Pirate Area
+		layout = "pirateBunker",
+		center = {x = -3027.29, z = 5, y = 1840.95, angle = -81, ow = -0.760406, oy = 0.649448},
+	},
 }

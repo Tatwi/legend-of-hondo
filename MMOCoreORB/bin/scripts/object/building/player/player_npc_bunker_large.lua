@@ -1,7 +1,7 @@
 -- GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 
 object_building_player_player_npc_bunker_large = object_building_player_shared_player_npc_bunker_large:new {
-	lotSize = 10,
+	lotSize = 50,
 	baseMaintenanceRate = 112,
 	allowedZones = {"corellia", "dantooine", "lok", "naboo", "rori", "talus", "tatooine"},
 	publicStructure = 0,
