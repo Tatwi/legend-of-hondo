@@ -1,4 +1,15 @@
 -- See locations_simple.lua for an example.
 tatooine_locations = {
-
+	{ -- Site 1: City centre
+		layout = "smallCityBlock",
+		center = {x = -2834.82, z = 5, y = 2255.85, angle = 256, ow = -0.618644, oy = 0.785671},
+	},
+	{ -- Site 1: City centre
+		layout = "factoriesSmall",
+		center = {x = -2870.01, z = 5, y = 2212.66, angle = -13, ow = 0.993489, oy = -0.113931},
+	},
+	{ -- Site 1: City centre
+		layout = "singleMedium",
+		center = {x = -2880.43, z = 5, y = 2273.65, angle = 163, ow = 0.146823, oy = 0.989163},
+	},
 }

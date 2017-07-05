@@ -1007,6 +1007,37 @@ layouts = {
 		},
 	},
 
+	factoriesSmall = {
+		terminal = {name = "Industrial Site", x = 0, y = 25.3, localRotation = 0},
+		plots = {
+			{ -- Plot 1
+				plotName = "Large or Small Factory", x = 0, y = 11, localRotation = 0,
+				buildings = {
+					{price = 125000, buildingName = "Factory: Structure and Starship", template = "object/installation/manufacture/structure_factory.iff", zoning = 0, rotationFudge = 90},
+					{price = 125000, buildingName = "Factory: Clothing and Armor", template = "object/installation/manufacture/clothing_factory.iff", zoning = 0},
+					{price = 125000, buildingName = "Factory: Food and Chemical", template = "object/installation/manufacture/food_factory.iff", zoning = 0},
+					{price = 125000, buildingName = "Factory: Equipment and Weapons", template = "object/installation/manufacture/weapon_factory.iff", zoning = 0},
+				},
+			},
+			{ -- Plot 2
+				plotName = "Small Factory (Your Right)", x = -8, y = -10, localRotation = 0,
+				buildings = {
+					{price = 125000, buildingName = "Factory: Clothing and Armor", template = "object/installation/manufacture/clothing_factory.iff", zoning = 0},
+					{price = 125000, buildingName = "Factory: Food and Chemical", template = "object/installation/manufacture/food_factory.iff", zoning = 0},
+					{price = 125000, buildingName = "Factory: Equipment and Weapons", template = "object/installation/manufacture/weapon_factory.iff", zoning = 0},
+				},
+			},
+			{ -- Plot 3
+				plotName = "Small Factory (Your Left)", x = 8, y = -10, localRotation = 0,
+				buildings = {
+					{price = 125000, buildingName = "Factory: Clothing and Armor", template = "object/installation/manufacture/clothing_factory.iff", zoning = 0},
+					{price = 125000, buildingName = "Factory: Food and Chemical", template = "object/installation/manufacture/food_factory.iff", zoning = 0},
+					{price = 125000, buildingName = "Factory: Equipment and Weapons", template = "object/installation/manufacture/weapon_factory.iff", zoning = 0},
+				},
+			},
+		},
+	},
+
 	smallCityBlock = {
 		terminal = {name = "Small City Block", x = 0, y = 22, localRotation = 0},
 		plots = {
