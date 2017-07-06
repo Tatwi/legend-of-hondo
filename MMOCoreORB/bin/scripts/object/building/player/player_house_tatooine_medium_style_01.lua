@@ -42,7 +42,7 @@
 
 
 object_building_player_player_house_tatooine_medium_style_01 = object_building_player_shared_player_house_tatooine_medium_style_01:new {
-	lotSize = 2,
+	lotSize = 5,
 	baseMaintenanceRate = 34,
 	allowedZones = {"dantooine", "lok", "tatooine"},
 	childObjects = {

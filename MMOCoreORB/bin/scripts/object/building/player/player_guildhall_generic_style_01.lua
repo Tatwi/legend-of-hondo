@@ -42,7 +42,7 @@
 
 
 object_building_player_player_guildhall_generic_style_01 = object_building_player_shared_player_guildhall_generic_style_01:new {
-	lotSize = 5,
+	lotSize = 8,
 	baseMaintenanceRate = 100,
 	allowedZones = {"corellia", "dantooine", "lok", "naboo", "rori", "talus", "tatooine"},
 	publicStructure = 0,

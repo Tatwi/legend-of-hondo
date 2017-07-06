@@ -1,7 +1,7 @@
 -- GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 
 object_building_player_player_npc_combat_guildhall_naboo = object_building_player_shared_player_npc_combat_guildhall_naboo:new {
-	lotSize = 5,
+	lotSize = 6,
 	baseMaintenanceRate = 65,
 	allowedZones = {"corellia", "dantooine", "lok", "naboo", "rori", "talus", "tatooine"},
 	publicStructure = 0,
