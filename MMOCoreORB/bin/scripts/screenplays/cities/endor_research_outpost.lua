@@ -9,7 +9,13 @@ registerScreenPlay("EndorResearchOutpostScreenPlay", true)
 function EndorResearchOutpostScreenPlay:start()
 	if (isZoneEnabled("endor")) then
 		self:spawnMobiles()
+		self:spawnSceneObjects()
 	end
+end
+
+function EndorResearchOutpostScreenPlay:spawnSceneObjects()
+	spawnSceneObject("endor", "object/tangible/terminal/terminal_mission_artisan.iff", 3214.24, 24, -3494.74, 0, 1, 0, 0, 0)
+	spawnSceneObject("endor", "object/tangible/terminal/terminal_mission_scout.iff", 3247.12, 24, -3450.07, 0, -4.37114e-08, 0, 1, 0)
 end
 
 function EndorResearchOutpostScreenPlay:spawnMobiles()

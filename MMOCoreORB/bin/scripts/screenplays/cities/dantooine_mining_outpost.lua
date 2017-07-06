@@ -9,7 +9,13 @@ registerScreenPlay("DantooineMiningOutpostScreenPlay", true)
 function DantooineMiningOutpostScreenPlay:start()
 	if (isZoneEnabled("dantooine")) then
 		self:spawnMobiles()
+		self:spawnSceneObjects()
 	end
+end
+
+function DantooineMiningOutpostScreenPlay:spawnSceneObjects()
+	spawnSceneObject("dantooine", "object/tangible/terminal/terminal_mission_artisan.iff", -601.816, 3, 2535.84, 0, -0.492424, 0, 0.870356, 0)
+	spawnSceneObject("dantooine", "object/tangible/terminal/terminal_mission_scout.iff", -645.453, 3, 2461.71, 0, 0.939693, 0, 0.34202, 0)
 end
 
 function DantooineMiningOutpostScreenPlay:spawnMobiles()

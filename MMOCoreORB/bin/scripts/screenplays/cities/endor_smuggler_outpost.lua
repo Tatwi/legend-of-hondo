@@ -9,7 +9,13 @@ registerScreenPlay("EndorSmugglerOutpostScreenPlay", true)
 function EndorSmugglerOutpostScreenPlay:start()
 	if (isZoneEnabled("endor")) then
 		self:spawnMobiles()
+		self:spawnSceneObjects()
 	end
+end
+
+function EndorSmugglerOutpostScreenPlay:spawnSceneObjects()
+	spawnSceneObject("endor", "object/tangible/terminal/terminal_mission_artisan.iff", -855.502, 79.5779, 1616.36, 0, 0.866026, 0, -0.5, 0)
+	spawnSceneObject("endor", "object/tangible/terminal/terminal_mission_scout.iff", -829.479, 76, 1577.93, 0, -0.461749, 0, 0.887011, 0)
 end
 
 function EndorSmugglerOutpostScreenPlay:spawnMobiles()
