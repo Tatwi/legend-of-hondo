@@ -42,7 +42,7 @@ class SurveyMissionObjective extends MissionObjective {
 	public native void activate();
 	@preLocked
 	public native void abort();
-	public native void complete();
+	public native void complete(ManagedObject spawn);
 
 	public native int notifyObserverEvent(MissionObserver observer, unsigned int eventType, Observable observable, ManagedObject arg1, long arg2);
 
