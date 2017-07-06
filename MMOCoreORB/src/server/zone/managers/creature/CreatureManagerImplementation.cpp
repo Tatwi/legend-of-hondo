@@ -902,8 +902,10 @@ void CreatureManagerImplementation::harvest(Creature* creature, CreatureObject* 
 		player->sendSystemMessage("Tried to harvest something this creature didn't have, please report this error");
 		return;
 	}
-	int quantityExtracted = int(quantity * float(player->getSkillMod("creature_harvesting") / 100.0f));
-	quantityExtracted = MAX(quantityExtracted, 3);
+	
+	quantity = MAX(quantity, 10); // Over-ride really low template values
+	
+	int quantityExtracted = int(quantity * float(player->getSkillMod("creature_harvesting") / 100.0f + 1.0f)); // Always give a bonus based on skill level
 
 	ManagedReference<ResourceSpawn*> resourceSpawn = resourceManager->getCurrentSpawn(restype, player->getZone()->getZoneName());
 
@@ -917,22 +919,22 @@ void CreatureManagerImplementation::harvest(Creature* creature, CreatureObject* 
 	String creatureHealth = "";
 
 	if (density > 0.75f) {
-		quantityExtracted = int(quantityExtracted * 1.25f);
+		quantityExtracted = int(quantityExtracted * 1.75f);
 		creatureHealth = "creature_quality_fat";
 	} else if (density > 0.50f) {
-		quantityExtracted = int(quantityExtracted * 1.00f);
+		quantityExtracted = int(quantityExtracted * 1.5f);
 		creatureHealth = "creature_quality_medium";
 	} else if (density > 0.25f) {
-		quantityExtracted = int(quantityExtracted * 0.75f);
+		quantityExtracted = int(quantityExtracted * 1.25f);
 		creatureHealth = "creature_quality_scrawny";
 	} else {
-		quantityExtracted = int(quantityExtracted * 0.50f);
 		creatureHealth = "creature_quality_skinny";
 	}
 
 	float modifier = 1;
 	int baseAmount = quantityExtracted;
 
+/* No group bonus. Do allow harvesting inside...
 	if (player->isGrouped()) {
 		modifier = player->getGroup()->getGroupHarvestModifier(player);
 
@@ -941,7 +943,7 @@ void CreatureManagerImplementation::harvest(Creature* creature, CreatureObject* 
 
 	if (creature->getParent().get() != NULL)
 		quantityExtracted = 1;
-
+*/
 	resourceManager->harvestResourceToPlayer(player, resourceSpawn, quantityExtracted);
 
 	/// Send System Messages
@@ -952,6 +954,7 @@ void CreatureManagerImplementation::harvest(Creature* creature, CreatureObject* 
 
 	player->sendSystemMessage(harvestMessage);
 
+/* Don't send group messages
 	/// Send bonus message
 	if (modifier == 1.2f)
 		player->sendSystemMessage("@skl_use:group_harvest_bonus");
@@ -972,10 +975,10 @@ void CreatureManagerImplementation::harvest(Creature* creature, CreatureObject* 
 		ChatSystemMessage* sysMessage = new ChatSystemMessage(bonusMessage);
 		player->getGroup()->broadcastMessage(player, sysMessage, false);
 	}
-
+*/
 	ManagedReference<PlayerManager*> playerManager = zoneServer->getPlayerManager();
 
-	int xp = creature->getLevel() * 5 + 19;
+	int xp = creature->getLevel() * 5 + player->getSkillMod("creature_knowledge"); // A more meaningful xp bonus
 
 	if(playerManager != NULL)
 		playerManager->awardExperience(player, "scout", xp, true);
