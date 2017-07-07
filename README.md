@@ -1,4 +1,4 @@
-#Legend of Hondo
+# Legend of Hondo
 
 Legend of Hondo is a personal project I am working on to create a pirate themed, single player, Star Wars experience using the SWGEmu server and the Star Wars Galaxies game client. I am creating this entirely *for something to do, because I want to*, for my own enjoyment and, that's it. I am sharing it on GitHub as a modification reference for other folks who are hosting SWGEmu servers. I don't really expect anyone else to download and play Legend of Hondo, but anything is possible! :)
 
@@ -19,20 +19,19 @@ Date: Fri Sep 30 19:11:00 2016 -0400
 If you encounter issues using Legend of Hondo mods on your own server, it's up to you to uncover the root cause and solve the compatibility issues. May the Force be with you!
 
 
-##Development Status
-**Current Stage:** Tools and Systems  
-**Next Stage:** Character Driven Content  
+## Development Status
+**Current Stage:** Playable as a solo RPG  
+**Next Stage:** New game play systems, such as NPC Merchants, out door decorations, and other general game play systems.  
+**Beyond:** Pirate quests and missions to level up to Aspiring Pirate. Then smuggling missions, the 8 underworld "themeparks", the business systems, and so on...
 
 I'm in no hurry to finish this project. A big part of the fun for me is making the stuff, from quirky quest dialog to the geeky system stuff. However, eventually the day will come where Legend of Hondo will go from being "SWG on Crack" to being a its own unique, complete, single player RPG.
 
 Checkout my doc/ToDoList.md for an a list of things I'll most likely put into the game. 
 
+## Project Management
+Unlike a normal game or project, such as my web browser based game, RocketTux, Legend of Hondo needs requires a SWGEmu server and that server itself requires a whole whack of other stuff to be installed and configured for it to work (along with a valid retail copy of Star Wars Galaxies itself). Sure, most projects have dependencies, but SWGEmu takes it to a whole other level of complexity, to the point where no "normal person" would be bothered to jump through all the hoops required to set one up. With that in mind, the likelihood of anyone else ever playing Legend of Hondo is, well, probably *no likelihood at all* lol... However, if you'd like to take a crack at it, here is some helpful information for you...
 
-##Project Management
-Unlike a normal game or project, such as my Loop Dipole and the Chaoties game, a SWGEmu server requires a whole whack of other stuff to be installed and configured for it to work (along with a valid retail copy of Star Wars Galaxies itself). Sure, most projects have dependencies, but SWGEmu takes it to a whole other level of complexity, to the point where no "normal person" would be bothered to jump through all the hoops required to set one up. With that in mind, the likelihood of anyone else ever playing Legend of Hondo is, well, probably *no likelihood at all* lol... However, if you'd like to take a crack at it, here is some helpful information for you...
-
-
-##How-To Use This Stuff
+## How-To Use This Stuff
 In the simplest of terms, Legend of Hondo is just a bunch of server code and client file mods. As such, you can just poke around the documentation and commit logs to see if there is something in here that you like. If so, go ahead and use it in your own projects, by creating a patch file of a commit or by manually using a merge tool such as Meld, etc.
 
 If you'd really like to directly play the version of SWG that I am creating, then my suggestion is to setup up a new virtual machine environment for a SWGEmu server, and simply replace your MMOCoreORB/bin/conf/ , MMOCoreORB/bin/scripts/ , MMOCoreORB/src/, and PublicEngine directories with the ones from this project. That way you can get all the other shazbot that a SWGEmu server requires installed and tested as normal. After the server is setup, you'll need to pack my tre_required/ and tre_optional/ directories into tre files, then add tre_required.tre to both your client and your server and add tre_optional.tre to just your client. Compile the server with the LoH mods, start the server, load the client, enjoy!
@@ -59,27 +58,25 @@ Cent OS 6 by Aso (very good guide):
 http://www.swgemu.com/forums/showthread.php?t=161787
 
 
-####doc/
+#### doc/
 My documentation, including feature logs, "How-Tos", other guides, and so on. Each major update to the repo is called a "feature" and has a verbose log in doc/features/feature-name.md, complete with a list of all files that were changed. This documentation, along with a reasonably clean commit history, should help you find the droids you're looking for.
 
-####MMOCoreORB/bin/conf/
+#### MMOCoreORB/bin/conf/
 This is a full copy of my server configuration files. They're helpful to share as a reference.
 
-####MMOCoreORB/bin/scripts/
+#### MMOCoreORB/bin/scripts/
 Here you'll find a full copy of the SWGEmu lua scripts, including ones that I have added or modified.
 
-####MMOCoreORB/src/
+#### MMOCoreORB/src/
 This is the full set of "Core3" server C++ files that make up the majority of the "user experience creation system", for lack of a better explanation. Some mods can be done in the Lua scripts, others must be done here in the C++.
 
-####tre_required/
+#### tre_required/
 An uncompressed, easy to browse version of my "tre file" mods that are required for the system to work properly.
 
-####tre_optional/
-An uncompressed, easy to browse version of my "client side mods", which are important for delivering the "feeling" of Legend of Hondo, but they are ultimately optional content.
+#### tre_optional/
+An uncompressed, easy to browse version of my "client side mods", which are important for delivering the "feeling" of Legend of Hondo. These files aren't really optional. 
 
-
-
-##Summary
+## Summary
 Legend of Hondo is a personal, open source, free (as in beer!), development project. When I am finished, the sum of its parts will be a single player pirate adventure, based on SWGEmu and Star Wars Galaxies.
 
 You are welcome to use any code, concepts, and documentation within this repository, however you do so entirely at your own risk, in accordance with the following guidelines:
@@ -92,7 +89,7 @@ Information provided in this repository is done so "As-Is" and is not promised o
 
 By using any software, files, or concepts provided in this repository, you waive the right to SWGEmu game client support from SWGEmu and you acknowledge and accept that you will not receive support from R. Bassett Jr (Tatwi) of any kind.
 
-####Legend of Hondo is not supported or endorsed by SWGEmu.
+#### Legend of Hondo is not supported or endorsed by SWGEmu.
 
 GNU AFFERO GENERAL PUBLIC LICENSE
 Version 3, 19 November 2007
