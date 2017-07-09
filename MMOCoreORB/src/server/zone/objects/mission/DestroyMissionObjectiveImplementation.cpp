@@ -23,6 +23,7 @@
 #include "templates/mobile/LairTemplate.h"
 #include "server/zone/managers/creature/CreatureTemplateManager.h"
 #include "server/zone/managers/mission/DestroyMissionLairObserver.h"
+#include "server/zone/managers/player/PlayerManager.h"
 
 void DestroyMissionObjectiveImplementation::setLairTemplateToSpawn(const String& sp) {
 	lairTemplate = sp;
@@ -279,6 +280,18 @@ void DestroyMissionObjectiveImplementation::abort() {
 void DestroyMissionObjectiveImplementation::complete() {
 
 	MissionObjectiveImplementation::complete();
+
+	//Award Pirate XP.
+	ManagedReference<MissionObject* > mission = this->mission.get();
+	ManagedReference<CreatureObject*> owner = getPlayerOwner();
+	
+	int skill = owner->getSkillMod("pirate_mission_level");
+	
+	if (skill < 2)
+		return;
+	
+	int xp = (80 * skill) + (mission->getRewardCredits() / 100); // Max of around 900 XP or so
+	owner->getZoneServer()->getPlayerManager()->awardExperience(owner, "political", xp, true, 1); // I used political xp as the pirate xp. Aren't I cheeky! :)
 }
 
 int DestroyMissionObjectiveImplementation::notifyObserverEvent(MissionObserver* observer, uint32 eventType, Observable* observable, ManagedObject* arg1, int64 arg2) {
