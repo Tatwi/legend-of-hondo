@@ -10,7 +10,10 @@ peko_albatross_feather = {
 		{"armor_special_effectiveness",0,0,0,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("peko_albatross_feather", peko_albatross_feather)

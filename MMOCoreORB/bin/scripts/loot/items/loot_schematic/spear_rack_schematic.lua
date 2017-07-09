@@ -6,7 +6,10 @@ spear_rack_schematic = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 15,
+	junkMaxValue = 25
 }
 
 addLootItemTemplate("spear_rack_schematic", spear_rack_schematic)

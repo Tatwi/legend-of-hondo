@@ -8,7 +8,10 @@ death_watch_overlord_vial = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("death_watch_overlord_vial", death_watch_overlord_vial)

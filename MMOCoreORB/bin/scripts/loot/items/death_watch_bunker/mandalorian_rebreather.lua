@@ -8,7 +8,10 @@ mandalorian_rebreather = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("mandalorian_rebreather", mandalorian_rebreather)

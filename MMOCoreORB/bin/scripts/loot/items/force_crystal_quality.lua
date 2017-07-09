@@ -19,7 +19,10 @@ force_crystal_quality = {
 		{"quality",3,3,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 100,
+	junkMaxValue = 150
 }
 
 addLootItemTemplate("force_crystal_quality", force_crystal_quality)

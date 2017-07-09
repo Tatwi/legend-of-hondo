@@ -10,7 +10,10 @@ force_color_crystal = {
 		{"color",0,11,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 20,
+	junkMaxValue = 40
 }
 
 addLootItemTemplate("force_color_crystal", force_color_crystal)

@@ -6,7 +6,10 @@ painting_luke_wanted = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 15
 }
 
 addLootItemTemplate("painting_luke_wanted", painting_luke_wanted)

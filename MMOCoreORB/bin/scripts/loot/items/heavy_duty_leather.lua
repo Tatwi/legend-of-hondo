@@ -9,7 +9,10 @@ heavy_duty_leather = {
 		{"useCount",1,6,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 20,
+	junkMaxValue = 40
 }
 
 addLootItemTemplate("heavy_duty_leather", heavy_duty_leather)

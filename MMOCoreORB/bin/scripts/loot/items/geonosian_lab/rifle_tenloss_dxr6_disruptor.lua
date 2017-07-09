@@ -22,6 +22,9 @@ rifle_tenloss_dxr6_disruptor = {
 	},
 	customizationStringNames = {},
 	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50,
 
 	-- randomDotChance: The chance of this weapon object dropping with a random dot on it. Higher number means less chance. Set to 0 to always have a random dot.
 	randomDotChance = 1000,

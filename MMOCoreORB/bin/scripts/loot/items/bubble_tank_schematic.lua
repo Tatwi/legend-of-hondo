@@ -6,7 +6,10 @@ bubble_tank_schematic = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 2,
+	junkMaxValue = 4
 }
 
 addLootItemTemplate("bubble_tank_schematic", bubble_tank_schematic)

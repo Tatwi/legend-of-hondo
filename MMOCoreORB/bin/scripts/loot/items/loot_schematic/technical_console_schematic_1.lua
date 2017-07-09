@@ -6,7 +6,10 @@ technical_console_schematic_1 = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 15,
+	junkMaxValue = 25
 }
 
 addLootItemTemplate("technical_console_schematic_1", technical_console_schematic_1)

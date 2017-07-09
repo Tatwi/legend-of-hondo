@@ -6,7 +6,10 @@ painting_vader_victory = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 15
 }
 
 addLootItemTemplate("painting_vader_victory", painting_vader_victory)

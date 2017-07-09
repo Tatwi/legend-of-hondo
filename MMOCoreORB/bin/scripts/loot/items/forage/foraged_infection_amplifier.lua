@@ -9,7 +9,10 @@ foraged_infection_amplifier = {
 		{"power",1,25,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 1,
+	junkMaxValue = 4
 }
 
 addLootItemTemplate("foraged_infection_amplifier", foraged_infection_amplifier)

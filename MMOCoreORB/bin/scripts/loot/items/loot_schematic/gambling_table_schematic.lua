@@ -6,7 +6,10 @@ gambling_table_schematic = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 15,
+	junkMaxValue = 25
 }
 
 addLootItemTemplate("gambling_table_schematic", gambling_table_schematic)

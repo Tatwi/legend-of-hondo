@@ -6,7 +6,10 @@ blue_wiring = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 25,
+	junkMaxValue = 35
 }
 
 addLootItemTemplate("blue_wiring", blue_wiring)

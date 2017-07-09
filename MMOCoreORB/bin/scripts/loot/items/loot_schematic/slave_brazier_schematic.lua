@@ -6,7 +6,10 @@ slave_brazier_schematic = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 15,
+	junkMaxValue = 25
 }
 
 addLootItemTemplate("slave_brazier_schematic", slave_brazier_schematic)

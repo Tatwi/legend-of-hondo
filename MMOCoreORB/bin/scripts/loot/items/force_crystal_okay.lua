@@ -19,7 +19,10 @@ force_crystal_okay = {
 		{"quality",1,1,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 20,
+	junkMaxValue = 40
 }
 
 addLootItemTemplate("force_crystal_okay", force_crystal_okay)

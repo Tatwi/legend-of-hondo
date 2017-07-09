@@ -9,7 +9,10 @@ aakuan_shirt = {
 	},
 	customizationStringNames = {},
 	customizationValues = {},
-	skillMods = {{"resistance_bleeding", 10}}
+	skillMods = {{"resistance_bleeding", 10}},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("aakuan_shirt", aakuan_shirt)

@@ -8,7 +8,10 @@ treasure_map = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 80,
+	junkMaxValue = 100
 }
 
 addLootItemTemplate("treasure_map", treasure_map)

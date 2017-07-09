@@ -10,7 +10,10 @@ high_valocity_feed_mechanism = {
 		{"useCount",1,5,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 20,
+	junkMaxValue = 40
 }
 
 addLootItemTemplate("high_valocity_feed_mechanism", high_valocity_feed_mechanism)

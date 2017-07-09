@@ -8,7 +8,10 @@ nightsister_lance_schematic = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 25,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("nightsister_lance_schematic", nightsister_lance_schematic)

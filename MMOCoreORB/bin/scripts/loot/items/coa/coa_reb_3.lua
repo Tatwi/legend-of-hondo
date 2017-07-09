@@ -6,7 +6,10 @@ coa_reb_3 = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 10,
+	junkMaxValue = 18,
 }
 
 addLootItemTemplate("coa_reb_3", coa_reb_3)

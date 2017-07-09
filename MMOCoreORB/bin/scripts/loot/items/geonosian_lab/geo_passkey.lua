@@ -6,7 +6,10 @@ geo_passkey = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("geo_passkey", geo_passkey)

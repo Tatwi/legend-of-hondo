@@ -8,7 +8,10 @@ geo_relic_ration_kit = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("geo_relic_ration_kit", geo_relic_ration_kit)

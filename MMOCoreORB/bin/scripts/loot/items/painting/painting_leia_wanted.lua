@@ -6,7 +6,10 @@ painting_leia_wanted = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 15
 }
 
 addLootItemTemplate("painting_leia_wanted", painting_leia_wanted)

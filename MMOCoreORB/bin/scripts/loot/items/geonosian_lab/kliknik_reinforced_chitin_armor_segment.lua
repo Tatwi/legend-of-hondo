@@ -10,7 +10,10 @@ kliknik_reinforced_chitin_armor_segment = {
 		{"armor_effectiveness",0,0,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("kliknik_reinforced_chitin_armor_segment", kliknik_reinforced_chitin_armor_segment)

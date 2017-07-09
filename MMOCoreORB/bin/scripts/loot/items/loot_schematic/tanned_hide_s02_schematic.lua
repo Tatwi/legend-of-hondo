@@ -6,7 +6,10 @@ tanned_hide_s02_schematic = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 15,
+	junkMaxValue = 25
 }
 
 addLootItemTemplate("tanned_hide_s02_schematic", tanned_hide_s02_schematic)

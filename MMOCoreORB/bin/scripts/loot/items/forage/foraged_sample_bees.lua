@@ -8,7 +8,10 @@ foraged_sample_bees = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 1,
+	junkMaxValue = 4
 }
 
 addLootItemTemplate("foraged_sample_bees", foraged_sample_bees)

@@ -6,7 +6,10 @@ coa_decoder_power = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 10,
+	junkMaxValue = 18,
 }
 
 addLootItemTemplate("coa_decoder_power", coa_decoder_power)

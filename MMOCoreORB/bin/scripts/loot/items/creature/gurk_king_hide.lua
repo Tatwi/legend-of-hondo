@@ -12,7 +12,10 @@ gurk_king_hide = {
 		{"useCount",1,2,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("gurk_king_hide", gurk_king_hide)

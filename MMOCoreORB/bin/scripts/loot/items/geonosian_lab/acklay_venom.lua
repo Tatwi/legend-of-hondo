@@ -10,7 +10,10 @@ acklay_venom = {
 		{"useCount",1,5,0}
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("acklay_venom", acklay_venom)

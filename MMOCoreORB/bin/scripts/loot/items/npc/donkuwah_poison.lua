@@ -11,7 +11,10 @@ donkuwah_poison = {
 		{"useCount",1,4,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("donkuwah_poison", donkuwah_poison)

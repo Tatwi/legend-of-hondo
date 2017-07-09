@@ -8,7 +8,10 @@ foraged_sample_bats = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 1,
+	junkMaxValue = 4
 }
 
 addLootItemTemplate("foraged_sample_bats", foraged_sample_bats)

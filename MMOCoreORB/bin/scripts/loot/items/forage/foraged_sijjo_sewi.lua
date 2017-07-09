@@ -8,7 +8,10 @@ foraged_sijjo_sewi = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 1,
+	junkMaxValue = 4
 }
 
 addLootItemTemplate("foraged_sijjo_sewi", foraged_sijjo_sewi)

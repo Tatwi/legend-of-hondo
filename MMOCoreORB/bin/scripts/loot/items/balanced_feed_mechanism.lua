@@ -10,7 +10,10 @@ balanced_feed_mechanism = {
 		{"useCount",1,5,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 20,
+	junkMaxValue = 40
 }
 
 addLootItemTemplate("balanced_feed_mechanism", balanced_feed_mechanism)

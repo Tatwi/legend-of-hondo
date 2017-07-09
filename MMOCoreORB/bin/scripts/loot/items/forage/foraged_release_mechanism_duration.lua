@@ -9,7 +9,10 @@ foraged_release_mechanism_duration = {
 		{"power",1,20,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 1,
+	junkMaxValue = 4
 }
 
 addLootItemTemplate("foraged_release_mechanism_duration", foraged_release_mechanism_duration)

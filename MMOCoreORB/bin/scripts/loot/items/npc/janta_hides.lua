@@ -15,7 +15,10 @@ janta_hides = {
 		{"useCount",1,7,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("janta_hides", janta_hides)

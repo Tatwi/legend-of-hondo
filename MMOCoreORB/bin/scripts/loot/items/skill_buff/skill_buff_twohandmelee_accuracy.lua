@@ -6,7 +6,10 @@ skill_buff_twohandmelee_accuracy = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 10,
+	junkMaxValue = 10
 }
 
 addLootItemTemplate("skill_buff_twohandmelee_accuracy", skill_buff_twohandmelee_accuracy)

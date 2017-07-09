@@ -6,7 +6,10 @@ processor_attachment = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 25,
+	junkMaxValue = 35
 }
 
 addLootItemTemplate("processor_attachment", processor_attachment)

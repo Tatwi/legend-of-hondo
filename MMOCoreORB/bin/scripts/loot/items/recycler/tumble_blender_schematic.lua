@@ -6,7 +6,10 @@ tumble_blender_schematic = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 25,
+	junkMaxValue = 35
 }
 
 addLootItemTemplate("tumble_blender_schematic", tumble_blender_schematic)

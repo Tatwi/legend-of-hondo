@@ -6,7 +6,10 @@ cybernetic_arm = {
     craftingValues = {},
     skillMods = {},
     customizationStringNames = {},
-    customizationValues = {}
+    customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 200,
+	junkMaxValue = 300
 }
 
 addLootItemTemplate("cybernetic_arm", cybernetic_arm)

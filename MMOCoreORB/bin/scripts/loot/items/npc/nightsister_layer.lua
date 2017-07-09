@@ -10,7 +10,10 @@ nightsister_layer = {
 		{"armor_effectiveness",0,0,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("nightsister_layer", nightsister_layer)

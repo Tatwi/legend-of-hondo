@@ -9,7 +9,10 @@ aakuan_belt = {
 	},
 	customizationStringNames = {},
 	customizationValues = {},
-	skillMods = {{"resistance_disease", 10}}
+	skillMods = {{"resistance_disease", 10}},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("aakuan_belt", aakuan_belt)

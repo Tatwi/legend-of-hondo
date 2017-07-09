@@ -6,7 +6,10 @@ chemical_recycler_schematic = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 25,
+	junkMaxValue = 35
 }
 
 addLootItemTemplate("chemical_recycler_schematic", chemical_recycler_schematic)

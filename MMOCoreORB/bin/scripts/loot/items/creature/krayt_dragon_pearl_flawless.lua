@@ -19,7 +19,10 @@ krayt_dragon_pearl_flawless = {
 		{"quality",6,6,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("krayt_dragon_pearl_flawless", krayt_dragon_pearl_flawless)

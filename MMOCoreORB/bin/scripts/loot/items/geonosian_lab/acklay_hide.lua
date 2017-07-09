@@ -10,7 +10,10 @@ acklay_hide = {
 		{"armor_effectiveness",0,0,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("acklay_hide", acklay_hide)
