@@ -3,7 +3,7 @@ BBArmorConfig = {
 	qualityMin = 45,
 	qualityAvg = 50, -- 10% chance to use this as the min value and qualityMax as the max value
 	qualityMax = 65, -- 1% Chance to get up to +5 to the max value, with qualityMax as the min value
-	freq = 144100, -- Every x seconds
+	freq = 14410, -- Every x seconds
 	eventName = "BazaarBotAddArmor",
 	functionName = "addMoreArmor",
 }

@@ -15,18 +15,17 @@ BBStructuresConfig = {
 -- altTemplate: Items such as statues that have a drop down to choose alternate final objects
 -- Items that don't have altTemplates and should be the same price can be grouped together
 BBStructuresItems = {
-	{7000, 1, 1, 0, 
-	"installation_generator_wind",
-	"installation_mining_gas",
-	"installation_mining_liquid",
-	"installation_mining_ore",
-	"installation_mining_organic_flora",
-	}
+	-- Unused in Legend of Hondo
 }
 
 
 -- Unused for Reference
 BBStructuresUNUSED = {
+	"installation_generator_wind",
+	"installation_mining_gas",
+	"installation_mining_liquid",
+	"installation_mining_ore",
+	"installation_mining_organic_flora",
 	"corellia_house_guild_hall",
 	"corellia_house_player_large",
 	"corellia_house_player_large_style_02",

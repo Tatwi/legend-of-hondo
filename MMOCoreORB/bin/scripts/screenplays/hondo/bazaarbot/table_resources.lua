@@ -18,7 +18,7 @@ BBResFamWeighted = {
 	{"inert_gas", "reactive_gas", "fiberplast", "polymer", "crystalline_gemstone", "armophous_gemstone"},
 	{"lubricating_oil", "liquid_petrochemical_fuel", "water", "radioactive", "wind", "hard_wood", "soft_wood", "oats", "rice", "wheat"}, 
 	-- Rare:
-	{"geothermal", "unknown_non_ferrous", "horn", "unknown_ferrous", "unknown_gemstone", "solar", "seafood", "unknown_igneous_ore", 
+	{"unknown_non_ferrous", "horn", "unknown_ferrous", "unknown_gemstone", "solar", "seafood", "unknown_igneous_ore", 
 		"milk", "eggs", "unknown_sedementary_ore","solid_petrochemical_fuel", "corn", "berries", "fungi", "hide", "meat", "bone"
 	},
 }
