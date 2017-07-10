@@ -36,7 +36,7 @@ void MissionTerminalImplementation::fillObjectMenuResponse(ObjectMenuResponse* m
 int MissionTerminalImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
 	ManagedReference<CityRegion*> city = player->getCityRegion();
 
-	if (selectedID == 69 && player->hasSkill("combat_smuggler_slicing_01")) {
+	if (selectedID == 69 && player->hasSkill("outdoors_scout_master")) {
 		if (isBountyTerminal())
 			return 0;
 

@@ -26,15 +26,15 @@ void TangibleObjectMenuComponent::fillObjectMenuResponse(SceneObject* sceneObjec
 		bool hasSkill = true;
 		ManagedReference<SceneObject*> inventory = player->getSlottedObject("inventory");
 
-		if ((gameObjectType == SceneObjectType::PLAYERLOOTCRATE) && !player->hasSkill("combat_smuggler_novice"))
+		if ((gameObjectType == SceneObjectType::PLAYERLOOTCRATE) && !player->hasSkill("outdoors_scout_tools_02"))
 			hasSkill = false;
 		else if (sceneObject->isContainerObject())
 			hasSkill = false; // Let the container handle our slice menu
-		else if (sceneObject->isMissionTerminal() && !player->hasSkill("combat_smuggler_slicing_01"))
+		else if (sceneObject->isMissionTerminal() && !player->hasSkill("outdoors_scout_master"))
 			hasSkill = false;
-		else if (sceneObject->isWeaponObject() && (!inventory->hasObjectInContainer(sceneObject->getObjectID()) || !player->hasSkill("combat_smuggler_slicing_02")))
+		else if (sceneObject->isWeaponObject() && (!inventory->hasObjectInContainer(sceneObject->getObjectID()) || !player->hasSkill("outdoors_scout_tools_04")))
 			hasSkill = false;
-		else if (sceneObject->isArmorObject() && (!inventory->hasObjectInContainer(sceneObject->getObjectID()) || !player->hasSkill("combat_smuggler_slicing_03")))
+		else if (sceneObject->isArmorObject() && (!inventory->hasObjectInContainer(sceneObject->getObjectID()) || !player->hasSkill("outdoors_scout_tools_03")))
 			hasSkill = false;
 
 		if(hasSkill)
@@ -70,7 +70,7 @@ int TangibleObjectMenuComponent::handleObjectMenuSelect(SceneObject* sceneObject
 	TangibleObject* tano = cast<TangibleObject*>( sceneObject);
 
 
-	if (selectedID == 69 && player->hasSkill("combat_smuggler_novice") ) { // Slice [PlayerLootCrate]
+	if (selectedID == 69 && player->hasSkill("outdoors_scout_tools_02") ) { // Slice [PlayerLootCrate]
 		if (player->containsActiveSession(SessionFacadeType::SLICING)) {
 			player->sendSystemMessage("@slicing/slicing:already_slicing");
 			return 0;

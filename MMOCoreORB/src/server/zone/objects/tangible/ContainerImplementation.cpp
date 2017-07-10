@@ -88,7 +88,7 @@ void ContainerImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuRes
 
 		menuResponse->addRadialMenuItem(50, 3, "@base_player:set_name"); //Set Name
 
-	if (isSliceable() && isContainerLocked() && player->hasSkill("combat_smuggler_novice"))
+	if (isSliceable() && isContainerLocked() && player->hasSkill("outdoors_scout_tools_02"))
 		menuResponse->addRadialMenuItem(69, 3, "@slicing/slicing:slice"); // Slice
 }
 
@@ -112,7 +112,7 @@ int ContainerImplementation::handleObjectMenuSelect(CreatureObject* player, byte
 			return 0;
 		}
 
-	} else if (selectedID == 69 && player->hasSkill("combat_smuggler_novice")) {
+	} else if (selectedID == 69 && player->hasSkill("outdoors_scout_tools_02")) {
 		ManagedReference<Facade*> facade = player->getActiveSession(SessionFacadeType::SLICING);
 		ManagedReference<SlicingSession*> session = dynamic_cast<SlicingSession*>(facade.get());
 

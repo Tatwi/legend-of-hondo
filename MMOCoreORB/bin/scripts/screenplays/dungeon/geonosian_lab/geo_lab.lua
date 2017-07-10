@@ -312,7 +312,7 @@ function GeonosianLabScreenPlay:keypadSuiCallback(pCreature, pSui, eventIndex, e
 			CreatureObject(pCreature):sendSystemMessage("@dungeon/geonosian_madbio:bad_code") --The number that you entered is not a valid code for this door.
 		end
 	elseif (pressedButton == "slice") then
-		if (CreatureObject(pCreature):hasSkill("combat_smuggler_slicing_01")) then
+		if (CreatureObject(pCreature):hasSkill("outdoors_scout_master")) then
 			CreatureObject(pCreature):sendSystemMessage("@dungeon/geonosian_madbio:hack_success") --You have successfully hacked this terminal.
 			self:givePermission(pCreature, "GeoLabKeypad" .. keypadIndex)
 		else
