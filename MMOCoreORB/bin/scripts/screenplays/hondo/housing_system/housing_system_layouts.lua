@@ -107,7 +107,7 @@ layouts = {
 	},
 
 	singleLarge = {
-		terminal = {name = "Large City Lot", x = 0, y = 22, localRotation = 0},
+		terminal = {name = "Large City Lot", x = 0, y = 20, localRotation = 0},
 		plots = {
 			{ -- Plot 1
 				plotName = "Single Large Structure", x = 0, y = 0, localRotation = 0,
@@ -146,6 +146,18 @@ layouts = {
 					{price = 798000, buildingName = "Bunker: Large", template = "object/building/player/player_npc_bunker_large.iff", zoning = 0},
 					{price = 565000, buildingName = "Bunker: Medium", template = "object/building/player/player_npc_bunker_medium.iff", zoning = 0},
 					{price = 225000, buildingName = "Bunker: Small", template = "object/building/player/player_npc_bunker_small.iff", zoning = 0},
+				},
+			},
+		},
+	},
+	
+	tatooineTavern = {
+		terminal = {name = "Large City Lot", x = 0, y = 13, localRotation = 0},
+		plots = {
+			{ -- Plot 1
+				plotName = "Single Large Structure", x = 0, y = 0, localRotation = 0,
+				buildings = {
+					{price = 175000, buildingName = "Tatooine: Tavern", template = "object/building/player/player_house_tatooine_large_style_02.iff", zoning = 0, rotationFudge = -90},
 				},
 			},
 		},

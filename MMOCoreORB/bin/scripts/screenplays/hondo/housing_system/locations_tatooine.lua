@@ -16,4 +16,12 @@ tatooine_locations = {
 		layout = "pirateBunker",
 		center = {x = -3027.29, z = 5, y = 1840.95, angle = -81, ow = -0.760406, oy = 0.649448},
 	},
+	{ -- Site 3: New Player Road
+		layout = "tatooineTavern",
+		center = {x = -2962.25, z = 5, y = 2508.33, angle = -43, ow = 0.927748, oy = -0.373207},
+	},
+	{ -- Site 3: New Player Road
+		layout = "smallFourIn",
+		center = {x = -3006.46, z = 5, y = 2478.93, angle = 135, ow = 0.381392, oy = 0.924413},
+	},
 }
