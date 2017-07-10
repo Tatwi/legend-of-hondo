@@ -10,7 +10,8 @@ generic_criminal_missions =
 			itemSpawns = {},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/shisa_decorative_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/shisa_decorative_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -23,7 +24,8 @@ generic_criminal_missions =
 			itemSpawns = {},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/holocron_splinters_sith_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/holocron_splinters_sith_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -36,7 +38,8 @@ generic_criminal_missions =
 			itemSpawns = {},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/decryptor_broken_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/decryptor_broken_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -49,7 +52,8 @@ generic_criminal_missions =
 			itemSpawns = {},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/speaker_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/speaker_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -65,7 +69,8 @@ generic_criminal_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/shisa_decorative_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/shisa_decorative_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -81,7 +86,8 @@ generic_criminal_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/decryptor_broken_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/decryptor_broken_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -97,7 +103,8 @@ generic_criminal_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/holocron_splinters_sith_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/holocron_splinters_sith_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -113,7 +120,8 @@ generic_criminal_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/speaker_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/speaker_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -129,7 +137,8 @@ generic_criminal_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/shisa_decorative_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/shisa_decorative_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -145,7 +154,8 @@ generic_criminal_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/decryptor_broken_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/decryptor_broken_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -161,7 +171,8 @@ generic_criminal_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/holocron_splinters_sith_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/holocron_splinters_sith_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 		{
@@ -177,7 +188,8 @@ generic_criminal_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/speaker_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/speaker_s01.iff" },
+				{ rewardType = "xp", xpType = "political", amount = 50 + getRandomNumber(50), reqSkill = "pirate_mission_level", reqSkillValue = 1}
 			}
 		},
 	}

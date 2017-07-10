@@ -18,7 +18,36 @@ ThemeParkLogic = ScreenPlay:new {
 	missionCompletionMessageStf = "",
 	planetName = "",
 	faction = 0,
-	requiredFaction = ""
+	requiredFaction = "",
+	-- Experience names used in Legend of Hondo (because "@exp_n:" .. variableName wasn't pulling the name from the string file)
+	xpNames = {
+		renown = "Renown",
+		infamy = "Infamy",
+		smuggler = "Smuggling",
+		bountyhunter = "Bounty Hunter",
+		camp = "Wilderness Survival",
+		combat_general = "General Crafting",
+		combat_meleespecialize_onehand = "Onehanded Weapons",
+		combat_meleespecialize_polearm = "Polearm Weapons",
+		combat_meleespecialize_twohand = "Twohanded Weapons",
+		combat_meleespecialize_unarmed = "Unarmed Combat",
+		combat_rangedspecialize_carbine = "Carbine Weapons",
+		combat_rangedspecialize_pistol = "Pistol Weapons",
+		combat_rangedspecialize_rifle = "Rifle Weapons",
+		combat_rangedspecialize_heavy = "Heavy Weapons",
+		crafting_clothing_armor = "Armor Crafting",
+		crafting_clothing_general = "Tailoring",
+		crafting_bio_engineer_creature = "Bio-Engineer Crafting",
+		crafting_droid_general = "Droid Crafting",
+		crafting_food_general = "Food Crafting",
+		crafting_general = "General Crafting",
+		crafting_weapons_general = "Weapon Crafting",
+		creaturehandler = "Creature Handling",
+		medical = "Medical",
+		scout = "Scouting",
+		slicing = "Slicing",
+		political = "Pirate",
+	} 
 }
 
 function ThemeParkLogic:start()
@@ -1817,8 +1846,36 @@ function ThemeParkLogic:handleMissionReward(pConversingPlayer)
 			self:givePermission(pConversingPlayer, reward.permissionGroup)
 		elseif reward.rewardType == "item" then
 			self:giveItemReward(pConversingPlayer, reward.itemTemplate)
+		elseif reward.rewardType == "xp" then
+			if (reward.reqSkill ~= nil) then
+				if (reward.reqSkillValue > CreatureObject(pConversingPlayer):getSkillMod(reward.reqSkill)) then
+					CreatureObject(pConversingPlayer):sendSystemMessage("You lacked the required skills to gain " .. self.xpNames[reward.xpType] .. " experience from this activity.")	
+					return
+				end
+			end
+			
+			local pGhost = CreatureObject(pConversingPlayer):getPlayerObject()
+
+			if (reward.reqFaction ~= nil) then
+				if (reward.reqFactionValue > PlayerObject(pGhost):getFactionStanding(reward.reqFaction)) then
+					local factionName = self:makeTextPretty(reward.reqFaction)
+					CreatureObject(pConversingPlayer):sendSystemMessage("You lacked the required faction standing (" .. factionName .. ") to gain experience from this activity.")	
+					return
+				end
+			end
+			
+			PlayerObject(pGhost):addExperience(reward.xpType, reward.amount)
+			CreatureObject(pConversingPlayer):sendSystemMessage("You receive " .. reward.amount .. " points of " ..  self.xpNames[reward.xpType]  .. " experience.")
 		end
 	end
+end
+
+function ThemeParkLogic:makeTextPretty(str)
+	-- "followers_of_lord_nyax" turns into "Followers Of Lord Nyax"
+    local pretty = str:gsub("_", " ")
+    pretty = pretty:gsub("(%l)(%w*)", function(a,b) return string.upper(a)..b end)
+    
+    return pretty
 end
 
 function ThemeParkLogic:givePermission(pConversingPlayer, permissionGroup)
