@@ -1,4 +1,4 @@
--- See locations_simple.lua for an example.
+-- angle the world rotation used for the buildings, while ow/oy is used for the rotation of the temrinal
 tatooine_locations = {
 	{ -- Site 1: City centre
 		layout = "smallCityBlock",
@@ -23,5 +23,9 @@ tatooine_locations = {
 	{ -- Site 3: New Player Road
 		layout = "smallFourIn",
 		center = {x = -3006.46, z = 5, y = 2478.93, angle = 135, ow = 0.381392, oy = 0.924413},
+	},
+	{ -- Site 4: Jawa Town
+		layout = "espaJawaTown",
+		center = {x = -2888.02, z = 5, y = 2505.23, angle = -131, ow = 0.844665, oy = 0.535295}, 
 	},
 }

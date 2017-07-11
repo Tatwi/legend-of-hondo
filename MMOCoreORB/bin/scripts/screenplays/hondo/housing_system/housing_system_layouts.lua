@@ -1317,5 +1317,35 @@ layouts = {
 			},
 		},
 	},
+	
+	espaJawaTown = {
+		terminal = {name = "Jawa Town", x = -3, y = 15, localRotation = 0},
+		plots = {
+			{ -- Plot 1
+				plotName = "Small Tent", x = 10, y = 8, localRotation = -87,
+				buildings = {
+					{price = 8000, buildingName = "Small Tent: Brown", template = "object/building/player/player_merchant_tent_style_01.iff", zoning = 0},
+					{price = 8000, buildingName = "Small Tent: Grey", template = "object/building/player/player_merchant_tent_style_02.iff", zoning = 0},
+					{price = 8000, buildingName = "Small Tent: Green", template = "object/building/player/player_merchant_tent_style_03.iff", zoning = 0},
+				},
+			},
+			{ -- Plot 2
+				plotName = "Large Tent", x = 19, y = 2, localRotation = 180,
+				buildings = {
+					{price = 14000, buildingName = "Large Tent: Brown", template = "object/building/player/player_salon_tent_style_01.iff", zoning = 0},
+					{price = 14000, buildingName = "Large Tent: Grey", template = "object/building/player/player_salon_tent_style_02.iff", zoning = 0},
+					{price = 14000, buildingName = "Large Tent: Green", template = "object/building/player/player_salon_tent_style_03.iff", zoning = 0},
+				},
+			},
+			{ -- Plot 3
+				plotName = "Bunker House", x = 0, y = -12, localRotation = 0,
+				buildings = {
+					{price = 50000, buildingName = "Bunker House", template = "object/building/player/player_house_tatooine_medium_style_02.iff", zoning = 0},
+				},
+			},
+		},
+	},
+	
+	
 }
 
