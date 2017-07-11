@@ -28,4 +28,9 @@ tatooine_locations = {
 		layout = "espaJawaTown",
 		center = {x = -2888.02, z = 5, y = 2505.23, angle = -131, ow = 0.844665, oy = 0.535295}, 
 	},
+	{ -- Site 4: North West District
+		layout = "espaNW",
+		center = {x = -3100.77, z = 5, y = 2376.3, angle = 0, ow = 1.0, oy = 0.0}, 
+	},
 }
+
