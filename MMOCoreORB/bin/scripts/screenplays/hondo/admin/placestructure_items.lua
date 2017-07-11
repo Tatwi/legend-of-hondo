@@ -282,4 +282,14 @@ structures = {
 			"Weapon, Droid, and General","object/installation/manufacture/weapon_factory.iff",
 		}
 	},
+	{catName = "Caves",
+		 items = {
+			"Tatooine Flat Land 1","object/building/general/cave_06_flatland_s01.iff",
+			"Tatooine Flat Land 2","object/building/general/cave_07_flatland_s02.iff",
+			"Tatooine Flat Land 3","object/building/general/cave_08_flatland_s03.iff",
+			"Tatooine Hillside 1","object/building/general/cave_01.iff",
+			"Tatooine Hillside 1","object/building/general/cave_02.iff",
+			"Tatooine Hillside 1","object/building/general/cave_03.iff",
+		}
+	},
 }
