@@ -1352,25 +1352,49 @@ layouts = {
 			{ -- Plot 1
 				plotName = "Cantina", x = 12, y = 35, localRotation = 180,
 				buildings = {
-					{price = 450000, buildingName = "Small Cantina: Tatooine", template = "object/building/player/city/cantina_tatooine.iff", zoning = 0},
+					{price = 650000, buildingName = "Cantina: Tatooine Player Style", template = "object/building/player/city/cantina_tatooine.iff", zoning = 0},
+					{price = 650000, buildingName = "Cantina: Corellia Player Style", template = "object/building/player/city/cantina_corellia.iff", zoning = 0},
+					{price = 650000, buildingName = "Cantina: Naboo Player Style", template = "object/building/player/city/cantina_naboo.iff", zoning = 0},
 				},
 			},
 			{ -- Plot 2
 				plotName = "Large Garden", x = 12, y = -4, localRotation = 0,
 				buildings = {
-					{price = 14000, buildingName = "Large Garden", template = "object/building/player/city/garden_tatooine_lrg_02.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Tatooine Large 2", template = "object/building/player/city/garden_tatooine_lrg_02.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Tatooine Large 1", template = "object/building/player/city/garden_tatooine_lrg_01.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Tatooine Large 3", template = "object/building/player/city/garden_tatooine_lrg_03.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Tatooine Large 4", template = "object/building/player/city/garden_tatooine_lrg_04.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Tatooine Large 5", template = "object/building/player/city/garden_tatooine_lrg_05.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Corellia Large 1", template = "object/building/player/city/garden_corellia_lrg_01.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Corellia Large 2", template = "object/building/player/city/garden_corellia_lrg_02.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Corellia Large 3", template = "object/building/player/city/garden_corellia_lrg_03.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Corellia Large 4", template = "object/building/player/city/garden_corellia_lrg_04.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Corellia Large 5", template = "object/building/player/city/garden_corellia_lrg_05.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Dantooine Large 1", template = "object/building/player/city/garden_dantooine_lrg_01.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Dathomir Large 1", template = "object/building/player/city/garden_dathomir_lrg_01.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Endor Large 1", template = "object/building/player/city/garden_endor_lrg_01.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Naboo Large 1", template = "object/building/player/city/garden_naboo_lrg_01.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Naboo Large 2", template = "object/building/player/city/garden_naboo_lrg_02.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Naboo Large 3", template = "object/building/player/city/garden_naboo_lrg_03.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Naboo Large 4", template = "object/building/player/city/garden_naboo_lrg_04.iff", zoning = 0},
+					{price = 35000, buildingName = "Garden: Naboo Large 5", template = "object/building/player/city/garden_naboo_lrg_05.iff", zoning = 0},
 				},
 			},
 			{ -- Plot 3
 				plotName = "Theatre", x = 8, y = -36, localRotation = 0,
 				buildings = {
-					{price = 50000, buildingName = "Small Theatre", template = "object/building/player/city/theater_tatooine.iff", zoning = 0},
+					{price = 50000, buildingName = "Small Tatooine Theatre", template = "object/building/player/city/theater_tatooine.iff", zoning = 0},
+					{price = 50000, buildingName = "Small Corellian Theatre", template = "object/building/player/city/theater_corellia.iff", zoning = 0},
+					{price = 50000, buildingName = "Small Naboo Theatre", template = "object/building/player/city/theater_naboo.iff", zoning = 0},
 				},
 			},
 			{ -- Plot 4
 				plotName = "Guild Hall", x = -38, y = -34, localRotation = 0,
 				buildings = {
-					{price = 50000, buildingName = "Generic Guild Hall", template = "object/building/player/player_guildhall_tatooine_style_01.iff", zoning = 0},
+					{price = 250000, buildingName = "Guild Hall: Tatooine", template = "object/building/player/player_guildhall_tatooine_style_01.iff", zoning = 0},
+					{price = 250000, buildingName = "Guild Hall: Corellia", template = "object/building/player/player_guildhall_corellia_style_01.iff", zoning = 0},
+					{price = 250000, buildingName = "Guild Hall: Generic", template = "object/building/player/player_guildhall_generic_style_01.iff", zoning = 0},
+					{price = 250000, buildingName = "Guild Hall: Naboo", template = "object/building/player/player_guildhall_naboo_style_01.iff", zoning = 0},
 				},
 			},
 			{ -- Plot 5
