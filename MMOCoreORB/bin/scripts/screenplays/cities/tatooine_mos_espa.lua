@@ -294,7 +294,7 @@ function TatooineMosEspaScreenPlay:spawnSceneObjects()
 	spawnSceneObject("tatooine", "object/static/vehicle/static_speeder_bike.iff", -2808.63, 5.0, 2165.19, 0, 0.976521, 0, 0.215424, 0)
 	spawnSceneObject("tatooine", "object/tangible/furniture/all/frn_all_data_terminal_free_s2.iff", -2809.08, 5, 2161.58, 0, -0.284015, 0, -0.95882, 0)
 	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s01.iff", -2809.28, 5, 2150.75, 0, -0.649448, 0, 0.760406, 0)
-	spawnSceneObject("tatooine", "object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff", -2811.53, 5, 2428.54, 0, -1, 0, -0.0451577, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff", -2811.53, 5, 2147.54, 0, -1, 0, -0.0451577, 0)
 	
 	-- East Side Factories
 	spawnSceneObject("tatooine", "object/building/military/military_outpost_guard_tower_1.iff", -2769.49, 5, 2428.54, 0, 0.0584327, 0, 0.998291, 0)
