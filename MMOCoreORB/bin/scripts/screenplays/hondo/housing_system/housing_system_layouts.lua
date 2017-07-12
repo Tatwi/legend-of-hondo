@@ -1445,7 +1445,7 @@ layouts = {
 				},
 			},
 			{ -- Plot 5
-				plotName = "Small Garden (Your Left)", x = -18, y = 18, localRotation = 0,
+				plotName = "Small Garden (Your Right)", x = -18, y = 18, localRotation = 0,
 				buildings = {
 					{price = 15600, buildingName = "Garden: Tatooine Small 1", template = "object/building/player/city/garden_tatooine_sml_01.iff", zoning = 0},
 					{price = 15600, buildingName = "Garden: Tatooine Small 2", template = "object/building/player/city/garden_tatooine_sml_02.iff", zoning = 0},
@@ -1467,7 +1467,7 @@ layouts = {
 				},
 			},
 			{ -- Plot 6
-				plotName = "Small Garden (Your Right)", x = 18, y = 18, localRotation = 0,
+				plotName = "Small Garden (Your Left)", x = 18, y = 18, localRotation = 0,
 				buildings = {
 					{price = 5600, buildingName = "Garden: Tatooine Small 2", template = "object/building/player/city/garden_tatooine_sml_02.iff", zoning = 0},
 					{price = 5600, buildingName = "Garden: Tatooine Small 1", template = "object/building/player/city/garden_tatooine_sml_01.iff", zoning = 0},
