@@ -36,5 +36,12 @@ tatooine_locations = {
 		layout = "singleLargeLong",
 		center = {x = -2886.12, z = 5, y = 1916.88, angle = 74, ow = 0.795887, oy = 0.605446}, 
 	},
+	{ -- Site 7: East Side Factories
+		layout = "factories",
+		center = {x = -2778.33, z = 5, y = 2460.36, angle = -95, ow = -0.671901, oy = 0.740641}, 
+	},
+	{ -- Site 7: Dune Heights
+		layout = "espaDuneHeights",
+		center = {x = -2803, z = 5, y = 2548.59, angle = 50, ow = 0.904278, oy = 0.426945}, 
+	},
 }
-

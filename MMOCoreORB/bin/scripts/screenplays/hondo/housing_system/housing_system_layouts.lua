@@ -1423,6 +1423,75 @@ layouts = {
 		},
 	},
 	
+	espaDuneHeights = {
+		terminal = {name = "Dune Heights", x = 0, y = 10, localRotation = 0},
+		plots = {
+			{ -- Plot 1
+				plotName = "Estate (Center)", x = 0, y = -16.31, localRotation = 0,
+				buildings = {
+					{price = 750000, buildingName = "Tatooine Guild Hall Style 2", template = "object/building/player/player_guildhall_tatooine_style_02.iff", zoning = 0},
+				},
+			},
+			{ -- Plot 2
+				plotName = "Medium House (Your Left)", x = 48.6, y = 6.7, localRotation = -45,
+				buildings = {
+					{price = 375000, buildingName = "Tavern Style Home", template = "object/building/player/player_house_tatooine_large_style_02.iff", zoning = 0, rotationFudge = -90},
+				},
+			},
+			{ -- Plot 3
+				plotName = "Medium House (Your Right)", x = -46.4, y = 8, localRotation = 59,
+				buildings = {
+					{price = 375000, buildingName = "Tavern Style Home", template = "object/building/player/player_house_tatooine_large_style_02.iff", zoning = 0, rotationFudge = -90},
+				},
+			},
+			{ -- Plot 5
+				plotName = "Small Garden (Your Left)", x = -18, y = 18, localRotation = 0,
+				buildings = {
+					{price = 15600, buildingName = "Garden: Tatooine Small 1", template = "object/building/player/city/garden_tatooine_sml_01.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Tatooine Small 2", template = "object/building/player/city/garden_tatooine_sml_02.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Tatooine Small 3", template = "object/building/player/city/garden_tatooine_sml_03.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Tatooine Small 4", template = "object/building/player/city/garden_tatooine_sml_04.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Tatooine Small 5", template = "object/building/player/city/garden_tatooine_sml_05.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Corellia Small 1", template = "object/building/player/city/garden_corellia_sml_01.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Corellia Small 2", template = "object/building/player/city/garden_corellia_sml_02.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Corellia Small 3", template = "object/building/player/city/garden_corellia_sml_03.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Corellia Small 4", template = "object/building/player/city/garden_corellia_sml_04.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Corellia Small 5", template = "object/building/player/city/garden_corellia_sml_05.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Dantooine Small 1", template = "object/building/player/city/garden_dantooine_sml_01.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Dathomir Small 1", template = "object/building/player/city/garden_dathomir_sml_01.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Endor Small 1", template = "object/building/player/city/garden_endor_sml_01.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Naboo Small 2", template = "object/building/player/city/garden_naboo_sml_02.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Naboo Small 3", template = "object/building/player/city/garden_naboo_sml_03.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Naboo Small 4", template = "object/building/player/city/garden_naboo_sml_04.iff", zoning = 0},
+					{price = 15600, buildingName = "Garden: Naboo Small 5", template = "object/building/player/city/garden_naboo_sml_05.iff", zoning = 0},
+				},
+			},
+			{ -- Plot 6
+				plotName = "Small Garden (Your Right)", x = 18, y = 18, localRotation = 0,
+				buildings = {
+					{price = 5600, buildingName = "Garden: Tatooine Small 2", template = "object/building/player/city/garden_tatooine_sml_02.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Tatooine Small 1", template = "object/building/player/city/garden_tatooine_sml_01.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Tatooine Small 3", template = "object/building/player/city/garden_tatooine_sml_03.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Tatooine Small 4", template = "object/building/player/city/garden_tatooine_sml_04.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Tatooine Small 5", template = "object/building/player/city/garden_tatooine_sml_05.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Corellia Small 1", template = "object/building/player/city/garden_corellia_sml_01.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Corellia Small 2", template = "object/building/player/city/garden_corellia_sml_02.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Corellia Small 3", template = "object/building/player/city/garden_corellia_sml_03.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Corellia Small 4", template = "object/building/player/city/garden_corellia_sml_04.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Corellia Small 5", template = "object/building/player/city/garden_corellia_sml_05.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Dantooine Small 1", template = "object/building/player/city/garden_dantooine_sml_01.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Dathomir Small 1", template = "object/building/player/city/garden_dathomir_sml_01.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Endor Small 1", template = "object/building/player/city/garden_endor_sml_01.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Naboo Small 2", template = "object/building/player/city/garden_naboo_sml_02.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Naboo Small 3", template = "object/building/player/city/garden_naboo_sml_03.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Naboo Small 4", template = "object/building/player/city/garden_naboo_sml_04.iff", zoning = 0},
+					{price = 5600, buildingName = "Garden: Naboo Small 5", template = "object/building/player/city/garden_naboo_sml_05.iff", zoning = 0},
+				},
+			},
+		},
+	},
+	
+	
 	-- Mos Entha Specific Layouts (that I made for the Tarkin 2 server and only put here for testing/reference)
 	
 	enthaGuildHalls = {
@@ -1674,30 +1743,6 @@ layouts = {
 				plotName = "Large Cantina (Far Left)", x = -95.4, y = -12.5, localRotation = -90,
 				buildings = {
 					{price = 675000, buildingName = "Cantina - Tatooine NPC Style", template = "object/building/player/player_npc_cantina_tatooine.iff", zoning = 0, rotationFudge = 90},
-				},
-			},
-		},
-	},
-	
-	enthaCom4 = {
-		terminal = {name = "Dune Heights", x = 0, y = 10, localRotation = 0},
-		plots = {
-			{ -- Plot 1
-				plotName = "Estate (Center)", x = 0, y = -16.31, localRotation = 0,
-				buildings = {
-					{price = 250000, buildingName = "Tatooine Guild Hall Style 2", template = "object/building/player/player_guildhall_tatooine_style_02.iff", zoning = 0},
-				},
-			},
-			{ -- Plot 2
-				plotName = "Medium House (Your Left)", x = 48.6, y = 6.7, localRotation = -45,
-				buildings = {
-					{price = 175000, buildingName = "Tavern Style Home", template = "object/building/player/player_house_tatooine_large_style_02.iff", zoning = 0, rotationFudge = -90},
-				},
-			},
-			{ -- Plot 3
-				plotName = "Medium House (Your Right)", x = -46.4, y = 8, localRotation = 59,
-				buildings = {
-					{price = 175000, buildingName = "Tavern Style Home", template = "object/building/player/player_house_tatooine_large_style_02.iff", zoning = 0, rotationFudge = -90},
 				},
 			},
 		},
