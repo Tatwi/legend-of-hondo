@@ -178,29 +178,20 @@ layouts = {
 	},
 
 	singleLargeLong = {
-		terminal = {name = "Single Long City Lot", x = 0, y = 34.7, localRotation = 0},
+		terminal = {name = "Mos Epsa Collegiate", x = -14, y = 34.7, localRotation = 0},
 		plots = {
 			{ -- Plot 1
 				plotName = "Single Large Long Structure", x = 0, y = 0, localRotation = 0,
 				buildings = {
-					{price = 250000, buildingName = "Guild Hall: Tatooine (Brown Generic)", template = "object/building/player/player_guildhall_tatooine_style_01.iff", zoning = 0},
-					{price = 250000, buildingName = "Guild Hall: Corellia", template = "object/building/player/player_guildhall_corellia_style_01.iff", zoning = 0},
-					{price = 250000, buildingName = "Guild Hall: Generic", template = "object/building/player/player_guildhall_generic_style_01.iff", zoning = 0},
-					{price = 250000, buildingName = "Guild Hall: Naboo", template = "object/building/player/player_guildhall_naboo_style_01.iff", zoning = 0},
-					{price = 650000, buildingName = "Cantina: Corellia Player Style", template = "object/building/player/city/cantina_corellia.iff", zoning = 0},
-					{price = 650000, buildingName = "Cantina: Naboo Player Style", template = "object/building/player/city/cantina_naboo.iff", zoning = 0},
-					{price = 650000, buildingName = "Cantina: Tatooine Player Style", template = "object/building/player/city/cantina_tatooine.iff", zoning = 0},
+					{price = 199000, buildingName = "University: Tatooine", template = "object/building/tatooine/guild_university_tatooine_style_01.iff", zoning = 0},
+					{price = 199000, buildingName = "University: Corellia", template = "object/building/player/player_npc_university_corellia.iff", zoning = 0},
+					{price = 199000, buildingName = "University: Naboo", template = "object/building/player/player_npc_university_naboo.iff", zoning = 0},
 					{price = 199000, buildingName = "Combat Guild Hall: Corellia", template = "object/building/player/player_npc_combat_guildhall_corellia.iff", zoning = 0},
 					{price = 199000, buildingName = "Combat Guild Hall: Naboo", template = "object/building/player/player_npc_combat_guildhall_naboo.iff", zoning = 0},
 					{price = 199000, buildingName = "Combat Guild Hall: Tatooine", template = "object/building/player/player_npc_combat_guildhall_tatooine.iff", zoning = 0},
 					{price = 199000, buildingName = "Commerce Guild Hall: Corellia", template = "object/building/player/player_npc_commerce_guildhall_corellia.iff", zoning = 0},
 					{price = 199000, buildingName = "Commerce Guild Hall: Naboo", template = "object/building/player/player_npc_commerce_guildhall_naboo.iff", zoning = 0},
 					{price = 199000, buildingName = "Commerce Guild Hall: Tatooine", template = "object/building/player/player_npc_commerce_guildhall_tatooine.iff", zoning = 0},
-					{price = 199000, buildingName = "University: Corellia", template = "object/building/player/player_npc_university_corellia.iff", zoning = 0},
-					{price = 199000, buildingName = "University: Naboo", template = "object/building/player/player_npc_university_naboo.iff", zoning = 0},
-					{price = 199000, buildingName = "University: Tatooine", template = "object/building/tatooine/guild_university_tatooine_style_01.iff", zoning = 0},
-					{price = 325000, buildingName = "Police Station: Imperial Style", template = "object/building/player/player_npc_police_station_imperial.iff", zoning = 0},
-					{price = 325000, buildingName = "Police Station: Rebel Style", template = "object/building/player/player_npc_police_station_rebel.iff", zoning = 0},
 				},
 			},
 		},

@@ -277,8 +277,25 @@ function TatooineMosEspaScreenPlay:spawnSceneObjects()
     -- Gardener's Home south of capitol balcony
     spawnSceneObject("tatooine", "object/static/structure/general/poi_tato_corral_half_32x32_s04.iff", -2975.64, 5, 1919.57, 0, 0.991445, 0, -0.130526, 0)
     spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s02.iff", -2984.35, 5, 1908.39, 0, 1, 0, 0, 0) 
-    spawnSceneObject("tatooine", "object/static/installation/mockup_power_generator_photo_bio_style_1.iff", -2955.99, 5, 1922.63, 0, -0.642788, 0, 0.766044, 0) 
-
+    spawnSceneObject("tatooine", "object/static/installation/mockup_power_generator_photo_bio_style_1.iff", -2955.99, 5, 1922.63, 0, -0.642788, 0, 0.766044, 0)
+    
+    -- Mos Espa Collegiate
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff", -2839.49, 5, 1915.18, 0, -0.333807, 0, 0.942641, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2843.66, 5, 1913.99, 0, 0.147809, 0, 0.989016, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff", -2846.81, 3, 1913.88, 0, -0.601815, 0, 0.798636, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2850.66, 5, 1911.98, 0, 0.147809, 0, 0.989016, 0)
+	
+	-- Crazy Larry's Car Shop
+	spawnSceneObject("tatooine", "object/tangible/camp/camp_pavilion_s1.iff", -2812.79, 5, 2166.51, 0, 1, 0, 0, 0)
+	spawnSceneObject("tatooine", "object/building/tatooine/filler_building_tatt_style01_05.iff", -2790.53, 5, 2159.24, 0, 0.700909, 0, -0.71325, -0)
+	spawnSceneObject("tatooine", "object/mobile/vehicle/landspeeder_av21.iff", -2819.05, 5.0, 2166.25, 0, 0.80647, 0, -0.591275, 0)
+	spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -2812.63, 5.0, 2168.65, 0, 0.98738, 0, -0.158369, 0)
+	spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -2803.46, 5.0, 2140.33, 0, 0.618635, 0, 0.785679, 0)
+	spawnSceneObject("tatooine", "object/static/vehicle/static_speeder_bike.iff", -2808.63, 5.0, 2165.19, 0, 0.976521, 0, 0.215424, 0)
+	spawnSceneObject("tatooine", "object/tangible/furniture/all/frn_all_data_terminal_free_s2.iff", -2809.08, 5, 2161.58, 0, -0.284015, 0, -0.95882, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s01.iff", -2809.28, 5, 2150.75, 0, -0.649448, 0, 0.760406, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff", -2811.53, 5, 2146.4, 0, -1, 0, -2.23517e-08, 0)
+	
     -- Pistoleer and Carbineer Trainer vehicle
     spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -2727.35, 5, 2505.37, 0, 0.382683, 0, 0.92388, 0) 
 end
