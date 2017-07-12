@@ -44,4 +44,8 @@ tatooine_locations = {
 		layout = "espaDuneHeights",
 		center = {x = -2803, z = 5, y = 2548.59, angle = 50, ow = 0.904278, oy = 0.426945}, 
 	},
+	{ -- Site 8: The Fortress
+		layout = "mediumFourIn",
+		center = {x = -2990.76, z = 5, y = 2341.56, angle = 74, ow = 0.798264, oy = 0.602308}, 
+	},
 }
