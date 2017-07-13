@@ -16,13 +16,13 @@ includeFile("hondo/housing_system/locations_rori.lua")
 includeFile("hondo/housing_system/locations_talus.lua")
 includeFile("hondo/housing_system/locations_tatooine.lua")
 includeFile("hondo/housing_system/locations_yavin4.lua")
-includeFile("hondo/housing_system/locations_simple.lua") -- debug
+--includeFile("hondo/housing_system/locations_simple.lua") -- debug
 
 HondoHousingSystem = ScreenPlay:new {
 	numberOfActs = 1,
 	termModel = "object/tangible/furniture/imperial/data_terminal_s1.iff",
 	layoutTestTime = 15, -- Seconds until a layout is deleted when you plop one down with /hondo admin testLayout...
-	maxOwnedPlots = 10, -- Max account-wide plots a player can own. 0 = unlimited.
+	maxOwnedPlots = 0, -- Max account-wide plots a player can own. 0 = unlimited.
 	waypointSpecialType = 12,  -- Any int 12 and up will do. Use a unique number per quest/purpose so they don't over-write each other.
 }
 
@@ -46,7 +46,7 @@ function HondoHousingSystem:start()
 	self:spawnSites("talus", talus_locations, pOwnerMan)
 	self:spawnSites("tatooine", tatooine_locations, pOwnerMan)
 	self:spawnSites("yavin4", yavin4_locations, pOwnerMan)
-	self:spawnSites("simple", simple_locations, pOwnerMan) -- debug
+	--self:spawnSites("simple", simple_locations, pOwnerMan) -- debug
 
 	SceneObject(pOwnerMan):switchZone("tatooine", 7679, 0, 7679, 0)
 
