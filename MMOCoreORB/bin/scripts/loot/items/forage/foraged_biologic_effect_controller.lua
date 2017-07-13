@@ -10,7 +10,10 @@ foraged_biologic_effect_controller = {
 		{"charges",1,5,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 1,
+	junkMaxValue = 4
 }
 
 addLootItemTemplate("foraged_biologic_effect_controller", foraged_biologic_effect_controller)

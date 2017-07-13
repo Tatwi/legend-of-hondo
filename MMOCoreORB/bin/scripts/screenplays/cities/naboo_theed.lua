@@ -201,7 +201,7 @@ function NabooTheedScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "naboo_police",300,-4911.53,6,4089.7,127.784,0)
 	pNpc = spawnMobile(self.planet, "official",300,-5886.59,6,4368.23,0,0)
 	self:setMoodString(pNpc, "conversation")
-
+--[[
 	spawnMobile(self.planet, "trainer_1hsword",0,-5565,6,4304,84,0)
 	spawnMobile(self.planet, "trainer_2hsword",0,-5382,6,4327,180,0)
 	spawnMobile(self.planet, "trainer_architect",0,-4931,6,4020,39,0)
@@ -227,7 +227,7 @@ function NabooTheedScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_scout",0,-5986.5,6,4232.79,104,0)
 	spawnMobile(self.planet, "trainer_scout",0,-4796,6,4103,240,0)
 	spawnMobile(self.planet, "trainer_unarmed",0,-5649,6,4206,0,0)
-
+--]]
 	--Creatures
 	spawnMobile(self.planet, "flewt", 300, getRandomNumber(10) + -5195, 6, getRandomNumber(10) + 3988, getRandomNumber(360), 0)
 	spawnMobile(self.planet, "flewt", 300, getRandomNumber(10) + -5200, 6, getRandomNumber(10) + 3997, getRandomNumber(360), 0)
@@ -300,11 +300,12 @@ function NabooTheedScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "mott_calf", 300, getRandomNumber(10) + -4939.35, 6, getRandomNumber(10) + 3653.82, getRandomNumber(360), 0)
 
 	--Med Center
-	spawnMobile(self.planet, "trainer_combatmedic",0,-16.4871,0.26,10.7738,176,1697364)
+--[[	spawnMobile(self.planet, "trainer_combatmedic",0,-16.4871,0.26,10.7738,176,1697364)
 	spawnMobile(self.planet, "trainer_combatmedic",0,26.5469,0.26,5.31169,90,1697360)
 	spawnMobile(self.planet, "trainer_doctor",0,16.0979,0.26,-0.105232,266,1697360)
 	spawnMobile(self.planet, "trainer_medic",0,13.7645,0.26,4.7703,149,1697360)
 	spawnMobile(self.planet, "trainer_medic",0,-17.1613,0.26,-0.82884,167,1697364)
+--]]
 	spawnMobile(self.planet, "comm_operator",300,-32.8,0.3,13.892,92,1697365)
 	spawnMobile(self.planet, "commoner_technician",60,-5041.71,13.3,4193.94,180.005,0)
 	spawnMobile(self.planet, "medic",60,-5041.71,13.3,4192.84,0,0)
@@ -337,7 +338,7 @@ function NabooTheedScreenPlay:spawnMobiles()
 	pNpc = spawnMobile(self.planet, "commoner",60,-19.0001,2.25,17.4832,90.0053,1305888)
 	self:setMoodString(pNpc, "neutral")
 	--Guild Hall -5457 4122
-	spawnMobile(self.planet, "trainer_brawler",0,-11,1,-13,0,1692075)
+--[[	spawnMobile(self.planet, "trainer_brawler",0,-11,1,-13,0,1692075)
 	spawnMobile(self.planet, "trainer_marksman",0,0,1.13306,-13,0,1692074)
 	spawnMobile(self.planet, "trainer_scout",0,-14.0781,1.13306,3.79797,142,1692072)
 	--Guild Hall -5368 4138
@@ -348,7 +349,7 @@ function NabooTheedScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_droidengineer",0,-11,1.13306,-13,0,1692095)
 	spawnMobile(self.planet, "trainer_merchant",0,12,1.13306,6,180,1692091)
 	spawnMobile(self.planet, "trainer_weaponsmith",0,-3.1,1.1,-8.2,91,1692094)
-
+--]]
 	--Hotel
 	pNpc = spawnMobile(self.planet, "businessman",60,15.5641,1.28309,-2.37071,135.005,1677395)
 	self:setMoodString(pNpc, "worried")
@@ -392,16 +393,16 @@ function NabooTheedScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "nervous")
 	pNpc = spawnMobile(self.planet, "medic",60,-11.5446,2.12878,75.9709,0,5475487)
 	self:setMoodString(pNpc, "conversation")
-	spawnMobile(self.planet, "trainer_dancer",0,18.2374,2.12871,53.9343,6,5475487)
-	spawnMobile(self.planet, "trainer_entertainer",0,28.3235,2.12854,73.5353,90,5475487)
-	spawnMobile(self.planet, "trainer_musician",0,28.3,2.12801,54,-39,5475486)
+	--spawnMobile(self.planet, "trainer_dancer",0,18.2374,2.12871,53.9343,6,5475487)
+	--spawnMobile(self.planet, "trainer_entertainer",0,28.3235,2.12854,73.5353,90,5475487)
+	--spawnMobile(self.planet, "trainer_musician",0,28.3,2.12801,54,-39,5475486)
 	pNpc = spawnMobile(self.planet, "vendor",60,-11.5446,2.12878,76.8966,179.996,5475487)
 	self:setMoodString(pNpc, "happy")
-	spawnMobile(self.planet, "trainer_imagedesigner",0,-22.9,2.1287,74.7,121,5475488)
+	--spawnMobile(self.planet, "trainer_imagedesigner",0,-22.9,2.1287,74.7,121,5475488)
 
 	--Starport
-	pNpc = spawnMobile(self.planet, "trainer_shipwright",0,0.2,0.7,-71.4,-177,1692101)
-	self:setMoodString(pNpc, "conversation")
+	--pNpc = spawnMobile(self.planet, "trainer_shipwright",0,0.2,0.7,-71.4,-177,1692101)
+	--self:setMoodString(pNpc, "conversation")
 	pNpc = spawnMobile(self.planet, "pilot",300,-29.8622,7.9418,10.8957,180.008,1692104)
 	self:setMoodString(pNpc, "happy")
 	pNpc = spawnMobile(self.planet, "commoner_technician",300,-37.5788,7.9418,22.3791,0,1692104)

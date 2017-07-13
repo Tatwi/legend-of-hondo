@@ -9,7 +9,13 @@ registerScreenPlay("Yavin4MiningOutpostScreenPlay", true)
 function Yavin4MiningOutpostScreenPlay:start()
 	if (isZoneEnabled("yavin4")) then
 		self:spawnMobiles()
+		self:spawnSceneObjects()
 	end
+end
+
+function Yavin4MiningOutpostScreenPlay:spawnSceneObjects()
+	spawnSceneObject("yavin4", "object/tangible/terminal/terminal_mission_artisan.iff", -313.665, 35, 4839.76, 0, 0.707107, 0, 0.707107, 0)
+	spawnSceneObject("yavin4", "object/tangible/terminal/terminal_mission_scout.iff", -314.766, 35, 4839.89, 0, -0.707107, 0, 0.707107, 0)
 end
 
 function Yavin4MiningOutpostScreenPlay:spawnMobiles()

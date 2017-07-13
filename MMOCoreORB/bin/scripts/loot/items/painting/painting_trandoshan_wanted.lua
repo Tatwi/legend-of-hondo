@@ -6,7 +6,10 @@ painting_trandoshan_wanted = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 15
 }
 
 addLootItemTemplate("painting_trandoshan_wanted", painting_trandoshan_wanted)

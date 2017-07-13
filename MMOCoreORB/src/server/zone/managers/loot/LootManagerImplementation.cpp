@@ -604,12 +604,37 @@ void LootManagerImplementation::setSockets(TangibleObject* object, CraftingValue
 }
 
 bool LootManagerImplementation::createLoot(SceneObject* container, AiAgent* creature) {
+	int creatureLevel = MIN(300, creature->getLevel());
+	
+	if (System::random(400) > 380 - creatureLevel)
+		createLoot(container, "hondo_common", creatureLevel, false); // Chance for bonus loot for any mob
+	
+	// Always give lots of bonus loot for higher level mobs
+	if (creatureLevel > 79){
+		int items = creatureLevel / 20;
+		
+		// For very high level mobs, always make one of the items an SEA
+		if (creatureLevel > 99){
+			items--;
+			
+			if (System::random(100) > 49){
+				createLoot(container, "armor_attachments", creatureLevel, false);
+			} else {
+				createLoot(container, "clothing_attachments", creatureLevel, false);
+			}
+		}
+		
+		for (int i = 0; i < items; ++i) {
+			createLoot(container, "hondo_common", creatureLevel, false);
+		}
+	}
+	
 	LootGroupCollection* lootCollection = creature->getLootGroups();
 
 	if (lootCollection == NULL)
-		return false;
+		return createLoot(container, "hondo_common", creatureLevel, false); // Common loot for all mobs that don't have loot
 
-	return createLootFromCollection(container, lootCollection, creature->getLevel());
+	return createLootFromCollection(container, lootCollection, creatureLevel);
 }
 
 bool LootManagerImplementation::createLootFromCollection(SceneObject* container, LootGroupCollection* lootCollection, int level) {

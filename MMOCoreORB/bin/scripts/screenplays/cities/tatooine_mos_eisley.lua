@@ -71,8 +71,8 @@ function TatooineMosEisleyScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "neutral")
 	pNpc = spawnMobile(self.planet, "ecik",60,1.1,0.639421,66.3,101.522,1106372)
 	self:setMoodString(pNpc, "neutral")
-	pNpc = spawnMobile(self.planet, "trainer_shipwright",60,-3.2,0.6,67.6,160,1106372)
-	self:setMoodString(pNpc, "neutral")
+	--pNpc = spawnMobile(self.planet, "trainer_shipwright",60,-3.2,0.6,67.6,160,1106372)
+	--self:setMoodString(pNpc, "neutral")
 
 	--Cantina
 	pNpc = spawnMobile(self.planet, "commoner_old",60,36,0.1,0.7,310,1082876)
@@ -303,10 +303,10 @@ function TatooineMosEisleyScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "jawa",360,-15.1,1.0,-9.1,-90,1187873)
 
 	--Guild Hall 3429 -4730
-	spawnMobile(self.planet, "trainer_artisan",0,-0.0585386,1.13306,-13.9039,0,1279964)
+	--spawnMobile(self.planet, "trainer_artisan",0,-0.0585386,1.13306,-13.9039,0,1279964)
 
 	--Guild Hall 3479 -4684
-	spawnMobile(self.planet, "trainer_2hsword",0,11,1.1,-11,0,1189637)
+--[[	spawnMobile(self.planet, "trainer_2hsword",0,11,1.1,-11,0,1189637)
 	spawnMobile(self.planet, "trainer_brawler",0,-11,1.1,-14,0,1189639)
 	spawnMobile(self.planet, "trainer_marksman",0,0,1.13306,-13,0,1189638)
 	spawnMobile(self.planet, "trainer_rifleman",0,12,1.1,2,180,1189635)
@@ -323,7 +323,7 @@ function TatooineMosEisleyScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_1hsword",0,4.4,0.2,-7.8,36,9655496)
 	spawnMobile(self.planet, "trainer_combatmedic",0,7.84086,0.184067,5.40226,80,9655496)
 	spawnMobile(self.planet, "trainer_doctor",0,-7.29914,0.184067,0.0809266,186,9655496)
-
+--]]
 	--Tavern 3488 -4745
 	pNpc = spawnMobile(self.planet, "imperial_cadet",400,0.6,0,-9.7,188,1280131)
 	self:setMoodString(pNpc, "npc_imperial")
@@ -390,7 +390,7 @@ function TatooineMosEisleyScreenPlay:spawnMobiles()
 	pNpc = spawnMobile(self.planet, "medic",300,17.0318,2.12878,76.3601,179.996,1105853)
 	self:setMoodString(pNpc, "conversation")
 	spawnMobile(self.planet, "theater_manager",60,21.99,2.12804,64.05,4.00007,1105853)
-	spawnMobile(self.planet, "trainer_dancer",0,17.9873,2.12874,53.6448,1,1105853)
+	--spawnMobile(self.planet, "trainer_dancer",0,17.9873,2.12874,53.6448,1,1105853)
 
 	--Outside
 	pNpc = spawnMobile(self.planet, "agriculturalist",60,3247.43,4.00222,-4850.96,0.276961,0)
@@ -603,7 +603,7 @@ function TatooineMosEisleyScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "worrt",300,3580.5,5,-4544.8,34,0)
 
 	--Trainers Outside
-	spawnMobile(self.planet, "trainer_artisan",0,3503,5,-4809,42,0)
+--[[	spawnMobile(self.planet, "trainer_artisan",0,3503,5,-4809,42,0)
 	pNpc = spawnMobile(self.planet, "trainer_bountyhunter",0,3357.1,5,-4839.6,64,0)
 	self:setMoodString(pNpc, "npc_sitting_chair")
 	spawnMobile(self.planet, "trainer_brawler",0,3496,5,-4765,91,0)
@@ -620,4 +620,5 @@ function TatooineMosEisleyScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_scout",0,3519.76,5,-4786.9,77,0)
 	pNpc = spawnMobile(self.planet, "trainer_smuggler",0,3401,5,-4879,340,0)
 	self:setMoodString(pNpc, "worried")
+--]]
 end

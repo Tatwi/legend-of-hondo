@@ -34,8 +34,8 @@ function BelaVistalScreenPlay:spawnMobiles()
 	--Guild Hall 6857 -5783
 	spawnMobile("corellia", "businessman", 60, 3.32, 1.13306, -8.49, 228.007, 2365769)
 	spawnMobile("corellia", "brawler", 300, -14.01, 1.13306, -8.53, 120.004, 2365770)
-	spawnMobile("corellia", "trainer_brawler", 0, -11, 1.13306, -14,0, 2365770)
-	spawnMobile("corellia", "trainer_marksman", 0, 0, 1.13306, -14, 0, 2365769)
+	--spawnMobile("corellia", "trainer_brawler", 0, -11, 1.13306, -14,0, 2365770)
+	--spawnMobile("corellia", "trainer_marksman", 0, 0, 1.13306, -14, 0, 2365769)
 	--Guild Hall regular
 	pNpc = spawnMobile("corellia", "artisan",60,4.7,2.3,10.4,-4,2365923)
 	self:setMoodString(pNpc, "npc_use_terminal_high")
@@ -114,20 +114,20 @@ function BelaVistalScreenPlay:spawnMobiles()
 	spawnMobile("corellia", "informant_npc_lvl_3", 0, 6860, 315, -5761, 45 ,0)
 
 	--Trainers
-	spawnMobile("corellia", "trainer_architect", 0, 11, 1.13306, -14, 0, 2365800)
-	spawnMobile("corellia", "trainer_armorsmith", 0, -12, 1.1, 5, 180, 2365799)
-	spawnMobile("corellia", "trainer_artisan", 0, 0, 1.13306, -14, 0, 2365947)
-	spawnMobile("corellia", "trainer_droidengineer", 0, -11, 1.13306, -14, 0, 2365802)
-	spawnMobile("corellia", "trainer_merchant", 0, 12, 1.13306, 6, 180, 2365798)
-	spawnMobile("corellia", "trainer_scout", 0, -12, 1.13306, 5.5, 180, 2365767)
-	spawnMobile("corellia", "trainer_weaponsmith", 0, -2.5, 1.13306, -8.4, 91, 2365801)
+	--spawnMobile("corellia", "trainer_architect", 0, 11, 1.13306, -14, 0, 2365800)
+	--spawnMobile("corellia", "trainer_armorsmith", 0, -12, 1.1, 5, 180, 2365799)
+	--spawnMobile("corellia", "trainer_artisan", 0, 0, 1.13306, -14, 0, 2365947)
+	--spawnMobile("corellia", "trainer_droidengineer", 0, -11, 1.13306, -14, 0, 2365802)
+	--spawnMobile("corellia", "trainer_merchant", 0, 12, 1.13306, 6, 180, 2365798)
+	--spawnMobile("corellia", "trainer_scout", 0, -12, 1.13306, 5.5, 180, 2365767)
+	--spawnMobile("corellia", "trainer_weaponsmith", 0, -2.5, 1.13306, -8.4, 91, 2365801)
 
 	--Outside Trainers
-	spawnMobile("corellia", "trainer_artisan", 0, 6755.99, 314.994, -5655.01, 269, 0)
-	spawnMobile("corellia", "trainer_entertainer", 0, 6829, 330, -5429, 184, 0)
-	spawnMobile("corellia", "trainer_marksman", 0,6770,315,-5714,-100,0)
-	spawnMobile("corellia", "trainer_scout", 0, 6737.85, 315, -5491.3, 31, 0)
-	spawnMobile("corellia", "trainer_scout",  0, 6724, 315, -5682, 0, 0)
+	--spawnMobile("corellia", "trainer_artisan", 0, 6755.99, 314.994, -5655.01, 269, 0)
+	--spawnMobile("corellia", "trainer_entertainer", 0, 6829, 330, -5429, 184, 0)
+	--spawnMobile("corellia", "trainer_marksman", 0,6770,315,-5714,-100,0)
+	--spawnMobile("corellia", "trainer_scout", 0, 6737.85, 315, -5491.3, 31, 0)
+	--spawnMobile("corellia", "trainer_scout",  0, 6724, 315, -5682, 0, 0)
 
 	--removed from corellia.lua
 	pNpc = spawnMobile("corellia", "bartender",60,8.54,-0.894992,0.14,87.0026,3375355)

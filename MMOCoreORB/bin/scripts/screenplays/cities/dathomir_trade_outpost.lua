@@ -9,7 +9,13 @@ registerScreenPlay("DathomirTradeOutpostScreenPlay", true)
 function DathomirTradeOutpostScreenPlay:start()
 	if (isZoneEnabled("dathomir")) then
 		self:spawnMobiles()
+		self:spawnSceneObjects()
 	end
+end
+
+function DathomirTradeOutpostScreenPlay:spawnSceneObjects()
+	spawnSceneObject("dathomir", "object/tangible/terminal/terminal_mission_artisan.iff", 584.849, 6, 3044.7, 0, 0.92388, 0, 0.382683, 0)
+	spawnSceneObject("dathomir", "object/tangible/terminal/terminal_mission_scout.iff", 607.057, 6, 3069.85, 0, -0.258819, 0, 0.965926, 0)
 end
 
 function DathomirTradeOutpostScreenPlay:spawnMobiles()

@@ -10,53 +10,21 @@ startingBank = 25000
 skillPoints = 250
 
 professions = {
-	"combat_brawler",
-	"combat_marksman",
-	"crafting_artisan",
-	--"jedi",
 	"outdoors_scout",
-	"science_medic",
-	--"social_entertainer"
 }
-
-marksmanPistol = "object/weapon/ranged/pistol/pistol_cdef.iff"
-	
-marksmanRifle = "object/weapon/ranged/rifle/rifle_cdef.iff"
-
-marksmanCarbine = "object/weapon/ranged/carbine/carbine_cdef.iff"
-
-brawlerOneHander = "object/weapon/melee/knife/knife_stone.iff"
-
-brawlerTwoHander = "object/weapon/melee/axe/axe_heavy_duty.iff"
-
-brawlerPolearm = "object/weapon/melee/polearm/lance_staff_wood_s1.iff"
-
-survivalKnife = "object/weapon/melee/knife/knife_survival.iff"
-
-genericTool = "object/tangible/crafting/station/generic_tool.iff"
-
-foodTool = "object/tangible/crafting/station/food_tool.iff"
-
-mineralTool = "object/tangible/survey_tool/survey_tool_mineral.iff"
-
-chemicalTool = "object/tangible/survey_tool/survey_tool_liquid.iff"
-
-slitherhorn = "object/tangible/instrument/slitherhorn.iff"
-
-marojMelon = "object/tangible/food/foraged/foraged_fruit_s1.iff"
-
-x31Speeder = "object/tangible/deed/vehicle_deed/landspeeder_x31_deed.iff"
-
-medicalBag = "object/tangible/container/medical/medbag_base.iff"
 
 professionSpecificItems = {
-	combat_brawler = { brawlerOneHander, brawlerTwoHander, brawlerPolearm },
-	combat_marksman = { marksmanPistol, marksmanCarbine, marksmanRifle },
-	crafting_artisan = { genericTool, mineralTool, chemicalTool },
-	--jedi = { },
-	outdoors_scout = { genericTool },
-	science_medic = { foodTool },
-	--social_entertainer = { slitherhorn }
+	outdoors_scout = {
+		"object/weapon/ranged/pistol/pistol_cdef.iff",
+		"object/weapon/melee/knife/knife_survival.iff",
+		"object/tangible/crafting/station/generic_tool.iff",
+		"object/tangible/survey_tool/survey_tool_mineral.iff",
+		"object/tangible/survey_tool/survey_tool_liquid.iff",
+		"object/tangible/deed/vehicle_deed/landspeeder_x31_deed.iff",
+		"object/tangible/container/medical/medbag_base.iff",
+		"object/tangible/medicine/stimpack_sm_s1.iff",
+		"object/tangible/medicine/crafted/medpack_wound_health_a.iff",
+	 },
 }
 
-commonStartingItems = { marojMelon, survivalKnife, x31Speeder, medicalBag }
+commonStartingItems = {"object/tangible/food/foraged/foraged_fruit_s1.iff"}

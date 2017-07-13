@@ -1,0 +1,280 @@
+The following is the output from a normal Core3 boot up on my development machine. All of it can be ignored. 
+
+If you have errors that aren't listed here, then you've got some kind of problem that you will need to resolve.
+
+(0 s) [TaskScheduler0] started
+(0 s) [TaskScheduler1] started
+(0 s) [TaskScheduler2] started
+(0 s) [TaskScheduler3] started
+(0 s) [TaskScheduler4] started
+(0 s) [TaskScheduler5] started
+(0 s) [TaskScheduler6] started
+(0 s) [TaskScheduler7] started
+(0 s) [TaskScheduler8] started
+(0 s) [TaskScheduler9] started
+(0 s) [TaskScheduler10] started
+(0 s) [TaskScheduler11] started
+(0 s) [TaskScheduler12] started
+(0 s) [TaskScheduler13] started
+(0 s) [TaskScheduler14] started
+(0 s) [TaskScheduler15] started
+(0 s) [TaskScheduler16] started
+(0 s) [TaskScheduler17] started
+(0 s) [TaskScheduler18] started
+(0 s) [TaskScheduler19] started
+(0 s) [IoTaskScheduler0] started
+(0 s) [IoTaskScheduler1] started
+(0 s) [IoTaskScheduler2] started
+(0 s) [IoTaskScheduler3] started
+(0 s) [IoTaskScheduler4] started
+(0 s) [IoTaskScheduler5] started
+(0 s) [IoTaskScheduler6] started
+(0 s) [IoTaskScheduler7] started
+(0 s) [IoTaskScheduler8] started
+(0 s) [IoTaskScheduler9] started
+(0 s) [DatabaseManager] loading object database: clientobjects with id 0x0 with compression enabled
+(0 s) [DatabaseManager] loading object database: playerstructures with id 0x2 with compression enabled
+(0 s) [DatabaseManager] loading object database: missionobjectives with id 0x4 with compression enabled
+(0 s) [DatabaseManager] loading object database: cityregions with id 0x6 with compression enabled
+(0 s) [DatabaseManager] loading object database: spawnareas with id 0x8 with compression enabled
+(0 s) [DatabaseManager] loading object database: aiobservers with id 0xa with compression enabled
+(0 s) [DatabaseManager] loading object database: questdata with id 0xc with compression enabled
+(0 s) [DatabaseManager] loading object database: accounts with id 0xe with compression enabled
+(0 s) [DatabaseManager] loading local database: strings with id 0xf with compression enabled
+(0 s) [DatabaseManager] loading object database: mail with id 0x10 with compression enabled
+(0 s) [DatabaseManager] loading object database: resourcespawns with id 0x12 with compression enabled
+(0 s) [DatabaseManager] loading object database: auctionitems with id 0x14 with compression enabled
+(0 s) [DatabaseManager] loading object database: sceneobjects with id 0x1 with compression enabled
+(0 s) [DatabaseManager] loading object database: buffs with id 0x3 with compression enabled
+(0 s) [DatabaseManager] loading object database: missionobservers with id 0x5 with compression enabled
+(0 s) [DatabaseManager] loading object database: guilds with id 0x7 with compression enabled
+(0 s) [DatabaseManager] loading object database: spawnobservers with id 0x9 with compression enabled
+(0 s) [DatabaseManager] loading object database: events with id 0xb with compression enabled
+(0 s) [DatabaseManager] loading object database: surveys with id 0xd with compression enabled
+(0 s) [DatabaseManager] loading object database: draftschematics with id 0x11 with compression enabled
+(0 s) [DatabaseManager] loading object database: chatrooms with id 0x13 with compression enabled
+(0 s) [DatabaseManager] loaded database version: 6
+(0 s) [TreeArchive] ERROR - Invalid path: readme.txt
+(1 s) [TemplateManager] Loaded 85 slot definitions.
+(1 s) [TemplateManager] Loaded 74 planet map categories.
+(1 s) [TemplateManager] loading asset customization manager
+(1 s) [TemplateManager] loading customization id manager
+(1 s) [CustomizationIdManager] loaded 115 customization ids
+(1 s) [CustomizationIdManager] loaded 37 palette columns
+(1 s) [CustomizationIdManager] loaded 37 hair assets
+(1 s) [CustomizationIdManager] loaded 16 allow bald species data
+(1 s) [TemplateManager] Loading object templates
+(1 s) [Console] WARNING - expecting SHOT got SBOT in file: object/building/base/shared_base_filler_building.iff
+(1 s) [Console] WARNING - expecting SHOT got SBOT in file: object/building/base/shared_base_filler_building.iff
+(1 s) [Console] WARNING - expecting SHOT got SBOT in file: object/building/base/shared_base_filler_building.iff
+	Loading templates: [40%]	(24 s) [Console] WARNING - expecting SHOT got RCCT in file: object/resource_container/shared_simple.iff
+	Loading templates: [56%]	(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+(31 s) [TreeArchive] ERROR - Did not find fileName: shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open derv: object/tangible/component/vehicle/base/shared_base_vehicle.iff
+(31 s) [Console] WARNING - could not open lua derv: object/tangible/component/vehicle/base/base_vehicle.iff
+	Loading templates: [90%]	(47 s) [TreeArchive] ERROR - Did not find fileName: shipcontrol_pob.iff
+	Loading templates: [91%]	(48 s) [Console] WARNING - expecting SHOT got SSHP in file: object/ship/base/shared_ship_base.iff
+(48 s) [Console] WARNING - expecting SHOT got SSHP in file: object/ship/base/shared_ship_base.iff
+(48 s) [Console] WARNING - expecting SHOT got SSHP in file: object/ship/base/shared_ship_base.iff
+(48 s) [Console] WARNING - expecting SHOT got SSHP in file: object/ship/base/shared_ship_base.iff
+	Loading templates: [100%]	
+(53 s) [TemplateManager] Finished loading object templates
+(53 s) [TemplateManager] 0 portal layouts loaded
+(53 s) [TemplateManager] 0 floor meshes loaded
+(53 s) [TemplateManager] 72 structure footprints.
+(54 s) [DistributedObjectBroker] started on port 44419
+(54 s) [DistributedObjectBroker] root naming directory initialized
+(54 s) [ObjectBrokerDirector] running as active director
+(54 s) [ObjectBrokerAgent] starting up agent
+Thu Jul 13 02:40:27 2017 [1499928027887 msec] (54 s) [ObjectBrokerAgent] DEBUG - sending state update STARTED to director
+Thu Jul 13 02:40:27 2017 [1499928027887 msec] (54 s) [ObjectBrokerDirector] DEBUG - received state update STARTED from agent
+Thu Jul 13 02:40:27 2017 [1499928027887 msec] (54 s) [ObjectBrokerDirector] DEBUG - agents started with 1 nodes
+(54 s) [VendorOutfitManager] Loaded 2876 unique outfits
+(54 s) [PerformanceManager] Loaded 154 performances.
+(54 s) [SkillManager] Successfully loaded 459 skills and 574 abilities.
+(54 s) [PlayerCreationManager] Loaded 20 playable species.
+(54 s) [PlayerCreationManager] Loaded 7 creation professions.
+(54 s) [PlayerCreationManager] Loaded 235 total creation hair styles.
+(54 s) [PlayerCreationManager] Loading configuration script.
+(54 s) [ZonePacketHandler] registering Messages
+(54 s) [ZonePacketHandler] registering ObjectController Messages
+(54 s) [NameManager] parsing restricted names list: restrictednames.lst
+(54 s) [ObjectController] loading queue commands...
+(54 s) [CommandConfigManager] ERROR - Could not create command counterAttack
+(54 s) [ObjectController] loaded 808 commands
+(54 s) [ObjectVersionUpdateManager] Database on latest version : 6
+(54 s) [ReactionManager] Loaded 32 emote reaction records.
+(54 s) [CreatureTemplateManager] loading mobile templates...
+	Loading mobile templates: [3545] / [?]	
+(54 s) [CreatureTemplateManager] done loading mobile templates
+(54 s) [DnaManager] Loading DNA Information
+(54 s) [DnaManager] Loaded 201 dna stats.
+(54 s) [ZoneServer HondoTesting] Initializing chat manager...
+	Checking mail for expiration [15] / [?]	(54 s) [ChatManager] Deleted 0 mails due to expiration.
+(54 s) [ChatManager] Loaded 382 social types.
+(54 s) [DirectorManager] loading..
+(54 s) [BadgeList] Loaded 140 badges.
+(55 s) [DirectorManager] Loaded 316 screenplays.
+(55 s) [DirectorManager] Lua version: 503
+(55 s) [DirectorManager] Lua reads int64
+(55 s) [PlayerManager] Loaded 72 veteran rewards.
+(55 s) [PlayerManager] Loaded 1 starting locations.
+(55 s) [PlayerManager] Loaded 188 quests.
+(55 s) [PlayerManager] loaded 2 character names in memory
+(55 s) [Lua] Loaded 1737 schematics from database
+(55 s) [Lua] Loaded 0 schematics from scripts
+(55 s) [LootGroupMap] WARNING - Loot item template name: junk_empty_cage does not match file name: empty_cage
+(55 s) [LootGroupMap] WARNING - Loot item template name: junk_hyperdrive_part does not match file name: hyperdrive_part
+(55 s) [LootManager] Initialized.
+(55 s) [ResourceManager] ResourceManager started
+(55 s) [CityManager] Loading configuration file.
+(55 s) [CityManager] Loaded 8 city specializations.
+(55 s) [CityManager] Loaded 5 city tax rules.
+(55 s) [MissionNpcSpawnMap] Loading NPC mission spawn points.
+(55 s) [PetManager] Loading configuration file.
+(55 s) [PetManager] Loaded 8 mount speeds.
+(55 s) [PetManager] Loaded 35 mount scale ranges.
+(55 s) [ZoneServer HondoTesting] Loading zones.
+(55 s) [ZoneServer HondoTesting] Loading zone corellia.
+(55 s) [ZoneServer HondoTesting] Loading zone dantooine.
+(55 s) [ZoneServer HondoTesting] Loading zone dathomir.
+(55 s) [ZoneServer HondoTesting] Loading zone endor.
+(55 s) [ZoneServer HondoTesting] Loading zone lok.
+(55 s) [ZoneServer HondoTesting] Loading zone naboo.
+(55 s) [ZoneServer HondoTesting] Loading zone rori.
+(55 s) [ZoneServer HondoTesting] Loading zone simple.
+(55 s) [ZoneServer HondoTesting] Loading zone talus.
+(55 s) [ZoneServer HondoTesting] Loading zone tatooine.
+(55 s) [ZoneServer HondoTesting] Loading zone tutorial.
+(55 s) [ZoneServer HondoTesting] Loading zone yavin4.
+(58 s) [ResourceSpawner] Resource Map Built with 19156 resources
+(58 s) [ResourceSpawner] RandomPool updating: Spawned 0 Despawned 0
+(58 s) [ResourceSpawner] FixedPool updating: Spawned 0 Despawned 0
+(58 s) [ResourceSpawner] NativePool updating: Spawned 0 Despawned 0
+(58 s) [ResourceSpawner] MinimumPool updating: Spawned 0 Despawned 0
+(58 s) [ResourceSpawner] ManualPool updating: Despawned 0
+(58 s) [ResourceManager] Loading survey data form surveys.db
+(58 s) [ResourceManager] 0 surveys loaded.
+(58 s) [TreeArchive] ERROR - Did not find fileName: simple.iff
+(58 s) [PlanetManager simple] loaded 220 client pois
+(58 s) [PlanetManager simple] WARNING - Configuration settings not found.
+(58 s) [WeatherManager endor] Enabled
+(58 s) [GCWManager endor] instantiated
+(58 s) [WeatherManager dantooine] Enabled
+(58 s) [GCWManager dantooine] instantiated
+(58 s) [WeatherManager lok] Enabled
+(58 s) [GCWManager lok] instantiated
+(58 s) [WeatherManager dathomir] Enabled
+(58 s) [GCWManager dathomir] instantiated
+(59 s) [WeatherManager rori] Enabled
+(59 s) [GCWManager rori] instantiated
+(59 s) [WeatherManager talus] Enabled
+(59 s) [GCWManager talus] instantiated
+(59 s) [WeatherManager corellia] Enabled
+(59 s) [GCWManager corellia] instantiated
+(59 s) [WeatherManager naboo] Enabled
+(59 s) [GCWManager naboo] instantiated
+	Loading snapshot objects: [114] / [?]	(62 s) [DirectorManager] Loaded 317 screenplays.
+	Loading snapshot objects: [221] / [?]	(62 s) [TreeArchive] ERROR - Did not find fileName: godclient_cylinder_30.apt
+	Loading snapshot objects: [168] / [?]	(62 s) [TreeArchive] ERROR - Did not find fileName: particle_test_31.prt
+	Loading snapshot objects: [539] / [?]	(65 s) [DirectorManager] Loaded 317 screenplays.
+	Loading snapshot objects: [1862] / [?]	(74 s) [TreeArchive] ERROR - Did not find fileName: thed_wter_falls_anim1.apt
+	Loading snapshot objects: [2102] / [?]	
+(74     Loading snapshot objects: [2103] / [?]	 s) [PlanetManager endor] Loaded 2188 client objects from world snapshot.
+	Loading snapshot objects: [2109] / [?]	(74 s) [SpawnAreaMap endor] loading spawn areas...
+	Loading snapshot objects: [1617] / [?]	74 s) [WeatherManager tatooine] Enabled
+(74 s) [GCWManager tatooine] instantiated
+	Loading snapshot objects: [1735] / [?]	
+(74 s) [PlanetManager dathomir] Loaded 2349 client objects from world snapshot.
+	Loading snapshot objects: [155] / [?]]	(74 s) [TreeArchive] ERROR - Did not find fileName: godclient_cylinder_30.apt
+	Loading snapshot objects: [2101] / [?]	(74 s) [SpawnAreaMap dathomir] loading spawn areas...
+	Loading snapshot objects: [2441] / [?]	74 s) [TreeArchive] ERROR - Did not find fileName: tutorial.iff
+	Loading snapshot objects: [1755] / [?]	(74 s) [PlanetManager tutorial] Weather Disabled
+	Loading snapshot objects: [1849] / [?]	(74 s) [TreeArchive] ERROR - Did not find fileName: tutorial.ws
+	Loading snapshot objects: [1851] / [?]	] Snapshot wasn't found.
+	Loading snapshot objects: [2461] / [?]	 s) [WeatherManager yavin4] Enabled
+(74 s)  Loading snapshot objects: [2119] / [?]	 [GCWManager yavin4] instantiated
+	Loading snapshot objects: [2586] / [?]	
+(77 s) [PlanetManager lok] Loaded 2172 client objects from world snapshot.
+	Loading snapshot objects: [1943] / [?]	(77 s) [SpawnAreaMap lok] loading spawn areas...
+	Loading snapshot objects: [209] / [?]]	
+(78 s) [PlanetManager dantooine] Loaded 3021 client objects from world snapshot.
+	Loading snapshot objects: [225] / [?]]	(78 s) [SpawnAreaMap dantooine] loading spawn areas...
+	Loading snapshot objects: [2939] / [?]	
+(80 s) [PlanetManager yavin4] Loaded 1064 client objects from world snapshot.
+	Loading snapshot objects: [2940] / [?]	(80 s) [SpawnAreaMap yavin4] loading spawn areas...
+	Loading snapshot objects: [3042] / [?]	(80 s) [TreeArchive] ERROR - Did not find fileName: thed_wter_falls_anim1.apt
+	Loading snapshot objects: [4104] / [?]	
+(81 s) [PlanetManager rori] Loaded 2286 client objects from world snapshot.
+	Loading snapshot objects: [4122] / [?]	(81 s) [SpawnAreaMap rori] loading spawn areas...
+	Loading snapshot objects: [3706] / [?]	
+(82 s) [PlanetManager talus] Loaded 4295 client objects from world snapshot.
+	Loading snapshot objects: [3739] / [?]	(82 s) [SpawnAreaMap talus] loading spawn areas...
+	Loading snapshot objects: [5133] / [?]	
+(83 s) [PlanetManager corellia] Loaded 5415 client objects from world snapshot.
+	Loading snapshot objects: [5144] / [?]	(83 s) [SpawnAreaMap corellia] loading spawn areas...
+	Loading snapshot objects: [5440] / [?]	
+(83 s) [PlanetManager naboo] Loaded 5440 client objects from world snapshot.
+(83 s) [SpawnAreaMap naboo] loading spawn areas...
+	Loading snapshot objects: [7840] / [?]	(103 s) [DirectorManager] Loaded 317 screenplays.
+	Loading snapshot objects: [8942] / [?]	
+(106 s) [PlanetManager tatooine] Loaded 8942 client objects from world snapshot.
+(106 s) [SpawnAreaMap tatooine] loading spawn areas...
+	Loading player structures [1] / [?]	(106 s) [StructureManager] 1 player structures loaded for tatooine.
+(106 s) [ZoneServer HondoTesting] loading managers..
+(106 s) [GuildManager] Loading configuration file.
+(106 s) [GuildManager] Loading guilds from database.
+(106 s) [GuildManager] 0 guilds loaded.
+(106 s) [GuildManager] Scheduling guild updates.
+(106 s) [ChatManager] Loading and validating chat rooms from chatrooms.db
+(106 s) [ChatManager] Load room results: Loaded = 0 Repaired = 0 Deleted = 0 Expired = 0
+(106 s) [FactionManager] Loading config file.
+(106 s) [FactionManager] loaded 22 ranks
+(106 s) [CityManager] Loading any remaining city regions.
+(106 s) [CityManager] Loaded 0 player city regions.
+	Loading persistent events [15] / [?]	(106 s) [DirectorManager] 15 persistent events loaded.
+(106 s) [DirectorManager] 357 persistent statuses loaded.
+(106 s) [Console] ERROR - Error running function start attempt to call a nil value
+(106 s) [Console] ERROR - Error running function start attempt to call a nil value
+(109 s) [DirectorManager] Loaded 317 screenplays.
+(110 s) [DirectorManager] Loaded 317 screenplays.
+Hondo Housing System: Loading terminals and temp buildings....
+(110 s) [DirectorManager] Loaded 317 screenplays.
+(110 s) [StructureManager] WARNING - Structure with template 'object/building/tatooine/guild_university_tatooine_style_01.iff' has no structure footprint.
+Hondo Housing System: Finished loading terminals temp buildings.
+(112 s) [DirectorManager] Loaded 317 screenplays.
+(112 s) [DirectorManager] Loaded 317 screenplays.
+(126 s) [AuctionManager] Checking 1 bazaar terminals
+(126 s) [AuctionManager] Checking 0 vendor terminals
+(126 s) [AuctionManager] loaded auctionsMap of size: 20551
+(126 s) [StatusServer] initialized
+(126 s) [Core] initialized

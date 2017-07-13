@@ -210,7 +210,7 @@ function NabooKaadaraScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "commoner_naboo", 1, 5208.8, -192, 6646.3, 180, 0)
 
 	--trainers
-	spawnMobile(self.planet, "trainer_architect", 1, 11, 1.133, -14.5, 0, 1741470)
+--[[	spawnMobile(self.planet, "trainer_architect", 1, 11, 1.133, -14.5, 0, 1741470)
 	spawnMobile(self.planet, "trainer_armorsmith", 1, -15, 1.1, 0, 221, 1741469)
 	spawnMobile(self.planet, "trainer_artisan", 1, -0.031573, 1.13306, -14.1498, 0, 1741510)
 	spawnMobile(self.planet, "trainer_artisan", 1, 5182, -192, 6686, 138, 0)
@@ -242,7 +242,7 @@ function NabooKaadaraScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "trainer_weaponsmith", 1, -2.5, 1.13306, -8.4, 91, 1741471)
 	pNpc = spawnMobile(self.planet, "trainer_shipwright",1,5.1,0.6,66.6,119,1741539)
 	self:setMoodString(pNpc, "neutral")
-
+--]]
 	--misc
 	spawnMobile(self.planet, "informant_npc_lvl_1", 1, 5042, -188, 6734, 0, 0)
 	spawnMobile(self.planet, "informant_npc_lvl_1", 1, 5199, -192, 6546, 0, 0)

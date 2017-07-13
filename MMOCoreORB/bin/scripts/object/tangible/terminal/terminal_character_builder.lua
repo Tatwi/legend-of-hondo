@@ -63,39 +63,6 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 		{
 			"Learn Skill",
 			{
-				"Architect",
-				{
-					"Novice", "crafting_architect_novice",
-					"Furniture",
-					{
-						"Furniture I", "crafting_architect_production_01",
-						"Furniture II", "crafting_architect_production_02",
-						"Furniture III", "crafting_architect_production_03",
-						"Furniture IV", "crafting_architect_production_04"
-					},
-					"Construction",
-					{
-						"Construction I", "crafting_architect_techniques_01",
-						"Construction II", "crafting_architect_techniques_02",
-						"Construction III", "crafting_architect_techniques_03",
-						"Construction IV", "crafting_architect_techniques_04"
-					},
-					"Installations",
-					{
-						"Installations I", "crafting_architect_harvesting_01",
-						"Installations II", "crafting_architect_harvesting_02",
-						"Installations III", "crafting_architect_harvesting_03",
-						"Installations IV", "crafting_architect_harvesting_04"
-					},
-					"Buildings",
-					{
-						"Buildings I", "crafting_architect_blueprints_01",
-						"Buildings II", "crafting_architect_blueprints_02",
-						"Buildings III", "crafting_architect_blueprints_03",
-						"Buildings IV", "crafting_architect_blueprints_04"
-					},
-					"Master", "crafting_architect_master"
-				},
 				"Armorsmith",
 				{
 					"Novice", "crafting_armorsmith_novice",
@@ -129,39 +96,6 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 					},
 					"Master", "crafting_armorsmith_master"
 				},
-				"Artisan",
-				{
-					"Novice", "crafting_artisan_novice",
-					"Engineering",
-					{
-						"Engineering I", "crafting_artisan_engineering_01",
-						"Engineering II", "crafting_artisan_engineering_02",
-						"Engineering III", "crafting_artisan_engineering_03",
-						"Engineering IV", "crafting_artisan_engineering_04"
-					},
-					"Domestic Arts",
-					{
-						"Domestic Arts I", "crafting_artisan_domestic_01",
-						"Domestic Arts II", "crafting_artisan_domestic_02",
-						"Domestic Arts III", "crafting_artisan_domestic_03",
-						"Domestic Arts IV", "crafting_artisan_domestic_04"
-					},
-					"Business",
-					{
-						"Business I", "crafting_artisan_business_01",
-						"Business II", "crafting_artisan_business_02",
-						"Business III", "crafting_artisan_business_03",
-						"Business IV", "crafting_artisan_business_04"
-					},
-					"Surveying",
-					{
-						"Surveying I", "crafting_artisan_survey_01",
-						"Surveying II", "crafting_artisan_survey_02",
-						"Surveying III", "crafting_artisan_survey_03",
-						"Surveying IV", "crafting_artisan_survey_04"
-					},
-					"Master", "crafting_artisan_master"
-				},
 				"Bio-Engineer",
 				{
 					"Novice", "outdoors_bio_engineer_novice",
@@ -179,87 +113,21 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 						"Tissue Engineering III", "outdoors_bio_engineer_tissue_03",
 						"Tissue Engineering IV", "outdoors_bio_engineer_tissue_04"
 					},
-					"DNA Sampling",
+					"Toxicology",
 					{
-						"DNA Sampling I", "outdoors_bio_engineer_dna_harvesting_01",
-						"DNA Sampling II", "outdoors_bio_engineer_dna_harvesting_02",
-						"DNA Sampling III", "outdoors_bio_engineer_dna_harvesting_03",
-						"DNA Sampling IV", "outdoors_bio_engineer_dna_harvesting_04"
+						"Toxicology I", "outdoors_bio_engineer_dna_harvesting_01",
+						"Toxicology II", "outdoors_bio_engineer_dna_harvesting_02",
+						"Toxicology III", "outdoors_bio_engineer_dna_harvesting_03",
+						"Toxicology IV", "outdoors_bio_engineer_dna_harvesting_04"
 					},
-					"Engineering Techniques",
+					"Stimpack Chemistry",
 					{
-						"Engineering Techniques I", "outdoors_bio_engineer_production_01",
-						"Engineering Techniques II", "outdoors_bio_engineer_production_02",
-						"Engineering Techniques III", "outdoors_bio_engineer_production_03",
-						"Engineering Techniques IV", "outdoors_bio_engineer_production_04"
+						"Stimpack Chemistry I", "outdoors_bio_engineer_production_01",
+						"Stimpack Chemistrys II", "outdoors_bio_engineer_production_02",
+						"Stimpack Chemistry III", "outdoors_bio_engineer_production_03",
+						"Stimpack Chemistry IV", "outdoors_bio_engineer_production_04"
 					},
 					"Master", "outdoors_bio_engineer_master"
-				},
-				"Bounty Hunter",
-				{
-					"Novice", "combat_bountyhunter_novice",
-					"Investigation",
-					{
-						"Investigation I", "combat_bountyhunter_investigation_01",
-						"Investigation II", "combat_bountyhunter_investigation_02",
-						"Investigation III", "combat_bountyhunter_investigation_03",
-						"Investigation IV", "combat_bountyhunter_investigation_04"
-					},	
-					"Bounty Carbine",
-					{
-						"Bounty Carbine Specialization I", "combat_bountyhunter_droidcontrol_01",
-						"Bounty Carbine Specialization II", "combat_bountyhunter_droidcontrol_02",
-						"Bounty Carbine Specialization III", "combat_bountyhunter_droidcontrol_03",
-						"Bounty Carbine Specialization IV", "combat_bountyhunter_droidcontrol_04"
-					},
-					"Bounty Pistol",
-					{
-						"Bounty Pistol Specialization I", "combat_bountyhunter_droidresponse_01",
-						"Bounty Pistol Specialization II", "combat_bountyhunter_droidresponse_02",
-						"Bounty Pistol Specialization III", "combat_bountyhunter_droidresponse_03",
-						"Bounty Pistol Specialization IV", "combat_bountyhunter_droidresponse_04"
-					},
-					"Light Lightning Cannon",
-					{
-						"Light Lightning Cannon Specialization I", "combat_bountyhunter_support_01",
-						"Light Lightning Cannon Specialization II", "combat_bountyhunter_support_02",
-						"Light Lightning Cannon Specialization III", "combat_bountyhunter_support_03",
-						"Light Lightning Cannon Specialization IV", "combat_bountyhunter_support_04"
-					},
-					"Master", "combat_bountyhunter_master"
-				},
-				"Brawler",
-				{
-					"Novice", "combat_brawler_novice",
-					"Unarmed",
-					{
-						"Unarmed I", "combat_brawler_unarmed_01",
-						"Unarmed II", "combat_brawler_unarmed_02",
-						"Unarmed III", "combat_brawler_unarmed_03",
-						"Unarmed IV", "combat_brawler_unarmed_04"
-					},	
-					"Fencer",
-					{
-						"One Handed I", "combat_brawler_1handmelee_01",
-						"One Handed II", "combat_brawler_1handmelee_02",
-						"One Handed III", "combat_brawler_1handmelee_03",
-						"One Handed IV", "combat_brawler_1handmelee_04"
-					},
-					"Swordsman",
-					{
-						"Two Handed I", "combat_brawler_2handmelee_01",
-						"Two Handed II", "combat_brawler_2handmelee_02",
-						"Two Handed III", "combat_brawler_2handmelee_03",
-						"Two Handed IV", "combat_brawler_2handmelee_04"
-					},
-					"Pikeman",
-					{
-						"Polearms I", "combat_brawler_polearm_01",
-						"Polearms II", "combat_brawler_polearm_02",
-						"Polearms III", "combat_brawler_polearm_03",
-						"Polearms IV", "combat_brawler_polearm_04"
-					},
-					"Master", "combat_brawler_master"
 				},
 				"Carbineer",
 				{
@@ -330,33 +198,33 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 				"Combat Medic",
 				{
 					"Novice", "science_combatmedic_novice",
-					"Distance",
+					"First Aid",
 					{
-						"Intermediate Ranged Healing Distance", "science_combatmedic_healing_range_01",
-						"Advanced Ranged Healing Distance", "science_combatmedic_healing_range_02",
-						"Expert Ranged Healing Distance", "science_combatmedic_healing_range_03",
-						"Master Ranged Healing Distance", "science_combatmedic_healing_range_04"
+						"First Aid I", "science_combatmedic_healing_range_01",
+						"First Aid II", "science_combatmedic_healing_range_02",
+						"First Aid III", "science_combatmedic_healing_range_03",
+						"First Aid IV", "science_combatmedic_healing_range_04"
 					},
-					"Speed",
+					"Diagnostics",
 					{
-						"Intermediate Ranged Healing Speed", "science_combatmedic_healing_range_speed_01",
-						"Advanced Ranged Healing Speed", "science_combatmedic_healing_range_speed_02",
-						"Expert Ranged Healing Speed", "science_combatmedic_healing_range_speed_03",
-						"Master Ranged Healing Speed", "science_combatmedic_healing_range_speed_04"
+						"Diagnostics I", "science_combatmedic_healing_range_speed_01",
+						"Diagnostics II", "science_combatmedic_healing_range_speed_02",
+						"Diagnostics III", "science_combatmedic_healing_range_speed_03",
+						"Diagnostics IV", "science_combatmedic_healing_range_speed_04"
 					},
-					"Crafting",
+					"Medicine Use",
 					{
-						"Intermediate Combat Medicine Crafting", "science_combatmedic_medicine_01",
-						"Advanced Combat Medicine Crafting", "science_combatmedic_medicine_02",
-						"Expert Combat Medicine Crafting", "science_combatmedic_medicine_03",
-						"Master Combat Medicine Crafting", "science_combatmedic_medicine_04"
+						"Medicine Use I", "science_combatmedic_medicine_01",
+						"Medicine Use II", "science_combatmedic_medicine_02",
+						"Medicine Use III", "science_combatmedic_medicine_03",
+						"Medicine Use IV", "science_combatmedic_medicine_04"
 					},
-					"Support",
+					"Triage",
 					{
-						"Intermediate Combat Medic Support", "science_combatmedic_support_01",
-						"Advanced Combat Medic Support", "science_combatmedic_support_02",
-						"Expert Combat Medic Support", "science_combatmedic_support_03",
-						"Master Combat Medic Support", "science_combatmedic_support_04"
+						"Triage I", "science_combatmedic_support_01",
+						"Triage II", "science_combatmedic_support_02",
+						"Triage III", "science_combatmedic_support_03",
+						"Triage IV", "science_combatmedic_support_04"
 					},
 					"Master", "science_combatmedic_master"
 				},
@@ -426,72 +294,6 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 					},
 					"Master", "outdoors_creaturehandler_master"
 				},
-				"Dancer",
-				{
-					"Novice", "social_dancer_novice",
-					"Techniques",
-					{
-						"Dancing Techniques I", "social_dancer_ability_01",
-						"Dancing Techniques II", "social_dancer_ability_02",
-						"Dancing Techniques III", "social_dancer_ability_03",
-						"Technique Specialist IV", "social_dancer_ability_04"
-					},
-					"Wound Healing",
-					{
-						"Dancer's Wound Healing I", "social_dancer_wound_01",
-						"Dancer's Wound Healing II", "social_dancer_wound_02",
-						"Dancer's Wound Healing III", "social_dancer_wound_03",
-						"Dancer's Wound Healing IV", "social_dancer_wound_04"
-					},
-					"Knowledge",
-					{
-						"Dancing Knowledge I", "social_dancer_knowledge_01",
-						"Dancing Knowledge II", "social_dancer_knowledge_02",
-						"Dancing Knowledge III", "social_dancer_knowledge_03",
-						"Dancing Knowledge IV", "social_dancer_knowledge_04"
-					},
-					"Fatigue Healing",
-					{
-						"Dancer's Fatigue Healing I", "social_dancer_shock_01",
-						"Dancer's Fatigue Healing II", "social_dancer_shock_02",
-						"Dancer's Fatigue Healing III", "social_dancer_shock_03",
-						"Dancer's Fatigue Healing IV", "social_dancer_shock_04"
-					},
-					"Master", "social_dancer_master"
-				},
-				"Doctor",
-				{
-					"Novice", "science_doctor_novice",
-					"Wound Treatment Speed",
-					{
-						"Intermediate Wound Treatment Speed", "science_doctor_wound_speed_01",
-						"Advanced Wound Treatment Speed", "science_doctor_wound_speed_02",
-						"Expert Wound Treatment Speed", "science_doctor_wound_speed_03",
-						"Master Wound Treatment Speed", "science_doctor_wound_speed_04"
-					},
-					"Wound Treatment",
-					{
-						"Intermediate Wound Treatment", "science_doctor_wound_01",
-						"Advanced Wound Treatment", "science_doctor_wound_02",
-						"Expert Wound Treatment", "science_doctor_wound_03",
-						"Master Wound Treatment", "science_doctor_wound_04"
-					},
-					"Medicine Knowledge",
-					{
-						"Intermediate Doctor's Medicine Knowledge", "science_doctor_ability_01",
-						"Advanced Doctor's Medicine Knowledge", "science_doctor_ability_02",
-						"Expert Doctor's Medicine Knowledge", "science_doctor_ability_03",
-						"Master Doctor's Medicine Knowledge", "science_doctor_ability_04"
-					},
-					"Medicine Crafting",
-					{
-						"Intermediate Doctor's Medicine Crafting", "science_doctor_support_01",
-						"Advanced Doctor's Medicine Crafting", "science_doctor_support_02",
-						"Expert Doctor's Medicine Crafting", "science_doctor_support_03",
-						"Master Doctor's Medicine Crafting", "science_doctor_support_04"
-					},
-					"Master", "science_doctor_master"
-				},
 				"Droid Engineer",
 				{
 					"Novice", "crafting_droidengineer_novice",
@@ -524,39 +326,6 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 						"Master Droid Blueprints", "crafting_droidengineer_blueprints_04"
 					},
 					"Master", "crafting_droidengineer_master"
-				},
-				"Entertainer",
-				{
-					"Novice", "social_entertainer_novice",
-					"Image Design",
-					{
-						"Image Design I", "social_entertainer_hairstyle_01",
-						"Image Design II", "social_entertainer_hairstyle_02",
-						"Image Design III", "social_entertainer_hairstyle_03",
-						"Image Design IV", "social_entertainer_hairstyle_04"
-					},
-					"Musicianship",
-					{
-						"Musicianship I", "social_entertainer_music_01",
-						"Musicianship II", "social_entertainer_music_02",
-						"Musicianship III", "social_entertainer_music_03",
-						"Musicianship IV", "social_entertainer_music_04"
-					},
-					"Dancing",
-					{
-						"Dancing I", "social_entertainer_dance_01",
-						"Dancing II", "social_entertainer_dance_02",
-						"Dancing III", "social_entertainer_dance_03",
-						"Dancing IV", "social_entertainer_dance_04"
-					},
-					"Entertainment Healing",
-					{
-						"Entertainment Healing I", "social_entertainer_healing_01",
-						"Entertainment Healing II", "social_entertainer_healing_02",
-						"Entertainment Healing III", "social_entertainer_healing_03",
-						"Entertainment Healing IV", "social_entertainer_healing_04"
-					},
-					"Master", "social_entertainer_master"
 				},
 				"Fencer",
 				{
@@ -591,487 +360,6 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 					},
 					"Master", "combat_1hsword_master"
 				},
-				--"Force Sensitive",
-				--{
-				--	"Crafting Mastery",
-				--{
-				--	"Novice", "force_sensitive_crafting_mastery_novice",
-				--	"Experimentation",
-				--	{
-				--		"Experimentation I", "force_sensitive_crafting_mastery_experimentation_01",
-				--		"Experimentation II", "force_sensitive_crafting_mastery_experimentation_02",
-				--		"Experimentation III", "force_sensitive_crafting_mastery_experimentation_03",
-				--		"Experimentation IV", "force_sensitive_crafting_mastery_experimentation_04"
-				--	},
-				--	"Assembly",
-				--	{
-				--		"Assembly I", "force_sensitive_crafting_mastery_assembly_01",
-				--		"Assembly II", "force_sensitive_crafting_mastery_assembly_02",
-				--		"Assembly III", "force_sensitive_crafting_mastery_assembly_03",
-				--		"Assembly IV", "force_sensitive_crafting_mastery_assembly_04"
-				--	},
-				--	"Repair",
-				--	{
-				--		"Repair I", "force_sensitive_crafting_mastery_repair_01",
-				--		"Repair II", "force_sensitive_crafting_mastery_repair_02",
-				--		"Repair III", "force_sensitive_crafting_mastery_repair_03",
-				--		"Repair IV", "force_sensitive_crafting_mastery_repair_04"
-				--	},
-				--	"Technique",
-				--	{
-				--		"Technique I", "force_sensitive_crafting_mastery_technique_01",
-				--		"Technique II", "force_sensitive_crafting_mastery_technique_02",
-				--		"Technique III", "force_sensitive_crafting_mastery_technique_03",
-				--		"Technique IV", "force_sensitive_crafting_mastery_technique_04"
-				--	},
-				--	"Master", "force_sensitive_crafting_mastery_master"
-				--},
-				--"Enhanced Reflexes",
-				--{
-				--	"Novice", "force_sensitive_enhanced_reflexes_novice",
-				--	"Ranged Defense",
-				--	{
-				--		"Ranged Defense I", "force_sensitive_enhanced_reflexes_ranged_defense_01",
-				--		"Ranged Defense II", "force_sensitive_enhanced_reflexes_ranged_defense_02",
-				--		"Ranged Defense III", "force_sensitive_enhanced_reflexes_ranged_defense_03",
-				--		"Ranged Defense IV", "force_sensitive_enhanced_reflexes_ranged_defense_04"
-				--	},
-				--	"Melee Defense",
-				--	{
-				--		"Melee Defense I", "force_sensitive_enhanced_reflexes_melee_defense_01",
-				--		"Melee Defense II", "force_sensitive_enhanced_reflexes_melee_defense_02",
-				--		"Melee Defense III", "force_sensitive_enhanced_reflexes_melee_defense_03",
-				--		"Melee Defense IV", "force_sensitive_enhanced_reflexes_melee_defense_04"
-				--	},
-				--	"Vehicle Control",
-				--	{
-				--		"Vehicle Control I", "force_sensitive_enhanced_reflexes_vehicle_control_01",
-				--		"Vehicle Control II", "force_sensitive_enhanced_reflexes_vehicle_control_02",
-				--		"Vehicle Control III", "force_sensitive_enhanced_reflexes_vehicle_control_03",
-				--		"Vehicle Control Iv", "force_sensitive_enhanced_reflexes_vehicle_control_04"
-				--	},
-				--	"Survival",
-				--	{
-				--		"Survival I", "force_sensitive_enhanced_reflexes_survival_01",
-				--		"Survival II", "force_sensitive_enhanced_reflexes_survival_02",
-				--		"Survival III", "force_sensitive_enhanced_reflexes_survival_03",
-				--		"Survival IV", "force_sensitive_enhanced_reflexes_survival_04"
-				--	},
-				--	"Master", "force_sensitive_enhanced_reflexes_master"
-				--},
-				--"Heightened Senses",
-				--{
-				--	"Novice", "force_sensitive_heightened_senses_novice",
-				--	"Healing",
-				--	{
-				--		"Healing I", "force_sensitive_heightened_senses_healing_01",
-				--		"Healing II", "force_sensitive_heightened_senses_healing_02",
-				--		"Healing III", "force_sensitive_heightened_senses_healing_03",
-				--		"Healing IV", "force_sensitive_heightened_senses_healing_04"
-				--	},
-				--	"Surveying",
-				--	{
-				--		"Surveying I", "force_sensitive_heightened_senses_surveying_01",
-				--		"Surveying II", "force_sensitive_heightened_senses_surveying_02",
-				--		"Surveying III", "force_sensitive_heightened_senses_surveying_03",
-				--		"Surveying IV", "force_sensitive_heightened_senses_surveying_04"
-				--	},
-				--	"Persuasion",
-				--	{
-				--		"Persuasion I", "force_sensitive_heightened_senses_persuasion_01",
-				--		"Persuasion II", "force_sensitive_heightened_senses_persuasion_02",
-				--		"Persuasion III", "force_sensitive_heightened_senses_persuasion_03",
-				--		"Persuasion Iv", "force_sensitive_heightened_senses_persuasion_04"
-				--	},
-				--	"Luck",
-				--	{
-				--		"Luck I", "force_sensitive_heightened_senses_luck_01",
-				--		"Luck II", "force_sensitive_heightened_senses_luck_02",
-				--		"Luck III", "force_sensitive_heightened_senses_luck_03",
-				--		"Luck IV", "force_sensitive_heightened_senses_luck_04"
-				--	},
-				--	"Master", "force_sensitive_heightened_senses_master"
-				--},
-				"Image Designer",
-				{
-					"Novice", "social_imagedesigner_novice",
-					"Hairstyling",
-					{
-						"Hairstyling I", "social_imagedesigner_hairstyle_01",
-						"Hairstyling II", "social_imagedesigner_hairstyle_02",
-						"Hairstyling III", "social_imagedesigner_hairstyle_03",
-						"Hairstyling IV", "social_imagedesigner_hairstyle_04"
-					},
-					"Face",
-					{
-						"Face I", "social_imagedesigner_exotic_01",
-						"Face II", "social_imagedesigner_exotic_02",
-						"Face III", "social_imagedesigner_exotic_03",
-						"Face IV", "social_imagedesigner_exotic_04"
-					},
-					"Bodyform",
-					{
-						"Bodyform I", "social_imagedesigner_bodyform_01",
-						"Bodyform II", "social_imagedesigner_bodyform_02",
-						"Bodyform III", "social_imagedesigner_bodyform_03",
-						"Bodyform Iv", "social_imagedesigner_bodyform_04"
-					},
-					"Markings",
-					{
-						"Markings I", "social_imagedesigner_markings_01",
-						"Markings II", "social_imagedesigner_markings_02",
-						"Markings III", "social_imagedesigner_markings_03",
-						"Markings IV", "social_imagedesigner_markings_04"
-					},
-					"Master", "social_imagedesigner_master"
-				},
-				--"Jedi",
-				--{
-				--	"Rank",
-				--	{
-				--	"Jedi Dark Rank",
-				--	{
-				--		"Rank Member", "force_rank_dark_novice",
-				--		"Enforcer",
-				--		{
-				--			"Enforcer I", "force_rank_dark_rank_01",
-				--			"Enforcer II", "force_rank_dark_rank_02",
-				--			"Enforcer III", "force_rank_dark_rank_03",
-				--			"Enforcer IV", "force_rank_dark_rank_04"
-				--		},
-				--		"Templar",
-				--		{
-				--			"Templar I", "force_rank_dark_rank_05",
-				--			"Templar II", "force_rank_dark_rank_06",
-				--			"Templar III", "force_rank_dark_rank_07"
-				--		},
-				--		"Oppressor",
-				--		{
-				--			"Oppressor I", "force_rank_dark_rank_08",
-				--			"Oppressor II", "force_rank_dark_rank_09"
-				--		},
-				--	},
-				--	
-				--	"Jedi Light Rank",
-				--	{
-				--		"Rank Member", "force_rank_dark_novice",
-				--		"Sentinel",
-				--		{
-				--			"Sentinel I", "force_rank_light_rank_01",
-				--			"Sentinel II", "force_rank_light_rank_02",
-				--			"Sentinel III", "force_rank_light_rank_03",
-				--			"Sentinel IV", "force_rank_light_rank_04"
-				--		},
-				--		"Consular",
-				--		{
-				--			"Consular I", "force_rank_light_rank_05",
-				--			"Consular II", "force_rank_light_rank_06",
-				--			"Consular III", "force_rank_light_rank_07"
-				--		},
-				--		"Arbiter",
-				--		{
-				--			"Arbiter I", "force_rank_light_rank_08",
-				--			"Arbiter II", "force_rank_light_rank_09"
-				--		},
-				--	},
-				--	},
-				--	"Light Saber",
-				--{
-				--	"Novice", "force_discipline_light_saber_novice",
-				--	"One Handed Light Saber",
-				--	{
-				--		"One Handed Light Saber I", "force_discipline_light_saber_one_hand_01",
-				--		"One Handed Light Saber II", "force_discipline_light_saber_one_hand_02",
-				--		"One Handed Light Saber III", "force_discipline_light_saber_one_hand_03",
-				--		"One Handed Light Saber IV", "force_discipline_light_saber_one_hand_04"
-				--	},
-				--	"Two Handed Light Saber",
-				--	{
-				--		"Two Handed Light Saber I", "force_discipline_light_saber_two_hand_01",
-				--		"Two Handed Light Saber II", "force_discipline_light_saber_two_hand_02",
-				--		"Two Handed Light Saber III", "force_discipline_light_saber_two_hand_03",
-				--		"Two Handed Light Saber IV", "force_discipline_light_saber_two_hand_04"
-				--	},
-				--	"Double Bladed Light Saber",
-				--	{
-				--		"Double Bladed Light Saber I", "force_discipline_light_saber_polearm_01",
-				--		"Double Bladed Light Saber II", "force_discipline_light_saber_polearm_02",
-				--		"Double Bladed Light Saber III", "force_discipline_light_saber_polearm_03",
-				--		"Double Bladed Light Saber IV", "force_discipline_light_saber_polearm_04"
-				--	},
-				--	"Light Saber Technique",
-				--	{
-				--		"Light Saber Technique I", "force_discipline_light_saber_technique_01",
-				--		"Light Saber Technique II", "force_discipline_light_saber_technique_02",
-				--		"Light Saber Technique III", "force_discipline_light_saber_technique_03",
-				--		"Light Saber Technique IV", "force_discipline_light_saber_technique_04"
-				--	},
-				--	"Master", "force_discipline_light_saber_master"
-				--},
-				--	"Force Powers",
-				--{
-				--	"Novice", "force_discipline_powers_novice",
-				--	"Force Lightning",
-				--	{
-				--		"Force Lightning I", "force_discipline_powers_lightning_01",
-				--		"Force Lightning II", "force_discipline_powers_lightning_02",
-				--		"Force Lightning III", "force_discipline_powers_lightning_03",
-				--		"Force Lightning IV", "force_discipline_powers_lightning_04"
-				--	},
-				--	"Force Subjugate",
-				--	{
-				--		"Force Subjugate I", "force_discipline_powers_mental_01",
-				--		"Force Subjugate II", "force_discipline_powers_mental_02",
-				--		"Force Subjugate III", "force_discipline_powers_mental_03",
-				--		"Force Subjugate IV", "force_discipline_powers_mental_04"
-				--	},
-				--	"Force Diminish",
-				--	{
-				--		"Force Diminish I", "force_discipline_powers_debuff_01",
-				--		"Force Diminish II", "force_discipline_powers_debuff_02",
-				--		"Force Diminish III", "force_discipline_powers_debuff_03",
-				--		"Force Diminish IV", "force_discipline_powers_debuff_04"
-				--	},
-				--	"Psychokineses",
-				--	{
-				--		"Psychokineses I", "force_discipline_powers_push_01",
-				--		"Psychokineses II", "force_discipline_powers_push_02",
-				--		"Psychokineses III", "force_discipline_powers_push_03",
-				--		"Psychokineses IV", "force_discipline_powers_push_04"
-				--	},
-				--	"Master", "force_discipline_powers_master"
-				--},
-				--	"Force Healing",
-				--{
-				--	"Novice", "force_discipline_healing_novice",
-				--	"Force Rejuvenation",
-				--	{
-				--		"Force Rejuvenation I", "force_discipline_healing_damage_01",
-				--		"Force Rejuvenation II", "force_discipline_healing_damage_02",
-				--		"Force Rejuvenation III", "force_discipline_healing_damage_03",
-				--		"Force Rejuvenation IV", "force_discipline_healing_damage_04"
-				--	},
-				--	"Force Restoration",
-				--	{
-				--		"Force Restoration I", "force_discipline_healing_wound_01",
-				--		"Force Restoration II", "force_discipline_healing_wound_02",
-				--		"Force Restoration III", "force_discipline_healing_wound_03",
-				--		"Force Restoration IV", "force_discipline_healing_wound_04"
-				--	},
-				--	"Force Assist",
-				--	{
-				--		"Force Assist I", "force_discipline_healing_other_01",
-				--		"Force Assist II", "force_discipline_healing_other_02",
-				--		"Force Assist III", "force_discipline_healing_other_03",
-				--		"Force Assist IV", "force_discipline_healing_other_04"
-				--	},
-				--	"Force Purification",
-				--	{
-				--		"Force Purification I", "force_discipline_healing_states_01",
-				--		"Force Purification II", "force_discipline_healing_states_02",
-				--		"Force Purification III", "force_discipline_healing_states_03",
-				--		"Force Purification IV", "force_discipline_healing_states_04"
-				--	},
-				--	"Master", "force_discipline_healing_master"
-				--},
-				--	"Force Enhancement",
-				--{
-				--	"Novice", "force_discipline_enhancements_novice",
-				--	"Force Celerity",
-				--	{
-				--		"Force Celerity I", "force_discipline_enhancements_movement_01",
-				--		"Force Celerity II", "force_discipline_enhancements_movement_02",
-				--		"Force Celerity III", "force_discipline_enhancements_movement_03",
-				--		"Force Celerity IV", "force_discipline_enhancements_movement_04"
-				--	},
-				--	"Force Protection",
-				--	{
-				--		"Force Protection I", "force_discipline_enhancements_protection_01",
-				--		"Force Protection II", "force_discipline_enhancements_protection_02",
-				--		"Force Protection III", "force_discipline_enhancements_protection_03",
-				--		"Force Protection IV", "force_discipline_enhancements_protection_04"
-				--	},
-				--	"Force Resistance",
-				--	{
-				--		"Force Resistance I", "force_discipline_enhancements_resistance_01",
-				--		"Force Resistance II", "force_discipline_enhancements_resistance_02",
-				--		"Force Resistance III", "force_discipline_enhancements_resistance_03",
-				--		"Force Resistance IV", "force_discipline_enhancements_resistance_04"
-				--	},
-				--	"Force Synergy",
-				--	{
-				--		"Force Synergy I", "force_discipline_enhancements_synergy_01",
-				--		"Force Synergy II", "force_discipline_enhancements_synergy_02",
-				--		"Force Synergy III", "force_discipline_enhancements_synergy_03",
-				--		"Force Synergy IV", "force_discipline_enhancements_synergy_04"
-				--	},
-				--	"Master", "force_discipline_enhancements_master"
-				--},
-				--"Force Defense",
-				--{
-				--	"Novice", "force_discipline_defender_novice",
-				--	"Force Melee Defense",
-				--	{
-				--		"Force Melee Defense I", "force_discipline_defender_melee_defense_01",
-				--		"Force Melee Defense II", "force_discipline_defender_melee_defense_02",
-				--		"Force Melee Defense III", "force_discipline_defender_melee_defense_03",
-				--		"Force Melee Defense IV", "force_discipline_defender_melee_defense_04"
-				--	},
-				--	"Force Ranged Defense",
-				--	{
-				--		"Force Ranged Defense I", "force_discipline_defender_ranged_defense_01",
-				--		"Force Ranged Defense II", "force_discipline_defender_ranged_defense_02",
-				--		"Force Ranged Defense III", "force_discipline_defender_ranged_defense_03",
-				--		"Force Ranged Defense IV", "force_discipline_defender_ranged_defense_04"
-				--	},
-				--	"Force Defense",
-				--	{
-				--		"Force Defense I", "force_discipline_defender_force_defense_01",
-				--		"Force Defense II", "force_discipline_defender_force_defense_02",
-				--		"Force Defense III", "force_discipline_defender_force_defense_03",
-				--		"Force Defense IV", "force_discipline_defender_force_defense_04"
-				--	},
-				--	"Preternatural Defense",
-				--	{
-				--		"Preternatural Defense I", "force_discipline_defender_preternatural_defense_01",
-				--		"Preternatural Defense II", "force_discipline_defender_preternatural_defense_02",
-				--		"Preternatural Defense III", "force_discipline_defender_preternatural_defense_03",
-				--		"Preternatural Defense IV", "force_discipline_defender_preternatural_defense_04"
-				--	},
-				--	"Master", "force_discipline_defender_master"
-				--},				
-				"Marksman",
-				{
-					"Novice", "combat_marksman_novice",
-					"Rifles",
-					{
-						"Rifles I", "combat_marksman_rifle_01",
-						"Rifles II", "combat_marksman_rifle_02",
-						"Rifles III", "combat_marksman_rifle_03",
-						"Rifles IV", "combat_marksman_rifle_04"
-					},
-					"Pistols",
-					{
-						"Pistols I", "combat_marksman_pistol_01",
-						"Pistols II", "combat_marksman_pistol_02",
-						"Pistols III", "combat_marksman_pistol_03",
-						"Pistols IV", "combat_marksman_pistol_04"
-					},
-					"Carbines",
-					{
-						"Carbines I", "combat_marksman_carbine_01",
-						"Carbines II", "combat_marksman_carbine_02",
-						"Carbines III", "combat_marksman_carbine_03",
-						"Carbines IV", "combat_marksman_carbine_04"
-					},
-					"Ranged Support",
-					{
-						"Ranged Support I", "combat_marksman_support_01",
-						"Ranged Support II", "combat_marksman_support_02",
-						"Ranged Support III", "combat_marksman_support_03",
-						"Ranged Support IV", "combat_marksman_support_04"
-					},
-					"Master", "combat_marksman_master"
-				},
-				"Medic",
-				{
-					"Novice", "science_medic_novice",
-					"First Aid",
-					{
-						"First Aid I", "science_medic_injury_01",
-						"First Aid II", "science_medic_injury_02",
-						"First Aid III", "science_medic_injury_03",
-						"First Aid IV", "science_medic_injury_04"
-					},
-					"Diagnostics",
-					{
-						"Diagnostics I", "science_medic_injury_speed_01",
-						"Diagnostics II", "science_medic_injury_speed_02",
-						"Diagnostics III", "science_medic_injury_speed_03",
-						"Diagnostics IV", "science_medic_injury_speed_04"
-					},
-					"Pharmacology",
-					{
-						"Pharmacology I", "science_medic_ability_01",
-						"Pharmacology II", "science_medic_ability_02",
-						"Pharmacology III", "science_medic_ability_03",
-						"Pharmacology IV", "science_medic_ability_04"	
-					},
-					"Organic Chemistry",
-					{
-						"Organic Chemistry I", "science_medic_crafting_01",
-						"Organic Chemistry II", "science_medic_crafting_02",
-						"Organic Chemistry III", "science_medic_crafting_03",
-						"Organic Chemistry IV", "science_medic_crafting_04"				
-					},
-					"Master", "science_medic_master"
-				},
-				"Merchant",
-				{
-					"Novice", "crafting_merchant_novice",
-					"Advertising",
-					{
-						"Advertising I", "crafting_merchant_advertising_01",
-						"Advertising II", "crafting_merchant_advertising_02",
-						"Advertising III", "crafting_merchant_advertising_03",
-						"Advertising IV", "crafting_merchant_advertising_04"
-					},
-					"Efficiency",
-					{
-						"Efficiency I", "crafting_merchant_sales_01",
-						"Efficiency II", "crafting_merchant_sales_02",
-						"Efficiency III", "crafting_merchant_sales_03",
-						"Efficiency IV", "crafting_merchant_sales_04"
-					},
-					"Hiring",
-					{
-						"Hiring I", "crafting_merchant_hiring_01",
-						"Hiring II", "crafting_merchant_hiring_02",
-						"Hiring III", "crafting_merchant_hiring_03",
-						"Hiring IV", "crafting_merchant_hiring_04"
-					},
-					"Management",
-					{
-						"Management I", "crafting_merchant_management_01",
-						"Management II", "crafting_merchant_management_02",
-						"Management III", "crafting_merchant_management_03",
-						"Management IV", "crafting_merchant_management_04"
-					},
-					"Master", "crafting_merchant_master"
-				},
-				"Musician",
-				{
-					"Novice", "social_musician_novice",
-					"Techniques",
-					{
-						"Musical Techniques I", "social_musician_ability_01",
-						"Musical Techniques II", "social_musician_ability_02",
-						"Musical Techniques III", "social_musician_ability_03",
-						"Technique Specialist IV", "social_musician_ability_04"
-					},
-					"Wound Healing",
-					{
-						"Musician's Wound Healing I", "social_musician_wound_01",
-						"Musician's Wound Healing II", "social_musician_wound_02",
-						"Musician's Wound Healing III", "social_musician_wound_03",
-						"Musician's Wound Healing IV", "social_musician_wound_04"
-					},
-					"Knowledge",
-					{
-						"Musical Knowledge I", "social_musician_knowledge_01",
-						"Musical Knowledge II", "social_musician_knowledge_02",
-						"Musical Knowledge III", "social_musician_knowledge_03",
-						"Musical Knowledge IV", "social_musician_knowledge_04"
-					},
-					"Fatigue Healing",
-					{
-						"Musician's Fatigue Healing I", "social_musician_shock_01",
-						"Musician's Fatigue Healing II", "social_musician_shock_02",
-						"Musician's Fatigue Healing III", "social_musician_shock_03",
-						"Musician's Fatigue Healing IV", "social_musician_shock_04"
-					},
-					"Master", "social_musician_master"
-				},
 				"Pikeman",
 				{
 					"Novice", "combat_polearm_novice",
@@ -1105,9 +393,6 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 					},
 					"Master", "combat_polearm_master"
 				},
-				--"Pilot",
-				--{
-				--},
 				"Pistoleer",
 				{
 					"Novice", "combat_pistol_novice",
@@ -1141,36 +426,36 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 					},
 					"Master", "combat_pistol_master"
 				},
-				"Politician",
+				"Pirate",
 				{
 					"Novice", "social_politician_novice",
-					"Fiscal Policy",
+					"Bounty Hunting",
 					{
-						"Fiscal Policy I", "social_politician_fiscal_01",
-						"Fiscal Policy II", "social_politician_fiscal_02",
-						"Fiscal Policy III", "social_politician_fiscal_03",
-						"Fiscal Policy IV", "social_politician_fiscal_04"
+						"Bounty Hunting I", "social_politician_fiscal_01",
+						"Bounty Hunting II", "social_politician_fiscal_02",
+						"Bounty Hunting III", "social_politician_fiscal_03",
+						"Bounty Hunting IV", "social_politician_fiscal_04"
 					},
-					"Martial Policy",
+					"Renown",
 					{
-						"Martial Policy I", "social_politician_martial_01",
-						"Martial Policy II", "social_politician_martial_02",
-						"Martial Policy III", "social_politician_martial_03",
-						"Martial Policy IV", "social_politician_martial_04"
+						"Renown I", "social_politician_martial_01",
+						"Renown II", "social_politician_martial_02",
+						"Renown III", "social_politician_martial_03",
+						"Renown IV", "social_politician_martial_04"
 					},
-					"Civic Policy",
+					"Infamy",
 					{
-						"Civic Policy I", "social_politician_civic_01",
-						"Civic Policy II", "social_politician_civic_02",
-						"Civic Policy III", "social_politician_civic_03",
-						"Civic Policy IV", "social_politician_civic_04"
+						"Infamy I", "social_politician_civic_01",
+						"Infamy II", "social_politician_civic_02",
+						"Infamy III", "social_politician_civic_03",
+						"Infamy IV", "social_politician_civic_04"
 					},
-					"City Customization",
+					"Smuggling",
 					{
-						"City Customization I", "social_politician_urban_01",
-						"City Customization II", "social_politician_urban_02",
-						"City Customization III", "social_politician_urban_03",
-						"City Customization IV", "social_politician_urban_04"
+						"Smuggling I", "social_politician_urban_01",
+						"Smuggling II", "social_politician_urban_02",
+						"Smuggling III", "social_politician_urban_03",
+						"Smuggling IV", "social_politician_urban_04"
 					},
 					"Master", "social_politician_master"
 				},
@@ -1243,134 +528,35 @@ object_tangible_terminal_terminal_character_builder = object_tangible_terminal_s
 				"Scout",
 				{
 					"Novice", "outdoors_scout_novice",
-					"Exploration",
+					"Industry",
 					{
-						"Exploration I", "outdoors_scout_movement_01",
-						"Exploration II", "outdoors_scout_movement_02",
-						"Exploration III", "outdoors_scout_movement_03",
-						"Exploration IV", "outdoors_scout_movement_04"
+						"Industry I", "outdoors_scout_movement_01",
+						"Industry II", "outdoors_scout_movement_02",
+						"Industry III", "outdoors_scout_movement_03",
+						"Industry IV", "outdoors_scout_movement_04"
 					},
-					"Trapping",
+					"Underworld",
 					{
-						"Trapping I", "outdoors_scout_tools_01",
-						"Trapping II", "outdoors_scout_tools_02",
-						"Trapping III", "outdoors_scout_tools_03",
-						"Trapping IV", "outdoors_scout_tools_04"
-					},
-					"Hunting",
-					{
-						"Hunting I", "outdoors_scout_harvest_01",
-						"Hunting II", "outdoors_scout_harvest_02",
-						"Hunting III", "outdoors_scout_harvest_03",
-						"Hunting IV", "outdoors_scout_harvest_04"
+						"Underworld I", "outdoors_scout_tools_01",
+						"Underworld II", "outdoors_scout_tools_02",
+						"Underworld III", "outdoors_scout_tools_03",
+						"Underworld IV", "outdoors_scout_tools_04"
 					},
 					"Survival",
 					{
-						"Survival I", "outdoors_scout_camp_01",
-						"Survival II", "outdoors_scout_camp_02",
-						"Survival III", "outdoors_scout_camp_03",
-						"Survival IV", "outdoors_scout_camp_04"
+						"Survival I", "outdoors_scout_harvest_01",
+						"Survival II", "outdoors_scout_harvest_02",
+						"Survival III", "outdoors_scout_harvest_03",
+						"Survival IV", "outdoors_scout_harvest_04"
+					},
+					"Combat",
+					{
+						"Combat I", "outdoors_scout_camp_01",
+						"Combat II", "outdoors_scout_camp_02",
+						"Combat III", "outdoors_scout_camp_03",
+						"Combat IV", "outdoors_scout_camp_04"
 					},
 					"Master", "outdoors_scout_master"
-				},
-				"Shipwright",
-				{
-					"Novice", "crafting_shipwright_novice",
-					"Spaceframe Engineering",
-					{
-						"Spaceframe Engineering I", "crafting_shipwright_engineering_01",
-						"Spaceframe Engineering II", "crafting_shipwright_engineering_02",
-						"Spaceframe Engineering III", "crafting_shipwright_engineering_03",
-						"Spaceframe Engineering IV", "crafting_shipwright_engineering_04"
-					},
-					"Propulsion Technology",
-					{
-						"Propulsion Technology I", "crafting_shipwright_propulsion_01",
-						"Propulsion Technology II", "crafting_shipwright_propulsion_02",
-						"Propulsion Technology III", "crafting_shipwright_propulsion_03",
-						"Propulsion Technology IV", "crafting_shipwright_propulsion_04"
-					},
-					"Core Systems",
-					{
-						"Core Systems I", "crafting_shipwright_systems_01",
-						"Core Systems II", "crafting_shipwright_systems_02",
-						"Core Systems III", "crafting_shipwright_systems_03",
-						"Core Systems IV", "crafting_shipwright_systems_04"
-					},
-					"Defense Systems",
-					{
-						"Defense Systems I", "crafting_shipwright_defense_01",
-						"Defense Systems II", "crafting_shipwright_defense_02",
-						"Defense Systems III", "crafting_shipwright_defense_03",
-						"Defense Systems IV", "crafting_shipwright_defense_04"
-					},
-					"Master", "crafting_shipwright_master"
-				},
-				"Smuggler",
-				{
-					"Novice", "combat_smuggler_novice",
-					"Underworld",
-					{
-						"Underworld I", "combat_smuggler_underworld_01",
-						"Underworld II", "combat_smuggler_underworld_02",
-						"Underworld III", "combat_smuggler_underworld_03",
-						"Underworld IV", "combat_smuggler_underworld_04"
-					},
-					"Slicing",
-					{
-						"Slicing I", "combat_smuggler_slicing_01",
-						"Slicing II", "combat_smuggler_slicing_02",
-						"Slicing III", "combat_smuggler_slicing_03",
-						"Slicing IV", "combat_smuggler_slicing_04"
-					},
-					"Dirty Fighting",
-					{
-						"Dirty Fighting I", "combat_smuggler_combat_01",
-						"Dirty Fighting II", "combat_smuggler_combat_02",
-						"Dirty Fighting III", "combat_smuggler_combat_03",
-						"Dirty Fighting IV", "combat_smuggler_combat_04"
-					},
-					"Spices",
-					{
-						"Spices I", "combat_smuggler_spice_01",
-						"Spices II", "combat_smuggler_spice_02",
-						"Spices III", "combat_smuggler_spice_03",
-						"Spices IV", "combat_smuggler_spice_04"
-					},
-					"Master", "combat_smuggler_master"
-				},
-				"Squad Leader",
-				{
-					"Novice", "outdoors_squadleader_novice",
-					"Mobility",
-					{
-						"Mobility I", "outdoors_squadleader_movement_01",
-						"Mobility II", "outdoors_squadleader_movement_02",
-						"Mobility III", "outdoors_squadleader_movement_03",
-						"Mobility IV", "outdoors_squadleader_movement_04"
-					},
-					"Strategy",
-					{
-						"Strategy I", "outdoors_squadleader_offense_01",
-						"Strategy II", "outdoors_squadleader_offense_02",
-						"Strategy III", "outdoors_squadleader_offense_03",
-						"Strategy IV", "outdoors_squadleader_offense_04"
-					},
-					"Leadership",
-					{
-						"Leadership I", "outdoors_squadleader_defense_01",
-						"Leadership II", "outdoors_squadleader_defense_02",
-						"Leadership III", "outdoors_squadleader_defense_03",
-						"Leadership IV", "outdoors_squadleader_defense_04"
-					},
-					"Tactics",
-					{
-						"Tactics I", "outdoors_squadleader_support_01",
-						"Tactics II", "outdoors_squadleader_support_02",
-						"Tactics III", "outdoors_squadleader_support_03",
-						"Tactics IV", "outdoors_squadleader_support_04"
-					},
-					"Master", "outdoors_squadleader_master"
 				},
 				"Swordsman",
 				{

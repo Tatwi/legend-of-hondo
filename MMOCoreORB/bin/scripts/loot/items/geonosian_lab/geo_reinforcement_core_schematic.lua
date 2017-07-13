@@ -8,7 +8,10 @@ geo_reinforcement_core_schematic = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("geo_reinforcement_core_schematic", geo_reinforcement_core_schematic)

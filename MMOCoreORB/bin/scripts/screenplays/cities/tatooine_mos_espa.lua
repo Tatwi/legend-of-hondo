@@ -45,62 +45,446 @@ function TatooineMosEspaScreenPlay:start()
 end
 
 function TatooineMosEspaScreenPlay:spawnSceneObjects()
-
 	--outside starport
 	spawnSceneObject(self.planet, "object/tangible/crafting/station/public_space_station.iff", -2930.39, 5, 2134.35, 0, math.rad(130) )
 	spawnSceneObject(self.planet, "object/tangible/crafting/station/public_space_station.iff", -2879.34, 5, 2164.2, 0, math.rad(-140) )
 
-	--inside Tavern, north of starport
-	spawnSceneObject(self.planet, "object/static/structure/general/droid_droideka_powerdown.iff", -6.40696, -3.96617, -6.78822, 3065455, 0.958853, 0, 0, 0.283905)
-	spawnSceneObject(self.planet, "object/tangible/furniture/decorative/microphone_s02.iff", 6.89479, -3.36756, 8.70603, 3065456, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/tangible/furniture/decorative/park_bench.iff", -10.1908, -3.96617, 6.0145, 3065456, math.rad(90) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_bed_lg_s2.iff", -7.40007, -9.99298, -8.64868, 3065459, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/tangible/furniture/decorative/pitcher_full.iff", -11.1833, -9.99311, -10.1457, 3065459, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/tangible/furniture/modern/rug_oval_sml_s01.iff", -7.13995, -9.9929, -7.33483, 3065459, math.rad(90) )
+	-- Decorations added for Legend of Hondo
+	
+	-- Banks
+	spawnSceneObject("tatooine", "object/building/player/city/bank_tatooine.iff", -2941.01, 5, 2457.62, 0, 0.802568, 0, 0.596561, 0) -- North
+	spawnSceneObject("tatooine", "object/building/player/city/bank_tatooine.iff", -2904.61, 5, 2160.67, 0, -0.271761, 0, 0.962365, 0) -- Center, Starport
+	spawnSceneObject("tatooine", "object/building/player/city/bank_tatooine.iff", -3176.84, 5.1812, 2018.61, 0, 0.991497, 0, -0.130126, 0) -- West, Hospital
+	
+    -- Inside Guild Hall -2857 1987
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_food_station.iff",  -10.5241, 1.13306, -14.8839, 1256012,  0.0, 0, 0.0, 0) 
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_weapon_station.iff",  3.6814, 1.13306, -5.82231, 1256306,  0.999998, 0, 0.0, 0)
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_clothing_station.iff",  15.0941, 1.13306, -4.6966, 1256306,  1.0, 0, 0.0, 0)  
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_structure_station.iff",  -6.36432, 1.13306, -6.0, 1256306,  0.999998, 0, 0.0, 0)  
+ 
+     -- Inside Guild Hall -3063 2079
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_weapon_station.iff",  -7.18723, 1.13306, -10.4749, 1256023,  -0.700969, 0, 0.713191, 0)
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_weapon_station.iff",  0.00787778, 1.13306, -15, 1256022,  1.0, 0, 0.0, 0)
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_clothing_station.iff",  -8.76385, 1.13306, 2.52475, 1256020,  0.998299, 0, -0.0582979, 0) 
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_structure_station.iff",  14.6757, 1.13306, -8.22967, 1256021,  -0.41052, 0, 0.911852, 0)  
+    
+    -- Inside Hospital
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_food_station.iff", -32.7385, 0.254413, -6.32808, 9995780, 0.707107, 0, 0.707107, 0) 
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_food_station.iff", 16.3456, 0.26, 11.5, 9995699, 0, 0, 1, 0) 
 
-	--inside Large Tatooine House with Krayt skull above door
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_desk_radar_topology_screen.iff", 0.211172, 0.512662, -10.9995, 1261454, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/tangible/painting/painting_luke_wanted.iff", 4.34762, 0.512662, -10.997, 1261454, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/tangible/painting/painting_leia_wanted.iff", -4.34762, 0.512662, -10.997, 1261454, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/tangible/furniture/imperial/data_terminal_s2.iff", 2.31777, 0.512662, -11.0014, 1261454, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/tangible/furniture/imperial/data_terminal_s2.iff", -2.31777, 0.512662, -11.0014, 1261454, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/mobile/dressed_bounty_hunter_zabrak_female_01.iff", 2.3, 0.512662, -10.0014, 1261454, math.rad(180) )
-	spawnSceneObject(self.planet, "object/mobile/dressed_imperial_exterminator.iff", -2.3, 0.512662, -10.0014, 1261454, math.rad(180) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_rug_rectangle_large_style_05.iff", -0.0, 0.5, -3.1, 1261454, math.rad(90) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/modern/dining_table_modern_style_01.iff", -0.0, 0.5, -3.1, 1261454, math.rad(0) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_chair_upholstered_s1.iff", -0.0, 1.0, 7.5, 1261454, math.rad(180) )
-	spawnSceneObject(self.planet, "object/static/structure/tatooine/skeleton_greater_krayt_head.iff", -2.6, 1.0, 6.5, 1261454, math.rad(130) )
-	spawnSceneObject(self.planet, "object/static/structure/tatooine/skeleton_greater_krayt_head.iff", 2.6, 1.0, 6.5, 1261454, math.rad(-130) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_tiki_torch_s1.iff", -0.5, 1.0, 7.5, 1261454, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_tiki_torch_s1.iff", 0.5, 1.0, 7.5, 1261454, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/tangible/furniture/tatooine/frn_tatt_cantina_droid_detector.iff", -14.5, 1.0, -3.3, 1261454, math.rad(90) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/tatooine/frn_tatt_cantina_droid_detector.iff", 12.5, 1.0, -3.3, 1261454, math.rad(-90) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/bestine_quest_imp_banner.iff", 0, 2.0, 8.5, 1261453, math.rad(90) )
-	spawnSceneObject(self.planet, "object/static/structure/general/droid_probedroid_powerdown.iff", 1.0, -4.0, -7.9, 1718407, math.rad(-90) )
+    -- Outside roughly counter clockwise N-W-S-E
 
-	--southwest Tavern
-	spawnSceneObject(self.planet, "object/mobile/jawa_male.iff", -1.1, 1.0, 9.5, 1261583, 0, 0, 0, 0)
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_professor_desk.iff", -7.0, -4.0, -6.5, 1261586, math.rad(90) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/bestine_quest_statue.iff", 0.2, -4.0, -10.4, 1261586, math.rad(-50) )
-	--west Tavern
-	spawnSceneObject(self.planet, "object/static/structure/general/banner_tatooine_style_01.iff", -11.0, 0.4, -1.5, 1261569, math.rad(90) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_tiki_torch_s1.iff", -10.6, -1.4, -10.2, 1261572, math.rad(43) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_tiki_torch_s1.iff", 0.2, -4.0, -10.4, 1261573, math.rad(-53) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_tiki_torch_s1.iff", -11.2, -9.5, 1.8, 1261576, math.rad(130) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/all/frn_all_tiki_torch_s1.iff", -1.0, -9.5, 1.8, 1261576, math.rad(36) )
-	spawnSceneObject(self.planet, "object/tangible/item/quest/force_sensitive/bacta_tank.iff", -1.9, -9.5, -4.3, 1261579, math.rad(90) )
-	spawnSceneObject(self.planet, "object/tangible/item/quest/force_sensitive/bacta_tank.iff", -1.9, -9.5, -8.6, 1261579, math.rad(90) )
-	spawnSceneObject(self.planet, "object/tangible/item/quest/force_sensitive/bacta_tank.iff", 9.7, -9.5, -10.0, 1261579, math.rad(-45) )
-	spawnSceneObject(self.planet, "object/mobile/mouse_droid.iff", 8.3, -9.5, -7.3, 1261579, math.rad(135) )
-	spawnSceneObject(self.planet, "object/tangible/furniture/technical/armoire_s01.iff", 5.5, -9.5, -11.0, 1261579, math.rad(0) )
+    -- Outdoorman (Player starting location)
+    spawnSceneObject("tatooine", "object/tangible/camp/camp_tent_s1.iff",  -2980.62, 5.0, 2528.85, 0,  0.963207, 0, -0.268761, 0)
+    spawnSceneObject("tatooine", "object/tangible/camp/camp_tent_s2.iff",  -2994.26, 5.0, 2537.57, 0,  0.256278, 0, 0.966603, 0)
+    spawnSceneObject("tatooine", "object/tangible/camp/camp_tent_s4.iff",  -2985.99, 5.0, 2532.78, 0,  0.998804, 0, 0.048897, 0)
+    spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_fngi.iff",  -2982.34, 5.0, 2535.57, 0,  0.960846, 0, 0.277085, 0)
+    spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff",  -2994.2, 5.0, 2533.32, 0,  -0.460367, 0, 0.887729, 0)
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_ruined_small_style_01.iff", -2973.82, 5, 2532.98, 0, -0.92388, 0, 0.382683, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -2980.89, 5, 2525.26, 0, 0.358368, 0, 0.93358, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2986.95, 5, 2518.91, 0, 0.939693, 0, 0.34202, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_archway_tatooine_large_style_01.iff", -2990.16, 5, 2516.04, 0, 0.92388, 0, 0.382683, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_damaged_large_style_01.iff", -2993.57, 5, 2513.05, 0, -5.96046e-08, 0, 1, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -2997.1, 5, 2513.17, 0, 0.707107, 0, 0.707107, 0)
+    
+    -- New player road
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3021.6, 4, 2453.72, 0, 0.374607, 0, 0.927184, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_watto_junkshop.iff", -3029, 5, 2446.72, 0, 0.843391, 0, 0.5373, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3025.3, 3, 2446.52, 0, 0.766044, 0, 0.642788, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3020.97, 5, 2447.01, 0, 0.748956, 0, 0.66262, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_archway_tatooine_large_style_01.iff", -3017.95, 3, 2447.76, 0, 0.760406, 0, 0.649448, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3014.7, 5, 2449.02, 0, -0.642788, 0, 0.766044, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3006.12, 3, 2449.91, 0, 0.771625, 0, 0.636078, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2998.08, 5, 2452.27, 0, -0.996195, 0, 0.0871558, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff", -2994.74, 3, 2452.75, 0, -0.819152, 0, -0.573576, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_ruined_large_style_01.iff", -2992.17, 5, 2453.02, 0, -0.34202, 0, -0.939693, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_wide_style_01.iff", -2986.54, 5, 2459.29, 0, 0.92388, 0, 0.382683, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2981.04, 5, 2465.45, 0, -0.913545, 0, 0.406737, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2975.89, 3, 2470.4, 0, -0.374607, 0, 0.927184, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2971.02, 5, 2475.77, 0, -0.390731, 0, 0.920505, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -2967.47, 3, 2473.21, 0, 0.927184, 0, -0.374607, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3031.45, 5, 2464.99, 0, -0.91706, 0, 0.398749, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3024.93, 3.5, 2472.72, 0, -0.909961, 0, 0.414693, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff", -3019.56, 5, 2497.97, 0, -0.374607, 0, -0.927184, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_small_style_01.iff", -2998.87, 5, 2500.22, 0, -0.923879, 0, -0.382683, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2997.7, 5, 2500.98, 0, 0.382683, 0, 0.92388, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2994.05, 5, 2505.67, 0, -0.930418, 0, 0.366501, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -2993.14, 3, 2509.18, 0, -0.99863, 0, -0.0523359, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/shed_junkshop_watto.iff", -2982.81, 5, 2496.04, 0, 0.333807, 0, 0.942642, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2983.83, 5, 2490.93, 0, 0.91706, 0, 0.398749, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_small_style_01.iff", -2983.24, 5, 2489.26, 0, 0.374607, 0, 0.927184, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2981.19, 5, 2488.17, 0, 0.92388, 0, 0.382683, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_small_style_01.iff", -2983.44, 5, 2486.24, 0, -0.923879, 0, -0.382683, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2985.32, 5, 2485.42, 0, -0.927184, 0, 0.374607, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2976.31, 3, 2481.77, 0, -0.366501, 0, -0.930418, 0) 
 
+    -- North West District
+    -- Outer ring
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_ruined_tatooine_large_style_01.iff", -3168.35, 5.17998, 2318.01, 0, 1, 0, 0, 0) 
+    spawnSceneObject("tatooine", "object/building/tatooine/filler_building_block_64x32_style_01.iff", -3174.74, 5.22394, 2357.83, 0, 0.707107, 0, 0.707107, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff", -3168.11, 6.0251, 2394.84, 0, 0.5, 0, 0.866026, 0) 
+    spawnSceneObject("tatooine", "object/building/tatooine/filler_building_tatt_style01_04.iff", -3156.76, 5.15661, 2415.41, 0, 0.707107, 0, 0.707107, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3146.81, 4.5933, 2435.33, 0, 0.939693, 0, 0.34202, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3143.62, 4.59596, 2438.65, 0, 0.939693, 0, 0.34202, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_wide_style_01.iff", -3139.28, 5.56632, 2444.72, 0, 0.939693, 0, 0.34202, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3133.89, 4.58993, 2450.19, 0, 0.382683, 0, 0.92388, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff", -3131.51, 4.59138, 2453.71, 0, -0.382683, 0, 0.92388, 0) 
+    spawnSceneObject("tatooine", "object/building/tatooine/filler_building_tatt_style01_06.iff", -3122.88, 4.97422, 2464.37, 0, -0.996195, 0, -0.0871558, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff", -3109.55, 5.20013, 2463.35, 0, -0.713251, 0, 0.700909, 0) 
+    spawnSceneObject("tatooine", "object/building/tatooine/filler_building_tatt_style01_03.iff", -3091.97, 5, 2457.43, 0, -4.37114e-08, 0, 1, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_style_01.iff", -3072.8, 5, 2458.4, 0, 0.707107, 0, 0.707107, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_ruined_tatooine_large_style_02.iff", -3039.17, 5, 2428.01, 0, 0.999048, 0, -0.0436194, 0) 
+    spawnSceneObject("tatooine", "object/building/tatooine/filler_building_tatt_style01_05.iff", -3051.21, 5, 2412.17, 0, 0.629321, 0, -0.777146, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_style_02.iff", -3039.36, 5, 2397.44, 0, 0.994522, 0, -0.104528, 0)
+    spawnSceneObject("tatooine", "object/tangible/terminal/terminal_mission.iff", -3103.32, 5, 2446.86, 0, -4.37114e-08, 0, 1, 0) 
+    spawnSceneObject("tatooine", "object/tangible/terminal/terminal_mission_scout.iff", -3101.4, 5, 2446.87, 0, -4.37114e-08, 0, 1, 0) 
+    spawnSceneObject("tatooine", "object/tangible/terminal/terminal_mission_artisan.iff", -3063.27, 5, 2407.39, 0, -0.608761, 0, 0.793353, 0)
+    -- NW tent area
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3131.44, 5.27946, 2436.04, 0, 0.694658, 0, 0.71934, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3123.63, 3.35954, 2436.38, 0, -0.725374, 0, 0.688354, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_watto_junkshop.iff", -3115.9, 5.20521, 2435.68, 0, -0.0174524, 0, 0.999848, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff", -3120.51, 5.34296, 2433.94, 0, -0.121869, 0, 0.992546, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3115.98, 3.01005, 2426.81, 0, 0.999657, 0, 0.0261772, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3117.12, 5.01601, 2419.36, 0, -0.71325, 0, 0.700909, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3116.68, 3.01423, 2410.83, 0, -0.999848, 0, -0.0174523, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff", -3119.71, 5.06982, 2413.17, 0, 0.725374, 0, 0.688355, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3117.67, 5, 2403.45, 0, -0.725374, 0, 0.688355, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_fngi.iff", -3121.46, 5.00246, 2402.03, 0, -0.777146, 0, 0.629321, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3117.73, 3, 2394.91, 0, 0.0174525, 0, -0.999848, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3118.25, 5, 2387.24, 0, -0.71325, 0, 0.700909, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_small_style_01.iff", -3117.58, 5, 2384.6, 0, -0.999962, 0, -0.00872644, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3117.4, 5, 2382.4, 0, 0.700909, 0, 0.713251, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3126.08, 3, 2382.48, 0, -0.71325, 0, -0.700909, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3134.65, 5.10687, 2382.99, 0, -0.681998, 0, 0.731354, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_style_03.iff", -3138.08, 5.21544, 2382.16, 0, 0.71325, 0, 0.700909, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3142.6, 5.31164, 2381.86, 0, 2.6077e-08, 0, 1, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3150.33, 3.38715, 2382.14, 0, -0.688355, 0, 0.725374, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3157.89, 5.48533, 2382.03, 0, -0.999657, 0, 0.026177, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3162.57, 3.40355, 2381, 0, -0.725374, 0, -0.688354, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s01.iff", -3145.33, 5.38709, 2384.32, 0, -0.382683, 0, 0.92388, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s02.iff", -3144.39, 5.31942, 2394.76, 0, 0.688354, 0, 0.725374, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s03.iff", -3136.13, 5.34022, 2400.95, 0, 0.642788, 0, 0.766044, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s00.iff", -3135.66, 5.59958, 2416.58, 0, 0.026177, 0, 0.999657, 0)
+	-- Wall leading into area from New Player Road
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_watto_junkshop.iff", -3069.93, 5, 2430.05, 0, 0.350207, 0, 0.936672, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3060.07, 5, 2431.63, 0, -0.0784592, 0, -0.996918, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_damaged_large_style_01.iff", -3050.33, 3.5, 2432.63, 0, -0.0958457, 0, -0.995396, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3040.32, 5, 2434.58, 0, 0.0697565, 0, 0.997564, 0)
+	-- Wall behind generic guild hall
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/debris_tatt_pipe_dual_unconnected.iff", -3163.61, 5.28862, 2338.36, 0, 0.0436192, 0, 0.999048, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff", -3151.53, 5, 2303.93, 0, -0.945519, 0, -0.325568, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_damaged_large_style_01.iff", -3149.4, 5, 2308.22, 0, -0.857167, 0, 0.515038, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_archway_tatooine_large_style_01.iff", -3147.39, 5, 2310.72, 0, 0.97437, 0, 0.224951, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3146.55, 5, 2314.82, 0, -0.737277, 0, 0.67559, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff", -3146.4, 5, 2317.97, 0, -0.0174523, 0, -0.999848, 0)
+	-- Wall behind theatre
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3104.85, 5, 2323.98, 0, 0.71934, 0, 0.694658, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_small_style_01.iff", -3105.54, 5, 2321.96, 0, -0.00872641, 0, -0.999962, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_watto_junkshop.iff", -3105.34, 5, 2319.1, 0, 1, 0, 0, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3097.12, 3, 2320.71, 0, -0.642788, 0, 0.766044, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3088.81, 5, 2322.43, 0, -0.995396, 0, 0.0958456, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3081.37, 3, 2322.83, 0, -0.760406, 0, -0.649448, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_watto_junkshop.iff", -3073.01, 5, 2324.54, 0, -0.97237, 0, 0.233445, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/antenna_tatt_style_2.iff", -3099.67, 5, 2322.64, 0, -0.997564, 0, 0.0697565, 0)
+	-- Beside garden
+	spawnSceneObject("tatooine", "object/static/structure/general/poi_tato_farm_32x32_s02.iff", -3056.44, 5, 2374.44, 0, -0.999391, 0, -0.0348995, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/debris_tatt_pipe_widemouth.iff", -3050.73, 5, 2368.97, 0, -0.573577, 0, 0.819152, 0)
+	spawnSceneObject("tatooine", "object/static/structure/general/planter_generic_style_2.iff", -3063.72, 5, 2371.97, 0, 0.71325, 0, 0.700909, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_plant_tato_hubba.iff", -3064.82, 5, 2375.6, 0, -0.953717, 0, -0.300706, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_plant_tato_hubba.iff", -3063.33, 5, 2376.54, 0, -0.939693, 0, 0.34202, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_plant_tato_hubba.iff", -3066.09, 5, 2376.77, 0, -0.642788, 0, 0.766044, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_sm.iff", -3053.14, 5, 2382.63, 0, 0.156435, 0, 0.987688, 0)
+    
+    -- West of Hospital
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_tall_style_01.iff", -3175.88, 5, 2128.66, 0, 0.866026, 0, 0.5, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3184.78, 5, 2126.96, 0, 0.766045, 0, 0.642788, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff", -3196.6, 5, 2124.88, 0, -0.766045, 0, -0.642788, 0) 
+    spawnSceneObject("tatooine", "object/building/tatooine/filler_building_block_64x32_style_02.iff", -3191.77, 5, 2020.64, 0, 0.608762, 0, -0.793353, 0) 
+    spawnSceneObject("tatooine", "object/building/tatooine/filler_building_slave_quarters_style_01.iff", -3205.39, 5, 2097.5, 0, -0.67559, 0, 0.737277, 0) 
+
+    -- SW Wall and Gate
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3141.27, 4.23425, 1927.78, 0, 0.422618, 0, 0.906308, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3143.38, 5.87837, 1930.49, 0, 0.906308, 0, 0.422618, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3150, 5.04046, 1938.84, 0, 0.887011, 0, 0.461749, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_archway_tatooine_wide_style_01.iff", -3160.3, 5.00479, 1953.56, 0, 0.300706, 0, 0.953717, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3170.64, 5.18455, 1968.29, 0, 0.461749, 0, -0.887011, 0)
+    
+    -- Pirate Compound
+    -- Ship and struts
+    spawnSceneObject("tatooine", "object/ship/rebel_gunboat.iff", -3077.13, 13.5, 1891.45, 0, 0.965543, 0, 0.260242, 0)
+    spawnSceneObject("tatooine", "object/static/structure/military/bunker_pillar_style_03.iff", -3094.17, 5.11958, 1876.01, 0, -0.267238, 0, 0.96363, 0)
+	spawnSceneObject("tatooine", "object/static/structure/military/bunker_pillar_style_03.iff", -3081.82, 5.04, 1869.66, 0, -0.861629, 0, 0.507538, 0)
+	spawnSceneObject("tatooine", "object/static/structure/military/bunker_pillar_style_03.iff", -3065.94, 4.6, 1896.39, 0, 0.97437, 0, 0.224951, 0)
+	spawnSceneObject("tatooine", "object/static/structure/military/bunker_pillar_style_03.iff", -3079.1, 4.6, 1902.91, 0, -0.207912, 0, 0.978148, 0)
+	-- The rest
+	spawnSceneObject("tatooine", "object/static/installation/mockup_mining_liquid_harvester_style_1.iff", -3119.55, 7.1, 1861.18, 0, 0.936402, 0, 0.350928, 0)
+	spawnSceneObject("tatooine", "object/building/tatooine/filler_building_tatt_style01_09.iff", -3130.35, 5.5697, 1921.27, 0, -0.999962, 0, -0.00872658, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3130.87, 7.17691, 1901.48, 0, 0.760406, 0, 0.649448, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3128.84, 5.97628, 1891.16, 0, 0.760406, 0, 0.649448, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3126.5, 7.30638, 1881.87, 0, 0.803857, 0, 0.594823, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3122.71, 5.88768, 1871.94, 0, 0.909961, 0, 0.414693, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3116.09, 6.69593, 1865.78, 0, 0.936672, 0, 0.350207, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/shed_junkshop_watto.iff", -3105.19, 6.43296, 1857.12, 0, -0.945519, 0, 0.325568, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/shed_junkshop_watto.iff", -3098.4, 6.933, 1843.31, 0, 0.936672, 0, 0.350207, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3090.82, 6.3458, 1835.43, 0, -0.34202, 0, 0.939693, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff", -3090.7, 6.37368, 1841.03, 0, -0.515038, 0, 0.857167, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_fngi.iff", -3087.41, 6.21845, 1840.75, 0, -0.906308, 0, 0.422618, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/debris_tatt_pipe_dual_unconnected.iff", -3093.43, 6.4832, 1845.4, 0, -0.615661, 0, -0.788011, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_junkshop_watto.iff", -3053.35, 5.6664, 1822.48, 0, -0.999391, 0, -0.0348994, 0)
+	spawnSceneObject("tatooine", "object/building/tatooine/filler_building_tatt_style01_07.iff", -3037.02, 5.34956, 1813.95, 0, 0.965926, 0, -0.258819, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3032.27, 5.66576, 1831.62, 0, -0.996917, 0, -0.0784591, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_plant_tato_hubba.iff", -3054.27, 5.40085, 1825.06, 0, -0.771625, 0, 0.636078, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_plant_tato_hubba.iff", -3052.11, 5.42886, 1825.95, 0, -0.284015, 0, 0.95882, 0)
+	spawnSceneObject("tatooine", "object/static/structure/general/planter_generic_style_4.iff", -3045.11, 5.33992, 1837.62, 0, -0.66262, 0, 0.748956, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3024.96, 5.02274, 1850.34, 0, -0.991445, 0, -0.130526, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3024.5, 5.08443, 1854.86, 0, -0.788011, 0, 0.615661, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3022.3, 5, 1862.28, 0, -0.130526, 0, 0.991445, 0)
+	spawnSceneObject("tatooine", "object/building/tatooine/filler_building_tatt_style01_06.iff", -3018.26, 5, 1879.64, 0, -0.636078, 0, -0.771625, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_tall_style_01.iff", -3015.35, 5, 1890.72, 0, -0.996917, 0, -0.0784591, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_tall_style_01.iff", -3019.61, 5, 1905.25, 0, -0.945519, 0, 0.325568, 0)
+	spawnSceneObject("tatooine", "object/building/tatooine/filler_building_tatt_style01_02.iff", -3026.93, 5, 1919.69, 0, -0.898794, 0, -0.438371, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3030.21, 5, 1930.24, 0, -0.898794, 0, 0.438371, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3034.29, 5, 1932.43, 0, -0.34202, 0, 0.939693, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_style_01.iff", -3036.59, 5, 1935.06, 0, 0.891007, 0, -0.45399, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3040.61, 5, 1936.97, 0, -0.224951, 0, 0.97437, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_damaged_tatooine_large_style_01.iff", -3043.64, 5, 1938.57, 0, -0.803857, 0, 0.594823, 0)
+	spawnSceneObject("tatooine", "object/building/tatooine/filler_building_block_64x16_style_01.iff", -3076.64, 5, 1940.61, 0, 0.0348997, 0, -0.999391, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/antenna_tatt_style_1.iff", -3102.87, 5.0164, 1933.09, 0, 0.999048, 0, 0.0436194, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3117, 4.96576, 1930.74, 0, -0.927184, 0, -0.374607, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/stair_tatooine_small_style_01.iff", -3044.77, -1.61915, 1843.83, 0, -0.760406, 0, 0.649448, 0)
+    
+    --SW Road
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3000.73, 3, 1957.51, 0, -0.793353, 0, -0.608762, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3009.06, 5, 1955.98, 0, -0.601815, 0, 0.798636, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3016.39, 3, 1953.82, 0, -0.608761, 0, 0.793353, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3023.71, 4.3, 1951.27, 0, 0.121869, 0, 0.992546, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_archway_tatooine_wide_style_01.iff", -3031.4, 5, 1950.43, 0, 0.760406, 0, 0.649448, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3040.07, 4.3, 1949.51, 0, -0.642788, 0, 0.766044, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3047.09, 3, 1946.27, 0, 0.814116, 0, 0.580703, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3048.79, 5, 1945.67, 0, 0.00872678, 0, -0.999962, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -2998.88, 3, 1968.92, 0, -0.615661, 0, 0.788011, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3002.39, 4, 1968.22, 0, -0.995396, 0, 0.0958458, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_wide_style_01.iff", -3010.71, 5, 1966.25, 0, -0.636078, 0, 0.771625, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3018.98, 5, 1964.01, 0, 0.121869, 0, 0.992546, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3025.74, 4, 1963.64, 0, -0.642788, 0, 0.766044, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3033.17, 4, 1962.58, 0, -0.999048, 0, 0.0436195, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3041.45, 4, 1961.35, 0, 0.725374, 0, 0.688354, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3076.24, 4, 1962.03, 0, -0.725374, 0, 0.688354, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3079.45, 4, 1962.46, 0, -0.999848, 0, -0.0174524, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3088, 4, 1963.5, 0, -0.760406, 0, 0.649448, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_watto_junkshop.iff", -3096.58, 5, 1964.47, 0, -0.951056, 0, 0.309017, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_watto_junkshop.iff", -3111.22, 5, 1964.4, 0, -0.995396, 0, 0.0958458, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3111.93, 5, 1952.43, 0, 0.999848, 0, 0.0174524, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3120.5, 3.00981, 1952.36, 0, -0.71325, 0, 0.700909, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3128.39, 5.11528, 1951.8, 0, 0.707107, 0, 0.707107, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3138.89, 5.2497, 1951.97, 0, 0.71325, 0, 0.700909, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3143.75, 3.07381, 1952.21, 0, 0.71325, 0, 0.700909, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3147.4, 5.09795, 1952.01, 0, 0.87462, 0, 0.48481, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3151.95, 3.04144, 1949.92, 0, -0.477159, 0, 0.878817, 0)
+	
+	-- SW Hovel
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3155.91, 5.03463, 1947.67, 0, -0.469472, 0, 0.882948, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff", -3145.69, 5.0932, 1945.53, 0, 0.636078, 0, 0.771625, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/debris_tatt_pipe_dual_unconnected.iff", -3142.93, 5.09015, 1948.64, 0, 0.848048, 0, 0.529919, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s00.iff", -3139.25, 5.7593, 1935.7, 0, -0.990268, 0, 0.139173, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s02.iff", -3121.93, 5.24585, 1941.2, 0, 0.559193, 0, 0.829038, 0)
+	
+	-- SW Large House
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3164.08, 5.43661, 1961.1, 0, -0.951056, 0, 0.309017, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3160.71, 3.3154, 1961.66, 0, -0.62932, 0, 0.777146, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3155.97, 5.39158, 1962.92, 0, -0.994522, 0, 0.104528, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3150.7, 5.25829, 1963.55, 0, -0.99863, 0, 0.0523359, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3147.03, 3.23797, 1963.28, 0, -0.707107, 0, 0.707107, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3142.46, 5.29196, 1963.56, 0, 0.999391, 0, -0.0348995, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3172.52, 5.05118, 1995.18, 0, -0.984808, 0, 0.173648, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_archway_tatooine_large_style_01.iff", -3169.11, 5.09524, 1995.95, 0, -0.601815, 0, 0.798635, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3165.87, 5.0141, 1996.08, 0, 0.130526, 0, 0.991445, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -3162.29, 4.93418, 1995.29, 0, -0.843392, 0, 0.5373, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3158.57, 4.92929, 1993.91, 0, -0.998135, 0, -0.0610485, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3151.5, 4.87409, 1994.81, 0, -0.649448, 0, 0.760406, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3143.83, 5, 1995.22, 0, 0.0610486, 0, 0.998135, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3135.53, 5, 1996.6, 0, -0.681998, 0, 0.731354, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3127.85, 5, 1997.36, 0, -0.67559, 0, 0.737277, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3119.96, 5, 1997.63, 0, -0.681998, 0, 0.731354, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3112.48, 5, 1996.86, 0, -0.66262, 0, 0.748956, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3112.54, 5, 1998.33, 0, -0.66262, 0, 0.748956, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_small_style_01.iff", -3112.39, 5, 1998.79, 0, -0.0610485, 0, -0.998135, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3113.1, 5, 2001.44, 0, -0.636078, 0, 0.771625, 0)
+	
+	-- Cloner Arch
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3118.55, 5, 2027.1, 0, -0.622515, 0, 0.782608, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3118.79, 3.5, 2028.13, 0, -0.622515, 0, 0.782608, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_archway_tatooine_large_style_01.iff", -3118.81, 4.5, 2032.28, 0, -0.995396, 0, 0.0958458, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3120.64, 3.5, 2036.99, 0, -0.601815, 0, 0.798635, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -3120.88, 5, 2038.07, 0, -0.615662, 0, 0.788011, 0)
+	
+	-- Walled Home Bewteen Cloner and Mayor's Estate
+    spawnSceneObject("tatooine", "object/static/structure/general/poi_tato_farm_32x32_s02.iff", -3087.66, 5, 2020.94, 0, 0.906308, 0, -0.422618, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff", -3089.48, 5, 2014.55, 0, 0.965926, 0, 0.258819, 0) 
+    spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff", -3094.36, 5, 2013.03, 0, 1, 0, 0, 0) 
+    spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s03.iff", -3093.4, 5, 2017.58, 0, 1, 0, 0, 0) 
+    spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s00.iff", -3087.73, 5, 2024.33, 0, 0.642788, 0, 0.766044, 0) 
+    spawnSceneObject("tatooine", "object/static/flora/flora_plant_tato_hubba.iff", -3091.81, 5, 2010.28, 0, 1, 0, 0, 0) 
+    spawnSceneObject("tatooine", "object/static/flora/flora_plant_tato_hubba.iff", -3090.93, 5, 2009.36, 0, 0.92388, 0, 0.382683, 0) 
+    spawnSceneObject("tatooine", "object/static/flora/flora_plant_tato_hubba.iff", -3090.17, 5, 2010.27, 0, -4.37114e-08, 0, 1, 0) 
+    spawnSceneObject("tatooine", "object/tangible/camp/camp_light_s1.iff", -3084.9, 5, 2027.5, 0, 1, 0, 0, 0) 
+    spawnSceneObject("tatooine", "object/tangible/camp/camp_crate_s1.iff", -3085.45, 5, 2026.95, 0, 0.92388, 0, 0.382683, 0) 
+    spawnSceneObject("tatooine", "object/tangible/camp/camp_chair_s1.iff", -3085.27, 5, 2025.85, 0, -0.608761, 0, 0.793353, 0) 
+    spawnSceneObject("tatooine", "object/tangible/camp/camp_chair_s1.iff", -3086.59, 5, 2026.94, 0, 0.0871558, 0, -0.996195, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/debris_tatt_pipe_dual_unconnected.iff", -3087.53, 5, 2010.9, 0, -4.37114e-08, 0, 1, 0)
+	
+	-- Mayor's Estate
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3097.81, 4, 2005.11, 0, 0.999657, 0, -0.0261769, -0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_wide_style_01.iff", -3097.35, 5, 1989, 0, -0.999848, 0, 0.0174525, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3096.53, 4, 1972.98, 0, -0.999848, 0, 0.0174523, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_fngi.iff", -3095.72, 5, 2005.44, 0, -0.913545, 0, -0.406737, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff", -3094.4, 5, 1997.98, 0, -0.748956, 0, 0.66262, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_sm.iff", -3091.16, 5, 2004.95, 0, 0.838671, 0, 0.544639, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff", -3093.24, 5, 1966.66, 0, 0.707107, 0, 0.707107, 0)
+	spawnSceneObject("tatooine", "object/static/structure/general/planter_generic_style_4.iff", -3051.93, 5, 2009.37, 0, -0.438371, 0, 0.898794, 0)
+	spawnSceneObject("tatooine", "object/static/structure/general/planter_generic_style_3.iff", -3033.07, 5, 2005.48, 0, 0.994522, 0, 0.104528, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff", -3048.6, 5, 2022.68, 0, -0.939693, 0, -0.34202, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_fngi.iff", -3028.22, 5, 1966.36, 0, -0.642788, 0, 0.766044, 0)
+	spawnSceneObject("tatooine", "object/static/structure/general/tankfarm_s01.iff", -3030.14, 5, 1974.65, 0, 0.711262, 0, 0.702927, 0)
+	spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -3024.94, 5, 1970.64, 0, -0.292372, 0, 0.956305, 0)
+	spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -3025, 5, 1976.64, 0, -0.292372, 0, 0.956305, 0)
+	spawnSceneObject("tatooine", "object/static/vehicle/static_speeder_bike.iff", -3088.9, 5.0, 1976.56, 0, 0.406377, 0, 0.913705, 0)
+	spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -3091.17, 5, 1973.35, 0, 0.922653, 0, -0.385632, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3097.62, 4, 1981.53, 0, -0.688355, 0, 0.725374, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -3097.07, 4.1, 1996.67, 0, 0.737277, 0, 0.67559, 0)
+	spawnSceneObject("tatooine", "object/static/structure/general/bench_generic_style_1.iff", -3093.97, 5, 2002.58, 0, 0.472533, 0, 0.881313, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/orchard_tatooine_style_01.iff", -3013.11, 5, 1990.82, 0, 0.990733, 0, -0.135821, 0)
+	spawnSceneObject("tatooine", "object/static/structure/general/nboo_imprv_flower_urn_s01.iff", -3055.37, 5.50098, 1993.99, 0, 0.468292, 0, 0.883574, 0)
+	spawnSceneObject("tatooine", "object/static/structure/general/nboo_imprv_flower_urn_s01.iff", -3061.86, 5.50098, 1993.98, 0, 0.99868, 0, 0.0513644, 0)
+
+    -- Garden under capitol balcony
+    spawnSceneObject("tatooine", "object/building/player/city/garden_naboo_lrg_05.iff", -2985.36, 5, 1990.92, 0, 0.793354, 0, 0.608761, 0)
+    spawnSceneObject("tatooine", "object/static/installation/mockup_mining_liquid_moisture_harvester.iff", -2962, 5, 1990.63, 0, 1, 0, 0, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/general/planter_generic_style_2.iff", -2971.36, 5.99, 1982.81, 0, 1, 0, 0, 0) 
+    spawnSceneObject("tatooine", "object/static/structure/general/planter_generic_style_1.iff", -2993.52, 6.1, 1976.8, 0, 1, 0, 0, 0) 
+
+    -- Gardener's Home south of capitol balcony
+    spawnSceneObject("tatooine", "object/static/structure/general/poi_tato_corral_half_32x32_s04.iff", -2975.64, 5, 1919.57, 0, 0.991445, 0, -0.130526, 0)
+    spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s02.iff", -2984.35, 5, 1908.39, 0, 1, 0, 0, 0) 
+    spawnSceneObject("tatooine", "object/static/installation/mockup_power_generator_photo_bio_style_1.iff", -2955.99, 5, 1922.63, 0, -0.642788, 0, 0.766044, 0)
+    
+    -- Mos Espa Collegiate
+    spawnSceneObject("tatooine", "object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff", -2839.49, 5, 1915.18, 0, -0.333807, 0, 0.942641, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2843.66, 5, 1913.99, 0, 0.147809, 0, 0.989016, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_cleft_tatooine_large_style_01.iff", -2846.81, 3, 1913.88, 0, -0.601815, 0, 0.798636, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2850.66, 5, 1911.98, 0, 0.147809, 0, 0.989016, 0)
+	
+	-- Crazy Larry's Car Shop
+	spawnSceneObject("tatooine", "object/tangible/camp/camp_pavilion_s1.iff", -2812.79, 5, 2166.51, 0, 1, 0, 0, 0)
+	spawnSceneObject("tatooine", "object/building/tatooine/filler_building_tatt_style01_05.iff", -2790.53, 5, 2159.24, 0, 0.700909, 0, -0.71325, -0)
+	spawnSceneObject("tatooine", "object/mobile/vehicle/landspeeder_av21.iff", -2819.05, 5.0, 2166.25, 0, 0.80647, 0, -0.591275, 0)
+	spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -2812.63, 5.0, 2168.65, 0, 0.98738, 0, -0.158369, 0)
+	spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -2803.46, 5.0, 2140.33, 0, 0.618635, 0, 0.785679, 0)
+	spawnSceneObject("tatooine", "object/static/vehicle/static_speeder_bike.iff", -2808.63, 5.0, 2165.19, 0, 0.976521, 0, 0.215424, 0)
+	spawnSceneObject("tatooine", "object/tangible/furniture/all/frn_all_data_terminal_free_s2.iff", -2809.08, 5, 2161.58, 0, -0.284015, 0, -0.95882, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s01.iff", -2809.28, 5, 2150.75, 0, -0.649448, 0, 0.760406, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff", -2811.53, 5, 2147.54, 0, -1, 0, -0.0451577, 0)
+	
+	-- East Side Factories
+	spawnSceneObject("tatooine", "object/building/military/military_outpost_guard_tower_1.iff", -2769.49, 5, 2428.54, 0, 0.0584327, 0, 0.998291, 0)
+	spawnSceneObject("tatooine", "object/static/structure/corellia/corl_power_transformer_s01.iff", -2775.93, 5, 2419.75, 0, -0.661686, 0, 0.749781, 0)
+	spawnSceneObject("tatooine", "object/static/structure/corellia/corl_power_transformer_s02.iff", -2780.76, 5, 2419.16, 0, -0.661686, 0, 0.749781, 0)
+	spawnSceneObject("tatooine", "object/static/structure/corellia/corl_power_transformer_s01.iff", -2785.65, 5, 2418.52, 0, -0.661686, 0, 0.749781, 0)
+	spawnSceneObject("tatooine", "object/static/structure/corellia/corl_power_arial_prime.iff", -2769.46, 5, 2423.62, 0, -0.662333, 0, 0.74921, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/jawa/tent_jawa_01_small.iff", -2805.12, 5, 2458.24, 0, -0.662333, 0, 0.74921, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/debris_tatt_crate_metal_1.iff", -2806.28, 5, 2459.63, 0, -0.225957, 0, 0.974137, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/debris_tatt_drum_dented_1.iff", -2804.61, 5, 2459.7, 0, -0.637001, 0, 0.770863, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2788.03, 5, 2413.98, 0, -0.656059, 0, 0.75471, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_damaged_large_style_01.iff", -2779.4, 5, 2415.4, 0, -0.996917, 0, 0.0784591, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2772.11, 5, 2416.19, 0, -0.656059, 0, 0.75471, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2763.53, 5, 2417.59, 0, -0.997564, 0, 0.0697565, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2767.1, 5, 2416.87, 0, 0.0784591, 0, 0.996917, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -2767.48, 3, 2421.36, 0, -0.0697564, 0, -0.997564, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2768.32, 5, 2425.59, 0, -0.649448, 0, 0.760406, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_style_01.iff", -2760.18, 5, 2417.85, 0, -0.656059, 0, 0.75471, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_style_01.iff", -2760.18, 5, 2417.85, 0, -0.656059, 0, 0.75471, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2755.86, 5, 2418.76, 0, -0.996917, 0, 0.078459, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2752.6, 5, 2425.6, 0, -0.233445, 0, 0.97237, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2749.31, 5, 2433.33, 0, -0.67559, 0, 0.737277, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_style_03.iff", -2749.49, 5, 2436.66, 0, 0.0697565, 0, 0.997564, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2750.35, 5, 2441.19, 0, -0.656059, 0, 0.75471, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -2750.57, 5, 2444.65, 0, 0.0697565, 0, 0.997564, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2751.44, 5, 2448.98, 0, -0.669131, 0, 0.743145, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2752.23, 5, 2456.2, 0, 0.0697565, 0, 0.997564, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2753.65, 5, 2464.46, 0, -0.642788, 0, 0.766044, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2754.33, 5, 2472.1, 0, 0.0610485, 0, 0.998135, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2755.59, 5, 2480.55, 0, -0.66262, 0, 0.748956, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2755.66, 5, 2488.12, 0, -0.99863, 0, 0.052336, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2757.18, 5, 2495.75, 0, 0.052336, 0, 0.99863, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2759.29, 5, 2495.94, 0, 0.725374, 0, 0.688355, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2767.8, 5, 2495.16, 0, 0.0174524, 0, 0.999848, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2775.3, 5, 2494.94, 0, 0.731354, 0, 0.681998, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2783.94, 5, 2494.09, 0, 0.052336, 0, 0.99863, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2791.31, 5, 2493.69, 0, 0.737277, 0, 0.67559, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2799.82, 5, 2492.79, 0, 0.026177, 0, 0.999657, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2807.33, 5, 2492.81, 0, 0.67559, 0, -0.737277, 0)
+
+	-- Dune Heights
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2750.63, 5, 2496.14, 0, -0.71934, 0, -0.694658, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2751.43, 4, 2505.1, 0, 2.42144e-08, 0, 1, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2751.7, 4, 2514.07, 0, -0.71325, 0, 0.700909, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2750.94, 4, 2521.43, 0, 1, 0, 0, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_watto_junkshop.iff", -2751.32, 5, 2530.02, 0, 0.0348995, 0, 0.999391, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -2753.82, 4, 2533.08, 0, 0.300706, 0, 0.953717, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2756.64, 4, 2536.7, 0, -0.461749, 0, 0.887011, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2760.49, 4, 2542.88, 0, 0.292372, 0, 0.956305, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2765.37, 4, 2549.63, 0, -0.461749, 0, 0.887011, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2769.45, 4, 2556.19, 0, 0.292372, 0, 0.956305, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2773.14, 4.02958, 2563.02, 0, 0.898794, 0, 0.438371, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_gate_tatooine_wide_style_01.iff", -2778.92, 5.01848, 2569.36, 0, 0.333807, 0, 0.942641, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2783.27, 4.32093, 2575.51, 0, 0.913545, 0, 0.406737, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2789.02, 4.29466, 2581.18, 0, 0.333807, 0, 0.942641, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_damaged_large_style_01.iff", -2794.55, 4.48015, 2587.64, 0, -0.446198, 0, 0.894934, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2799.22, 4.45245, 2593.52, 0, 0.34202, 0, 0.939693, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2804.8, 4.32386, 2599.8, 0, -0.374607, 0, 0.927184, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_watto_junkshop.iff", -2804.93, 5.61581, 2600.67, 0, -0.688354, 0, 0.725374, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2806.67, 4.30217, 2601.34, 0, -0.366501, 0, 0.930418, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2812.03, 4.32199, 2607.13, 0, 0.374607, 0, 0.927184, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2818.29, 4.26445, 2613.25, 0, -0.390731, 0, 0.920505, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2823.01, 4.36598, 2618.53, 0, 0.374607, 0, 0.927184, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2829.46, 4.22303, 2624.78, 0, -0.374607, 0, 0.927184, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2834.17, 4.13318, 2619.34, 0, 0.920505, 0, 0.390731, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2839.91, 4.2175, 2613.39, 0, 0.398749, 0, 0.91706, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2845.65, 4.1408, 2608.22, 0, 0.920505, 0, 0.390731, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2851.76, 4.15638, 2601.93, 0, 0.350207, 0, 0.936672, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2857.18, 4.14845, 2597.05, 0, 0.920505, 0, 0.390731, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_large_style_01.iff", -2862.26, 4.04994, 2591.66, 0, 0.906308, 0, 0.422618, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -2860.4, 4.14, 2588.44, 0, 0.350207, 0, 0.936672, 0)	
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -2851.67, 3, 2556.18, 0, -0.438371, 0, 0.898794, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2845.4, 5, 2561.47, 0, -0.942642, 0, 0.333807, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_01.iff", -2847.89, 3, 2564.22, 0, -0.942641, 0, 0.333807, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2851.37, 5, 2567.33, 0, -0.430511, 0, 0.902585, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_archway_tatooine_large_style_01.iff", -2852.94, 3, 2570.44, 0, -0.942641, 0, 0.333807, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s00.iff", -2849.83, 5, 2562.76, 0, -0.894934, 0, 0.446198, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff", -2855.32, 5, 2560.08, 0, -0.996195, 0, 0.0871554, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s02.iff", -2864.93, 5, 2554.34, 0, -0.25038, 0, 0.968148, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s03.iff", -2865.5, 5, 2560.53, 0, 0.87462, 0, 0.48481, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2797.97, 4.9, 2555.71, 0, 0.350207, 0, 0.936672, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_small_style_01.iff", -2796.47, 4.7, 2554.38, 0, -0.350207, 0, -0.936672, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/pillar_pristine_small_style_01.iff", -2794.58, 4.9, 2553.36, 0, -0.936672, 0, 0.350207, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_sm.iff", -2757.47, 5, 2530.63, 0, -0.942641, 0, 0.333807, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_fngi.iff", -2759.23, 5, 2531.07, 0, 0.615662, 0, 0.788011, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff", -2795.14, 5, 2549.76, 0, -0.909961, 0, 0.414693, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff", -2800.9, 5, 2556.01, 0, -0.999391, 0, 0.0348995, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_thk.iff", -2820.07, 5.04951, 2609.89, 0, 0.5, 0, 0.866025, 0)
+	spawnSceneObject("tatooine", "object/static/flora/flora_tree_palm_fngi.iff", -2822.7, 5.34876, 2613.78, 0, 0.0348994, 0, -0.999391, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff", -2829.36, -2.28595, 2601.24, 0, -0.165048, 0, 0.986286, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff", -2814.22, -2.27776, 2596.06, 0, -0.814116, 0, 0.580703, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff", -2819.48, -2.28, 2580.96, 0, -0.814116, 0, 0.580703, 0)
+	spawnSceneObject("tatooine", "object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff", -2834.6, -2.28, 2586.17, 0, 0.986286, 0, 0.165048, 0)
+
+    -- Pistoleer and Carbineer Trainer vehicle
+    spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -2727.35, 5, 2505.37, 0, 0.382683, 0, 0.92388, 0) 
 end
 
 function TatooineMosEspaScreenPlay:spawnMobiles()
 
-	--Anything dashed out will need to be added here and removed from spawn manager once the spawnMobiles command is extended.
-
-	--Starport
+	--Starport 1
 	local pNpc = spawnMobile(self.planet, "chassis_dealer",60,2.29774,0.639422,67.5349,157.943,1261655)
 	self:setMoodString(pNpc, "neutral")
 	pNpc = spawnMobile(self.planet, "ecoospoo",60,1.1,0.639421,66.3,33.001,1261655)
@@ -115,8 +499,6 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "conversation")
 	pNpc = spawnMobile(self.planet, "farmer_rancher",60,-49.1,2.6,32.5,-36,1261663)
 	self:setMoodString(pNpc, "happy")
-	pNpc = spawnMobile(self.planet, "trainer_shipwright",60,-3.2,0.6,67.7,177,1261655)
-	self:setMoodString(pNpc, "neutral")
 
 	--Tavern -2888 2281
 	pNpc = spawnMobile(self.planet, "scientist",60,-2.1,1,9.1,-26,3065452)
@@ -181,7 +563,6 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	--Guild Hall -2857 1987
 	spawnMobile(self.planet, "contractor",60,-3.69,1.13306,-6,11.0003,1256306)
 	spawnMobile(self.planet, "miner",60,3.29,1.13306,-9.58,249.007,1256011)
-	spawnMobile(self.planet, "trainer_artisan",0,-0.0885271,1.13306,-14.0283,2,1256011)
 	spawnMobile(self.planet, "coa3_information_rebel",60,14.2091,1.13306,-10.1408,205.638,1256010)
 
 	--Cantina
@@ -204,13 +585,9 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "conversation")
 
 	--Guild Hall -3063 2079
-	spawnMobile(self.planet, "trainer_architect",0,11,1.133,-14.5,0,1256021)
-	spawnMobile(self.planet, "trainer_armorsmith",0,-12.5142,1.13306,3.63893,165,1256020)
-	spawnMobile(self.planet, "trainer_droidengineer",0,-11.5362,1.13306,-12.6351,1,1256023)
-	spawnMobile(self.planet, "trainer_weaponsmith",0,-2.95975,1.13306,-8.77207,109,1256022)
-	spawnMobile(self.planet, "trainer_merchant",0,12,1.13306,6,180,1256019)
-	--Med Center
-	spawnMobile(self.planet, "trainer_combatmedic",0,7.93319,0.184067,5.54261,86,4005424)
+	
+	--Hospital
+	
 	--Hotel
 	pNpc = spawnMobile(self.planet, "commoner_technician",60,20.2715,1.28309,-1.14578,360.011,1261018)
 	self:setMoodString(pNpc, "conversation")
@@ -225,11 +602,8 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "conversation")
 
 	--Junk Shop
-	--{"junk_nado",60,4.4,-0.5,1.3,-133,1255997, "", "Nado",JUNKGENERIC,JUNKCONVNADOWATTOS},
+	
 	--Guild Hall -2997 2426
-	spawnMobile(self.planet, "trainer_brawler",0,-11,1.1,-14,0,1255994)
-	spawnMobile(self.planet, "trainer_marksman",0,0,1.13306,-13,0,1255993)
-	spawnMobile(self.planet, "trainer_scout",0,-13,1.1,4.8,180,1255991)
 
 	--Outside
 	pNpc = spawnMobile(self.planet, "anim_kahn",60,-2907.07,5,2130.14,71.993,0)
@@ -284,7 +658,6 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "commoner_tatooine",60,-2810.06,5,2318.02,268.996,0)
 	spawnMobile(self.planet, "commoner_tatooine",60,-2770.48,5,2245.4,214.817,0)
 	spawnMobile(self.planet, "commoner_tatooine",60,-2731.39,5,2226.03,196.441,0)
-
 	spawnMobile(self.planet, "mos_espa_police_officer",300,-3022.29,5.02759,2618.41,268.2,0)
 	spawnMobile(self.planet, "mos_espa_police_officer",300,-2976.17,5,2009.31,171.013,0)
 	spawnMobile(self.planet, "mos_espa_police_officer",300,-3023.4,5,2618.4,86,0)
@@ -306,7 +679,6 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "eg6_power_droid",300,-2833.22,5,1899.71,245.01,0)
 	spawnMobile(self.planet, "eg6_power_droid",300,-2928.04,5,1977.68,330.633,0)
 	spawnMobile(self.planet, "eg6_power_droid",300,-2945.98,5,2470.9,186.376,0)
-	--{"giaal_itotr",60,-3102.7,5,2185,118,0, "npc_sitting_chair", ""},
 	spawnMobile(self.planet, "informant_npc_lvl_1",0,-2804,5,2237,315,0)
 	spawnMobile(self.planet, "informant_npc_lvl_1",0,-2836,5,2275,45,0)
 	spawnMobile(self.planet, "informant_npc_lvl_1",0,-2935,5,2393,90,0)
@@ -362,8 +734,6 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "jawa_thief",300,-2736.1,5,2188.86,69.1613,0)
 
 	--More misc outside
-	--{"junk_dealer",0,-2750.9,5,2057,132,0, "", "",JUNKGENERIC,JUNKCONVGENERIC},
-	--{"klepa_laeel",60,-2769.5,5,2111.1,104,0, "npc_sitting_chair", ""},
 	pNpc = spawnMobile(self.planet, "miner",60,-2918.94,5,2170.6,180.005,0)
 	self:setMoodString(pNpc, "conversation")
 	spawnMobile(self.planet, "noble",60,-2924.82,5,2143.27,127.261,0)
@@ -408,23 +778,51 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "thug",300,-2919.38,5,2143.08,304.531,0)
 	pNpc = spawnMobile(self.planet, "trace_lyson",60,-2909.17,5,2180.03,180,0)
 	self:setMoodString(pNpc, "calm")
-	spawnMobile(self.planet, "trainer_1hsword",0,-2964,5,2021,33,0)
-	spawnMobile(self.planet, "trainer_2hsword",0,-2971,5,2032,174,0)
-	spawnMobile(self.planet, "trainer_architect",0,-2872,5,2159,180,0)
-	spawnMobile(self.planet, "trainer_artisan",0,-2890,5,2142,19,0)
-	spawnMobile(self.planet, "trainer_brawler",0,-2933,5,2125,97,0)
-	spawnMobile(self.planet, "trainer_creaturehandler",0,-2994,5,2530,0,0)
-	spawnMobile(self.planet, "trainer_doctor",0,-3163.63,5,2122.39,18,0)
-	spawnMobile(self.planet, "trainer_entertainer",0,-2889,5,2178,161,0)
-	spawnMobile(self.planet, "trainer_marksman",0,-2931,5,2121,91,0)
-	spawnMobile(self.planet, "trainer_medic",0,-3158,5,2122,5,0)
-	spawnMobile(self.planet, "trainer_medic",0,-2931,5,2116,65,0)
-	spawnMobile(self.planet, "trainer_musician",0,-2882,5,2171,180,0)
-	spawnMobile(self.planet, "trainer_polearm",0,-2931,5,2386,0,0)
-	spawnMobile(self.planet, "trainer_scout",0,-2912.86,5,2106.67,174,0)
-	spawnMobile(self.planet, "trainer_unarmed",0,-2812,5,1973,180,0)
-	spawnMobile(self.planet, "trainer_weaponsmith",0,-2869,5,2146,8,0)
-	--{"watto_leg_syndil",60,-2866.54,5,1856.86,242.669,0, "calm", "Syndil"},
+	
+	-- Legend of Hondo Trainers
+	-- North Gate
+	pNpc = spawnMobile(self.planet, "trainer_scout",0,-2978.18,5,2533.45,-159,0)
+		self:setMoodString(pNpc, "conversation")
+	pNpc = spawnMobile(self.planet, "trainer_ranger",0,-2978.75,5,2531.99,5,0)
+		self:setMoodString(pNpc, "conversation")
+	pNpc = spawnMobile(self.planet, "trainer_creaturehandler",0,-2991.33, 5, 2527.89, 9, 0)
+		self:setMoodString(pNpc, "calm")
+	
+	-- Hospital
+	spawnMobile(self.planet, "trainer_combatmedic", 1, -21.8397, 0.26, -9.75158, 9, 9995780)
+	spawnMobile(self.planet, "trainer_bioengineer", 1, 26.8484, 7.25, -8.72477, 341, 9995859)
+	
+	--Guild Hall -3063 2079
+	spawnMobile(self.planet, "trainer_armorsmith",0,-12.5142,1.13306,3.63893,165,1256020)
+	spawnMobile(self.planet, "trainer_droidengineer",0,-11.5362,1.13306,-12.6351,1,1256023)
+	spawnMobile(self.planet, "trainer_weaponsmith",0,-2.95975,1.13306,-8.77207,109,1256022)
+	
+	--Guild Hall -2857 1987
+	pNpc = spawnMobile(self.planet, "trainer_chef",0,-12.98,1.13,-10.67,40,1256012)
+		self:setMoodString(pNpc, "angry")
+	pNpc = spawnMobile(self.planet, "trainer_tailor",0,9.12,1.13,-11.70,-77,1256010)
+		self:setMoodString(pNpc, "happy")
+	
+	-- Nado's Junk Shop
+	spawnMobile(self.planet, "trainer_1hsword",0,-11.91,0.04,3.66,28,1255996) -- Fencer
+	spawnMobile(self.planet, "trainer_2hsword",0,-11.42,0.39,-6.33,64,1255998) -- Swordsman
+	
+	-- Combat Guild Hall -3015 2437
+	spawnMobile(self.planet, "trainer_polearm",0,-11.89,1.13,-12.36,47,1255994) -- Pikeman
+	pNpc = spawnMobile(self.planet, "trainer_unarmed",0,-14.49,1.13,2.24,85,1255991) --Teras Kasi Artist
+		self:setMoodString(pNpc, "npc_sitting_ground")
+	spawnMobile(self.planet, "trainer_rifleman",0,10.04,1.13,0.65,-157,1255990)
+	
+	-- Mynock Infestation
+	pNpc = spawnMobile(self.planet, "trainer_carbine",0,-2716.84,5,2505.25,-175,0)
+		self:setMoodString(pNpc, "happy")
+	pNpc = spawnMobile(self.planet, "trainer_pistol",0,-2714.79,5,2507.18,65,0)
+		self:setMoodString(pNpc, "happy")
+	
+	-- Commando Trainers
+	spawnMobile(self.planet, "trainer_commando", 1, -2929.38, 5, 2573.72, 125, 0) -- Rebel Theme
+	spawnMobile(self.planet, "trainer_commando_imperial", 1, 2.29506, 1.01, -21.0648, 321, 9995390) -- Imperial Theme at screenplays/poi/tatooine_imperial_detachment_hq.lua
+
 
 	--Creatures
 	spawnMobile(self.planet, "dwarf_eopie",300,-3217.87,6.7851,2010.86,329.47,0)

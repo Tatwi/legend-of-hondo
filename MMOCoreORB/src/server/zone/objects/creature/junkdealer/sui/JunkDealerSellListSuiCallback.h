@@ -48,8 +48,13 @@ public:
 			for (int i = inventory->getContainerObjectsSize()-1; i > 0; i--) {
 				ManagedReference<TangibleObject*>  item = cast<TangibleObject*>(inventory->getContainerObject(i).get());
 				if (junkDealer->canInventoryItemBeSoldAsJunk(item, dealerType)) {
+					int junkValue = item->getJunkValue();
+					
+					if (item->isBroken() || item->isSliced())
+						junkValue = MIN(245, junkValue / 3) + 5;
+					
 					Locker locker(item, player);
-					iCreditsTotal += item->getJunkValue();
+					iCreditsTotal += junkValue;
 					item->destroyObjectFromWorld(true);
 					item->destroyObjectFromDatabase(true);
 				}
@@ -76,6 +81,10 @@ public:
 			msg.setStringId("@loot_dealer:prose_sold_junk");
 			msg.setTT(selectedObject->getObjectID());
 			int iCredits = selectedObject.castTo<TangibleObject*>()->getJunkValue();
+			
+			if (selectedObject.castTo<TangibleObject*>()->isBroken() || selectedObject.castTo<TangibleObject*>()->isSliced())
+				iCredits = MIN(245, iCredits / 3) + 5;
+			
 			msg.setDI(iCredits);
 			player->sendSystemMessage(msg);
 
@@ -107,8 +116,17 @@ public:
 					String itemName = inventory->getContainerObject(i)->getDisplayedName();
 
 					ManagedReference<TangibleObject*>  item = cast<TangibleObject*>(inventory->getContainerObject(i).get());
-					if (junkDealer->canInventoryItemBeSoldAsJunk(item, dealerType) == true)
-						box->addMenuItem("[" + String::valueOf(item->getJunkValue()) + "] " + itemName, inventory->getContainerObject(i)->getObjectID());
+					if (junkDealer->canInventoryItemBeSoldAsJunk(item, dealerType) == true){
+						int junkValue = item->getJunkValue();
+						String scrap = "";
+					
+						if (item->isBroken() || item->isSliced()){
+							junkValue = MIN(245, junkValue / 3) + 5;
+							scrap = " *Scrap*";
+						}
+							
+						box->addMenuItem("[" + String::valueOf(junkValue) + scrap + "] " + itemName, inventory->getContainerObject(i)->getObjectID());
+					}
 				}
 
 				box->setUsingObject(suiBox->getUsingObject().get());

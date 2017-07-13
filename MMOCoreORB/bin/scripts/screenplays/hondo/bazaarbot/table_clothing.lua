@@ -3,7 +3,7 @@ BBClothingConfig = {
 	qualityMin = 1,
 	qualityAvg = 2, -- 10% chance to use this as the min value and qualityMax as the max value
 	qualityMax = 2, -- 1% Chance to get up to +5 to the max value, with qualityMax as the min value
-	freq = 144700, -- Every x seconds
+	freq = 14470, -- Every x seconds
 	eventName = "BazaarBotAddClothing",
 	functionName = "addMoreClothing",
 }

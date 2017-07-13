@@ -8,7 +8,10 @@ geo_relic_honey_carafe = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("geo_relic_honey_carafe", geo_relic_honey_carafe)

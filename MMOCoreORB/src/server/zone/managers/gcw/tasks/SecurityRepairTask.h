@@ -53,11 +53,11 @@ public:
 
 		int maxDecrease = 1;
 
-		if (creature->hasSkill("combat_smuggler_slicing_04"))
+		if (creature->hasSkill("outdoors_scout_master"))
 			maxDecrease = 4;
-		else if (creature->hasSkill("combat_smuggler_slicing_03"))
+		else if (creature->hasSkill("outdoors_scout_tools_04"))
 			maxDecrease = 3;
-		else if (creature->hasSkill("combat_smuggler_slicing_02"))
+		else if (creature->hasSkill("outdoors_scout_tools_03"))
 			maxDecrease = 2;
 
 		count -= System::random(maxDecrease - 1) + 1;

@@ -9,7 +9,10 @@ foraged_bait_chum = {
 		{"quantity",1,6},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 1,
+	junkMaxValue = 4
 }
 
 addLootItemTemplate("foraged_bait_chum", foraged_bait_chum)

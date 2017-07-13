@@ -10,7 +10,10 @@ woolamander_harrower_bone_fragments = {
 		{"armor_special_effectiveness",0,0,0,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("woolamander_harrower_bone_fragments", woolamander_harrower_bone_fragments)

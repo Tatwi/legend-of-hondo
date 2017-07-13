@@ -6,7 +6,10 @@ skill_buff_mask_scent = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 10,
+	junkMaxValue = 10
 }
 
 addLootItemTemplate("skill_buff_mask_scent", skill_buff_mask_scent)

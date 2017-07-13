@@ -10,7 +10,10 @@ geo_spider_venom_rare = {
 		{"useCount",1,11,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("geo_spider_venom_rare", geo_spider_venom_rare)

@@ -15,10 +15,10 @@ includeFile("hondo/bazaarbot/table_loot.lua")
 
 BazaarBot = ScreenPlay:new {
 	numberOfActs = 1,
-	BazaarBotID = 281474993618333, -- Make a character named BazaarBot and put its PlayerID number here (/getPlayerID BazaarBot).
-	terminalIDs = {3945386}, -- One SNAPSHOT FILE LOADED Bazaar Terminal ObjectID per region/city you want to (randomly) sell items in
+	BazaarBotID = 281474997757388, -- Make a character named BazaarBot and put its PlayerID number here (/getPlayerID BazaarBot).
+	terminalIDs = {4685593}, -- One SNAPSHOT FILE LOADED Bazaar Terminal ObjectID per region/city you want to (randomly) sell items in
 	itemDescription = "", -- Optional message in the description window.
-	listingsInit = 30, -- On first boot after this system is installed, the server will loop this many times through the add functions
+	listingsInit = 10, -- On first boot after this system is installed, the server will loop this many times through the add functions
 }
 
 registerScreenPlay("BazaarBot", true)
@@ -63,7 +63,7 @@ function BazaarBot:startEvents()
 	self:addMoreFood()
 	self:addMoreWeapons()
 	self:addMoreArtisanItems()
-	self:addMoreStructures()
+	--self:addMoreStructures()
 	self:addMoreFurniture()
 	self:addMoreClothing()
 	self:addMoreLoot()
@@ -79,7 +79,7 @@ function BazaarBot:initializeListings()
 		self:addMoreFood()
 		self:addMoreWeapons()
 		self:addMoreArtisanItems()
-		self:addMoreStructures()
+		--self:addMoreStructures()
 		self:addMoreFurniture()
 		self:addMoreClothing()
 		self:addMoreLoot()

@@ -8,7 +8,10 @@ fuel_dispersion_unit = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("fuel_dispersion_unit", fuel_dispersion_unit)

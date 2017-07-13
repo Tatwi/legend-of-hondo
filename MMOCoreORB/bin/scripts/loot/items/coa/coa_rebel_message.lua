@@ -6,7 +6,10 @@ coa_rebel_message = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 10,
+	junkMaxValue = 18,
 }
 
 addLootItemTemplate("coa_rebel_message", coa_rebel_message)

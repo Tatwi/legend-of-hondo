@@ -8,7 +8,10 @@ pistol_de10 = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 30,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("pistol_de10", pistol_de10)

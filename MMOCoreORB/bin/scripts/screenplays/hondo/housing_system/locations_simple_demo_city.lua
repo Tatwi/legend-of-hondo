@@ -1,7 +1,7 @@
 -- Legend of Hondo
 -- Static structures and decor for the Housing System demonstration city
 -- Location: 1000x, 1000y on the "simple" planet
-
+--[[
 HondoHousingSystemDemoCity = ScreenPlay:new {
 	numberOfActs = 1,
 }
@@ -61,4 +61,4 @@ function HondoHousingSystemDemoCity:start()
 	spawnSceneObject("simple", "object/building/tatooine/filler_building_slave_quarters_style_01.iff", 913.897, 0, 926.449, 0, -0.93358, 0, 0.358368, 0)
 	spawnSceneObject("simple", "object/static/structure/tatooine/wall_pristine_tatooine_tall_style_01.iff", 930.576, 0, 940.832, 0, -0.622515, 0, 0.782608, 0)
 end
-
+--]]

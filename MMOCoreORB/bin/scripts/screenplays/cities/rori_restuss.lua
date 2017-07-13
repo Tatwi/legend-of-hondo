@@ -29,8 +29,8 @@ function RoriRestussScreenPlay:spawnMobiles()
 	self:setMoodString(pNpc, "npc_accusing")
 	pNpc = spawnMobile("rori", "shadowy_figure",60,-69.1,2.6,38.5,70,4635678)
 	self:setMoodString(pNpc, "angry")
-	pNpc = spawnMobile("rori", "trainer_shipwright",60,6.3,0.6,67.3,-90,4635670)
-	self:setMoodString(pNpc, "conversation")
+	--pNpc = spawnMobile("rori", "trainer_shipwright",60,6.3,0.6,67.3,-90,4635670)
+	--self:setMoodString(pNpc, "conversation")
 	pNpc = spawnMobile("rori", "chassis_dealer",60,4.3,0.6,66.9,80,4635670)
 	self:setMoodString(pNpc, "conversation")
 
@@ -245,7 +245,7 @@ function RoriRestussScreenPlay:spawnMobiles()
 	spawnMobile("rori", "entertainer", 1, 22.7, 2.0, -16.5, -55, 4635644)
 
 	--trainers
-	spawnMobile("rori", "trainer_architect", 0, 11, 1.133, -14.5, 0, 4635774)
+--[[	spawnMobile("rori", "trainer_architect", 0, 11, 1.133, -14.5, 0, 4635774)
 	spawnMobile("rori", "trainer_architect", 0, 5510, 80, 5663, 214, 0)
 	spawnMobile("rori", "trainer_armorsmith", 0, -12.5, 1.13306, 3.55, 157, 4635773)
 	spawnMobile("rori", "trainer_artisan", 0, 0, 1.1, -14, 0, 4635664)
@@ -284,4 +284,5 @@ function RoriRestussScreenPlay:spawnMobiles()
 	spawnMobile("rori", "trainer_tailor", 0, 11, 0, -13, 0, 4635663)
 	spawnMobile("rori", "trainer_tailor", 0, 5209, 80, 5729, 180, 0)
 	spawnMobile("rori", "trainer_weaponsmith", 0, 0, 1, -13, 0, 4635775)
+--]]
 end

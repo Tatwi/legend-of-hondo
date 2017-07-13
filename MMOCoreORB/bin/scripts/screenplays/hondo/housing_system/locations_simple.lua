@@ -1,3 +1,4 @@
+--[[
 simple_locations = {
 	-- Demonstration City
 	{ -- Site 1
@@ -73,3 +74,4 @@ simple_locations = {
 		center = {x = 969.8, z = 0, y = 1268.99, angle = 150, ow = 0.256764, oy = 0.966474},
 	},
 }
+--]]

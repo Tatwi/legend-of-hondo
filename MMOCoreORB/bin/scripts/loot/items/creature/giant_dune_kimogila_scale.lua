@@ -12,7 +12,10 @@ giant_dune_kimogila_scale = {
 		{"useCount",1,2,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 5,
+	junkMaxValue = 50
 }
 
 addLootItemTemplate("giant_dune_kimogila_scale", giant_dune_kimogila_scale)

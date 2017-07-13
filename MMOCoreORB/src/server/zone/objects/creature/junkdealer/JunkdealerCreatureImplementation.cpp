@@ -742,8 +742,17 @@ void JunkdealerCreatureImplementation::createSellJunkLootSelection(CreatureObjec
 				String itemName = inventory->getContainerObject(i)->getDisplayedName();
 
 				ManagedReference<TangibleObject*>  item = cast<TangibleObject*>(inventory->getContainerObject(i).get());
-				if (canInventoryItemBeSoldAsJunk(item,dealerType)==true)
-					box->addMenuItem("[" + String::valueOf(item->getJunkValue()) + "] " + itemName, inventory->getContainerObject(i)->getObjectID());
+				if (canInventoryItemBeSoldAsJunk(item,dealerType)==true){
+					int junkValue = item->getJunkValue();
+					String scrap = "";
+					
+					if (item->isBroken() || item->isSliced()){
+						junkValue = MIN(245, junkValue / 3) + 5;
+						scrap = " *Scrap*";
+					}
+					
+					box->addMenuItem("[" + String::valueOf(junkValue) + scrap + "] " + itemName, inventory->getContainerObject(i)->getObjectID());
+				}
 			}
 
 			box->setUsingObject(_this.getReferenceUnsafeStaticCast());
@@ -762,8 +771,6 @@ void JunkdealerCreatureImplementation::createSellJunkLootSelection(CreatureObjec
 bool JunkdealerCreatureImplementation::canInventoryItemBeSoldAsJunk(TangibleObject* lootItem,int dealerType){
 	return( (lootItem->getJunkDealerNeeded() & dealerType) == lootItem->getJunkDealerNeeded() || (lootItem->getJunkDealerNeeded() & dealerType) == dealerType )
 			&& lootItem->getJunkDealerNeeded() > 0
-			&& lootItem->isBroken()==false
-			&& lootItem->isSliced() == false
 			&& lootItem->isNoTrade() == false
 			&& (lootItem->isContainerObject() ==false || (lootItem->isContainerObject() ==true && lootItem->getContainerObjectsSize()==0));
 

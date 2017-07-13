@@ -6,7 +6,10 @@ skill_buff_carbine_speed = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 10,
+	junkMaxValue = 10
 }
 
 addLootItemTemplate("skill_buff_carbine_speed", skill_buff_carbine_speed)

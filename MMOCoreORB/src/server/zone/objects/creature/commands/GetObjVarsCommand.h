@@ -7,6 +7,7 @@
 
 #include "server/zone/objects/scene/SceneObject.h"
 #include "server/chat/ChatManager.h"
+#include "server/zone/objects/creature/junkdealer/JunkdealerCreature.h"
 
 class GetObjVarsCommand : public QueueCommand {
 public:
@@ -74,6 +75,13 @@ public:
 			msg << "Path: " << object->getObjectTemplate()->getFullTemplateString() << endl;
 			msg << "Children: " << String::valueOf(object->getChildObjects()->size()) << endl;
 			msg << "PARENT OBJECTID: " << String::valueOf(parentID) << endl;
+			
+			if (object.castTo<TangibleObject*>()->getJunkValue() > 0){
+				msg << "Junk Value: " << object.castTo<TangibleObject*>()->getJunkValue() << endl;
+				msg << "Junk Dealer Type: " << object.castTo<TangibleObject*>()->getJunkDealerNeeded() << endl;
+			} else {
+				msg << "Junk Value: N/A - Can not be sold." << endl;
+			}
 
 			if(object->getZone() != NULL)
 				msg << "location: " << String::valueOf(object->getPositionX()) << " "  << String::valueOf(object->getPositionY()) << " " << object->getZone()->getZoneName() << endl;

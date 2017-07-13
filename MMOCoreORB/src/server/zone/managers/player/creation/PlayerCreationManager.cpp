@@ -516,8 +516,8 @@ bool PlayerCreationManager::createCharacter(ClientCreateCharacterCallback* callb
 
 							Time timeVal(sec);
 
-							if (timeVal.miliDifference() < 3600000) {
-								ErrorMessage* errMsg = new ErrorMessage("Create Error", "You are only permitted to create one character per hour. Repeat attempts prior to 1 hour elapsing will reset the timer.", 0x0);
+							if (timeVal.miliDifference() < 300000) {
+								ErrorMessage* errMsg = new ErrorMessage("Create Error", "You are only permitted to create one character every five minutes. Repeat attempts prior to five minutes elapsing will reset the timer.", 0x0);
 								client->sendMessage(errMsg);
 
 								playerCreature->destroyPlayerCreatureFromDatabase(true);
@@ -534,8 +534,8 @@ bool PlayerCreationManager::createCharacter(ClientCreateCharacterCallback* callb
 					if (lastCreatedCharacter.containsKey(accID)) {
 						Time lastCreatedTime = lastCreatedCharacter.get(accID);
 
-						if (lastCreatedTime.miliDifference() < 3600000) {
-							ErrorMessage* errMsg = new ErrorMessage("Create Error", "You are only permitted to create one character per hour. Repeat attempts prior to 1 hour elapsing will reset the timer.", 0x0);
+						if (lastCreatedTime.miliDifference() < 300000) {
+							ErrorMessage* errMsg = new ErrorMessage("Create Error", "You are only permitted to create one character every five minutes. Repeat attempts prior to five minutes elapsing will reset the timer.", 0x0);
 							client->sendMessage(errMsg);
 
 							playerCreature->destroyPlayerCreatureFromDatabase(true);
@@ -558,9 +558,9 @@ bool PlayerCreationManager::createCharacter(ClientCreateCharacterCallback* callb
 		}
 
 		if (doTutorial)
-			playerManager->createTutorialBuilding(playerCreature);
+			playerManager->hondoStartPlayer(playerCreature); // Tutorial in LoH is part of the new player quest
 		else
-			playerManager->createSkippedTutorialBuilding(playerCreature);
+			playerManager->hondoStartPlayer(playerCreature);
 
 		ValidatedPosition* lastValidatedPosition =
 				ghost->getLastValidatedPosition();
@@ -603,14 +603,14 @@ bool PlayerCreationManager::createCharacter(ClientCreateCharacterCallback* callb
 
 	JediManager::instance()->onPlayerCreated(playerCreature);
 
-	chatManager->sendMail("system", "@newbie_tutorial/newbie_mail:welcome_subject", "@newbie_tutorial/newbie_mail:welcome_body", playerCreature->getFirstName());
+	chatManager->sendMail("system", "@newbie_tutorial/newbie_mail:hondo_subject", "@newbie_tutorial/newbie_mail:hondo_body", playerCreature->getFirstName());
 
 	//Join auction chat room
 	ghost->addChatRoom(chatManager->getAuctionRoom()->getRoomID());
 
 	ManagedReference<SuiMessageBox*> box = new SuiMessageBox(playerCreature, SuiWindowType::NONE);
-	box->setPromptTitle("PLEASE NOTE");
-	box->setPromptText("You are limited to creating one character per hour. Attempting to create another character or deleting your character before the 1 hour timer expires will reset the timer.");
+	box->setPromptTitle("Welcome");
+	box->setPromptText("Please take a few minutes to read the email that has been sent to you, as it explains how to get started in Legend of Hondo and what you can expect from your adventures.\n\nEnjoy!");
 
 	ghost->addSuiBox(box);
 	playerCreature->sendMessage(box->generateMessage());

@@ -132,6 +132,7 @@ Luna<LuaCreatureObject>::RegType LuaCreatureObject::Register[] = {
 		{ "emptyStomach", &LuaCreatureObject::emptyStomach },
 		{ "getActivePetsSize", &LuaCreatureObject::getActivePetsSize },
 		{ "getActivePet", &LuaCreatureObject::getActivePet },
+		{ "getSkillMod", &LuaCreatureObject::getSkillMod },
 		{ 0, 0 }
 };
 
@@ -1057,5 +1058,13 @@ int LuaCreatureObject::getActivePet(lua_State* L) {
 		
 	lua_pushlightuserdata(L, pet);
 
+	return 1;	
+}
+
+int LuaCreatureObject::getSkillMod(lua_State* L) {
+	String skillMod = lua_tostring(L, -1);
+	
+	lua_pushinteger(L, realObject->getSkillMod(skillMod));
+	
 	return 1;	
 }

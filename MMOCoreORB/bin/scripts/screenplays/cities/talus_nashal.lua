@@ -83,7 +83,7 @@ function TalusNashalScreenPlay:spawnMobiles()
 	--quest
 	spawnMobile("talus", "jusani_zhord",60,20,1.3,-1,270,4265423)
 	--trainers
-	spawnMobile("talus", "trainer_2hsword",1,11,1.1,-11.4,0,4265405)
+--[[	spawnMobile("talus", "trainer_2hsword",1,11,1.1,-11.4,0,4265405)
 	spawnMobile("talus", "trainer_architect",1,11,1,-14,0,4265415)
 	spawnMobile("talus", "trainer_armorsmith",1,-15,1,0,90,4265414)
 	spawnMobile("talus", "trainer_artisan",1,0,1,-14.5,0,4265396)
@@ -119,7 +119,7 @@ function TalusNashalScreenPlay:spawnMobiles()
 	spawnMobile("talus", "trainer_tailor",1,-12,1,6,180,4265414)
 	spawnMobile("talus", "trainer_tailor",1,11,1,-14,0,4265395)
 	spawnMobile("talus", "trainer_weaponsmith",1,0,1,-14,0,4265416)
-
+--]]
 	--Anything dashed out will need to be added here and removed from spawn manager once the spawnMobiles command is extended.
 
 	--Misc Outside

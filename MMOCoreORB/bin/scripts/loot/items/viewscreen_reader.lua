@@ -5,7 +5,10 @@ viewscreen_reader = {
 	directObjectTemplate = "object/tangible/loot/simple_kit/viewscreen_reader.iff",
 	craftingValues = {},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 20,
+	junkMaxValue = 40
 }
 
 addLootItemTemplate("viewscreen_reader", viewscreen_reader)

@@ -5397,3 +5397,9 @@ void PlayerManagerImplementation::doPvpDeathRatingUpdate(CreatureObject* player,
 		player->sendSystemMessage(toVictim);
 	}
 }
+
+void PlayerManagerImplementation::hondoStartPlayer(CreatureObject* player) {
+	Zone* zone = server->getZone("tatooine");
+	player->initializePosition(-2980.0f, 5.0f, 2532.0f);
+	zone->transferObject(player, -1);
+}

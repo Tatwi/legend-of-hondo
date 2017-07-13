@@ -14,10 +14,9 @@ function LokNymStrongholdScreenPlay:start()
 end
 
 function LokNymStrongholdScreenPlay:spawnSceneObjects()
-
+	spawnSceneObject("lok", "object/tangible/terminal/terminal_mission_artisan.iff", 498.294, 12.0012, 5027.44, 0, 0.300706, 0, 0.953717, 0)
 	--outside starport in tent when evidence is found to confirm
 	--spawnSceneObject("lok", "object/tangible/crafting/station/public_space_station.iff", 456.6, 3.0, 5451.8, 0, math.rad(145) )
-
 end
 
 function LokNymStrongholdScreenPlay:spawnMobiles()
@@ -83,9 +82,9 @@ function LokNymStrongholdScreenPlay:spawnMobiles()
 	spawnMobile("lok", "warvog_arkon",60,-12.1246,1.6,-16.3553,291.827,8145361)
 	spawnMobile("lok", "viopa",60,-2.2483,4.0782,-10.4691,138.087,6595511)
 	--trainer
-	spawnMobile("lok", "trainer_combatmedic",60,-17.1,0.26,9.2,-100,2745870)
-	spawnMobile("lok", "trainer_doctor",60,22.1279,0.26,-6.11676,91,2745866)
-	spawnMobile("lok", "trainer_medic",60,-16.0068,0.26,-2.42861,117,2745870)
+	--spawnMobile("lok", "trainer_combatmedic",60,-17.1,0.26,9.2,-100,2745870)
+	--spawnMobile("lok", "trainer_doctor",60,22.1279,0.26,-6.11676,91,2745866)
+	--spawnMobile("lok", "trainer_medic",60,-16.0068,0.26,-2.42861,117,2745870)
 
 	--Moving from spawn manager lok.lua
 	--Anything dashed out will need to be added here and removed from spawn manager once the spawnMobiles command is extended.

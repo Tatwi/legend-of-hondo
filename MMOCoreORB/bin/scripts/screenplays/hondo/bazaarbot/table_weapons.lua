@@ -92,7 +92,7 @@ BBWeaponsItems = {
 	"heavy_rocket_launcher", 
 	"pistol_launcher", 
 	"rifle_acid_beam", 
-	"rifle_beam", 
+	--"rifle_beam", 
 	"rifle_flame_thrower", 
 	"pistol_disrupter_dx2", 
 	"pistol_republic_blaster"

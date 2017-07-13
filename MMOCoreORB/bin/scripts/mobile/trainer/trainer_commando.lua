@@ -27,12 +27,15 @@ trainer_commando = Creature:new {
 	diet = HERBIVORE,
 
 	templates = {
-		"object/mobile/dressed_commando_trainer_human_male_01.iff",
-		"object/mobile/dressed_commando_trainer_rodian_male_01.iff",
-		"object/mobile/dressed_commando_trainer_trandoshan_male_01.iff"
+		"object/mobile/dressed_rebel_commando_human_female_01.iff",
+		"object/mobile/dressed_rebel_commando_human_male_01.iff",
+		"object/mobile/dressed_rebel_commando_moncal_male_01.iff",
+		"object/mobile/dressed_rebel_commando_rodian_male_01.iff",
+		"object/mobile/dressed_rebel_commando_twilek_female_01.iff",
+		"object/mobile/dressed_rebel_commando_zabrak_female_01.iff"
 	},
 	lootGroups = {},
-	weapons = {},
+	weapons = {"rebel_weapons_heavy"},
 	conversationTemplate = "trainer_commando_convotemplate",
 	attacks = {}
 }

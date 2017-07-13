@@ -26,11 +26,7 @@ trainer_tailor = Creature:new {
 	optionsBitmask = INVULNERABLE + CONVERSABLE,
 	diet = HERBIVORE,
 
-	templates = {
-		"object/mobile/dressed_tailor_trainer_01.iff",
-		"object/mobile/dressed_tailor_trainer_02.iff",
-		"object/mobile/dressed_tailor_trainer_03.iff"
-	},
+	templates = {"object/mobile/dressed_commoner_naboo_human_female_04.iff"},
 	lootGroups = {},
 	weapons = {},
 	conversationTemplate = "trainer_tailor_convotemplate",

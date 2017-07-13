@@ -35,8 +35,8 @@ function NabooMoeniaScreenPlay:spawnMobiles()
 	pNpc = spawnMobile("naboo", "medic",60,54.4,-0.5,42.7,-120,4215413)
 	self:setMoodString(pNpc, "npc_consoling")
 	--relocated sw trainer from originally bugged exterior placement
-	pNpc = spawnMobile("naboo", "trainer_shipwright",60,-0.4,0.6,67.1,-177,4215410)
-	self:setMoodString(pNpc, "neutral")
+	--pNpc = spawnMobile("naboo", "trainer_shipwright",60,-0.4,0.6,67.1,-177,4215410)
+	--self:setMoodString(pNpc, "neutral")
 
 	--Outside
 	spawnMobile("naboo", "mummer_thug", 300, getRandomNumber(10) + 4856.8, 4.2, getRandomNumber(10) + -4701.5, getRandomNumber(360), 0)
@@ -61,7 +61,7 @@ function NabooMoeniaScreenPlay:spawnMobiles()
 	spawnMobile("naboo", "informant_npc_lvl_2",0,4638,4.4,-4643,270,0)
 	spawnMobile("naboo", "informant_npc_lvl_3",0,4721,4.2,-4614,180,0)
 	spawnMobile("naboo", "rebel_recruiter",0,4826,4.2,-4696,-93,0)
-	spawnMobile("naboo", "trainer_architect",0,4779,3.75,-4973,0,0)
+--[[	spawnMobile("naboo", "trainer_architect",0,4779,3.75,-4973,0,0)
 	spawnMobile("naboo", "trainer_artisan",0,4823.13,4.17,-4705.34,81,0)
 	spawnMobile("naboo", "trainer_brawler",0,4800,4.17,-4734,151,0)
 	spawnMobile("naboo", "trainer_brawler",0,4999,3.8,-4926,-12,0)
@@ -78,7 +78,7 @@ function NabooMoeniaScreenPlay:spawnMobiles()
 	spawnMobile("naboo", "trainer_scout",0,4836.08,4.17,-4703.96,94,0)
 	spawnMobile("naboo", "trainer_squadleader",0,4701,3.75,-4939,0,0)
 	spawnMobile("naboo", "trainer_tailor",0,4858,3.8,-4799,180,0)
-
+--]]
 	--rebel 'stronghold' spawns
 	spawnMobile("naboo", "specforce_marine",300,4794.6,4.2,-4700,50,0)
 	spawnMobile("naboo", "specforce_marine",300,4799.2,4.2,-4693,-150,0)
@@ -103,7 +103,7 @@ function NabooMoeniaScreenPlay:spawnMobiles()
 	pNpc = spawnMobile("naboo", "bartender",60,20.2,1.6,12.3,-180,1717470)
 	self:setMoodString(pNpc, "conversation")
 
-	--Guild Hall 4923 -4783
+--[[	--Guild Hall 4923 -4783
 	spawnMobile("naboo", "trainer_artisan",0,-0.0177415,1.13306,-13.3088,0,1717546)
 
 	--Guild Hall 4721 -4966
@@ -125,7 +125,7 @@ function NabooMoeniaScreenPlay:spawnMobiles()
 	spawnMobile("naboo", "trainer_doctor",0,-25,0.26,-4,180,1717506)
 	spawnMobile("naboo", "trainer_medic",0,-17.2255,0.26,-1.2311,150,1717506)
 	spawnMobile("naboo", "trainer_medic",0,16.6671,0.26,5.91467,177,1717502)
-
+--]]
 	--newb grind starter spawns
 	spawnMobile("naboo", "diseased_nuna", 300, getRandomNumber(10) + 4599.2, 5.0, getRandomNumber(10) + -4806.4, getRandomNumber(360), 0)
 	spawnMobile("naboo", "diseased_nuna", 300, getRandomNumber(10) + 4599.2, 5.0, getRandomNumber(10) + -4806.4, getRandomNumber(360), 0)

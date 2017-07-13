@@ -1068,8 +1068,8 @@ bool GCWManagerImplementation::canStartSlice(CreatureObject* creature, TangibleO
 	} else if (tano->getDistanceTo(creature) > 15) {
 		creature->sendSystemMessage("You are too far away from the terminal to continue slicing!");
 		return false;
-	} else if (!creature->hasSkill("combat_smuggler_slicing_01")) {
-		creature->sendSystemMessage("Only a smuggler with terminal slicing knowledge could expect to disable this security terminal!");
+	} else if (!creature->hasSkill("outdoors_scout_master")) {
+		creature->sendSystemMessage("Only a pirate with terminal slicing knowledge could expect to disable this security terminal!");
 		return false;
 	}
 

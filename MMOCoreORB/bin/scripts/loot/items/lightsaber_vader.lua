@@ -14,7 +14,10 @@ lightsaber_vader = {
 		{"attackmindcost",50,20},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 300,
+	junkMaxValue = 300
 }
 
 addLootItemTemplate("lightsaber_vader", lightsaber_vader)

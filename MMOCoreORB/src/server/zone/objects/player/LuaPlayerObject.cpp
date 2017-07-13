@@ -75,6 +75,7 @@ Luna<LuaPlayerObject>::RegType LuaPlayerObject::Register[] = {
 		{ "addSuiBox", &LuaPlayerObject::addSuiBox },
 		{ "removeSuiBox", &LuaPlayerObject::removeSuiBox },
 		{ "getStationID", &LuaPlayerObject::getStationID },
+		{ "addExperience", &LuaPlayerObject::addExperience },
 		{ 0, 0 }
 };
 
@@ -513,6 +514,15 @@ int LuaPlayerObject::getExperience(lua_State* L) {
 	lua_pushinteger(L, realObject->getExperience(type));
 
 	return 1;
+}
+
+int LuaPlayerObject::addExperience(lua_State* L) {
+	String xpType = lua_tostring(L, -2);
+	int amount = lua_tointeger(L, -1);
+
+	realObject->addExperience(xpType, amount, true);
+
+	return 0;
 }
 
 int LuaPlayerObject::getEventPerkCount(lua_State* L) {

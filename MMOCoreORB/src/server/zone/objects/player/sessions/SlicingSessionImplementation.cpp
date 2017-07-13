@@ -241,12 +241,10 @@ void SlicingSessionImplementation::endSlicing() {
 
 int SlicingSessionImplementation::getSlicingSkill(CreatureObject* slicer) {
 
-	String skill0 = "combat_smuggler_novice";
-	String skill1 = "combat_smuggler_slicing_01";
-	String skill2 = "combat_smuggler_slicing_02";
-	String skill3 = "combat_smuggler_slicing_03";
-	String skill4 = "combat_smuggler_slicing_04";
-	String skill5 = "combat_smuggler_master";
+	String skill2 = "outdoors_scout_tools_02"; // Containers
+	String skill3 = "outdoors_scout_tools_03"; // Armor
+	String skill4 = "outdoors_scout_tools_04"; // Basic Weapons
+	String skill5 = "outdoors_scout_master"; // Terminals, Advanced Weapons
 
 	if (slicer->hasSkill(skill5))
 		return 5;
@@ -256,10 +254,6 @@ int SlicingSessionImplementation::getSlicingSkill(CreatureObject* slicer) {
 		return 3;
 	else if (slicer->hasSkill(skill2))
 		return 2;
-	else if (slicer->hasSkill(skill1))
-		return 1;
-	else if (slicer->hasSkill(skill0))
-		return 0;
 
 	return -1;
 
@@ -485,19 +479,24 @@ void SlicingSessionImplementation::handleSlice(SuiListBox* suiBox) {
 	if (tangibleObject->isContainerObject() || tangibleObject->getGameObjectType() == SceneObjectType::PLAYERLOOTCRATE) {
 		handleContainerSlice();
 		playerManager->awardExperience(player, "slicing", 250, true); // Container Slice XP
+		playerManager->awardExperience(player, "political", 1, true); // Pirate XP
 	} else if (tangibleObject->isMissionTerminal()) {
 		MissionTerminal* term = cast<MissionTerminal*>( tangibleObject.get());
 		playerManager->awardExperience(player, "slicing", 100, true); // Terminal Slice XP
+		playerManager->awardExperience(player, "political", 10, true); // Pirate XP
 		term->addSlicer(player);
 		player->sendSystemMessage("@slicing/slicing:terminal_success");
 	} else if (tangibleObject->isWeaponObject()) {
 		handleWeaponSlice();
 		playerManager->awardExperience(player, "slicing", 250, true); // Weapon Slice XP
+		playerManager->awardExperience(player, "political", 3, true); // Pirate XP
 	} else if (tangibleObject->isArmorObject()) {
 		handleArmorSlice();
 		playerManager->awardExperience(player, "slicing", 250, true); // Armor Slice XP
+		playerManager->awardExperience(player, "political", 3, true); // Pirate XP
 	} else if ( isBaseSlice()){
 		playerManager->awardExperience(player,"slicing", 1000, true); // Base slicing
+		playerManager->awardExperience(player, "political", 20, true); // Pirate XP
 
 		Zone* zone = player->getZone();
 

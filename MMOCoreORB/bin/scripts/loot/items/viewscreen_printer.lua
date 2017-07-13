@@ -5,7 +5,10 @@ viewscreen_printer = {
 	directObjectTemplate = "object/tangible/loot/simple_kit/viewscreen_printer.iff",
 	craftingValues = {},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 20,
+	junkMaxValue = 40
 }
 
 addLootItemTemplate("viewscreen_printer", viewscreen_printer)

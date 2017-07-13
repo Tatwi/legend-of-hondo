@@ -8,7 +8,10 @@ blacksun_razor_knuckler_schematic = {
 	craftingValues = {
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 20,
+	junkMaxValue = 40
 }
 
 addLootItemTemplate("blacksun_razor_knuckler_schematic", blacksun_razor_knuckler_schematic)

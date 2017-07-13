@@ -10,7 +10,10 @@ high_frequency_vibro_motor = {
 		{"useCount",1,5,0},
 	},
 	customizationStringNames = {},
-	customizationValues = {}
+	customizationValues = {},
+	junkDealerTypeNeeded = JUNKGENERIC,
+	junkMinValue = 20,
+	junkMaxValue = 40
 }
 
 addLootItemTemplate("high_frequency_vibro_motor", high_frequency_vibro_motor)
