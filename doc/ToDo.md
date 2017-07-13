@@ -10,7 +10,6 @@ An organized overview of my development priorities. Things I have already finish
 - Pirate Missions, quests (story + 8 "theme parks"...), and dialog systems (bluff, beguile, lie, etc).
 - Smuggling Missions
 - Renown / Infamy System (Business Management System)
-- New NPC Merchant System
 
 ####Important
 

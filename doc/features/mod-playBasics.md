@@ -8,6 +8,13 @@ I don't happen to feel like writing a detailed document for this, largely becaus
 *Hondo Housing System*  
 - Added all of the Hondo Housing System sites in Mos Espa. There are loads of buildings and building options to play with!
 
+*Hondo Merchant System*  
+- Added the NPC merchant system that I created back in 2015. It's designed to sell a small amount of items per NPC, with each NPC having a charcter of their own that is portrayed through conversations and factional relationships.
+
+*BazaarBot*  
+- Configured BazaarBot for Legend of Hondo.
+- Originally I created this system for a friend to use on his server, but I decided to use it here as well for volume sales.
+
 *Mos Espa Layout*
 - Added a trainer for all skills (except Pirate) to Mos Espa. Some of the trainers have been customized to give them a bit of personality.
 - Removed all other trainers from the galaxy.
@@ -45,7 +52,6 @@ I don't happen to feel like writing a detailed document for this, largely becaus
 - High level mobs will always drop hondo_common loot, 4 to 15 pieces depending on their level, plus a possible bonus loot item.
 - Very high level mobs always drop an SEA.
 - Any mob that didn't have a loot group will now use the hondo_common loot group.
-- Configured BazaarBot for Legend of Hondo
 - Essential items, modest quality, good variety of resources, items only listed in Mos Espa.
 - Added a small credit reward to Businessman, Noble, and Scientist generic quests.
 
