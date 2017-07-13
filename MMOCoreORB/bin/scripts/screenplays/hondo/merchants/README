@@ -1,0 +1,190 @@
+Legend of Hondo Merchant System
+By R. Bassett Jr. (Tatwi) - www.tpot.ca
+July 2015
+
+Purpose:
+- - - - - - -
+Given that LoH is a single player game, it means the player can never purchase 
+anything from anyone else - they don't loot or or make it themselves, then it 
+doesn't exist! That's a pretty harsh reality and certainly not in keeping with
+single player RPGs. So I decided to put together a robust, yet simple to use
+conversation driven merchant system. While the conversation system has some
+obvious limitations (like not being able to inspect the item before purchase), 
+it is a system that is used throught the game and it allows for story driven
+content to be neatly tied to the merchants themselves. 
+
+
+Limitations: 
+- - - - - - -
+I made a personal choice to use only the conversation system, rather than SUI
+list boxes (like the blue frog), becaus I would prefer to have more characters
+who sell fewer items spread out around the galaxy than a few characters who
+sell tons of items (Ma'n Pa vs. Big Box Stores). It's with that in mind that
+practicality of listing choices in a conversation isn't a problem. However, if
+one wishes to list more than 15 items or so on a single merchant they run the 
+risk of the list not showing on the player's screen or just generally being
+unweildly for the player to manage (especially at lower resolutions). So, if 
+you want to have a single merchant who sells everything you are better off 
+finding a way to automate the vendor/bazaar system or using nested SUI lists.
+
+Another "limitation" of the system that I personally prefer is my use of 
+customDialogText in the coversation files. I find the workflow of editing
+a simple text file way the bloody hell better than using a STF file editor
+and having pack a new TRE file every time I want to change some dialog or
+fix a typo. That said, the conversations logic is standardized and will 
+happily work with STF file references. I just don't personally use them, 
+and it's not an issue for me, due to the lack of network overhead required
+when playing single player on a server that is hosted on the same computer
+as the client. :)
+
+
+In The Future: 
+- - - - - - - -
+
+I have designed additional functionality that I have not yet have had the time
+to program into the base system, so check back for my progress on that. I will 
+add: 
+
+1. The ability for Smugglers to try for a discount on one item, once a day. It 
+will be like a Dungeons and Dragons "D20 hit check", mathmatically like so:
+
+(Merchant Skill + D20) - (Player Skill / 10 + RANDOM(20))
+
+If the result is a positive number, the Smuggler charmed the Merchant and he gets
+a discount based on how much he beat the check. Max discount will be 25%. The 
+Merchant skill value will be set using the "smuggler" faction in the relation table.
+Useful values range from 1 (push over) to 30 (extreme hard ass)
+
+
+2. Optional item values that limit the quanity of each item a character can 
+buy in a set period of time, as well as the months in which the items are 
+available. I listed the options at the bottom of description of the goods table.
+
+
+
+How to use it:
+- - - - - - -
+All vendors depend upon the following file for their common functionality,
+scripts/hondo/merchants/merchant_system.lua
+
+Unless you wish to mod the system itself, you don't need to edit the 
+merchant_system.lua file. 
+
+Each vendor requires 3 files,
+scripts/hondo/merchants/my_merchant.lua
+scripts/mobiles/hondo/merchants/my_merchant.lua
+scripts/mobiles/conversations/hondo/merchants/my_merchant_conv.lua
+
+Strictly speaking, you can put the mobile/conv files anywhere, I just like to
+keep them somewhat standardized. Less to remember that way! Let's have a look
+at what each file accomplishes. 
+
+scripts/hondo/merchants/my_merchant.lua 
+
+- Contains the items, prices, relationships, and other data specific to that merchant.
+- Places the merchant into the world at server boot.
+- Calls all the logic required to play a basic conversation. 
+- Calls all the logic required for the merchant abilities. 
+
+Here is what you need to know about how to use the goods and relations tables. 
+
+	relations = { 
+		{name="jabba", npcStanding=300, priceAdjust=25}, -- Friend
+		{name="rebel", npcStanding=-9000, priceAdjust=10}, -- Adjust price only
+		{name="thug", npcStanding=-1000, priceAdjust=50}  -- Enemy
+	},
+	
+- The relations table is the Merchant's standing with the specified factions.
+ - If the player does not have any standing with a listed faction, the player is assumed friendly and does not get any discounts/surcharges tied to that faction. 
+ 
+- -9000 npcStanding is a special case used to apply price adjustments to only. 
+
+- The player's standing must be higher npcStanding to talk to the merchant. 
+
+- Negative npcStanding value means it is an enemy of the merchant. 
+ - Lower values make merchant more leinient toward player relations with his enemy.
+ - Set npcStanding=-1 to make merchant refuse to talk if player has 2+ faction with his enemy.
+ - Set npcStanding=-4000 to make the merchant exceptionally leinient (requiring the player to have +4002 enemy faction before refusing service)
+ 
+- Price adjustments are in percentages and applied on a sliding scale. 
+ - Positive 5000 faction required for full discount, Negative 5000 for full surcharge. 
+ - Rebel and Imperial values are capped at 5000 for this system. 
+ - Friends get discounts, enemies get surcharges, basically. 
+ - Price adjustments are cumulative, from top to bottom. 
+ 
+In the above example, the merchant is friends with Jabba, symathetic to the Rebels,
+and doesn't much care for thugs. If the player has less than 300 Jabba faction, he is
+turned away and given a hint to increase his Jabba faction. If the player has more
+than 1002 Thug faction, he is turned away and given a hint to decrease his Thug 
+faction. If the player has 5000 Jabba faction, he gets a 25% discount. If the player
+has -5000 Rebel faction, he gets a 10% surcharge on his discounted Jabba price. If 
+the player has +5000 Rebel faction, he gets a 10% on top of his already discounted
+Jabba price (no real world retailer would EVER do this lol...). If the player has 
+-5000 Thug faction he gets a special "Enemy of My Enemy" discount amounting to 
+1/4 of the listed priceAdjust value for that faction and it is applied to the
+result of the previous discounts. If the player has +1001 Thug faction, a 50%
+surcharge is added to the result of the previous discounts - that guy really hates
+thugs! 
+
+Keep in mind that the values I listed in the example are the max values and the 
+system works on a linear scale with all values in between. 
+
+
+	goods = {
+		{optName="survey_mineral", cost=250, itemName="Mineral Survey Tool", 
+			items={
+				"object/tangible/survey_tool/survey_tool_mineral.iff", 
+				"object/tangible/dice/eqp_chance_cube.iff"
+			}
+		}, 
+		{optName="survey_chemical", cost=300, itemName="Chemical Survey Tool", items={"object/tangible/survey_tool/survey_tool_liquid.iff"}},
+		{optName="slitherhorn", cost=100, itemName="Slitherhorn", items={"object/tangible/instrument/slitherhorn.iff"}}, 
+		{optName="fanfar", cost=500, itemName="Fanfar", items={"object/tangible/instrument/fanfar.iff"}}
+	},
+
+The goods table is pretty self explanitory using the above example. I decided to
+treat all items as a list of items to make it straight forward to sell a group of
+items, such a suit of armor, using a single conversation menu option. 
+
+REQUIRED VALUES:
+
+optName 
+- The name used by the MerchantSystem to track conversation options and choices. 
+- Doesn't really need to human readable, but may as well be as that's why I put it there. 
+
+cost
+- The price of the item.
+
+itemName
+- The name of the item as displayed to the player in the shop selections. 
+- You can use a string file reference here if you'd like.
+
+items
+- The comma seperated list of items granted when the player purchases that line item. 
+
+
+OPTIONAL VALUES:
+
+In the future I will add the following optional values for additional functionality.
+
+Optional values are ignored if they are missing, provided they are not required by another value.
+
+qnty
+- How many the character may purchase in a given amound of time.
+- Requires durMin and durMax values.
+
+durMin / durMax
+- The duration, in hours, of the cooldown period before the character can buy another of those items.
+- System picks a random number between min and max, so make them the same if you don't want a random number.
+
+months
+- A list of months when the item is available. 
+- Valid values: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+
+stock
+- Sets a global limit on the availability of the item to all characters.
+- Valid values: rare, scarce, legendary
+- Has a chance to trigger availability every so often.
+- Rare: 10 to 50 per week, daily trigger.
+- Scarce: 1 to 20 per 30 days, daily trigger.
+- Legendary: 1 to 3 per 90 days, weekly trigger.

@@ -215,3 +215,11 @@ includeFile("conversations/misc/philosopher_conv.lua")
 -------------------
 -- Breadcrumb Quests
 includeFile("conversations/hondo/quests/breadcrumb_bob.lua")
+
+-- Merchants
+includeFile("conversations/hondo/merchants/crazy_larry_conv.lua")
+includeFile("conversations/hondo/merchants/u8l7_conv.lua")
+includeFile("conversations/hondo/merchants/volrik_lonugs_conv.lua")
+includeFile("conversations/hondo/merchants/nal_yaro_conv.lua")
+includeFile("conversations/hondo/merchants/cyan_yaro_conv.lua")
+includeFile("conversations/hondo/merchants/yivvits_conv.lua")

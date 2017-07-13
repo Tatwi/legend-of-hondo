@@ -532,4 +532,11 @@ includeFile("hondo/housing_system/locations_simple_demo_city.lua")
 includeFile("hondo/quests/quests.lua")
 includeFile("hondo/buff_terminals.lua")
 includeFile("hondo/bazaarbot/BazaarBot.lua")
-
+-- Merchants
+includeFile("hondo/merchants/merchant_system.lua")
+includeFile("hondo/merchants/vehicles_crazy_larry.lua")
+includeFile("hondo/merchants/armor_volrik_lonugs.lua")
+includeFile("hondo/merchants/armor_jabba_nal_yaro.lua")
+includeFile("hondo/merchants/armor_jabba_cyan_yaro.lua")
+includeFile("hondo/merchants/weapons_yivvits.lua")
+includeFile("hondo/merchants/helper_u8l7.lua")
