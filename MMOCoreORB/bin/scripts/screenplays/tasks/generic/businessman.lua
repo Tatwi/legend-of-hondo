@@ -10,7 +10,8 @@ generic_businessman_missions =
 			itemSpawns = {},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/inkpen_engraved_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/inkpen_engraved_s01.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		},
 		{
@@ -23,7 +24,8 @@ generic_businessman_missions =
 			itemSpawns = {},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/ticket_expired.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/ticket_expired.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		},
 		{
@@ -39,7 +41,8 @@ generic_businessman_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/inkpen_engraved_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/inkpen_engraved_s01.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		},
 		{
@@ -55,7 +58,8 @@ generic_businessman_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/ticket_expired.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/ticket_expired.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		},
 		{
@@ -71,7 +75,8 @@ generic_businessman_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/inkpen_engraved_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/inkpen_engraved_s01.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		},
 		{
@@ -87,7 +92,8 @@ generic_businessman_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/ticket_expired.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/ticket_expired.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		}
 	}

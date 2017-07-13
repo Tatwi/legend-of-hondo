@@ -16,7 +16,8 @@ generic_scientist_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/insects_rare_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/insects_rare_s01.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		},
 		{
@@ -32,7 +33,8 @@ generic_scientist_missions =
 			},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/picture_handheld_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/picture_handheld_s01.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		},
 		{
@@ -58,7 +60,8 @@ generic_scientist_missions =
 			itemSpawns = {},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/picture_handheld_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/picture_handheld_s01.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		},
 		{
@@ -71,7 +74,8 @@ generic_scientist_missions =
 			itemSpawns = {},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/insects_rare_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/insects_rare_s01.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		},
 		{
@@ -84,7 +88,8 @@ generic_scientist_missions =
 			itemSpawns = {},
 			rewards =
 			{
-				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/picture_handheld_s01.iff" }
+				{ rewardType = "item", itemTemplate = "object/tangible/loot/misc/picture_handheld_s01.iff" },
+				{ rewardType = "credits", amount = 175 + getRandomNumber(75)}
 			}
 		}
 	}
