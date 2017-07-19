@@ -822,7 +822,10 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	-- Commando Trainers
 	spawnMobile(self.planet, "trainer_commando", 1, -2929.38, 5, 2573.72, 125, 0) -- Rebel Theme
 	spawnMobile(self.planet, "trainer_commando_imperial", 1, 2.29506, 1.01, -21.0648, 321, 9995390) -- Imperial Theme at screenplays/poi/tatooine_imperial_detachment_hq.lua
-
+	
+	-- Pirate Trainer
+	pNpc = spawnMobile(self.planet, "trainer_politician", 1, -5.54648, 1.00421, 8.71756, 136, 9995890)
+		self:setMoodString(pNpc, "npc_sitting_chair")
 
 	--Creatures
 	spawnMobile(self.planet, "dwarf_eopie",300,-3217.87,6.7851,2010.86,329.47,0)

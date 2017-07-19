@@ -1,7 +1,6 @@
 trainer_politician = Creature:new {
 	objectName = "@mob/creature_names:trainer_politician",
-	randomNameType = NAME_GENERIC,
-	randomNameTag = true,
+	customName = "Pagetti Rook",
 	faction = "",
 	level = 100,
 	chanceHit = 0.390000,
@@ -26,11 +25,7 @@ trainer_politician = Creature:new {
 	optionsBitmask = INVULNERABLE + CONVERSABLE,
 	diet = HERBIVORE,
 
-	templates = {
-		"object/mobile/dressed_industrialist_trainer_01.iff",
-		"object/mobile/dressed_industrialist_trainer_02.iff",
-		"object/mobile/dressed_industrialist_trainer_03.iff"
-	},
+	templates = {"object/mobile/dressed_tatooine_weequay_captain.iff"},
 	lootGroups = {},
 	weapons = {},
 	conversationTemplate = "trainer_politician_convotemplate",
