@@ -252,6 +252,7 @@ function TatooineMosEspaScreenPlay:spawnSceneObjects()
 	spawnSceneObject("tatooine", "object/static/structure/tatooine/antenna_tatt_style_1.iff", -3102.87, 5.0164, 1933.09, 0, 0.999048, 0, 0.0436194, 0)
 	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3117, 4.96576, 1930.74, 0, -0.927184, 0, -0.374607, 0)
 	spawnSceneObject("tatooine", "object/static/structure/tatooine/stair_tatooine_small_style_01.iff", -3044.77, -1.61915, 1843.83, 0, -0.760406, 0, 0.649448, 0)
+	spawnSceneObject("tatooine", "object/tangible/terminal/terminal_mission_bounty.iff", -3075.72, 5.45323, 1844.5, 0, 1, 0, 0, 0)
     
     --SW Road
 	spawnSceneObject("tatooine", "object/static/structure/tatooine/wall_pristine_tatooine_large_style_02.iff", -3000.73, 3, 1957.51, 0, -0.793353, 0, -0.608762, 0)
@@ -384,6 +385,7 @@ function TatooineMosEspaScreenPlay:spawnSceneObjects()
 	spawnSceneObject("tatooine", "object/tangible/furniture/all/frn_all_data_terminal_free_s2.iff", -2809.08, 5, 2161.58, 0, -0.284015, 0, -0.95882, 0)
 	spawnSceneObject("tatooine", "object/static/flora/flora_tree_rori_windswept_s01.iff", -2809.28, 5, 2150.75, 0, -0.649448, 0, 0.760406, 0)
 	spawnSceneObject("tatooine", "object/static/structure/tatooine/stone_hovel_tatooine_style_01.iff", -2811.53, 5, 2147.54, 0, -1, 0, -0.0451577, 0)
+	spawnSceneObject("tatooine", "object/tangible/terminal/terminal_mission_bounty.iff", -2802.04, 5, 2159.21, 0, -0.707107, 0, 0.707107, 0)
 	
 	-- East Side Factories
 	spawnSceneObject("tatooine", "object/building/military/military_outpost_guard_tower_1.iff", -2769.49, 5, 2428.54, 0, 0.0584327, 0, 0.998291, 0)
@@ -479,7 +481,10 @@ function TatooineMosEspaScreenPlay:spawnSceneObjects()
 	spawnSceneObject("tatooine", "object/static/structure/tatooine/concrete_slab_tatooine_16x8.iff", -2834.6, -2.28, 2586.17, 0, 0.986286, 0, 0.165048, 0)
 
     -- Pistoleer and Carbineer Trainer vehicle
-    spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -2727.35, 5, 2505.37, 0, 0.382683, 0, 0.92388, 0) 
+    spawnSceneObject("tatooine", "object/static/vehicle/e3/landspeeder.iff", -2727.35, 5, 2505.37, 0, 0.382683, 0, 0.92388, 0)
+    
+    -- Jawa Town
+    spawnSceneObject("tatooine", "object/tangible/terminal/terminal_mission_bounty.iff", -2909.3, 5, 2530.85, 0, 0.906308, 0, 0.422618, 0)
 end
 
 function TatooineMosEspaScreenPlay:spawnMobiles()
@@ -679,10 +684,23 @@ function TatooineMosEspaScreenPlay:spawnMobiles()
 	spawnMobile(self.planet, "eg6_power_droid",300,-2833.22,5,1899.71,245.01,0)
 	spawnMobile(self.planet, "eg6_power_droid",300,-2928.04,5,1977.68,330.633,0)
 	spawnMobile(self.planet, "eg6_power_droid",300,-2945.98,5,2470.9,186.376,0)
-	spawnMobile(self.planet, "informant_npc_lvl_1",0,-2804,5,2237,315,0)
-	spawnMobile(self.planet, "informant_npc_lvl_1",0,-2836,5,2275,45,0)
-	spawnMobile(self.planet, "informant_npc_lvl_1",0,-2935,5,2393,90,0)
+	
+	-- Bounty Hunter SpyNet operatives
+	-- Crazy Larry's
+	pNpc = spawnMobile("tatooine", "informant_npc_lvl_1", 1, -2880.5, 5, 2144.74, 213, 0)
+		self:setMoodString(pNpc, "conversation")
+	pNpc = spawnMobile("tatooine", "informant_npc_lvl_2", 1, -2814.3, 5, 2194.68, 128, 0)
+		self:setMoodString(pNpc, "npc_sitting_chair")
+	spawnMobile(self.planet, "informant_npc_lvl_3", 1, -2811.25, 5, 2141.84, 76, 0)
+	-- Jawa Town
+	pNpc = spawnMobile("tatooine", "informant_npc_lvl_1", 1, -2865.52, 5, 2502.69, 247, 0)
+		self:setMoodString(pNpc, "npc_sitting_chair")
 	spawnMobile(self.planet, "informant_npc_lvl_2",0,-2879,5,2555,135,0)
+	spawnMobile("tatooine", "informant_npc_lvl_3", 1, -2868.14, 5, 2460.79, 48, 0)
+	-- Pirate Base
+	spawnMobile("tatooine", "informant_npc_lvl_1", 1, -3086.33, 6.15448, 1837.36, 322, 0)
+	spawnMobile("tatooine", "informant_npc_lvl_2", 1, 0.713321, -3.96617, 5.68599, 292, 9995926)
+	spawnMobile("tatooine", "informant_npc_lvl_3", 1, -3035.77, 5.56609, 1833.7, 261, 0)
 
 	--Jawa's
 	pNpc = spawnMobile(self.planet, "jawa",300,-2930.03,5,2038.02,270.008,0)

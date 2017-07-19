@@ -15,6 +15,7 @@ Reference<Task*> BountyHunterDroid::performAction(int action, SceneObject* droid
 	if (droidObject == NULL || player == NULL || mission == NULL) {
 		if (player != NULL) {
 			player->sendSystemMessage("@mission/mission_generic:bounty_no_ability"); // You do not understand how to use this item.
+			player->sendSystemMessage("DEBUG: Droid, player, or mission NULL");
 		}
 
 		return NULL;
@@ -39,6 +40,7 @@ Reference<Task*> BountyHunterDroid::performAction(int action, SceneObject* droid
 		break;
 	default:
 		player->sendSystemMessage("@mission/mission_generic:bounty_no_ability"); // You do not understand how to use this item.
+		player->sendSystemMessage("DEBUG: Default action taken");
 		break;
 	}
 
@@ -46,9 +48,13 @@ Reference<Task*> BountyHunterDroid::performAction(int action, SceneObject* droid
 }
 
 Reference<FindTargetTask*> BountyHunterDroid::findTarget(SceneObject* droidObject, CreatureObject* player, MissionObject* mission, bool track) {
-	if (mission->getMissionLevel() < 2 ||
-			(mission->getMissionLevel() < 3 && track)) {
-		player->sendSystemMessage("@mission/mission_generic:bounty_no_ability"); // You do not understand how to use this item.
+	if (mission->getMissionLevel() < 2 || (mission->getMissionLevel() < 3 && track)) {
+		player->sendSystemMessage("You don't need a Seeker droid to complete this mission. Any SpyNet operative could find this target.");
+		return NULL;
+	}
+	
+	if (mission->getMissionLevel() < 3 && track) {
+		player->sendSystemMessage("This target is so elusive, a Seeker droid won't cut it. Try tracking the mark with an Arakyd droid instead.");
 		return NULL;
 	}
 
@@ -85,7 +91,7 @@ Reference<FindTargetTask*> BountyHunterDroid::findTarget(SceneObject* droidObjec
 
 Reference<CallArakydTask*> BountyHunterDroid::callArakydDroid(SceneObject* droidObject, CreatureObject* player, MissionObject* mission) {
 	if (mission->getMissionLevel() < 2) {
-		player->sendSystemMessage("@mission/mission_generic:bounty_no_ability"); // You do not understand how to use this item.
+		player->sendSystemMessage("You don't need an Arakyd droid for this mission. Try using a Seeker droid instead.");
 		return NULL;
 	}
 
@@ -147,7 +153,7 @@ Reference<CallArakydTask*> BountyHunterDroid::callArakydDroid(SceneObject* droid
 
 Reference<FindTargetTask*> BountyHunterDroid::transmitBiologicalSignature(SceneObject* droidObject, CreatureObject* player, MissionObject* mission) {
 	if (mission->getMissionLevel() < 2) {
-		player->sendSystemMessage("@mission/mission_generic:bounty_no_ability"); // You do not understand how to use this item.
+		player->sendSystemMessage("You don't need to transmit a biological signature to complete this mission.");
 		return NULL;
 	}
 

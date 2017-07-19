@@ -247,7 +247,7 @@ void BountyMissionObjectiveImplementation::performDroidAction(int action, SceneO
 	Locker locker(&syncMutex);
 
 	if (!playerHasMissionOfCorrectLevel(action)) {
-		player->sendSystemMessage("@mission/mission_generic:bounty_no_ability"); // You do not understand how to use this item.
+		player->sendSystemMessage("You don't need a droid to complete this mission. Any SpyNet operative could find this target.");
 		return;
 	}
 

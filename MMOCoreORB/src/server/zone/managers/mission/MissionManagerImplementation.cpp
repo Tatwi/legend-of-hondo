@@ -123,7 +123,7 @@ void MissionManagerImplementation::handleMissionListRequest(MissionTerminal* mis
 	}
 
 	if (missionTerminal->isBountyTerminal()) {
-		if (!player->hasSkill("combat_bountyhunter_novice")) {
+		if (!player->hasSkill("social_politician_novice")) {
 			player->sendSystemMessage("@mission/mission_generic:not_bounty_hunter_terminal");
 			return;
 		}
@@ -850,7 +850,7 @@ void MissionManagerImplementation::randomizeBountyMission(CreatureObject* player
 }
 
 void MissionManagerImplementation::randomizeGenericBountyMission(CreatureObject* player, MissionObject* mission, const uint32 faction) {
-	if (!player->hasSkill("combat_bountyhunter_novice")) {
+	if (!player->hasSkill("social_politician_novice")) {
 		player->sendSystemMessage("@mission/mission_generic:not_bounty_hunter_terminal");
 		mission->setTypeCRC(0);
 		return;
@@ -865,11 +865,21 @@ void MissionManagerImplementation::randomizeGenericBountyMission(CreatureObject*
 
 	int level = 1;
 	int randomTexts = 25;
-	if (player->hasSkill("combat_bountyhunter_investigation_03")) {
-		level = 3;
-	} else if (player->hasSkill("combat_bountyhunter_investigation_01")) {
-		level = 2;
-		randomTexts = 50;
+	int rngRoll = System::random(100);
+	
+	// Select mission level, with a chance for lower level missions.
+	if (player->hasSkill("social_politician_fiscal_03")) {
+		if (rngRoll > 20){
+			level = 3;
+		} else if (rngRoll > 9){
+			level = 2;
+			randomTexts = 50;
+		}
+	} else if (player->hasSkill("social_politician_fiscal_01")) {
+		if (rngRoll > 33){
+			level = 2;
+			randomTexts = 50;
+		}
 	}
 
 	NameManager* nm = processor->getNameManager();
