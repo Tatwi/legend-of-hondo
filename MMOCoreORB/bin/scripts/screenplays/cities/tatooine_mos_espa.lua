@@ -40,7 +40,7 @@ function TatooineMosEspaScreenPlay:start()
 	if (isZoneEnabled(self.planet)) then
 		self:spawnMobiles()
 		self:spawnSceneObjects()
-		self:spawnGcwMobiles()
+		--self:spawnGcwMobiles()
 	end
 end
 
