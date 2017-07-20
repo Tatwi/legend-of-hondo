@@ -153,8 +153,28 @@ function MerchantSystem:completeSale(pObject, creature, relationsTable, goodsTab
 			if (chargePlayer ~= nil) then -- Error checking
 				creature:subtractCashCredits(chargePlayer)
 				-- Grant items
-				for ic = 1, #goodsTable[gtlc].items , 1 do
-					local pItem = giveItem(pInventory, goodsTable[gtlc].items[ic], -1)
+				for ic = 1, pieces , 1 do
+					if (string.match(goodsTable[gtlc].items[ic], "draft_schematic")) then
+						-- Crafted item
+						local template = goodsTable[gtlc].items[ic]
+						local crateQuantity = goodsTable[gtlc].crateSize
+						local quality = goodsTable[gtlc].quality
+						
+						-- Apply relationship to item quality (min 1%, max 150%)
+						if (quality > 1) then 
+							local qualAdjust = goodsTable[gtlc].quality - MerchantSystem:adjustPrice(pObject, goodsTable[gtlc].quality, relationsTable) -- Because a good value from adjustPrice() is a smaller number
+							
+							quality = math.max(1, quality + qualAdjust)
+							quality = math.min(150, quality)
+						end
+						
+						local altTemplate = goodsTable[gtlc].altTemplate
+						
+						local pItem = bazaarBotMakeCraftedItem(pObject, template, crateQuantity, quality, altTemplate) -- Automatically targets the inventory
+					else
+						-- Generic item
+						local pItem = giveItem(pInventory, goodsTable[gtlc].items[ic], -1)
+					end
 				end
 			else 
 				creature:sendSystemMessage("Transaction Failed. System error in price calculation.")

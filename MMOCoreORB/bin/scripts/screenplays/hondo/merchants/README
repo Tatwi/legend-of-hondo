@@ -17,7 +17,7 @@ content to be neatly tied to the merchants themselves.
 Limitations: 
 - - - - - - -
 I made a personal choice to use only the conversation system, rather than SUI
-list boxes (like the blue frog), becaus I would prefer to have more characters
+list boxes (like the blue frog), because I would prefer to have more characters
 who sell fewer items spread out around the galaxy than a few characters who
 sell tons of items (Ma'n Pa vs. Big Box Stores). It's with that in mind that
 practicality of listing choices in a conversation isn't a problem. However, if
@@ -25,7 +25,7 @@ one wishes to list more than 15 items or so on a single merchant they run the
 risk of the list not showing on the player's screen or just generally being
 unweildly for the player to manage (especially at lower resolutions). So, if 
 you want to have a single merchant who sells everything you are better off 
-finding a way to automate the vendor/bazaar system or using nested SUI lists.
+using BazaarBot or creating a SUI listbox system.
 
 Another "limitation" of the system that I personally prefer is my use of 
 customDialogText in the coversation files. I find the workflow of editing
@@ -36,30 +36,6 @@ happily work with STF file references. I just don't personally use them,
 and it's not an issue for me, due to the lack of network overhead required
 when playing single player on a server that is hosted on the same computer
 as the client. :)
-
-
-In The Future: 
-- - - - - - - -
-
-I have designed additional functionality that I have not yet have had the time
-to program into the base system, so check back for my progress on that. I will 
-add: 
-
-1. The ability for Smugglers to try for a discount on one item, once a day. It 
-will be like a Dungeons and Dragons "D20 hit check", mathmatically like so:
-
-(Merchant Skill + D20) - (Player Skill / 10 + RANDOM(20))
-
-If the result is a positive number, the Smuggler charmed the Merchant and he gets
-a discount based on how much he beat the check. Max discount will be 25%. The 
-Merchant skill value will be set using the "smuggler" faction in the relation table.
-Useful values range from 1 (push over) to 30 (extreme hard ass)
-
-
-2. Optional item values that limit the quanity of each item a character can 
-buy in a set period of time, as well as the months in which the items are 
-available. I listed the options at the bottom of description of the goods table.
-
 
 
 How to use it:
@@ -162,10 +138,62 @@ itemName
 items
 - The comma seperated list of items granted when the player purchases that line item. 
 
+CRAFTED ITEM REQUIRED VALUES:
 
-OPTIONAL VALUES:
+To sell crafted items, use the draft shcematic version of the item, such as, 
 
-In the future I will add the following optional values for additional functionality.
+object/draft_schematic/droid/droid_r5.iff
+
+in place of the tangible object version. This will trigger the Merchant System to use the
+BazaarBot logic to generate a crafted item. The following values must be added to the goods table entry
+
+crateSize
+- Value must be 1 for a single, uncrated item. Use 2 or more to generate a factory crate of items.
+
+quality
+- 1 to 150% of the possible quality when crafted, without considering the effects of sub-comoponents.
+- I capped the value at 150%, but any value over 100% can start to make some stats crazy good (and impossible to match with normal player crafting).
+- Relationship standing is taken into account for any item that has a quality value greater than 1.
+
+Both crateSize and quality will be applied to all draft schematics listed in the items={} table, so if you
+want certain items to have different crateSize or quality, put those items in a new index.
+
+altTemplate
+- Set to 0 for any item that doesn't have a secondary template.
+- For items with alternate templates, such as fountains, start with the value 1.
+- You MUST use a new index for each altTemplate, rather than listing each one inside of the items={} table.
+
+An example of a crafted item:
+
+{optName="TEST", cost=100, itemName="TEST DROID", crateSize=10, quality=80, altTemplate=0, items={"object/draft_schematic/droid/bounty_probot_transmitter.iff"}}
+
+
+
+
+In The Future: 
+- - - - - - - -
+
+I have designed additional functionality that I have not yet have had the time
+to program into the base system, so check back for my progress on that. I will 
+add: 
+
+1. The ability for Smugglers to try for a discount on one item, once a day. It 
+will be like a Dungeons and Dragons "D20 hit check", mathmatically like so:
+
+(Merchant Skill + D20) - (Player Skill / 10 + RANDOM(20))
+
+If the result is a positive number, the Smuggler charmed the Merchant and he gets
+a discount based on how much he beat the check. Max discount will be 25%. The 
+Merchant skill value will be set using the "smuggler" faction in the relation table.
+Useful values range from 1 (push over) to 30 (extreme hard ass)
+
+
+2. Optional item values that limit the quanity of each item a character can 
+buy in a set period of time, as well as the months in which the items are 
+available. I listed the options at the bottom of description of the goods table.
+
+
+At some point, I may also add the following optional values to the good table for additional functionality.
 
 Optional values are ignored if they are missing, provided they are not required by another value.
 
