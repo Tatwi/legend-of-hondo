@@ -66,7 +66,14 @@ function TatooineMosEspaScreenPlay:spawnSceneObjects()
     spawnSceneObject("tatooine", "object/tangible/crafting/station/public_weapon_station.iff",  -7.18723, 1.13306, -10.4749, 1256023,  -0.700969, 0, 0.713191, 0)
     spawnSceneObject("tatooine", "object/tangible/crafting/station/public_weapon_station.iff",  0.00787778, 1.13306, -15, 1256022,  1.0, 0, 0.0, 0)
     spawnSceneObject("tatooine", "object/tangible/crafting/station/public_clothing_station.iff",  -8.76385, 1.13306, 2.52475, 1256020,  0.998299, 0, -0.0582979, 0) 
-    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_structure_station.iff",  14.6757, 1.13306, -8.22967, 1256021,  -0.41052, 0, 0.911852, 0)  
+    spawnSceneObject("tatooine", "object/tangible/crafting/station/public_structure_station.iff",  14.6757, 1.13306, -8.22967, 1256021,  -0.41052, 0, 0.911852, 0) 
+    -- Droid room
+    spawnSceneObject("tatooine", "object/tangible/mission/mission_bounty_droid_seeker.iff", -14.6106, 1.13306, -8.05375, 1256023, 1, 0, 0, 0)
+	spawnSceneObject("tatooine", "object/tangible/furniture/cheap/armoire_s01.iff", -15.5017, 1.13306, -8.65976, 1256023, 0.707107, 0, 0.707107, 0)
+	spawnSceneObject("tatooine", "object/tangible/furniture/cheap/armoire_s01.iff", -15.486, 1.13306, -10.9937, 1256023, 0.707107, 0, 0.707107, 0)
+	spawnSceneObject("tatooine", "object/tangible/furniture/cheap/end_table_s01.iff", -13.3579, 1.13306, -11.6487, 1256023, -0.642788, 0, 0.766044, 0)
+	spawnSceneObject("tatooine", "object/tangible/mission/mission_bounty_droid_probot.iff", -13.2904, 1.56306, -11.4697, 1256023, 0.776382, -0.602084, 0.161598, 0.0928029)
+	spawnSceneObject("tatooine", "object/tangible/furniture/tatooine/frn_tatt_cantina_droid_detector.iff", -13.1617, 1.13306, -7.34106, 1256023, -4.37114e-08, 0, 1, 0)
     
     -- Inside Hospital
     spawnSceneObject("tatooine", "object/tangible/crafting/station/public_food_station.iff", -32.7385, 0.254413, -6.32808, 9995780, 0.707107, 0, 0.707107, 0) 
