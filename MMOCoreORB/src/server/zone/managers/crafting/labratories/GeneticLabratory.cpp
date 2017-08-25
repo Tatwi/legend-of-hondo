@@ -108,7 +108,67 @@ void GeneticLabratory::setInitialCraftingValues(TangibleObject* prototype, Manuf
 	value = manufactureSchematic->getComplexity();
 	craftingValues->addExperimentalProperty("", itemName, value, value, 0, true, ValuesMap::OVERRIDECOMBINE);
 	float modifier = calculateAssemblyValueModifier(assemblySuccess);
+	
+	// Legend of Hondo - Make resource quality actually matter (25 ogainic, 25 inorganic added to DNA template)
+	
+	// Get the resource percent values and save them for later use
+	float fiercenessOQ, powerSR, clevernessFL, intellectHR, fortitudeCR, hardinessUT, dexterityCD, enduranceDR, couragePE, dependabilityMA;
+	int subtitleCounter = 0;
 
+	for (int i = 0; i < draftSchematic->getResourceWeightCount(); ++i) {
+		// Grab the first weight group
+		Reference<ResourceWeight* > resourceWeight = draftSchematic->getResourceWeight(i);
+		// Getting the title ex: expDamage
+		String experimentalTitle = resourceWeight->getExperimentalTitle();
+		// Getting the subtitle ex: minDamage
+		String property = resourceWeight->getPropertyName();
+		
+		if (property == "null")
+			continue;
+		
+		//Logger::console.info("DEBUG property: " + property, true);
+
+		for (int ii = 0; ii < resourceWeight->getPropertyListSize(); ++ii) {
+			// Based on the script we cycle through each exp group
+			// Get the type from the type/weight
+			int type = (resourceWeight->getTypeAndWeight(ii) >> 4);
+
+			// Grant up to 25% bonus, 1000 / 4000 + 1 = 1.25
+			if (property == "fierceness")
+				fiercenessOQ = getWeightedValue(manufactureSchematic, type) / 4000 + 1;
+			if (property == "power")
+				powerSR = getWeightedValue(manufactureSchematic, type) / 4000 + 1;
+			if (property == "cleverness")
+				clevernessFL = getWeightedValue(manufactureSchematic, type) / 4000 + 1;
+			if (property == "intellect")
+				intellectHR = getWeightedValue(manufactureSchematic, type) / 4000 + 1;
+			if (property == "fortitude")
+				fortitudeCR = getWeightedValue(manufactureSchematic, type) / 4000 + 1;
+			if (property == "hardiness")
+				hardinessUT = getWeightedValue(manufactureSchematic, type) / 4000 + 1;
+			if (property == "dexterity")
+				dexterityCD = getWeightedValue(manufactureSchematic, type) / 4000 + 1;
+			if (property == "endurance")
+				enduranceDR = getWeightedValue(manufactureSchematic, type) / 4000 + 1;
+			if (property == "courage")
+				couragePE = getWeightedValue(manufactureSchematic, type) / 4000 + 1;
+			if (property == "dependability")
+				dependabilityMA = getWeightedValue(manufactureSchematic, type) / 4000 + 1;
+		}
+	}
+	/*
+	Logger::console.info("fiercenessOQ: " + String::valueOf(fiercenessOQ), true);
+	Logger::console.info(" powerSR: " + String::valueOf(powerSR), true);
+	Logger::console.info(" clevernessFL: " + String::valueOf(clevernessFL), true);
+	Logger::console.info(" intellectHR: " + String::valueOf(intellectHR), true);
+	Logger::console.info(" fortitudeCR: " + String::valueOf(fortitudeCR), true);
+	Logger::console.info(" hardinessUT: " + String::valueOf(hardinessUT), true);
+	Logger::console.info(" dexterityCD: " + String::valueOf(dexterityCD), true);
+	Logger::console.info(" enduranceDR: " + String::valueOf(enduranceDR), true);
+	Logger::console.info(" couragePE: " + String::valueOf(couragePE), true);
+	Logger::console.info(" dependabilityMA: " + String::valueOf(dependabilityMA), true);
+	*/
+	
 	// Cast component to genetic
 	if (!prototype->isComponent())
 		return;
@@ -154,18 +214,18 @@ void GeneticLabratory::setInitialCraftingValues(TangibleObject* prototype, Manuf
 	// REVAMP FROM HERE DOWN.
 	// STEP 1. Determine Attributes
 	uint32 harMax, fortMax, endMax,intMax, dexMax,cleMax,depMax,couMax,fieMax,powMax;
-
-	// Calculate the max values i.e. the weighter resource avergae.
-	fortMax = Genetics::physiqueFormula(phy->getForititude(),pro->getForititude(),men->getForititude(),psy->getForititude(),agr->getForititude());
-	harMax = Genetics::physiqueFormula(phy->getHardiness(),pro->getHardiness(),men->getHardiness(),psy->getHardiness(),agr->getHardiness());
-	dexMax = Genetics::prowessFormula(phy->getDexterity(),pro->getDexterity(),men->getDexterity(),psy->getDexterity(),agr->getDexterity());
-	endMax = Genetics::prowessFormula(phy->getEndurance(),pro->getEndurance(),men->getEndurance(),psy->getEndurance(),agr->getEndurance());
-	intMax = Genetics::mentalFormula(phy->getIntellect(),pro->getIntellect(),men->getIntellect(),psy->getIntellect(),agr->getIntellect());
-	cleMax = Genetics::mentalFormula(phy->getCleverness(),pro->getCleverness(),men->getCleverness(),psy->getCleverness(),agr->getCleverness());
-	depMax = Genetics::physchologicalFormula(phy->getDependency(),pro->getDependency(),men->getDependency(),psy->getDependency(),agr->getDependency());
-	couMax = Genetics::physchologicalFormula(phy->getCourage(),pro->getCourage(),men->getCourage(),psy->getCourage(),agr->getCourage());
-	fieMax = Genetics::aggressionFormula(phy->getFierceness(),pro->getFierceness(),men->getFierceness(),psy->getFierceness(),agr->getFierceness());
-	powMax = Genetics::aggressionFormula(phy->getPower(),pro->getPower(),men->getPower(),psy->getPower(),agr->getPower());
+	
+	// Calculate the max values i.e. the weighter resource avergae. Legend of Hondo: Up to 25% bonus based on resource quality
+	fortMax = Genetics::physiqueFormula(phy->getForititude(),pro->getForititude(),men->getForititude(),psy->getForititude(),agr->getForititude()) * fortitudeCR;
+	harMax = Genetics::physiqueFormula(phy->getHardiness(),pro->getHardiness(),men->getHardiness(),psy->getHardiness(),agr->getHardiness()) * hardinessUT;
+	dexMax = Genetics::prowessFormula(phy->getDexterity(),pro->getDexterity(),men->getDexterity(),psy->getDexterity(),agr->getDexterity()) * dexterityCD;
+	endMax = Genetics::prowessFormula(phy->getEndurance(),pro->getEndurance(),men->getEndurance(),psy->getEndurance(),agr->getEndurance()) * enduranceDR;
+	intMax = Genetics::mentalFormula(phy->getIntellect(),pro->getIntellect(),men->getIntellect(),psy->getIntellect(),agr->getIntellect()) * intellectHR;
+	cleMax = Genetics::mentalFormula(phy->getCleverness(),pro->getCleverness(),men->getCleverness(),psy->getCleverness(),agr->getCleverness()) * clevernessFL;
+	depMax = Genetics::physchologicalFormula(phy->getDependency(),pro->getDependency(),men->getDependency(),psy->getDependency(),agr->getDependency()) * dependabilityMA;
+	couMax = Genetics::physchologicalFormula(phy->getCourage(),pro->getCourage(),men->getCourage(),psy->getCourage(),agr->getCourage()) * couragePE;
+	fieMax = Genetics::aggressionFormula(phy->getFierceness(),pro->getFierceness(),men->getFierceness(),psy->getFierceness(),agr->getFierceness()) * fiercenessOQ;
+	powMax = Genetics::aggressionFormula(phy->getPower(),pro->getPower(),men->getPower(),psy->getPower(),agr->getPower()) * powerSR;
 
 	// acknowledge any specials found in the experimentation line. this means specials will not modify later by experimentaiton as its an overlay value.
 	bool spBlast = Genetics::hasASpecial(phy,pro,men,psy,agr,SharedWeaponObjectTemplate::BLAST);
@@ -257,10 +317,34 @@ void GeneticLabratory::setInitialCraftingValues(TangibleObject* prototype, Manuf
 		float maxValue = craftingValues->getMaxValue(title);
 		float initialValue = Genetics::initialValue(craftingValues->getMaxValue(title));
 
+		// Grant up to 25% bonus based on resource quality
+		if (title == "fierceness")
+			maxValue *= fiercenessOQ;
+		if (title == "power")
+			maxValue *= powerSR;
+		if (title == "cleverness")
+			maxValue *= clevernessFL;
+		if (title == "intellect")
+			maxValue *= intellectHR;
+		if (title == "fortitude")
+			maxValue *= fortitudeCR;
+		if (title == "hardiness")
+			maxValue *= hardinessUT;
+		if (title == "dexterity")
+			maxValue *= dexterityCD;
+		if (title == "endurance")
+			maxValue *= enduranceDR;
+		if (title == "courage")
+			maxValue *= couragePE;
+		if (title == "dependability")
+			maxValue *= dependabilityMA;
+
 		// determine max percentage
 		craftingValues->setMaxPercentage(title, maxValue/1000.0f);
 		craftingValues->setMaxValue(title,1000);
-
+		
+		//Logger::console.info("maxValue: " + String::valueOf(maxValue), true);
+		
 		// using assembly to accoutn for a 1 +% increase
 		currentPercentage = getAssemblyPercentage(initialValue) * modifier;
 

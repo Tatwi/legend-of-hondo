@@ -62,12 +62,12 @@ object_draft_schematic_bio_engineer_dna_template_dna_template_generic = object_d
    customizationStringNames = {},
    customizationDefaults = {},
 
-   ingredientTemplateNames = {"craft_creature_ingredients_n", "craft_creature_ingredients_n", "craft_creature_ingredients_n", "craft_creature_ingredients_n", "craft_creature_ingredients_n"},
-   ingredientTitleNames = {"physique_profile", "prowess_profile", "mental_profile", "psychological_profile", "aggression_profile"},
-   ingredientSlotType = {2, 2, 2, 2, 2},
-   resourceTypes = {"object/tangible/component/base/shared_base_dna_sample.iff", "object/tangible/component/base/shared_base_dna_sample.iff", "object/tangible/component/base/shared_base_dna_sample.iff", "object/tangible/component/base/shared_base_dna_sample.iff", "object/tangible/component/base/shared_base_dna_sample.iff"},
-   resourceQuantities = {1, 1, 1, 1, 1},
-   contribution = {100, 100, 100, 100, 100},
+   ingredientTemplateNames = {"craft_creature_ingredients_n", "craft_creature_ingredients_n", "craft_creature_ingredients_n", "craft_creature_ingredients_n", "craft_creature_ingredients_n", "craft_chemical_ingredients_n", "craft_chemical_ingredients_n",},
+   ingredientTitleNames = {"physique_profile", "prowess_profile", "mental_profile", "psychological_profile", "aggression_profile", "organic_element", "inorganic_element",},
+   ingredientSlotType = {2, 2, 2, 2, 2, 0, 0},
+   resourceTypes = {"object/tangible/component/base/shared_base_dna_sample.iff", "object/tangible/component/base/shared_base_dna_sample.iff", "object/tangible/component/base/shared_base_dna_sample.iff", "object/tangible/component/base/shared_base_dna_sample.iff", "object/tangible/component/base/shared_base_dna_sample.iff", "organic", "inorganic"},
+   resourceQuantities = {1, 1, 1, 1, 1, 25, 25},
+   contribution = {100, 100, 100, 100, 100, 100, 100},
 
 
    targetTemplate = "object/tangible/component/dna/dna_template_generic.iff",
