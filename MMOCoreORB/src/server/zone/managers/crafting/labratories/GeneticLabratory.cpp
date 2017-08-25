@@ -396,13 +396,18 @@ void GeneticLabratory::experimentRow(CraftingValues* craftingValues,int rowEffec
 	float currentFort = craftingValues->getCurrentValue("fortitude");
 	int armorValue = currentFort/500;
 	float currentEffective = (int)(((currentFort - (armorValue * 500)) / 50) * 5);
-	title = craftingValues->getExperimentalPropertyTitle("resists");
+	
 	for (int i = 0; i < craftingValues->getExperimentalPropertySubtitleSize(); ++i) {
-		if (subtitlesTitle == title) {
-			subtitle = craftingValues->getExperimentalPropertySubtitle(i);
-			if (craftingValues->getMaxValue(subtitle) != craftingValues->getCurrentValue(i)) {
-				craftingValues->setCurrentValue(subtitle,currentEffective);
-			}
-		}
+		subtitlesTitle = craftingValues->getExperimentalPropertySubtitlesTitle(i);
+		subtitle = craftingValues->getExperimentalPropertySubtitle(i);
+		float minValue = craftingValues->getMinValue(subtitle);
+
+		if (subtitlesTitle == "resists" && minValue >= 0) {
+			float maxValue = craftingValues->getMaxValue(subtitle);
+			
+			if (craftingValues->getCurrentValue(i) < maxValue) {
+				craftingValues->setCurrentValue(subtitle, MIN(currentEffective, maxValue));
+ 			}
+ 		}
 	}
 }
