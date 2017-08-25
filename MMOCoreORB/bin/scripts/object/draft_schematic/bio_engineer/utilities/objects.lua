@@ -383,3 +383,12 @@ object_draft_schematic_bio_engineer_utilities_shared_pet_vitapack_c = SharedDraf
 }
 
 ObjectTemplates:addClientTemplate(object_draft_schematic_bio_engineer_utilities_shared_pet_vitapack_c, "object/draft_schematic/bio_engineer/utilities/shared_pet_vitapack_c.iff")
+
+
+-- Legend of Hondo
+object_draft_schematic_bio_engineer_utilities_shared_dna_extractor = SharedDraftSchematicObjectTemplate:new {
+	clientTemplateFileName = "object/draft_schematic/bio_engineer/utilities/shared_dna_extractor.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_draft_schematic_bio_engineer_utilities_shared_dna_extractor, "object/draft_schematic/bio_engineer/utilities/shared_dna_extractor.iff")
+

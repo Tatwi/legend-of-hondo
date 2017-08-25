@@ -496,6 +496,7 @@ core3_SOURCES =	$(core3_IDLS) \
 		server/zone/objects/tangible/components/RobeObjectMenuComponent.cpp \
 		server/zone/objects/tangible/components/HeroRingMenuComponent.cpp \
 		server/zone/objects/tangible/components/SkillBuffObjectMenuComponent.cpp \
+		server/zone/objects/tangible/components/DnaExtractorMenuComponent.cpp \
 		server/zone/objects/tangible/components/generic/ShellfishHarvesterMenuComponent.cpp \
 		server/zone/objects/tangible/components/generic/CreatureHabitatMenuComponent.cpp \
 		server/zone/objects/tangible/components/generic/CoaMessageFragmentMenuComponent.cpp \

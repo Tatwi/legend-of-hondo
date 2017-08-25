@@ -1338,3 +1338,11 @@ object_tangible_medicine_pet_shared_pet_vitapack_c = SharedTangibleObjectTemplat
 }
 
 ObjectTemplates:addClientTemplate(object_tangible_medicine_pet_shared_pet_vitapack_c, "object/tangible/medicine/pet/shared_pet_vitapack_c.iff")
+
+
+-- Legend of Hondo
+object_tangible_medicine_pet_shared_dna_extractor = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/medicine/pet/shared_dna_extractor.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_tangible_medicine_pet_shared_dna_extractor, "object/tangible/medicine/pet/shared_dna_extractor.iff")
