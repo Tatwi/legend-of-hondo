@@ -423,17 +423,10 @@ bool GeneticLabratory::allowFactoryRun(ManufactureSchematic* manufactureSchemati
 }
 
 void GeneticLabratory::experimentRow(CraftingValues* craftingValues,int rowEffected, int pointsAttempted, float failure, int experimentationResult){
-	// we can 'run super' then reset our resists accordingly as well as armor base.
-	//
-	// TODO:
-	// Step 1. Perform normal experimentiton run
-	// Step 2. Recalculate armor base, and effective resist based on armor base. (armor base is fort)
-	// Step 3. Profit.
-	// RULES: AMAZING + 15% (+5% if lucky), GREAT: 1% GOOD: 0.5% MODERATE: 0.25% SUCCESS: 0.15% MARGINAL: 0% OK: -0.5% BARELY: -1% CRITICAL FAILURE: -1% + random state reduced by 10%
-	// use normal line mechanics, just add the extra in.
 	float modifier = 0, newValue = 0;
 	String title, subtitle, subtitlesTitle, screwedTitle;
 	title = craftingValues->getVisibleExperimentalPropertyTitle(rowEffected);
+	
 	for (int i = 0; i < craftingValues->getExperimentalPropertySubtitleSize(); ++i) {
 		subtitlesTitle = craftingValues->getExperimentalPropertySubtitlesTitle(i);
 		if (subtitlesTitle == title) {
@@ -449,24 +442,17 @@ void GeneticLabratory::experimentRow(CraftingValues* craftingValues,int rowEffec
 			if (experimentationResult == CraftingManager::SUCCESS)
 				modifier = 0.015 * (float)pointsAttempted;
 			if (experimentationResult == CraftingManager::MARGINALSUCCESS)
-				modifier = 0.0;
+				modifier = 0.05;
 			if (experimentationResult == CraftingManager::OK)
-				modifier = -0.05 * (float)pointsAttempted;
+				modifier = 0.0;
 			if (experimentationResult == CraftingManager::BARELYSUCCESSFUL)
-				modifier = -0.1 * (float)pointsAttempted;
+				modifier = -0.04 * (float)pointsAttempted;
 			if (experimentationResult == CraftingManager::CRITICALFAILURE) {
-				modifier = -0.1 * (float)pointsAttempted;
-				// pick a random attribute
-				int which = System::random(10);
-				while(which != i) {
-					which = System::random(10);
-				}
-				screwedTitle = craftingValues->getExperimentalPropertySubtitle(which);
-				float current = craftingValues->getCurrentPercentage(which);
-				craftingValues->setCurrentPercentage(screwedTitle,current * (-0.1)); // reduce a random attribute by 10%
+				modifier = -0.12 * (float)pointsAttempted;
 			}
-			//modifier = calculateExperimentationValueModifier(experimentationResult,pointsAttempted);
+			
 			newValue = craftingValues->getCurrentPercentage(subtitle) + modifier;
+			
 			if (newValue > craftingValues->getMaxPercentage(subtitle))
 				newValue = craftingValues->getMaxPercentage(subtitle);
 
