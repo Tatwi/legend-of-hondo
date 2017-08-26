@@ -1203,7 +1203,7 @@ void CraftingSessionImplementation::createPrototype(int clientCounter, bool crea
 		String xpType = manufactureSchematic->getDraftSchematic()->getXpType();
 		int xp = manufactureSchematic->getDraftSchematic()->getXpAmount();
 
-		int delay = MIN(10 + System::random(10), manufactureSchematic->getComplexity()); // LoH reduced timer
+		int delay = 1; // LoH reduced timer
 
 		if (createItem) {
 
