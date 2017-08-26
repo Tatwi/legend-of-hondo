@@ -46,6 +46,12 @@ protected:
 		return (float) ceil(intermediate);
 	}
 	void recalculateResist(CraftingValues* craftingValues);
+	
+	/* Calculates the effect resource quality has on a stat
+	 * When originalValue == NULL, returns 1.### to be used as a percent bonus
+	 * else, returns a modified version of originalValue
+	 */ 
+	float resourceFactor(float statValue, float originalValue);
 };
 
 }
