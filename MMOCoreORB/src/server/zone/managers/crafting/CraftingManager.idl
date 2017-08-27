@@ -95,4 +95,5 @@ class CraftingManager extends ZoneManager {
 	public native int getCreationCount(ManufactureSchematic manufactureSchematic);
 	
 	public native int calculateFinalJunkValue(CreatureObject player, ManufactureSchematic manufactureSchematic);
+	public native int epiphany(CreatureObject player, ManufactureSchematic manufactureSchematic);
 }

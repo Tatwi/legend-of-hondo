@@ -254,3 +254,129 @@ int CraftingManagerImplementation::calculateFinalJunkValue(CreatureObject* playe
 	
 	return int(finalValue);
 }
+
+/* Chance for a reward while experimenting during crafting.
+ * Designed as a way for Bio-Engineers to earn single use creature schematics for otherwise unavailable creature types.
+ * How-to: If the average value of 3 resource stat weights is +/-100 of the control stat, you win!
+ * Note: DNA Templates use a lump of organic and a lump of inorganic, which allows for the max mixing of stats.
+ */ 
+int CraftingManagerImplementation::epiphany(CreatureObject* player, ManufactureSchematic* manufactureSchematic) {
+	Reference<DraftSchematic*> draftSchematic = manufactureSchematic->getDraftSchematic();
+	
+	if(draftSchematic->getCustomName().contains("Generic DNA Template")){
+		SharedLabratory* lab = labs.get(manufactureSchematic->getLabratory());
+		// Get the resource values
+		float cr = lab->getWeightedValue(manufactureSchematic, 1);
+		float cd = lab->getWeightedValue(manufactureSchematic, 2);
+		float dr = lab->getWeightedValue(manufactureSchematic, 3);
+		float hr = lab->getWeightedValue(manufactureSchematic, 4);
+		float fl = lab->getWeightedValue(manufactureSchematic, 5);	
+		float ma = lab->getWeightedValue(manufactureSchematic, 6);
+		float pe = lab->getWeightedValue(manufactureSchematic, 7);
+		float oq = lab->getWeightedValue(manufactureSchematic, 8);	
+		float sr = lab->getWeightedValue(manufactureSchematic, 9);
+		float ut = lab->getWeightedValue(manufactureSchematic, 10);
+		
+		// Generate thought
+		int group = System::random(9) + 1; // Select reward group to try for
+		int idea = 0;
+		int control  = 0;
+		String hint1 = "";
+		String hint2 = "";
+		
+		if (group == 1){
+			idea = (ma + cd + fl) / 3;
+			control = oq;
+			hint1 = "OQ";
+			hint2 = "MA, CD, and FL";
+		} else if (group == 2){
+			idea = (cd + sr + ma) / 3;
+			control = ut;
+			hint1 = "UT";
+			hint2 = "CD, SR, and MA";
+		} else if (group == 3){
+			idea = (ut + oq + ma) / 3;
+			control = dr;
+			hint1 = "DR";
+			hint2 = "UT, OQ, and MA";
+		} else if (group == 4){
+			idea = (pe + cr + sr) / 3;
+			control = oq;
+			hint1 = "OQ";
+			hint2 = "PE, CR, and SR";
+		} else if (group == 5){
+			idea = (hr + oq + fl) / 3;
+			control = ma;
+			hint1 = "MA";
+			hint2 = "HR, OQ, and FL";
+		} else if (group == 6){
+			idea = (sr + cd + pe) / 3;
+			control = ut;
+			hint1 = "UT";
+			hint2 = "SR, CD, and PE";
+		} else if (group == 7){
+			idea = (hr + dr + cr) / 3;
+			control = sr;
+			hint1 = "SR";
+			hint2 = "HR, DR, and CR";
+		} else if (group == 8){
+			idea = (sr + ma + cd) / 3;
+			control = dr;
+			hint1 = "DR";
+			hint2 = "SR, MA, and CD";
+		} else if (group == 9){
+			idea = (fl + oq + hr) / 3;
+			control = cr;
+			hint1 = "CR";
+			hint2 = "FL, OQ, and HR";
+		} else if (group == 10){
+			idea = (sr + cd + pe) / 3;
+			control = fl;
+			hint1 = "FL";
+			hint2 = "SR, CD, and PE";
+		}
+		
+		int thought = abs(idea - control);
+		
+		// Was it a good thought?
+		if (thought > 100){
+			// No joy, but provide hints if they were close
+			if (thought < 150){
+				StringBuffer msg;
+				msg << "You feel like you were on to something... " << hint1 << " seemed really important there.";
+				
+				if (thought < 120)
+					msg << " Maybe tweaking the " << hint2 << " a bit will help next time...";
+				
+				player->sendSystemMessage(msg.toString()); 
+			}
+				
+			return 0;
+		}
+
+		return group; // Good idea!
+	} 
+	
+	return 0;
+}
+
+
+
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			

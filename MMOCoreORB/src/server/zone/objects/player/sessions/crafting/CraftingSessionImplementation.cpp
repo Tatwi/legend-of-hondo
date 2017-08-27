@@ -1009,6 +1009,14 @@ void CraftingSessionImplementation::experiment(int rowsAttempted, const String& 
 	if(crafterGhost != NULL && crafterGhost->getDebug()) {
 		crafter->sendSystemMessage(craftingValues->toString());
 	}
+	
+	// Legend of Hondo - Have an epiphany, earn a temp schematic!
+	int rewardGroup = craftingManager.get()->epiphany(crafter, manufactureSchematic);
+		
+	if (rewardGroup < 1)
+		return;
+	
+	crafter->sendSystemMessage("You've had an epiphany! A new Group " + String::valueOf(rewardGroup) + " rare pet schematic has been added to your inventory.");
 }
 
 void CraftingSessionImplementation::customization(const String& name, byte templateChoice, int schematicCount, const String& customizationString) {
