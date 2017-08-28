@@ -1338,3 +1338,11 @@ object_tangible_crafting_station_shared_weapon_tool = SharedTangibleObjectTempla
 }
 
 ObjectTemplates:addClientTemplate(object_tangible_crafting_station_shared_weapon_tool, "object/tangible/crafting/station/shared_weapon_tool.iff")
+
+-- Legend of Hondo
+
+object_tangible_crafting_station_shared_pet_station = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/crafting/station/shared_pet_station.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_tangible_crafting_station_shared_pet_station, "object/tangible/crafting/station/shared_pet_station.iff")

@@ -1806,4 +1806,5 @@ schematics = {
 	{path="object/draft_schematic/item/quest_item/fs_medic_puzzle_heal_pack.iff"},
 	{path="object/draft_schematic/bio_engineer/utilities/dna_extractor.iff"},
 	{path="object/draft_schematic/bio_engineer/creature/creature_purbole.iff"},
+	{path="object/draft_schematic/item/item_pet_station.iff"},
 };

@@ -3421,3 +3421,11 @@ object_draft_schematic_item_shared_item_weapon_tool = SharedDraftSchematicObject
 }
 
 ObjectTemplates:addClientTemplate(object_draft_schematic_item_shared_item_weapon_tool, "object/draft_schematic/item/shared_item_weapon_tool.iff")
+
+-- Legend of Hondo
+
+object_draft_schematic_item_shared_item_pet_station = SharedDraftSchematicObjectTemplate:new {
+	clientTemplateFileName = "object/draft_schematic/item/shared_item_pet_station.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_draft_schematic_item_shared_item_pet_station, "object/draft_schematic/item/shared_item_pet_station.iff")

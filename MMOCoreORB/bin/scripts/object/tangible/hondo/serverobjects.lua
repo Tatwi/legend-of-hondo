@@ -1,7 +1,7 @@
 -- Legend of Hondo
 
 -- Misc objects
-
+includeFile("tangible/hondo/incubator.lua")
 
 -- Filler buildings Tatooine
 includeFile("tangible/hondo/decoration/building/tatooine/filler_building_block_64x16_style_01.lua")
