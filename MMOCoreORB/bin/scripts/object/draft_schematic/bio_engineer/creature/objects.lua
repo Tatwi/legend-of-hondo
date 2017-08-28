@@ -3421,3 +3421,11 @@ object_draft_schematic_bio_engineer_creature_shared_creature_zucca_boar = Shared
 }
 
 ObjectTemplates:addClientTemplate(object_draft_schematic_bio_engineer_creature_shared_creature_zucca_boar, "object/draft_schematic/bio_engineer/creature/shared_creature_zucca_boar.iff")
+
+-- Legend of Hondo
+
+object_draft_schematic_bio_engineer_creature_shared_creature_purbole = SharedDraftSchematicObjectTemplate:new {
+	clientTemplateFileName = "object/draft_schematic/bio_engineer/creature/shared_creature_purbole.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_draft_schematic_bio_engineer_creature_shared_creature_purbole, "object/draft_schematic/bio_engineer/creature/shared_creature_purbole.iff")

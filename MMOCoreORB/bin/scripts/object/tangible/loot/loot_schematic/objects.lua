@@ -4937,3 +4937,12 @@ object_tangible_loot_loot_schematic_shared_utensils_schematic = SharedTangibleOb
 }
 
 ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_utensils_schematic, "object/tangible/loot/loot_schematic/shared_utensils_schematic.iff")
+
+
+-- Legend of Hondo
+
+object_tangible_loot_loot_schematic_shared_be_purbole_schematic = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/loot/loot_schematic/shared_be_purbole_schematic.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_be_purbole_schematic, "object/tangible/loot/loot_schematic/shared_be_purbole_schematic.iff")

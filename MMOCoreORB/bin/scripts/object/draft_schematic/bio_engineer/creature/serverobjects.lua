@@ -114,3 +114,5 @@ includeFile("draft_schematic/bio_engineer/creature/creature_vesp.lua")
 includeFile("draft_schematic/bio_engineer/creature/creature_vir_vur.lua")
 includeFile("draft_schematic/bio_engineer/creature/creature_woolamander.lua")
 includeFile("draft_schematic/bio_engineer/creature/creature_zucca_boar.lua")
+-- Legend of Hondo
+includeFile("draft_schematic/bio_engineer/creature/creature_purbole.lua")

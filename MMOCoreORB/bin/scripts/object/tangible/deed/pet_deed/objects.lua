@@ -5881,3 +5881,11 @@ object_tangible_deed_pet_deed_shared_zucca_boar_deed = SharedTangibleObjectTempl
 }
 
 ObjectTemplates:addClientTemplate(object_tangible_deed_pet_deed_shared_zucca_boar_deed, "object/tangible/deed/pet_deed/shared_zucca_boar_deed.iff")
+
+-- Legend of Hondo
+
+object_tangible_deed_pet_deed_shared_purbole_deed = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/deed/pet_deed/shared_purbole_deed.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_tangible_deed_pet_deed_shared_purbole_deed, "object/tangible/deed/pet_deed/shared_purbole_deed.iff")

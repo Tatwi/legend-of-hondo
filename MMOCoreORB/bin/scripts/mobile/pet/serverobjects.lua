@@ -94,3 +94,5 @@ includeFile("pet/wed_treadwell_crafted.lua")
 includeFile("pet/wed_treadwell_crafted_advanced.lua")
 includeFile("pet/woolamander_be.lua")
 includeFile("pet/zucca_boar_be.lua")
+-- Legend of Hondo
+includeFile("pet/purbole_be.lua")
