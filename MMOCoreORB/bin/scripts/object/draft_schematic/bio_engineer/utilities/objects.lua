@@ -392,3 +392,8 @@ object_draft_schematic_bio_engineer_utilities_shared_dna_extractor = SharedDraft
 
 ObjectTemplates:addClientTemplate(object_draft_schematic_bio_engineer_utilities_shared_dna_extractor, "object/draft_schematic/bio_engineer/utilities/shared_dna_extractor.iff")
 
+object_draft_schematic_bio_engineer_utilities_shared_incubation_tray = SharedDraftSchematicObjectTemplate:new {
+	clientTemplateFileName = "object/draft_schematic/bio_engineer/utilities/shared_incubation_tray.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_draft_schematic_bio_engineer_utilities_shared_incubation_tray, "object/draft_schematic/bio_engineer/utilities/shared_incubation_tray.iff")
