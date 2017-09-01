@@ -7684,3 +7684,12 @@ object_intangible_pet_shared_zucca_boar_hue = SharedIntangibleObjectTemplate:new
 }
 
 ObjectTemplates:addClientTemplate(object_intangible_pet_shared_zucca_boar_hue, "object/intangible/pet/shared_zucca_boar_hue.iff")
+
+-- Legend of Hondo
+
+object_intangible_pet_shared_crowned_rasp_hue = SharedIntangibleObjectTemplate:new {
+	clientTemplateFileName = "object/intangible/pet/shared_crowned_rasp_hue.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_intangible_pet_shared_crowned_rasp_hue, "object/intangible/pet/shared_crowned_rasp_hue.iff")
+

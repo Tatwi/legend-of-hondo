@@ -3429,3 +3429,10 @@ object_draft_schematic_bio_engineer_creature_shared_creature_purbole = SharedDra
 }
 
 ObjectTemplates:addClientTemplate(object_draft_schematic_bio_engineer_creature_shared_creature_purbole, "object/draft_schematic/bio_engineer/creature/shared_creature_purbole.iff")
+
+object_draft_schematic_bio_engineer_creature_shared_creature_crowned_rasp = SharedDraftSchematicObjectTemplate:new {
+	clientTemplateFileName = "object/draft_schematic/bio_engineer/creature/shared_creature_crowned_rasp.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_draft_schematic_bio_engineer_creature_shared_creature_crowned_rasp, "object/draft_schematic/bio_engineer/creature/shared_creature_crowned_rasp.iff")
+

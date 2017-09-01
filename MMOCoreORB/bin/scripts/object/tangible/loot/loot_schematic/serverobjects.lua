@@ -130,3 +130,4 @@ includeFile("tangible/loot/loot_schematic/tumble_blender_schematic.lua")
 includeFile("tangible/loot/loot_schematic/utensils_schematic.lua")
 -- Legend of Hondo
 includeFile("tangible/loot/loot_schematic/be_purbole_schematic.lua")
+includeFile("tangible/loot/loot_schematic/be_crowned_rasp_schematic.lua")

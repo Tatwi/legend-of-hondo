@@ -201,3 +201,5 @@ includeFile("intangible/pet/womp_rat_hue.lua")
 includeFile("intangible/pet/woolamander_hue.lua")
 includeFile("intangible/pet/worrt_hue.lua")
 includeFile("intangible/pet/zucca_boar_hue.lua")
+-- Legend of Hondo
+includeFile("intangible/pet/crowned_rasp_hue.lua")

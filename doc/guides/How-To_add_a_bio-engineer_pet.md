@@ -40,3 +40,19 @@ Edited TRE Files:
 - The TRE files are required, else the items won't show up on the client.
 - The 3D model appearance for the loot schematic is a book. I just changed the appearance line in the TRE file to make that happen.
 
+
+#### Using an Existing Creature
+- All the files above, plus the following files.
+New TRE Files  
+- tre_required/object/intangible/pet/purbole_hue.iff 
+- This is for the controlDeviceObjectTemplate in pet_deed, which is used as the datapad object. It may already exist for some creatures even though they aren't pets.
+New Server Files
+- MMOCoreORB/bin/scripts/mobile/pet/purbole_be.lua
+- MMOCoreORB/bin/scripts/object/intangible/pet/purbole_hue.lua
+Edited Server Files:  
+- MMOCoreORB/bin/scripts/mobile/pet/serverobjects.lua
+- MMOCoreORB/bin/scripts/object/intangible/pet/objects.lua
+- MMOCoreORB/bin/scripts/object/intangible/pet/serverobjects.lua
+
+#### Notes
+- Some creatures do not have an appearance/purbole_hue.sat file for their appearance. I have not tried using of these creatures as a Bio-Engineer pet, so I can't say off hand if they would work in the crafting process (without the color pallet selection info). 

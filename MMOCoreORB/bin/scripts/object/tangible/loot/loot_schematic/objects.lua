@@ -4946,3 +4946,9 @@ object_tangible_loot_loot_schematic_shared_be_purbole_schematic = SharedTangible
 }
 
 ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_be_purbole_schematic, "object/tangible/loot/loot_schematic/shared_be_purbole_schematic.iff")
+
+object_tangible_loot_loot_schematic_shared_be_crowned_rasp_schematic = SharedTangibleObjectTemplate:new {
+	clientTemplateFileName = "object/tangible/loot/loot_schematic/shared_be_crowned_rasp_schematic.iff"
+}
+
+ObjectTemplates:addClientTemplate(object_tangible_loot_loot_schematic_shared_be_crowned_rasp_schematic, "object/tangible/loot/loot_schematic/shared_be_crowned_rasp_schematic.iff")

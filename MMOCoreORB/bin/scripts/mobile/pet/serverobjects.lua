@@ -96,3 +96,4 @@ includeFile("pet/woolamander_be.lua")
 includeFile("pet/zucca_boar_be.lua")
 -- Legend of Hondo
 includeFile("pet/purbole_be.lua")
+includeFile("pet/crowned_rasp_be.lua")

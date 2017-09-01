@@ -146,3 +146,4 @@ includeFile("tangible/deed/pet_deed/woolamander_deed.lua")
 includeFile("tangible/deed/pet_deed/zucca_boar_deed.lua")
 -- Legend of Hondo
 includeFile("tangible/deed/pet_deed/purbole_deed.lua")
+includeFile("tangible/deed/pet_deed/crowned_rasp_deed.lua")

@@ -1,11 +1,7 @@
 -- Legend of Hondo
--- Use "Replace All" in text editor, replacing TEMPLATE with correct file name (such as purbole).
--- Change stats as desired.
--- templates must point to correct object
-
-TEMPLATE_be = Creature:new {
-	objectName = "@pet_deed:TEMPLATE",
-	socialGroup = "TEMPLATE",
+crowned_rasp_be = Creature:new {
+	objectName = "@pet_deed:crowned_rasp",
+	socialGroup = "crowned_rasp",
 	faction = "",
 	level = 5,
 	chanceHit = 0.2,
@@ -30,7 +26,7 @@ TEMPLATE_be = Creature:new {
 	optionsBitmask = AIENABLED,
 	diet = HERBIVORE,
 
-	templates = {"object/mobile/TEMPLATE_hue.iff"},
+	templates = {"object/mobile/crowned_rasp_hue.iff"},
 	lootGroups = {},
 	weapons = {},
 	conversationTemplate = "",
@@ -38,4 +34,4 @@ TEMPLATE_be = Creature:new {
 	}
 }
 
-CreatureTemplates:addCreatureTemplate(TEMPLATE_be, "TEMPLATE_be")
+CreatureTemplates:addCreatureTemplate(crowned_rasp_be, "crowned_rasp_be")
