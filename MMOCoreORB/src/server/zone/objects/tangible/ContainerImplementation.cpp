@@ -90,6 +90,9 @@ void ContainerImplementation::fillObjectMenuResponse(ObjectMenuResponse* menuRes
 
 	if (isSliceable() && isContainerLocked() && player->hasSkill("outdoors_scout_tools_02"))
 		menuResponse->addRadialMenuItem(69, 3, "@slicing/slicing:slice"); // Slice
+		
+	if (getGameObjectType() == SceneObjectType::CENTRIFUGE || getGameObjectType() == SceneObjectType::PROCESSOR || getGameObjectType() == SceneObjectType::REPROCESSOR)
+		menuResponse->addRadialMenuItem(70, 3, "Run"); // DNA component maniptulation
 }
 
 int ContainerImplementation::handleObjectMenuSelect(CreatureObject* player, byte selectedID) {
@@ -127,6 +130,32 @@ int ContainerImplementation::handleObjectMenuSelect(CreatureObject* player, byte
 
 		return 0;
 
+	} else if (selectedID == 70) {
+		if (getGameObjectType() == SceneObjectType::CENTRIFUGE){
+			player->sendSystemMessage("Centrifuge functionality goes here!");
+			/* testing item creation
+			String templateName = "object/tangible/hondo/elementa.iff";
+			unsigned int targetTemplate = templateName.hashCode();
+			ManagedReference<TangibleObject *> prototype =  (player->getZoneServer()->createObject(targetTemplate, 2)).castTo<TangibleObject*>();
+			
+			if (prototype == NULL) {
+				player->sendSystemMessage("DEBUG prototype was null");
+				return 0;
+			}
+			
+			if (this->transferObject(prototype, -1, false, true)) {
+				this->broadcastObject(prototype, true);
+			} else {
+				prototype->destroyObjectFromDatabase(true);
+			}
+			*/
+		} else if (getGameObjectType() == SceneObjectType::PROCESSOR){
+			player->sendSystemMessage("Processor functionality goes here!");
+		} else if (getGameObjectType() == SceneObjectType::REPROCESSOR){
+			player->sendSystemMessage("Reprocessor functionality goes here!");
+		}
+		
+		return 0;
 	}
 
 	return TangibleObjectImplementation::handleObjectMenuSelect(player, selectedID);

@@ -357,6 +357,11 @@ public:
 	const static int SHIPCOUNTERMEASURE = 0x4000000E;
 	const static int SHIPWEAPONLAUNCHER = 0x4000000F;
 	const static int SHIPCOUNTERMEASURELAUNCHER = 0x40000010;
+	
+	// Legend of Hondo, not in client
+	const static int CENTRIFUGE = 0x40000011;
+	const static int PROCESSOR = 0x40000012;
+	const static int REPROCESSOR = 0x40000013;
 };
 
 #endif /* SCENEOBJECTTYPE_H_ */

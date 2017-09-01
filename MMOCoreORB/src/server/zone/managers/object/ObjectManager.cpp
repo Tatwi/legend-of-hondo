@@ -362,6 +362,10 @@ void ObjectManager::registerObjectTypes() {
 	objectFactory.registerObject<SpaceStationObject>(SceneObjectType::SHIPSTATION);
 
 	objectFactory.registerObject<TangibleObject>(SceneObjectType::CRYSTAL);
+	
+	objectFactory.registerObject<Container>(SceneObjectType::CENTRIFUGE);
+	objectFactory.registerObject<Container>(SceneObjectType::PROCESSOR);
+	objectFactory.registerObject<Container>(SceneObjectType::REPROCESSOR);
 }
 
 void ObjectManager::updateObjectVersion() {

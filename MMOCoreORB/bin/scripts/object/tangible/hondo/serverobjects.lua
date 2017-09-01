@@ -3,6 +3,14 @@
 -- Misc objects
 includeFile("tangible/hondo/incubator.lua")
 includeFile("tangible/hondo/incubation_tray.lua")
+includeFile("tangible/hondo/centrifuge.lua")
+includeFile("tangible/hondo/processor.lua")
+includeFile("tangible/hondo/reprocessor.lua")
+includeFile("tangible/hondo/elementa.lua")
+includeFile("tangible/hondo/elementb.lua")
+includeFile("tangible/hondo/elementc.lua")
+includeFile("tangible/hondo/elementd.lua")
+includeFile("tangible/hondo/elemente.lua")
 
 -- Filler buildings Tatooine
 includeFile("tangible/hondo/decoration/building/tatooine/filler_building_block_64x16_style_01.lua")
