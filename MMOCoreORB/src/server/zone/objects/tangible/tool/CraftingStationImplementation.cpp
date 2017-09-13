@@ -47,6 +47,9 @@ void CraftingStationImplementation::fillObjectMenuResponse(ObjectMenuResponse* m
 				menuResponse->addRadialMenuItemToRadialID(69, 72, 3, "Rating Light to Medium"); // sub-menu
 				menuResponse->addRadialMenuItemToRadialID(69, 73, 3, "Rating Medium to High"); // sub-menu
 				menuResponse->addRadialMenuItemToRadialID(69, 74, 3, "Rating Any to High"); // sub-menu
+			} else if (getStationType() == CraftingTool::FOOD) {
+				if (getObjectName()->getFullPath().contains("pet_station"))
+					menuResponse->addRadialMenuItem(75, 3, "Incubate Pet");
 			}
 		}
 	}
@@ -82,6 +85,8 @@ int CraftingStationImplementation::handleObjectMenuSelect(CreatureObject* player
 		upgradeArmorRating(player, 2); // Rating upgrade armor procedure
 	} else if (selectedID == 74) {  
 		upgradeArmorRating(player, 3); // Rating upgrade armor procedure
+	} else if (selectedID == 75) {  
+		incubatePet(player); // Upgrading pet deeds
 	}
 	
 	return 0;//TangibleObjectImplementation::handleObjectMenuSelect(player, selectedID);
@@ -547,4 +552,8 @@ void CraftingStationImplementation::upgradeArmorRating(CreatureObject* player, i
 		armor->inflictDamage(armor, 0, 200.0f, true, true);
 		player->sendSystemMessage("Armor Rating upgrade process failed! All components were consumed and the armor was damaged.");
 	}
+}
+
+void CraftingStationImplementation::incubatePet(CreatureObject* player) {
+	player->sendSystemMessage("Incubator functionality goes here!");
 }

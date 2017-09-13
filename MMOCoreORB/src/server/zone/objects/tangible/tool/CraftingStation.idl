@@ -102,4 +102,6 @@ class CraftingStation extends ToolTangibleObject {
 	public native void upgradeArmorPiece(CreatureObject player);
 	
 	public native void upgradeArmorRating(CreatureObject player, int type);
+	
+	public native void incubatePet(CreatureObject player);
 }
