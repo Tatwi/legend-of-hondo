@@ -19,6 +19,8 @@
 #include "server/zone/objects/player/sui/messagebox/SuiMessageBox.h"
 #include "server/zone/managers/crafting/labratories/SharedLabratory.h"
 #include "server/zone/objects/player/sessions/SlicingSession.h"
+#include "server/zone/objects/player/sui/inputbox/SuiInputBox.h"
+#include "server/zone/objects/player/sui/callbacks/IncubatePetSuiCallback.h"
 
 void CraftingStationImplementation::loadTemplateData(SharedObjectTemplate* templateData) {
 	TangibleObjectImplementation::loadTemplateData(templateData);
@@ -37,7 +39,8 @@ void CraftingStationImplementation::fillObjectMenuResponse(ObjectMenuResponse* m
 
 	if(building != NULL && cell != NULL && !isASubChildOf(player)) {
 		if(building->isOnAdminList(player) && getSlottedObject("ingredient_hopper") != NULL) {
-			menuResponse->addRadialMenuItem(68, 3, "@ui_radial:craft_hopper_input"); //Open
+			if (this->getPendingTask("incubating") == NULL)
+				menuResponse->addRadialMenuItem(68, 3, "@ui_radial:craft_hopper_input"); //Open
 			
 			// LoH Loot/NPC Armor Upgrade
 			if (getStationType() == CraftingTool::CLOTHING) {
@@ -48,9 +51,13 @@ void CraftingStationImplementation::fillObjectMenuResponse(ObjectMenuResponse* m
 				menuResponse->addRadialMenuItemToRadialID(69, 73, 3, "Rating Medium to High"); // sub-menu
 				menuResponse->addRadialMenuItemToRadialID(69, 74, 3, "Rating Any to High"); // sub-menu
 			} else if (getStationType() == CraftingTool::FOOD) {
-				if (getObjectName()->getFullPath().contains("pet_station"))
-					menuResponse->addRadialMenuItem(75, 3, "Incubate Pet");
+				if (getObjectName()->getFullPath().contains("pet_station")){
+					if (this->getPendingTask("incubating") == NULL)
+						menuResponse->addRadialMenuItem(75, 3, "Incubate Pet");
+				}
 			}
+			
+			
 		}
 	}
 }
@@ -96,6 +103,9 @@ void CraftingStationImplementation::fillAttributeList(AttributeListMessage* alm,
 	TangibleObjectImplementation::fillAttributeList(alm, object);
 
 	alm->insertAttribute("stationmod", Math::getPrecision(effectiveness, 2));
+	
+	if (this->getPendingTask("incubating") != NULL)
+		alm->insertAttribute("craft_tool_status", "Incubation in progress...");
 }
 
 void CraftingStationImplementation::sendInputHopper(CreatureObject* player) {
@@ -555,5 +565,31 @@ void CraftingStationImplementation::upgradeArmorRating(CreatureObject* player, i
 }
 
 void CraftingStationImplementation::incubatePet(CreatureObject* player) {
-	player->sendSystemMessage("Incubator functionality goes here!");
+	// Verify Bio-Engineer skill
+	// Verify incubation tray in hopper
+	// Verify pet deed in hopper
+	// Is pet deed valid?
+	
+	// Open SUI box with instructions and input box.
+	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
+
+	if (ghost == NULL)
+		return;
+
+	ManagedReference<SuiInputBox*> inputBox = new SuiInputBox(player, SuiWindowType::OBJECT_NAME);
+
+	ManagedReference<SceneObject*> scenObj = player->getZoneServer()->getObject(this->getObjectID());
+	inputBox->setUsingObject(scenObj);
+	
+	inputBox->setPromptTitle("Pet Incubation");
+	inputBox->setPromptText("Instructions go here!");
+	inputBox->setMaxInputSize(16);
+	inputBox->setCallback(new IncubatePetSuiCallback(player->getZoneServer()));
+	inputBox->setForceCloseDistance(32);
+
+	ghost->addSuiBox(inputBox);
+	player->sendMessage(inputBox->generateMessage());
+	
+	// Step 2: Do the work. server/zone/objects/player/sui/callbacks/IncubatePetSuiCallback.h
+	// Step 3: End the timer. server/zone/objects/tangible/tool/events/IncubatePetNotifyAvailableEvent.h
 }
