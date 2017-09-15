@@ -197,7 +197,7 @@ public:
 		float dmgMin = deed->getMinDamage();
 		float dmgMax = deed->getMaxDamage();
 		float kinetic = deed->getKinetic();
-		float engery = deed->getEnergy();
+		float energy = deed->getEnergy();
 		float blast = deed->getBlast();
 		float cold = deed->getCold();
 		float heat = deed->getHeat();
@@ -208,7 +208,8 @@ public:
 		int armorRating = deed->getArmor();
 		String special1 = deed->getSpecial1();
 		String special2 = deed->getSpecial2();
-			
+		bool ranged = deed->getRanged();
+		
 		// Crunch numbers	
 		float delay = s1d*12 + s2d*15 + s3d*11 + System::random(60) - toolQuality; // Max < 5 minutes
 		
@@ -217,8 +218,30 @@ public:
 		obj->addPendingTask("incubating", task, delay * 1000);
 		
 		// Delete tray
-		// Apply new stats to pet deed
 		
+		// Apply new stats to pet deed
+		deed->setLevel(level);
+		deed->setAttackSpeed(speed);
+		deed->setHitChance(hit);
+		deed->setHealth(health);
+		deed->setAction(action);
+		deed->setMind(mind);
+		deed->setMinDamage(dmgMin);
+		deed->setMaxDamage(dmgMax);
+		deed->setKinetic(kinetic);
+		deed->setEnergy(energy);
+		deed->setBlast(blast);
+		deed->setCold(cold);
+		deed->setHeat(heat);
+		deed->setElectric(elec);
+		deed->setAcid(acid);
+		deed->setStun(stun);
+		deed->setSaber(saber);
+		deed->setArmor(armorRating);
+		deed->setSpecial1(special1);
+		deed->setSpecial2(special2);
+		deed->setRanged(ranged);
+				
 		// Set deed as sliced
 		deed->setSliced(true);
 		String deedName = deed->getCustomObjectName().toString() + " (Incubated)";
