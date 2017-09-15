@@ -10,7 +10,8 @@
 #include "server/zone/objects/creature/CreatureObject.h"
 #include "server/zone/objects/tangible/tool/CraftingStation.h"
 #include "server/zone/objects/tangible/tool/events/IncubatePetNotifyAvailableEvent.h"
-
+#include "server/zone/objects/tangible/tool/CraftingStation.h"
+#include "server/zone/objects/tangible/deed/pet/PetDeed.h"
 
 
 class IncubatePetSuiCallback : public SuiCallback {
@@ -119,13 +120,97 @@ public:
 		creature->sendSystemMessage("s3d = " + String::valueOf(s3d));
 		//*/ 
 		
-		// Get tray stats
-		// Get pet deed data
+		// Get the station, tray, and deed
+		ManagedReference<CraftingStation*> incubator = obj.castTo<CraftingStation*>();
+		
+		if(incubator == NULL) {
+			creature->sendSystemMessage("Debug: Incubator SceneObject not found");
+			return;
+		}
+		
+		ManagedReference<SceneObject*> inputHopper = incubator->getSlottedObject("ingredient_hopper");
+
+		if(inputHopper == NULL) {
+			creature->sendSystemMessage("Debug: Hopper SceneObject not found");
+			return;
+		}
+		
+		ManagedReference<Component*> tray = NULL;
+		ManagedReference<PetDeed*> deed = NULL;
+		int trays = 0;
+		int petDeeds = 0;
+		int hopperSize = inputHopper->getContainerObjectsSize();
+		
+		if (hopperSize > 2){
+			creature->sendSystemMessage("Error: Too many items in the hopper.");
+			return;
+		}
+		
+		for (int i = 0; i < hopperSize; i++) {
+			ManagedReference<SceneObject*> invItem = inputHopper->getContainerObject(i).get();
+			
+			if (obj != NULL){
+				if (invItem->getObjectTemplate()->getFullTemplateString().contains("incubation_tray")) {
+					tray = invItem.castTo<Component*>();
+					trays++;
+					
+					if (trays > 1){
+						creature->sendSystemMessage("Error: Too many Incubation Trays in the hopper.");
+						return;
+					}
+				} else if (invItem->getObjectTemplate()->getFullTemplateString().contains("pet_deed")) {
+					deed = invItem.castTo<PetDeed*>();
+					petDeeds++;
+						
+					if (petDeeds > 1){
+						creature->sendSystemMessage("Error: Too many Pets Deeds in the hopper.");
+						return;
+					}
+				}
+			}
+		}
+		
+		if (tray == NULL){
+			creature->sendSystemMessage("Error: Missing Incubation Tray.");
+			return;
+		}
+		
+		if (deed == NULL){
+			creature->sendSystemMessage("Error: Missing Pet Deed.");
+			return;
+		}
+		
 		// Get incubator effectiveness
+		float toolQuality = incubator->getEffectiveness();
 		
-		int delay = 10;
+		// Get tray stats
+		float mutagen = tray->getAttributeValue("mutagen");
+		float purity = tray->getAttributeValue("purity");
 		
-		// Crunch numbers 
+		// Get pet deed data
+		float level = deed->getLevel();
+		float speed = deed->getAttackSpeed();
+		float hit = deed->getHitChance();
+		float health = deed->getHealth();
+		float action = deed->getAction();
+		float mind = deed->getMind();
+		float dmgMin = deed->getMinDamage();
+		float dmgMax = deed->getMaxDamage();
+		float kinetic = deed->getKinetic();
+		float engery = deed->getEnergy();
+		float blast = deed->getBlast();
+		float cold = deed->getCold();
+		float heat = deed->getHeat();
+		float elec = deed->getElectric();
+		float acid = deed->getAcid();
+		float stun = deed->getStun();
+		float saber = deed->getSaber();
+		int armorRating = deed->getArmor();
+		String special1 = deed->getSpecial1();
+		String special2 = deed->getSpecial2();
+			
+		// Crunch numbers	
+		float delay = s1d*12 + s2d*15 + s3d*11 + System::random(60) - toolQuality; // Max < 5 minutes
 		
 		// Schedule callback to turn off incubator. Prevents removing pet.
 		Reference<IncubatePetNotifyAvailableEvent*> task = new IncubatePetNotifyAvailableEvent(creature, obj);
@@ -133,10 +218,15 @@ public:
 		
 		// Delete tray
 		// Apply new stats to pet deed
+		
 		// Set deed as sliced
+		deed->setSliced(true);
+		String deedName = deed->getCustomObjectName().toString() + " (Incubated)";
+		deed->setCustomObjectName(deedName, true);
+
 		
 		// Notify player
-		creature->sendSystemMessage("The incubation process has begun.");
+		creature->sendSystemMessage("The incubation process has begun. It will require " + String::valueOf(delay) + " seconds to complete.");
 	}
 };
 

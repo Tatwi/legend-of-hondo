@@ -21,6 +21,7 @@
 #include "server/zone/objects/player/sessions/SlicingSession.h"
 #include "server/zone/objects/player/sui/inputbox/SuiInputBox.h"
 #include "server/zone/objects/player/sui/callbacks/IncubatePetSuiCallback.h"
+#include "server/zone/objects/tangible/deed/pet/PetDeed.h"
 
 void CraftingStationImplementation::loadTemplateData(SharedObjectTemplate* templateData) {
 	TangibleObjectImplementation::loadTemplateData(templateData);
@@ -566,9 +567,70 @@ void CraftingStationImplementation::upgradeArmorRating(CreatureObject* player, i
 
 void CraftingStationImplementation::incubatePet(CreatureObject* player) {
 	// Verify Bio-Engineer skill
-	// Verify incubation tray in hopper
-	// Verify pet deed in hopper
-	// Is pet deed valid?
+	if (!player->hasSkill("outdoors_bio_engineer_novice")){
+		player->sendSystemMessage("Only a Bio-Engineer has the knowledge to use this machine.");
+		return;
+	}
+	
+	// Get crafting station hopper
+	ManagedReference<SceneObject*> inputHopper = getSlottedObject("ingredient_hopper");
+
+	if(inputHopper == NULL) {
+		player->sendSystemMessage("Hmm... this crafting station's input hopper is busted!");
+		return;
+	}
+	
+	// Verify that the incubation tray and pet deed are in the hopper. 
+	// Checking here as well saves the user from forgetting the parts before entering the incubation sequence.
+	ManagedReference<SceneObject*> tray = NULL;
+	ManagedReference<TangibleObject*> deed = NULL;
+	int trays = 0;
+	int petDeeds = 0;
+	int hopperSize = inputHopper->getContainerObjectsSize();
+	
+	if (hopperSize > 2){
+		player->sendSystemMessage("Error: Too many items in the hopper.");
+		return;
+	}
+	
+	for (int i = 0; i < hopperSize; i++) {
+		ManagedReference<SceneObject*> obj = inputHopper->getContainerObject(i).get();
+		
+		if (obj != NULL){
+			if (obj->getObjectTemplate()->getFullTemplateString().contains("incubation_tray")) {
+				tray = obj;
+				trays++;
+				
+				if (trays > 1){
+					player->sendSystemMessage("Error: Too many Incubation Trays in the hopper.");
+					return;
+				}
+			} else if (obj->getObjectTemplate()->getFullTemplateString().contains("pet_deed")) {
+				deed = obj.castTo<TangibleObject*>();
+				petDeeds++;
+					
+				if (petDeeds > 1){
+					player->sendSystemMessage("Error: Too many Pets Deeds in the hopper.");
+					return;
+				}
+			}
+		}
+	}
+	
+	if (tray == NULL){
+		player->sendSystemMessage("Error: Missing Incubation Tray.");
+		return;
+	}
+	
+	if (deed == NULL){
+		player->sendSystemMessage("Error: Missing Pet Deed.");
+		return;
+	}
+	
+	if (deed->isSliced()){
+		player->sendSystemMessage("Error: This pet has already been incubated.");
+		return;
+	}
 	
 	// Open SUI box with instructions and input box.
 	ManagedReference<PlayerObject*> ghost = player->getPlayerObject();
