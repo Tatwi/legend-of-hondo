@@ -218,8 +218,12 @@ public:
 		obj->addPendingTask("incubating", task, delay * 1000);
 		
 		// Delete tray
+		Locker tlocker(tray);
+		tray->destroyObjectFromWorld(true);
+		tray->destroyObjectFromDatabase(true);
 		
 		// Apply new stats to pet deed
+		Locker dlocker(deed);
 		deed->setLevel(level);
 		deed->setAttackSpeed(speed);
 		deed->setHitChance(hit);
@@ -247,7 +251,6 @@ public:
 		String deedName = deed->getCustomObjectName().toString() + " (Incubated)";
 		deed->setCustomObjectName(deedName, true);
 
-		
 		// Notify player
 		creature->sendSystemMessage("The incubation process has begun. It will require " + String::valueOf(delay) + " seconds to complete.");
 	}
