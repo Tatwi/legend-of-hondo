@@ -224,6 +224,8 @@ public:
 			float purBonus = 5.f; // get a 5% bonus
 			float chance = 0.f;
 			float dur = 0.f;
+			float temp = 0.f;
+			String modStat = "";
 			
 			// Set stage specific data
 			if (s == 0){
@@ -232,18 +234,21 @@ public:
 				mutFocus = "VY-GV-RB-GY-BV";
 				mutCombo = s1h + s1l;
 				dur = s1d;
+				temp = s1t;
 			} else if (s == 1){
 				purFocus = "OY-BO-VY-VG-YO";
 				purCombo = s2i + s2l;
 				mutFocus = "VY-GO-BG-RV-YO";
 				mutCombo = s2h + s2l;
 				dur = s2d;
+				temp = s1t;
 			} if (s == 2){
 				purFocus = "GR-GG-GB-OG-VR";
 				purCombo = s3i + s3l;
 				mutFocus = "VR-VG-VB-BO-VO";
 				mutCombo = s3h + s3l;
 				dur = s3d;
+				temp = s1t;
 			}
 			
 			// Does input contain purity focus?
@@ -260,6 +265,17 @@ public:
 			
 			if (chance > System::random(100)){
 				creature->sendSystemMessage("Stage " + String::valueOf(s+1) + " Purity based stat change!");
+
+				if (purBonus > 5){
+					// Mod stat player specified
+					modStat = purComboToStat(purCombo);
+				} else {
+					// Mod random stat
+					modStat = pickStat(temp);
+				}
+				
+				// debug testing
+				creature->sendSystemMessage("Purity stat chosen: " + modStat);
 			}
 			
 			// Mutation success (100 + 22.5 + 15.5 + 10 / 3 = 49.33% Max)
@@ -273,6 +289,17 @@ public:
 			
 			if (chance > System::random(100)){
 				creature->sendSystemMessage("Stage " + String::valueOf(s+1) + " Mutation!");
+				
+				if (mutBonus > 5){
+					// Mod stat player specified
+					modStat = mutComboToStat(mutCombo);
+				} else {
+					// Mod random stat
+					modStat = pickStat(temp);
+				}
+				
+				// debug testing
+				creature->sendSystemMessage("Mutation stat chosen: " + modStat);
 			}
 		}
 		
@@ -323,6 +350,105 @@ public:
 
 		// Notify player
 		creature->sendSystemMessage("The incubation process has begun. It will require " + String::valueOf(delay) + " seconds to complete.");
+	}
+	
+	String pickStat(int temp){
+		String ret = "NULL";
+		int roll = System::random(19) + 1;
+		
+		// Lower temp skews toward defenses
+		if (temp == 1)
+			roll -= 3;
+		if (temp == 2)
+			roll -= 1;
+		// Neutral more likely to get level/HAM/kinetic
+		if (temp == 3)
+			roll = System::random(4) + 1;
+		// Higher temps skews toward offenses
+		if (temp == 4)
+			roll += 1;
+		if (temp == 5)
+			roll += 3;
+			
+		roll = MIN(20, roll);
+		roll = MAX(1, roll);
+			
+		if (roll == 1){ret = "level";}
+		else if (roll == 2){ret = "health";}
+		else if (roll == 3){ret = "action";}
+		else if (roll == 4){ret = "mind";}
+		else if (roll == 5){ret = "kinetic";}
+		else if (roll == 6){ret = "stun";}
+		else if (roll == 7){ret = "blast";}
+		else if (roll == 8){ret = "cold";}
+		else if (roll == 9){ret = "heat";}
+		else if (roll == 10){ret = "elec";}
+		else if (roll == 11){ret = "acid";}
+		else if (roll == 12){ret = "energy";}
+		else if (roll == 13){ret = "saber";}
+		else if (roll == 14){ret = "armorRating";}
+		else if (roll == 15){ret = "special1";}
+		else if (roll == 16){ret = "speed";}
+		else if (roll == 17){ret = "hit";}
+		else if (roll == 18){ret = "dmgMax";}
+		else if (roll == 19){ret = "dmgMin";}
+		else if (roll == 20){ret = "special2";}
+		
+		return ret;
+	}
+	
+	String purComboToStat(String combo){
+		String ret = "NULL";
+		
+		if (combo.contains("OY")){ret = "level";}
+		else if (combo.contains("RG")){ret = "speed";}
+		else if (combo.contains("YG")){ret = "hit";}
+		else if (combo.contains("GR")){ret = "health";}
+		else if (combo.contains("GG")){ret = "action";}
+		else if (combo.contains("GB")){ret = "mind";}
+		else if (combo.contains("OV")){ret = "dmgMin";}
+		else if (combo.contains("YB")){ret = "dmgMax";}
+		else if (combo.contains("OG")){ret = "kinetic";}
+		else if (combo.contains("VR")){ret = "energy";}
+		else if (combo.contains("OR")){ret = "blast";}
+		else if (combo.contains("GV")){ret = "cold";}
+		else if (combo.contains("BG")){ret = "heat";}
+		else if (combo.contains("VB")){ret = "elec";}
+		else if (combo.contains("RB")){ret = "acid";}	
+		else if (combo.contains("YY")){ret = "stun";}
+		else if (combo.contains("RR")){ret = "saber";}
+		else if (combo.contains("BO")){ret = "armorRating";}
+		else if (combo.contains("VY")){ret = "special1";}
+		else if (combo.contains("VG")){ret = "special2";}
+		
+		return ret;
+	}
+
+	String mutComboToStat(String combo){
+		String ret = "NULL";
+		
+		if (combo.contains("VY")){ret = "level";}
+		else if (combo.contains("GV")){ret = "speed";}
+		else if (combo.contains("RB")){ret = "hit";}
+		else if (combo.contains("VR")){ret = "health";}
+		else if (combo.contains("VG")){ret = "action";}
+		else if (combo.contains("VB")){ret = "mind";}
+		else if (combo.contains("GY")){ret = "dmgMin";}
+		else if (combo.contains("BV")){ret = "dmgMax";}
+		else if (combo.contains("BO")){ret = "kinetic";}
+		else if (combo.contains("VO")){ret = "energy";}
+		else if (combo.contains("YY")){ret = "blast";}
+		else if (combo.contains("RY")){ret = "cold";}
+		else if (combo.contains("OO")){ret = "heat";}
+		else if (combo.contains("GG")){ret = "elec";}
+		else if (combo.contains("OB")){ret = "acid";}	
+		else if (combo.contains("YB")){ret = "stun";}
+		else if (combo.contains("BB")){ret = "saber";}
+		else if (combo.contains("GO")){ret = "armorRating";}
+		else if (combo.contains("BG")){ret = "special1";}
+		else if (combo.contains("RV")){ret = "special2";}
+		
+		return ret;
 	}
 };
 
