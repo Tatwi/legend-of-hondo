@@ -210,7 +210,77 @@ public:
 		String special2 = deed->getSpecial2();
 		bool ranged = deed->getRanged();
 		
-		// Crunch numbers	
+		// Magic starts here!
+		String purFocus = "";
+		String purCombo = "";
+		String mutFocus = "";
+		String mutCombo = "";
+		
+		// Stage 1 Focus: level, speed, hit, dmgMin, dmgMax
+		// Stage 2 Focus: level, armorRating, special1, special2, ranged
+		// Stage 3 Focus: health, action, mind, kinetic, energy	
+		for (int s = 0; s < 3; s++) {
+			float mutBonus = 5.f; // Unused colour combos
+			float purBonus = 5.f; // get a 5% bonus
+			float chance = 0.f;
+			float dur = 0.f;
+			
+			// Set stage specific data
+			if (s == 0){
+				purFocus = "OY-RG-YG-OV-YB";
+				purCombo = s1i + s1l;
+				mutFocus = "VY-GV-RB-GY-BV";
+				mutCombo = s1h + s1l;
+				dur = s1d;
+			} else if (s == 1){
+				purFocus = "OY-BO-VY-VG-YO";
+				purCombo = s2i + s2l;
+				mutFocus = "VY-GO-BG-RV-YO";
+				mutCombo = s2h + s2l;
+				dur = s2d;
+			} if (s == 2){
+				purFocus = "GR-GG-GB-OG-VR";
+				purCombo = s3i + s3l;
+				mutFocus = "VR-VG-VB-BO-VO";
+				mutCombo = s3h + s3l;
+				dur = s3d;
+			}
+			
+			// Does input contain purity focus?
+			if (purFocus.contains(purCombo))
+				purBonus = 25.f;
+			
+			// Does input contain mutation focus?
+			if (mutFocus.contains(mutCombo))
+				mutBonus = 15.5f;
+				
+			// Purity success (100 + 45 + 25 + 50 / 2 = 110% Max)
+			float durmod = dur * 10.f;
+			chance = (purity + toolQuality + purBonus + durmod) / 2;
+			
+			if (chance > System::random(100)){
+				creature->sendSystemMessage("Stage " + String::valueOf(s+1) + " Purity based stat change!");
+			}
+			
+			// Mutation success (100 + 22.5 + 15.5 + 10 / 3 = 49.33% Max)
+			if (dur < 4){
+				durmod = 10.f * 1/dur;
+			} else {
+				durmod = 0.f;
+			}
+				
+			chance = (mutagen + toolQuality/2 + mutBonus + durmod) / 3;
+			
+			if (chance > System::random(100)){
+				creature->sendSystemMessage("Stage " + String::valueOf(s+1) + " Mutation!");
+			}
+		}
+		
+		// debug testing
+		creature->sendSystemMessage("Tested with: " + fullSequence);
+		return; 
+		// */
+	
 		float delay = s1d*12 + s2d*15 + s3d*11 + System::random(60) - toolQuality; // Max < 5 minutes
 		
 		// Schedule callback to turn off incubator. Prevents removing pet.
