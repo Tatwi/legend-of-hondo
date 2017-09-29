@@ -208,7 +208,6 @@ public:
 		int armorRating = deed->getArmor();
 		String special1 = deed->getSpecial1();
 		String special2 = deed->getSpecial2();
-		bool ranged = deed->getRanged();
 		
 		// Magic starts here!
 		String purFocus = "";
@@ -216,8 +215,8 @@ public:
 		String mutFocus = "";
 		String mutCombo = "";
 		
-		// Stage 1 Focus: level, speed, hit, dmgMin, dmgMax
-		// Stage 2 Focus: level, armorRating, special1, special2, ranged
+		// Stage 1 Focus: level, speed, hit, dmgMin, special1
+		// Stage 2 Focus: level, armorRating, special2, kinetic, dmgMax
 		// Stage 3 Focus: health, action, mind, kinetic, energy	
 		for (int s = 0; s < 3; s++) {
 			float mutBonus = 5.f; // Unused colour combos
@@ -229,16 +228,16 @@ public:
 			
 			// Set stage specific data
 			if (s == 0){
-				purFocus = "OY-RG-YG-OV-YB";
+				purFocus = "OY-RG-YG-YB-VY";
 				purCombo = s1i + s1l;
-				mutFocus = "VY-GV-RB-GY-BV";
+				mutFocus = "VY-GV-RB-BV-BG";
 				mutCombo = s1h + s1l;
 				dur = s1d;
 				temp = s1t;
 			} else if (s == 1){
-				purFocus = "OY-BO-VY-VG-YO";
+				purFocus = "OY-BO-VG-OG-OV";
 				purCombo = s2i + s2l;
-				mutFocus = "VY-GO-BG-RV-YO";
+				mutFocus = "VY-GO-RV-BO-GY";
 				mutCombo = s2h + s2l;
 				dur = s2d;
 				temp = s1t;
@@ -274,6 +273,97 @@ public:
 					modStat = pickStat(temp);
 				}
 				
+				// Apply Purity change
+				int armorMod = (purity + toolQuality + System::random(dur + temp)) / 10;
+				int hamMod = 0;
+				
+				if (s == 2){
+					armorMod += 3;
+					hamMod = (health + action + mind) / 30;
+				}
+				
+				if (modStat.contains("level")){
+					if (level > 10){
+						level -= 4.0f * (purity + durmod) / 100; // Max -6
+						
+						if (level < 16)
+							level = 10.0f;
+						
+						level = MAX(10, level);
+					}	
+				} else if (modStat.contains("health")){
+					health += (health * 0.10) * MAX(1, purity / 100) + hamMod;
+				} else if (modStat.contains("action")){
+					action += (action * 0.12) * MAX(1, purity / 100) + hamMod;
+				} else if (modStat.contains("mind")){
+					mind += (mind * 0.14) * MAX(1, purity / 100) + hamMod;
+				} else if (modStat.contains("kinetic")){
+					kinetic += armorMod;
+					armorRating = 1;
+					kinetic = MIN(100, kinetic);
+				} else if (modStat.contains("stun")){
+					stun += armorMod;
+					armorRating = 1;
+					stun = MIN(100, stun);
+				} else if (modStat.contains("blast")){
+					blast += armorMod;
+					armorRating = 1;
+					blast = MIN(100, blast);
+				} else if (modStat.contains("cold")){
+					cold += armorMod;
+					armorRating = 1;
+					cold = MIN(100, cold);
+				} else if (modStat.contains("heat")){
+					heat += armorMod;
+					armorRating = 1;
+					heat = MIN(100, heat);
+				} else if (modStat.contains("elec")){
+					elec += armorMod;
+					armorRating = 1;
+					elec = MIN(100, elec);
+				} else if (modStat.contains("acid")){
+					acid += armorMod;
+					armorRating = 1;
+					acid = MIN(100, acid);
+				} else if (modStat.contains("energy")){
+					energy += armorMod;
+					armorRating = 1; 
+					energy = MIN(100, energy);
+				} else if (modStat.contains("saber")){
+					saber += armorMod;
+					armorRating = 1;
+					saber = MIN(100, saber);
+				} else if (modStat.contains("armorRating")){
+					armorRating = 1; // Light
+					kinetic += 3;
+					energy += 3;
+					kinetic = MIN(100, kinetic);
+					energy = MIN(100, energy);		
+				} else if (modStat.contains("special1") && special1.contains("defaultattack")){
+					special1 = pickSpecial(special2, int((purity + mutagen + durmod) / temp));
+				} else if (modStat.contains("special2")  && special2.contains("defaultattack")){
+					special2 = pickSpecial(special1, int((purity + mutagen + durmod) / temp));
+				} else if (modStat.contains("speed")){
+					speed -= 0.2;
+					if (s == 0)
+						speed -= 0.2;
+				} else if (modStat.contains("hit")){
+					hit += 0.3;
+					if (s == 0)
+						hit += 0.15;
+				} else if (modStat.contains("dmgMax")){
+					dmgMax += (dmgMax * 0.10) * MAX(1, purity / 100);
+					if (s == 0)
+						dmgMax += dmgMax * 0.03;
+				} else if (modStat.contains("dmgMin")){
+					dmgMin += (dmgMin * 0.10) * MAX(1, purity / 100);
+					if (s == 0)
+						dmgMin += dmgMin * 0.03;
+						
+					if (dmgMin >= dmgMax)
+						dmgMax = dmgMin + 10;
+				}
+				
 				// debug testing
 				creature->sendSystemMessage("Purity stat chosen: " + modStat);
 			}
@@ -298,6 +388,89 @@ public:
 					modStat = pickStat(temp);
 				}
 				
+				// Apply Mutation change
+				if (modStat.contains("level")){
+					if (level > 10){
+						level -= 4.0f * (System::random(mutagen) + toolQuality + 5.0f) / 100; // Max -6
+						
+						if (level < 15)
+							level = 10.0f;
+						
+						level = MAX(10, level);
+					}			
+				} else if (modStat.contains("health")){
+					health += (health * 0.15) * MAX(1, (mutagen + System::random(20)) / 100);
+				} else if (modStat.contains("action")){
+					action += (action * 0.15) * MAX(1, (mutagen + System::random(20)) / 100);
+				} else if (modStat.contains("mind")){
+					mind += (mind * 0.15) * MAX(1, (mutagen + System::random(20)) / 100);
+				} else if (modStat.contains("kinetic")){
+					kinetic += (kinetic * 0.08) * MAX(1, (mutagen + System::random(20)) / 100);
+					armorRating = 1;
+					kinetic = MIN(100, kinetic);
+				} else if (modStat.contains("stun")){
+					stun += (kinetic * 0.08) * MAX(1, (mutagen + System::random(20)) / 100);
+					armorRating = 1;
+					stun = MIN(100, stun);
+				} else if (modStat.contains("blast")){
+					blast += (kinetic * 0.08) * MAX(1, (mutagen + System::random(20)) / 100);
+					armorRating = 1;
+					blast = MIN(100, blast);
+				} else if (modStat.contains("cold")){
+					cold += (kinetic * 0.08) * MAX(1, (mutagen + System::random(20)) / 100);
+					armorRating = 1;
+					cold = MIN(100, cold);
+				} else if (modStat.contains("heat")){
+					heat += (kinetic * 0.08) * MAX(1, (mutagen + System::random(20)) / 100);
+					armorRating = 1;
+					heat = MIN(100, heat);
+				} else if (modStat.contains("elec")){
+					elec += (kinetic * 0.08) * MAX(1, (mutagen + System::random(20)) / 100);
+					armorRating = 1;
+					elec = MIN(100, elec);
+				} else if (modStat.contains("acid")){
+					acid += (kinetic * 0.08) * MAX(1, (mutagen + System::random(20)) / 100);
+					armorRating = 1;
+					acid = MIN(100, acid);
+				} else if (modStat.contains("energy")){
+					energy += (kinetic * 0.08) * MAX(1, (mutagen + System::random(20)) / 100);
+					armorRating = 1; 
+					energy = MIN(100, energy);
+				} else if (modStat.contains("saber")){
+					saber += (kinetic * 0.08) * MAX(1, (mutagen + System::random(20)) / 100);
+					armorRating = 1;
+					saber = MIN(100, saber);
+				} else if (modStat.contains("armorRating")){
+					armorRating = 1; // Light
+					kinetic += System::random(4) + 1;
+					energy += System::random(4) + 1;
+					kinetic = MIN(100, kinetic);
+					energy = MIN(100, energy);		
+				} else if (modStat.contains("special1") && special1.contains("defaultattack")){
+					special1 = pickSpecial(special2, System::random(100));
+				} else if (modStat.contains("special2")  && special2.contains("defaultattack")){
+					special2 = pickSpecial(special1, System::random(100));
+				} else if (modStat.contains("speed")){
+					speed -= 0.2;
+					if (s == 0)
+						speed -= 0.2;
+				} else if (modStat.contains("hit")){
+					hit += 0.3;
+					if (s == 0)
+						hit += 0.15;
+				} else if (modStat.contains("dmgMax")){
+					dmgMax += (dmgMax * 0.10) * MAX(1, (mutagen + System::random(20)) / 100);
+					if (s == 0)
+						dmgMax += dmgMax * 0.02 + System::random(mutagen);
+				} else if (modStat.contains("dmgMin")){
+					dmgMin += (dmgMin * 0.10) * MAX(1, (mutagen + System::random(20)) / 100);
+					if (s == 0)
+						dmgMin += dmgMin * 0.02 + System::random(mutagen);
+						
+					if (dmgMin >= dmgMax)
+						dmgMax = dmgMin + System::random(10) + 10;
+				}
+				
 				// debug testing
 				creature->sendSystemMessage("Mutation stat chosen: " + modStat);
 			}
@@ -305,12 +478,13 @@ public:
 		
 		// debug testing
 		creature->sendSystemMessage("Tested with: " + fullSequence);
-		return; 
+		//return; 
 		// */
 	
 		float delay = s1d*12 + s2d*15 + s3d*11 + System::random(60) - toolQuality; // Max < 5 minutes
 		
 		// Schedule callback to turn off incubator. Prevents removing pet.
+		// TODO: Close hopper window if it's open
 		Reference<IncubatePetNotifyAvailableEvent*> task = new IncubatePetNotifyAvailableEvent(creature, obj);
 		obj->addPendingTask("incubating", task, delay * 1000);
 		
@@ -321,27 +495,26 @@ public:
 		
 		// Apply new stats to pet deed
 		Locker dlocker(deed);
-		deed->setLevel(level);
+		deed->setLevel((int)level);
 		deed->setAttackSpeed(speed);
 		deed->setHitChance(hit);
-		deed->setHealth(health);
-		deed->setAction(action);
-		deed->setMind(mind);
+		deed->setHealth((int)health);
+		deed->setAction((int)action);
+		deed->setMind((int)mind);
 		deed->setMinDamage(dmgMin);
 		deed->setMaxDamage(dmgMax);
-		deed->setKinetic(kinetic);
-		deed->setEnergy(energy);
-		deed->setBlast(blast);
-		deed->setCold(cold);
-		deed->setHeat(heat);
-		deed->setElectric(elec);
-		deed->setAcid(acid);
-		deed->setStun(stun);
-		deed->setSaber(saber);
+		deed->setKinetic((int)kinetic);
+		deed->setEnergy((int)energy);
+		deed->setBlast((int)blast);
+		deed->setCold((int)cold);
+		deed->setHeat((int)heat);
+		deed->setElectric((int)elec);
+		deed->setAcid((int)acid);
+		deed->setStun((int)stun);
+		deed->setSaber((int)saber);
 		deed->setArmor(armorRating);
 		deed->setSpecial1(special1);
 		deed->setSpecial2(special2);
-		deed->setRanged(ranged);
 				
 		// Set deed as sliced
 		deed->setSliced(true);
@@ -447,6 +620,27 @@ public:
 		else if (combo.contains("GO")){ret = "armorRating";}
 		else if (combo.contains("BG")){ret = "special1";}
 		else if (combo.contains("RV")){ret = "special2";}
+		
+		return ret;
+	}
+	
+	String pickSpecial(String otherSpecial, int mod){
+		String ret = "NULL";
+		
+		int roll = MAX(1, System::random(600) - mod);
+		
+		if (roll > 500 ){ret = "intimidationattack";}
+		else if (roll > 400){ret = "posturedownattack";}
+		else if (roll > 300){ret = "blindattack";}
+		else if (roll > 200){ret = "dizzyattack";}
+		else if (roll > 150){ret = "stunattack";}
+		else if (roll > 100){ret = "knockdownattack";}
+		else if (roll > 50){ret = "creatureareableeding";}
+		else if (roll > 25){ret = "creatureareapoison";}
+		else if (roll > 0){ret = "creatureareadisease";}
+		
+		if (ret == otherSpecial)
+			ret = pickSpecial(otherSpecial, mod);
 		
 		return ret;
 	}
