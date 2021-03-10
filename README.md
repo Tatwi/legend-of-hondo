@@ -1,3 +1,10 @@
+# This Project is Dead
+I haven't worked on this project in years for a number of reasons, such as:  
+
+1. I've lost all interest in SWG.
+2. Working with this code base and these tools is a plodding nightmare that demands far more of my time and attention than I care to give it.
+3. It's really boring to play. I'm not entirely sure why this is case, because I can play other single player games without being bored, but playing this just bores me to tears. It's probably because, having made them, I already know all the stories, secrets, etc.
+
 # Legend of Hondo
 
 Legend of Hondo is a personal project I am working on to create a pirate themed, single player, Star Wars experience using the SWGEmu server and the Star Wars Galaxies game client. I am creating this entirely *for something to do, because I want to*, for my own enjoyment and, that's it. I am sharing it on GitHub as a modification reference for other folks who are hosting SWGEmu servers. I don't really expect anyone else to download and play Legend of Hondo, but anything is possible! :)
